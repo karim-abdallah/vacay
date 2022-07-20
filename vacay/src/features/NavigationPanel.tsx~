@@ -1,0 +1,12 @@
+
+import React, { FC } from 'react';
+
+const NavigationPanel: FC<> = () => {
+    return (
+        <div>
+        ActionPanel
+        </div>
+    )
+};
+
+export default NavigationPanel;

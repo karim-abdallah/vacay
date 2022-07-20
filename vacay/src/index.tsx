@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 import ReactDOM from 'react-dom/client';
 import styled from 'styled-components';
+/* import { light, white } from './styles/colorStyles'; */
+/* import NavigationPanel from './features/NavigationPanel'; */
 
 class VacayHome extends React.Component {
   render() {
@@ -9,13 +11,47 @@ class VacayHome extends React.Component {
         <VacayLogo>
           VACAY
         </VacayLogo>
+        <NavButton />
       </VacayBackground>);
-  }
+  };
+};
+
+const NavButton: FC = () => (
+  <StyledButton>
+    <span>Dashboard</span>
+  </StyledButton>
+);
+
+export const light = {
+  'background': '#F4F7FE',
+  'text': '#2B3674',
 }
 
-const VacayBackground = styled.div`
+const white = '#FFFFFF';
+
+const StyledButton = styled.button`
+display: flex;
+border: 0px;
+background: ${light.background};
+    &:hover {
+    background: ${white};
+    }
+    span {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+    /* identical to box height, or 125% */
+
+    letter-spacing: -0.02em;
+
+    color: #2B3674;
+    }
+`;
+
+const VacayBackground = styled.html`
     background: #F4F7FE;
-    position: relative;
     width: 100%;
     height: 100%;
 `;
