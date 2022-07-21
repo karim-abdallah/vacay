@@ -1,8 +1,24 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import styled from 'styled-components';
 /* import { light, white } from './styles/colorStyles'; */
 /* import NavigationPanel from './features/NavigationPanel'; */
+
+export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /**
+  * contains the button text
+  */
+  text?: string;
+  /**
+  * name of page selected
+   */
+  pageSelected?: string;
+  /**
+  * function to execute when clicking the button
+   */
+  onClick?: () => void;
+
+}
 
 class VacayHome extends React.Component {
   render() {
@@ -11,16 +27,46 @@ class VacayHome extends React.Component {
         <VacayLogo>
           VACAY
         </VacayLogo>
-        <NavButton />
+        <NavigationPanel />
       </VacayBackground>);
   };
 };
 
-const NavButton: FC = () => (
-  <StyledButton>
-    <span>Dashboard</span>
-  </StyledButton>
-);
+const NavigationPanel: FC = () => {
+  const [pageSelected, setPageSelected] = useState('Dashboard');
+  return (
+    <>
+      <NavButton
+        text="Dashboard"
+        pageSelected={pageSelected}
+      />
+      <NavButton
+        text="Profile"
+        pageSelected={pageSelected}
+      />
+      <NavButton
+        text="Connect with friends"
+        pageSelected={pageSelected}
+      />
+      <NavButton
+        text="Deals"
+        pageSelected={pageSelected}
+      />
+    </>
+  );
+};
+
+const NavButton = ({ text, pageSelected }: Props) => {
+  return (
+
+    <StyledButton
+      text={text}
+      pageSelected={pageSelected}
+    >
+      {text && <span>{text}</span>}
+    </StyledButton >
+  );
+};
 
 export const light = {
   'background': '#F4F7FE',
@@ -29,10 +75,10 @@ export const light = {
 
 const white = '#FFFFFF';
 
-const StyledButton = styled.button`
-display: flex;
-border: 0px;
-background: ${light.background};
+const StyledButton = styled.button<Props>`
+    display: flex;
+    border: 0px;
+    background: ${(props: { pageSelected: string, text: string }) => props.pageSelected === props.text ? white : light.background};
     &:hover {
     background: ${white};
     }
