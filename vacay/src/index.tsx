@@ -1,13 +1,44 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import styled from 'styled-components';
+import { Column } from '@ant-design/plots';
 /* import { light, white } from './styles/colorStyles'; */
 /* import NavigationPanel from './features/NavigationPanel'; */
 
+const mock_data = [
+  {
+    "month": "January",
+    "type": "Accrued Time Off",
+    "value": 1,
+  },
+  {
+    "month": "February",
+    "type": "Accrued Time Off",
+    "value": 2,
+  },
+  {
+    "month": "March",
+    "type": "Accrued Time Off",
+    "value": 3,
+  },
+  {
+    "month": "April",
+    "type": "Accrued Time Off",
+    "value": 1,
+  },
+  {
+    "month": "March",
+    "type": "Scheduled Time Off",
+    "value": 2,
+  }
+]
+
+
+
 export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
-  * contains the button text
-  */
+   * contains the button text
+   */
   text?: string;
   /**
   * name of page selected
@@ -20,6 +51,28 @@ export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 }
 
+const HomeChart = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData(mock_data);
+  }, []);
+
+  const config = {
+    data,
+    xField: 'month',
+    yField: 'value',
+    seriesField: 'type',
+    isGroup: true,
+    columnStyle: {
+      radius: [20, 20, 20, 20],
+    },
+  };
+
+  return <Column {...config} />;
+};
+
+
 class VacayHome extends React.Component {
   render() {
     return (
@@ -28,6 +81,7 @@ class VacayHome extends React.Component {
           VACAY
         </VacayLogo>
         <NavigationPanel />
+        <HomeChart />
       </VacayBackground>);
   };
 };
