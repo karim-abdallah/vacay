@@ -25,3 +25,22 @@ export const mockData = {
         },
     ]
 }
+
+export const mockApiResponse = {
+    currentMonth: "September",
+    currentBalanceDays: 5,
+    bookedPTO: {
+        dates: ["2022-09-04", "2022-09-05", "2022-09-06", "2022-11-22", "2022-12-20", "2022-12-21", "2022-12-22", "2022-12-23", "2022-12-24", "2022-12-25", "2023-02-15", "2023-05-20", "2023-05-21", "2023-05-22", "2023-07-05", "2023-07-05", "2023-08-08"]
+    },
+    holidays: {
+        dates: ["2022-09-03", "2022-10-26", "2022-11-25", "2022-11-26", "2022-12-25", "2022-12-31", "2023-01-01", "2023-01-02", "2023-04-12", "2023-05-19", "2023-07-04"],
+    },
+    accrualRate: 1.5,
+    accrualCap: 10,
+}
+
+
+// These are user-input for selected PTO on the reactive app
+export const mockSelectedDates = [
+    "2022-03-31", "2022-04-01"
+]
