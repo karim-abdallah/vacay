@@ -21,8 +21,6 @@ import interactionPlugin, { Draggable } from "@fullcalendar/interaction"
 import BootstrapTheme from "@fullcalendar/bootstrap"
 //css
 import "@fullcalendar/bootstrap/main.css"
-//Import Breadcrumb
-import Breadcrumbs from "../../components/Common/Breadcrumb"
 import {
     getEvents,
     addNewEvent,
