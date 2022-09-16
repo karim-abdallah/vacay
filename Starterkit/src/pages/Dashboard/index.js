@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Container, Row, Col } from "reactstrap";
+import { Container, Card, CardBody, Row, Col } from "reactstrap";
+import BarChart from "../../components/Charts/barchart";
+import Calender from "../../components/Calendar/Calendar";
 
 //Import Breadcrumb
 import Breadcrumbs from '../../components/Common/Breadcrumb';
@@ -21,8 +23,35 @@ class Dashboard extends Component {
                 <div className="page-content">
                     <Container fluid>
 
-                    <Breadcrumbs title="Dashboard" breadcrumbItems={this.state.breadcrumbItems} />
-
+                <Breadcrumbs title="Dashboard" breadcrumbItems={this.state.breadcrumbItems} />
+                <Card>
+                <CardBody>
+                <BarChart />
+                </CardBody>
+                </Card>
+                <Row>
+                <Col>
+                <Calender />
+                </Col>
+                <Col>
+                <Calender />
+                </Col>
+                <Col>
+                <Calender />
+                </Col>
+                <Col>
+                <Calender />
+                </Col>
+                <Col>
+                <Calender />
+                </Col>
+                <Col>
+                <Calender />
+                </Col>
+                <Col>
+                <Calender />
+                </Col>
+                </Row>
                     </Container>
                 </div>
             </React.Fragment>
