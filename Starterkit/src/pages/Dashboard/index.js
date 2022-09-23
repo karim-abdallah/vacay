@@ -4,42 +4,41 @@ import BarChart from "../../components/Charts/barchart";
 import Calender from "../../components/Calendar/Calendar";
 
 class Dashboard extends Component {
-
-    render() {
-        return (
-            <React.Fragment>
-                <div className="page-content">
-                    <Container fluid>
-                <Card>
-                <CardBody>
+  render() {
+    return (
+      <React.Fragment>
+        <div className="page-content">
+          <Container fluid>
+            <Card>
+              <CardBody>
                 <BarChart />
-                </CardBody>
-                </Card>
-                <Row>
-                <Col>
+              </CardBody>
+            </Card>
+            <Row>
+              <Col>
                 <Calender />
-                </Col>
-                <Col>
+              </Col>
+              <Col>
                 <Calender />
-                </Col>
-                <Col>
+              </Col>
+              <Col>
                 <Calender />
-                </Col>
-                <Col>
+              </Col>
+              <Col>
                 <Calender />
-                </Col>
-                <Col>
+              </Col>
+              <Col>
                 <Calender />
-                </Col>
-                <Col>
+              </Col>
+              <Col>
                 <Calender />
-                </Col>
-                </Row>
-                    </Container>
-                </div>
-            </React.Fragment>
-        );
-    }
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </React.Fragment>
+    );
+  }
 }
 
 export default Dashboard;
