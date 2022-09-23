@@ -15,20 +15,20 @@ export const mockData = {
             label: "Booked",
             backgroundColor: "#6A48FF",
             borderRadius: 10,
-            data: [3, 0, 1, 5, 0, 1, 0, 0, 3, 0, 2, 1],
+            data: [3, 0, 1, 6, 0, 1, 0, 0, 3, 0, 2, 1],
         },
         {
             label: "Balance",
             backgroundColor: "#AC9BF2",
             borderRadius: 10,
-            data: [5, 6.5, 7, 3.5, 5, 5.5, 7, 7.5, 6, 7.5, 7, 7.5],
+            data: [5, 6.5, 7, 2.5, 5, 5.5, 7, 7.5, 6, 7.5, 7, 7.5],
         },
     ]
 };
 
 export const mockApiResponse = {
     currentMonth: "September 2022",
-    currentBalanceDays: 5,
+    currentBalanceDays: 3,
     bookedPTO: {
         dates: ["2022-09-04", "2022-09-05", "2022-09-06", "2022-11-22", "2022-12-20", "2022-12-21", "2022-12-22", "2022-12-23", "2022-12-24", "2022-12-25", "2023-02-15", "2023-05-20", "2023-05-21", "2023-05-22", "2023-07-05", "2023-07-05", "2023-08-08"]
     },

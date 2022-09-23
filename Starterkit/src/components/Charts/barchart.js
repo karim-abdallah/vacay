@@ -2,7 +2,6 @@ import React from "react";
 import { defaultMonths } from "../../constants";
 import { Bar } from "react-chartjs-2";
 import {
-  mockData,
   mockApiResponse,
   mockSelectedDates,
 } from "../../mocks/dashboardSummary.mock";
@@ -28,6 +27,30 @@ const computeNextTwelveMonths = (startingMonth) => {
   return nextTwelveMonths;
 };
 
+const computeMonthlyBalance = (
+  orderedLabels,
+  balancePerMonth,
+  startingBalance,
+  accrualRate,
+  accrualCap,
+  ptoPerMonth
+) => {
+  // For each month:
+  //   calculate: previous balance + accrual rate - booked
+  orderedLabels.forEach((element, index) => {
+    if (index === 0) {
+      // starting balance
+      balancePerMonth[element] = startingBalance;
+    } else {
+      // compute previous balance + accrual rate - booked
+      balancePerMonth[element] =
+        balancePerMonth[orderedLabels[index - 1]] +
+        accrualRate -
+        ptoPerMonth[element];
+    }
+  });
+};
+
 const generateDashboardData = (
   currentMonth,
   currentBalanceDays,
@@ -38,16 +61,17 @@ const generateDashboardData = (
   selectedDates
 ) => {
   const monthLabels = computeNextTwelveMonths(currentMonth);
-  // create a map already with pto per month and count == o
+
+  // create a map already with pto per month and count == 0
   const PTOPerMonth = {};
-  const HolidaysPerMonth = {};
+  const holidaysPerMonth = {};
+  const balance = {};
 
   monthLabels.forEach((element, index) => {
     PTOPerMonth[element] = 0;
-    HolidaysPerMonth[element] = 0;
+    holidaysPerMonth[element] = 0;
+    balance[element] = 0;
   });
-
-  console.log(PTOPerMonth);
 
   bookedPTO.dates.forEach((element, index) => {
     const currentDate = new Date(element);
@@ -58,31 +82,48 @@ const generateDashboardData = (
   holidays.dates.forEach((element, index) => {
     const currentDate = new Date(element);
     const monthLabel = monthYearFormatter(currentDate);
-    HolidaysPerMonth[monthLabel] = HolidaysPerMonth[monthLabel] + 1;
+    holidaysPerMonth[monthLabel] = holidaysPerMonth[monthLabel] + 1;
   });
 
-  // for each entry in dates:
-  // parse out month from date
-  // then increment the PTO per month object with 1 for object month value
-  // Compute all labels
-  // transform bookedPTO into Month + year map
-  console.log(monthLabels);
-  console.log(PTOPerMonth);
-  console.log(HolidaysPerMonth);
-  // Compute booked PTO per month
-  // compute holidays per month
-  // compute balance = previous balance + accrual rate - booked
-  // consider case of accrual Cap
+  computeMonthlyBalance(
+    monthLabels,
+    balance,
+    currentBalanceDays,
+    accrualRate,
+    accrualCap,
+    PTOPerMonth,
+    holidaysPerMonth
+  );
 
-  // generate 12 months starting from today's month
-  // setup starting month balance.
-  // For each month:
-  //   calculate: previous balance + accrual rate - booked
-  //   set holidays
-  //   set booked
-  //   set balanced
+  console.log(`balance object:`);
+  console.log(balance);
 
-  return mockData;
+  // put together the data object
+  const chartData = {
+    labels: monthLabels,
+    datasets: [
+      {
+        label: "Holidays",
+        backgroundColor: "#FF0099",
+        borderRadius: 10,
+        data: monthLabels.map((x) => holidaysPerMonth[x]),
+      },
+      {
+        label: "Booked",
+        backgroundColor: "#6A48FF",
+        borderRadius: 10,
+        data: monthLabels.map((x) => PTOPerMonth[x]),
+      },
+      {
+        label: "Balance",
+        backgroundColor: "#AC9BF2",
+        borderRadius: 10,
+        data: monthLabels.map((x) => balance[x]),
+      },
+    ],
+  };
+
+  return chartData;
 };
 
 const BarChart = () => {
