@@ -5,6 +5,8 @@ import BarChart from "../../components/Charts/barchart";
 import Calendar from "react-calendar";
 import { differenceInCalendarDays } from "date-fns";
 import { bookedDays } from "../../styles/style.css";
+import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
+import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
 
 class Dashboard extends Component {
   render() {
@@ -36,9 +38,6 @@ class Dashboard extends Component {
               <Col>
                 <MiniCalendar />
               </Col>
-              <Col>
-                <button className={"bookedDays"}> Hello </button>
-              </Col>
             </Row>
           </Container>
         </div>
@@ -47,7 +46,7 @@ class Dashboard extends Component {
   }
 }
 
-const datesToAddClassTo = [new Date("2022-10-12"), new Date("2022-10-13")];
+const datesToAddClassTo = [new Date("2022-11-12"), new Date("2022-10-13")];
 
 function tileClassName({ date, view }) {
   // Add class to tiles in month view only
@@ -65,9 +64,16 @@ function isSameDay(a, b) {
 
 const MiniCalendar = () => {
   // Need to hide navigation but still show the month label.
-  // Need to set start date programatically (prob using the array used in BarChart
+  // Need to set start date programatically (prob using the array used in BarChart)
+  const startDates = computeNextTwelveMonths(
+    mockApiResponse.currentMonth,
+    "date"
+  );
+  console.log(startDates);
+
   return (
     <Calendar
+      activeStartDate={startDates[0]}
       defaultView="month"
       showNeighboringMonth={null}
       tileClassName={tileClassName}

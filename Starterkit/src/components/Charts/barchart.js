@@ -1,31 +1,13 @@
 import React from "react";
-import { defaultMonths } from "../../constants";
 import { Bar } from "react-chartjs-2";
 import {
   mockApiResponse,
   mockSelectedDates,
 } from "../../mocks/dashboardSummary.mock";
-
-const monthYearFormatter = (date) => {
-  // returns date in format "Month Year"
-  // Should be moved to util folder
-  return defaultMonths[date.getMonth()] + " " + date.getFullYear();
-};
-
-const computeNextTwelveMonths = (startingMonth) => {
-  // This is causing a weird exception in the console log. If it's too slow
-  // get that to compute in the backend and return nextTwelveMonths in mock API
-  // Response
-  const nextTwelveMonths = [];
-  nextTwelveMonths.push(startingMonth);
-  for (let step = 0; step < 11; step++) {
-    const month = new Date(nextTwelveMonths[nextTwelveMonths.length - 1]);
-    month.setDate(month.getDate() + 31);
-    const monthString = monthYearFormatter(month);
-    nextTwelveMonths.push(monthString);
-  }
-  return nextTwelveMonths;
-};
+import {
+  monthYearFormatter,
+  computeNextTwelveMonths,
+} from "../../helpers/vacay_helpers";
 
 const computeMonthlyBalance = (
   orderedLabels,
