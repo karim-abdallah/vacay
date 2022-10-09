@@ -95,9 +95,6 @@ const generateDashboardData = (
     holidaysPerMonth
   );
 
-  console.log(`balance object:`);
-  console.log(balance);
-
   // put together the data object
   const chartData = {
     labels: monthLabels,
