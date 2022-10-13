@@ -8,8 +8,35 @@ import { bookedDays } from "../../styles/style.css";
 import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
 import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
 
+const MiniCalendar = ({ startDate }) => {
+  // Need to hide navigation but still show the month label.
+  // Need to set start date programatically (prob using the array used in BarChart)
+  // console.log(startDate);
+
+  return (
+    <Calendar
+      activeStartDate={startDate}
+      defaultView="month"
+      showNeighboringMonth={null}
+      tileClassName={tileClassName}
+      selectRange={true}
+    />
+  );
+};
+
 class Dashboard extends Component {
   render() {
+    const twelveMonths = computeNextTwelveMonths(
+      mockApiResponse.currentMonth,
+      "date"
+    );
+    const calendarArray = twelveMonths.map((item, index) => {
+      return (
+        <Col>
+          <MiniCalendar startDate={item} />
+        </Col>
+      );
+    });
     return (
       <React.Fragment>
         <div className="page-content">
@@ -19,26 +46,7 @@ class Dashboard extends Component {
                 <BarChart />
               </CardBody>
             </Card>
-            <Row>
-              <Col>
-                <MiniCalendar />
-              </Col>
-              <Col>
-                <MiniCalendar />
-              </Col>
-              <Col>
-                <MiniCalendar />
-              </Col>
-              <Col>
-                <MiniCalendar />
-              </Col>
-              <Col>
-                <MiniCalendar />
-              </Col>
-              <Col>
-                <MiniCalendar />
-              </Col>
-            </Row>
+            <Row>{calendarArray}</Row>
           </Container>
         </div>
       </React.Fragment>
@@ -48,7 +56,7 @@ class Dashboard extends Component {
 
 const datesToAddClassTo = [new Date("2022-11-12"), new Date("2022-10-13")];
 
-function tileClassName({ date, view }) {
+function tileClassName({ date, view, dateArray }) {
   // Add class to tiles in month view only
   if (view === "month") {
     // Check if a date React-Calendar wants to check is on the list of dates to add class to
@@ -61,24 +69,5 @@ function tileClassName({ date, view }) {
 function isSameDay(a, b) {
   return differenceInCalendarDays(a, b) === 0;
 }
-
-const MiniCalendar = () => {
-  // Need to hide navigation but still show the month label.
-  // Need to set start date programatically (prob using the array used in BarChart)
-  const startDates = computeNextTwelveMonths(
-    mockApiResponse.currentMonth,
-    "date"
-  );
-  console.log(startDates);
-
-  return (
-    <Calendar
-      activeStartDate={startDates[0]}
-      defaultView="month"
-      showNeighboringMonth={null}
-      tileClassName={tileClassName}
-    />
-  );
-};
 
 export default Dashboard;
