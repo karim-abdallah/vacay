@@ -1,12 +1,13 @@
 import "react-calendar/dist/Calendar.css";
 import React, { Component } from "react";
-import { Container, Card, CardBody, Row, Col } from "reactstrap";
+import { Container, Card, CardBody } from "reactstrap";
 import BarChart from "../../components/Charts/barchart";
 import Calendar from "react-calendar";
 import { differenceInCalendarDays } from "date-fns";
 import { bookedDays } from "../../styles/style.css";
 import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
 import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
+import styled from "styled-components";
 
 const MiniCalendar = ({ startDate }) => {
   // Need to hide navigation but still show the month label.
@@ -43,11 +44,7 @@ class Dashboard extends Component {
       "date"
     );
     const calendarArray = twelveMonths.map((item, index) => {
-      return (
-        <Col>
-          <MiniCalendar startDate={item} />
-        </Col>
-      );
+      return <MiniCalendar startDate={item} />;
     });
     return (
       <React.Fragment>
@@ -58,7 +55,7 @@ class Dashboard extends Component {
                 <BarChart />
               </CardBody>
             </Card>
-            <Row>{calendarArray}</Row>
+            <CalendarContainer>{calendarArray}</CalendarContainer>
           </Container>
         </div>
       </React.Fragment>
@@ -69,5 +66,10 @@ class Dashboard extends Component {
 function isSameDay(a, b) {
   return differenceInCalendarDays(a, b) === 0;
 }
+
+const CalendarContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+`;
 
 export default Dashboard;
