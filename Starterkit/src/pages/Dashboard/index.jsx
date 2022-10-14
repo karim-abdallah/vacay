@@ -1,10 +1,10 @@
-import "react-calendar/dist/Calendar.css";
+//import "react-calendar/dist/Calendar.css";
 import React, { Component } from "react";
 import { Container, Card, CardBody } from "reactstrap";
 import BarChart from "../../components/Charts/barchart";
 import Calendar from "react-calendar";
 import { differenceInCalendarDays } from "date-fns";
-import { bookedDays } from "../../styles/style.css";
+import "../../styles/style.css";
 import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
 import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
 import styled from "styled-components";
@@ -22,6 +22,8 @@ const MiniCalendar = ({ startDate }) => {
       // Check if a date React-Calendar wants to check is on the list of dates to add class to
       if (datesToAddClassTo.find((dDate) => isSameDay(dDate, date))) {
         return "bookedDays";
+      } else {
+        return "inactiveDays";
       }
     }
   }
@@ -74,6 +76,8 @@ function isSameDay(a, b) {
 const CalendarContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 5px;
+  row-gap: 5px;
 `;
 
 export default Dashboard;
