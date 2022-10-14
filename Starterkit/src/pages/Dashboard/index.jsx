@@ -33,6 +33,10 @@ const MiniCalendar = ({ startDate }) => {
       showNeighboringMonth={null}
       tileClassName={tileFormatting}
       selectRange={true}
+      prevLabel={null}
+      prev2Label={null}
+      next2Label={null}
+      nextLabel={null}
     />
   );
 };
