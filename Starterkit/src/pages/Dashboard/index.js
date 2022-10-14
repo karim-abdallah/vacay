@@ -10,15 +10,27 @@ import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
 
 const MiniCalendar = ({ startDate }) => {
   // Need to hide navigation but still show the month label.
-  // Need to set start date programatically (prob using the array used in BarChart)
-  // console.log(startDate);
+  const datesToAddClassTo = [new Date("2022-11-12"), new Date("2022-10-13")];
+  // pull the redux value for booked days for the given month
+  // should be an array of days. When the array gets updated, pull it again and recompute the component.
+  // When setting values, should update the redux store
+  // pull the redux value for holiday
+  function tileFormatting({ date, view }) {
+    // Add class to tiles in month view only
+    if (view === "month") {
+      // Check if a date React-Calendar wants to check is on the list of dates to add class to
+      if (datesToAddClassTo.find((dDate) => isSameDay(dDate, date))) {
+        return "bookedDays";
+      }
+    }
+  }
 
   return (
     <Calendar
       activeStartDate={startDate}
       defaultView="month"
       showNeighboringMonth={null}
-      tileClassName={tileClassName}
+      tileClassName={tileFormatting}
       selectRange={true}
     />
   );
@@ -51,18 +63,6 @@ class Dashboard extends Component {
         </div>
       </React.Fragment>
     );
-  }
-}
-
-const datesToAddClassTo = [new Date("2022-11-12"), new Date("2022-10-13")];
-
-function tileClassName({ date, view, dateArray }) {
-  // Add class to tiles in month view only
-  if (view === "month") {
-    // Check if a date React-Calendar wants to check is on the list of dates to add class to
-    if (datesToAddClassTo.find((dDate) => isSameDay(dDate, date))) {
-      return "bookedDays";
-    }
   }
 }
 
