@@ -22,10 +22,9 @@ const MiniCalendar = ({ startDate }) => {
       // Check if a date React-Calendar wants to check is on the list of dates to add class to
       if (datesToAddClassTo.find((dDate) => isSameDay(dDate, date))) {
         return "bookedDays";
-      } else {
-        return "inactiveDays";
       }
     }
+    return "inactiveDays";
   }
 
   return (
