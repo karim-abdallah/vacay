@@ -8,28 +8,43 @@ import "../../styles/style.css";
 import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
 import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
 import styled from "styled-components";
+import { useState } from "react";
 
-const MiniCalendar = ({ startDate }) => {
-  // Need to hide navigation but still show the month label.
-  const datesToAddClassTo = [new Date("2022-11-12"), new Date("2022-10-13")];
+function MiniCalendar(props) {
+  // TODO: pull initial dates for the given month specifically.
+  const initialDates = [new Date("2022-11-12"), new Date("2022-10-13")];
+  // these dates states are generated locally. Which is what we wanted. But how to
+  // share them accross the application?
+  const [bookedDates, setDates] = useState(initialDates);
   // pull the redux value for booked days for the given month
   // should be an array of days. When the array gets updated, pull it again and recompute the component.
   // When setting values, should update the redux store
   // pull the redux value for holiday
   function tileFormatting({ date, view }) {
+    console.log(`Recomputed dates: ${bookedDates}`);
     // Add class to tiles in month view only
     if (view === "month") {
       // Check if a date React-Calendar wants to check is on the list of dates to add class to
-      if (datesToAddClassTo.find((dDate) => isSameDay(dDate, date))) {
+      if (bookedDates.find((dDate) => isSameDay(dDate, date))) {
         return "bookedDays";
       }
     }
     return "inactiveDays";
   }
 
+  function handleDateSelection(valueRange) {
+    console.log(`Selected Values: ${valueRange}`);
+    console.log(`Dates Array: ${bookedDates}`);
+
+    bookedDates.push(valueRange[0]);
+    setDates(bookedDates);
+    console.log(`Updated Dates Array: ${bookedDates}`);
+  }
+
   return (
     <Calendar
-      activeStartDate={startDate}
+      activeStartDate={props.startDate}
+      onChange={handleDateSelection}
       defaultView="month"
       showNeighboringMonth={null}
       tileClassName={tileFormatting}
@@ -40,7 +55,7 @@ const MiniCalendar = ({ startDate }) => {
       nextLabel={null}
     />
   );
-};
+}
 
 class Dashboard extends Component {
   render() {
