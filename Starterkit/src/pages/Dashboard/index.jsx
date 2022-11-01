@@ -20,7 +20,7 @@ function MiniCalendar(props) {
   // should be an array of days. When the array gets updated, pull it again and recompute the component.
   // When setting values, should update the redux store
   // pull the redux value for holiday
-  function tileFormatting({ date, view }) {
+  const tileFormatting = ({ date, view }) => {
     console.log(`Recomputed dates: ${bookedDates}`);
     // Add class to tiles in month view only
     if (view === "month") {
@@ -30,16 +30,17 @@ function MiniCalendar(props) {
       }
     }
     return "inactiveDays";
-  }
+  };
 
-  function handleDateSelection(valueRange) {
+  const handleDateSelection = (valueRange) => {
     console.log(`Selected Values: ${valueRange}`);
     console.log(`Dates Array: ${bookedDates}`);
 
     bookedDates.push(valueRange[0]);
-    setDates(bookedDates);
+    setDates([...bookedDates]);
     console.log(`Updated Dates Array: ${bookedDates}`);
-  }
+  };
+  console.log("rendering");
 
   return (
     <Calendar
