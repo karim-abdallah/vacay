@@ -21,7 +21,6 @@ function MiniCalendar(props) {
   // When setting values, should update the redux store
   // pull the redux value for holiday
   const tileFormatting = ({ date, view }) => {
-    console.log(`Recomputed dates: ${bookedDates}`);
     // Add class to tiles in month view only
     if (view === "month") {
       // Check if a date React-Calendar wants to check is on the list of dates to add class to
@@ -33,14 +32,9 @@ function MiniCalendar(props) {
   };
 
   const handleDateSelection = (valueRange) => {
-    console.log(`Selected Values: ${valueRange}`);
-    console.log(`Dates Array: ${bookedDates}`);
-
     bookedDates.push(valueRange[0]);
     setDates([...bookedDates]);
-    console.log(`Updated Dates Array: ${bookedDates}`);
   };
-  console.log("rendering");
 
   return (
     <Calendar

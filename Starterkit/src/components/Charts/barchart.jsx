@@ -1,9 +1,7 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
-import {
-  mockApiResponse,
-  mockSelectedDates,
-} from "../../mocks/dashboardSummary.mock";
+import { useSelector } from "react-redux";
+import { selectDashboardData } from "../../store/dashboard/selector";
 import {
   monthYearFormatter,
   computeNextTwelveMonths,
@@ -106,14 +104,14 @@ const generateDashboardData = (
 };
 
 const BarChart = () => {
+  const dashboardData = useSelector(selectDashboardData);
   const data = generateDashboardData(
-    mockApiResponse.currentMonth,
-    mockApiResponse.currentBalanceDays,
-    mockApiResponse.bookedPTO,
-    mockApiResponse.holidays,
-    mockApiResponse.accrualRate,
-    mockApiResponse.accrualCap,
-    mockSelectedDates.dates
+    dashboardData.currentMonth,
+    dashboardData.currentBalanceDays,
+    dashboardData.bookedPTO,
+    dashboardData.holidays,
+    dashboardData.accrualRate,
+    dashboardData.accrualCap
   );
   const options = {
     plugins: {
