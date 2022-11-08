@@ -16,6 +16,14 @@ const Dashboard = (state = INIT_STATE, action) => {
         ...state,
         currentMonth: action.payload,
       };
+    case "bookedPTO/add":
+      console.log("action dispatched");
+      return {
+        ...state,
+        bookedPTO: {
+          dates: [...state.bookedPTO.dates, action.payload],
+        },
+      };
     default:
       return state;
   }

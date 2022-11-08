@@ -1,7 +1,7 @@
 import Calendar from "react-calendar";
 import { useState } from "react";
 import { differenceInCalendarDays } from "date-fns";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   selectBookedPTO,
   selectHolidays,
@@ -14,6 +14,7 @@ function isSameDay(a, b) {
 function MiniCalendar(props) {
   const initialBookedPTO = useSelector(selectBookedPTO);
   const initialHolidays = useSelector(selectHolidays);
+  const dispatch = useDispatch();
   const [bookedDates, setDates] = useState(initialBookedPTO);
   const [holidays] = useState(initialHolidays);
   // pull the redux value for booked days for the given month
@@ -34,8 +35,14 @@ function MiniCalendar(props) {
   };
 
   const handleDateSelection = (valueRange) => {
+    // This needs to be smarter:
+    // Can't duplicate dates
+    // Should insert all dates using range (increment days)
+    // Should de-dupe holidays & week-ends
+    // Eventually should remove dates selected twice
     bookedDates.push(valueRange[0]);
     setDates([...bookedDates]);
+    dispatch({ type: "bookedPTO/add", payload: valueRange[0] });
   };
 
   return (
