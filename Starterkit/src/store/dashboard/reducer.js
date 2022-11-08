@@ -21,7 +21,7 @@ const Dashboard = (state = INIT_STATE, action) => {
       return {
         ...state,
         bookedPTO: {
-          dates: [...state.bookedPTO.dates, action.payload],
+          dates: [...action.payload],
         },
       };
     default:

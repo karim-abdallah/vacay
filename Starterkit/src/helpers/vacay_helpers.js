@@ -33,3 +33,23 @@ export const computeNextTwelveMonths = (startingMonth, format = "string") => {
   }
   return nextTwelveMonths;
 };
+
+export const convertDateRangeToDiscreteDates = (dateRange) => {
+  // Returns an array of all dates found in between the two-date dateRange
+  // dateRange should be [startDate, endDate]
+  const dates = [];
+  for (
+    let n = 0;
+    n < dateRange[1].getDate() - dateRange[0].getDate() + 1;
+    n++
+  ) {
+    dates.push(
+      new Date(
+        dateRange[0].getFullYear(),
+        dateRange[0].getMonth(),
+        dateRange[0].getDate() + n
+      )
+    );
+  }
+  return dates;
+};

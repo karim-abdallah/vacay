@@ -6,6 +6,7 @@ import {
   selectBookedPTO,
   selectHolidays,
 } from "../../store/dashboard/selector";
+import { convertDateRangeToDiscreteDates } from "../../helpers/vacay_helpers";
 
 function isSameDay(a, b) {
   return differenceInCalendarDays(a, b) === 0;
@@ -40,9 +41,15 @@ function MiniCalendar(props) {
     // Should insert all dates using range (increment days)
     // Should de-dupe holidays & week-ends
     // Eventually should remove dates selected twice
-    bookedDates.push(valueRange[0]);
-    setDates([...bookedDates]);
-    dispatch({ type: "bookedPTO/add", payload: valueRange[0] });
+    // 1. expand range to actual days
+    // 2. Filter out those that are on week-end and holidays
+    // 3. Dispatch remaining values to redux store
+    const dates = convertDateRangeToDiscreteDates(valueRange);
+    setDates([...bookedDates.concat(dates)]);
+    dispatch({
+      type: "bookedPTO/add",
+      payload: [...bookedDates.concat(dates)],
+    });
   };
 
   return (
