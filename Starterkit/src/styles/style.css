@@ -6,6 +6,10 @@
     background: none;
 }
 
+.holidays{
+    background: #FF0099;
+}
+
 .react-calendar {
   width: 100%;
   max-width: 100%;

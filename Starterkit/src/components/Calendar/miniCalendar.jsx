@@ -1,17 +1,21 @@
 import Calendar from "react-calendar";
 import { useState } from "react";
 import { differenceInCalendarDays } from "date-fns";
+import { useSelector } from "react-redux";
+import {
+  selectBookedPTO,
+  selectHolidays,
+} from "../../store/dashboard/selector";
 
 function isSameDay(a, b) {
   return differenceInCalendarDays(a, b) === 0;
 }
 
 function MiniCalendar(props) {
-  // TODO: pull initial dates for the given month specifically.
-  const initialDates = [new Date("2022-11-12"), new Date("2022-10-13")];
-  // these dates states are generated locally. Which is what we wanted. But how to
-  // share them accross the application?
-  const [bookedDates, setDates] = useState(initialDates);
+  const initialBookedPTO = useSelector(selectBookedPTO);
+  const initialHolidays = useSelector(selectHolidays);
+  const [bookedDates, setDates] = useState(initialBookedPTO);
+  const [holidays] = useState(initialHolidays);
   // pull the redux value for booked days for the given month
   // should be an array of days. When the array gets updated, pull it again and recompute the component.
   // When setting values, should update the redux store
@@ -22,6 +26,8 @@ function MiniCalendar(props) {
       // Check if a date React-Calendar wants to check is on the list of dates to add class to
       if (bookedDates.find((dDate) => isSameDay(dDate, date))) {
         return "bookedDays";
+      } else if (holidays.find((dDate) => isSameDay(dDate, date))) {
+        return "holidays";
       }
     }
     return "inactiveDays";
