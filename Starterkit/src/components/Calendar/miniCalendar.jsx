@@ -1,5 +1,4 @@
 import Calendar from "react-calendar";
-import { useState } from "react";
 import { differenceInCalendarDays } from "date-fns";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -13,15 +12,10 @@ function isSameDay(a, b) {
 }
 
 function MiniCalendar(props) {
-  const initialBookedPTO = useSelector(selectBookedPTO);
-  const initialHolidays = useSelector(selectHolidays);
+  // let's try using the redux store directly
+  const bookedDates = useSelector(selectBookedPTO);
+  const holidays = useSelector(selectHolidays);
   const dispatch = useDispatch();
-  const [bookedDates, setDates] = useState(initialBookedPTO);
-  const [holidays] = useState(initialHolidays);
-  // pull the redux value for booked days for the given month
-  // should be an array of days. When the array gets updated, pull it again and recompute the component.
-  // When setting values, should update the redux store
-  // pull the redux value for holiday
   const tileFormatting = ({ date, view }) => {
     // Add class to tiles in month view only
     if (view === "month") {
@@ -45,7 +39,6 @@ function MiniCalendar(props) {
     // 2. Filter out those that are on week-end and holidays
     // 3. Dispatch remaining values to redux store
     const dates = convertDateRangeToDiscreteDates(valueRange);
-    setDates([...bookedDates.concat(dates)]);
     dispatch({
       type: "bookedPTO/add",
       payload: [...bookedDates.concat(dates)],
