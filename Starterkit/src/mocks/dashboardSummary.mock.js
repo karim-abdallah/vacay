@@ -44,9 +44,6 @@ export const mockApiResponse = {
   currentBalanceDays: 3,
   bookedPTO: {
     dates: [
-      "2022-09-04",
-      "2022-09-05",
-      "2022-09-06",
       "2022-11-22",
       "2022-12-20",
       "2022-12-21",

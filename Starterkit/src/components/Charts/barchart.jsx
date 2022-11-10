@@ -20,7 +20,7 @@ const computeMonthlyBalance = (
   orderedLabels.forEach((element, index) => {
     if (index === 0) {
       // starting balance
-      balancePerMonth[element] = startingBalance;
+      balancePerMonth[element] = startingBalance - ptoPerMonth[element];
     } else {
       // compute previous balance + accrual rate - booked
       balancePerMonth[element] =
@@ -42,7 +42,11 @@ const generateDashboardData = (
 ) => {
   const monthLabels = computeNextTwelveMonths(currentMonth);
 
-  // create a map already with pto per month and count == 0
+  // should probably pass in "selectedWeekends" so that they get cancelled from the
+  // computation at the Dashboard level. But should still be highlighted.
+  // not the most efficient calculation but that's still fine.
+  // Or instead of doing "Selected week-ends" you loop through the whole list and
+  // if they're a week-end, you remove them from PTOPerMonth
   const PTOPerMonth = {};
   const holidaysPerMonth = {};
   const balance = {};
