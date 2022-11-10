@@ -1,4 +1,5 @@
 import { defaultMonths } from "../constants";
+import { differenceInCalendarDays } from "date-fns";
 
 export const monthYearFormatter = (date) => {
   // returns date in format "Month Year"
@@ -52,4 +53,35 @@ export const convertDateRangeToDiscreteDates = (dateRange) => {
     );
   }
   return dates;
+};
+
+export const isSameDay = (a, b) => {
+  return differenceInCalendarDays(a, b) === 0;
+};
+
+export const filterOutDuplicates = (selectedDates, existingDates) => {
+  // If any of the selectedDates is in existingDates -> filter them out.
+  // brute force for now, could optimize later down the line
+  const dedupedDates = new Set();
+  for (let n = 0; n < selectedDates.length; n++) {
+    dedupedDates.add(selectedDates[n]);
+  }
+  console.log(`Deduped dates set: ${[...dedupedDates]}`);
+  for (let n = 0; n < selectedDates.length; n++) {
+    for (let m = 0; m < existingDates.length; m++) {
+      if (isSameDay(selectedDates[n], existingDates[m])) {
+        console.log(`Selected date: ${selectedDates[n]}`);
+        console.log(`Already booked date: ${existingDates[m]}`);
+        dedupedDates.delete(selectedDates[n]);
+        break;
+      }
+    }
+  }
+
+  return dedupedDates;
+};
+
+export const filterOutWeekends = (selectedDates) => {
+  // Not sure how to do that yet... figure it out later
+  return selectedDates;
 };

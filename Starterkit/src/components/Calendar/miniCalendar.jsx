@@ -1,15 +1,15 @@
 import Calendar from "react-calendar";
-import { differenceInCalendarDays } from "date-fns";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectBookedPTO,
   selectHolidays,
 } from "../../store/dashboard/selector";
-import { convertDateRangeToDiscreteDates } from "../../helpers/vacay_helpers";
-
-function isSameDay(a, b) {
-  return differenceInCalendarDays(a, b) === 0;
-}
+import {
+  isSameDay,
+  convertDateRangeToDiscreteDates,
+  filterOutDuplicates,
+  filterOutWeekends,
+} from "../../helpers/vacay_helpers";
 
 function MiniCalendar(props) {
   // let's try using the redux store directly
@@ -35,13 +35,24 @@ function MiniCalendar(props) {
     // Should insert all dates using range (increment days)
     // Should de-dupe holidays & week-ends
     // Eventually should remove dates selected twice
-    // 1. expand range to actual days
+    // 1. expand range to actual days -> Done
     // 2. Filter out those that are on week-end and holidays
     // 3. Dispatch remaining values to redux store
-    const dates = convertDateRangeToDiscreteDates(valueRange);
+    // TODO: this implementation is kindof ugly... fix it
+    const selectedDates = convertDateRangeToDiscreteDates(valueRange);
+    const dedupedSelectedDates = filterOutDuplicates(
+      selectedDates,
+      bookedDates
+    );
+    const datesWithoutHolidays = filterOutDuplicates(
+      [...dedupedSelectedDates],
+      holidays
+    );
+    const filteredDatesToAdd = filterOutWeekends([...datesWithoutHolidays]);
+
     dispatch({
       type: "bookedPTO/add",
-      payload: [...bookedDates.concat(dates)],
+      payload: [...bookedDates.concat([...filteredDatesToAdd])],
     });
   };
 
