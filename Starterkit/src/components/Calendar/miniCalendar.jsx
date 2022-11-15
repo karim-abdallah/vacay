@@ -52,10 +52,10 @@ function MiniCalendar(props) {
       type: "bookedPTO/add",
       payload: [...filteredDatesToAdd],
     });
-    dispatch({
-      type: "selectedDays/add",
-      payload: [...filteredDatesToAdd],
-    });
+
+    filteredDatesToAdd.map((date) =>
+      dispatch({ type: "selectedDays/add", payload: date })
+    );
     setShowBookButton(true);
   };
 

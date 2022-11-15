@@ -25,17 +25,16 @@ const Dashboard = (state = INIT_STATE, action) => {
         },
       };
     case "selectedDays/add":
-      const updatedSelection = new Set();
-      for (let n = 0; n < action.payload.length; n++) {
-        updatedSelection.add(action.payload[n]);
-      }
-      console.log("action taken");
-      console.log(state.selectedDays);
-
       return {
         ...state,
-        selectedDays: state.selectedDays.add(updatedSelection),
+        selectedDays: state.selectedDays.add(action.payload),
       };
+    case "selectedDays/delete":
+      return {
+        ...state,
+        selectedDays: state.selectedDays.delete(action.payload),
+      };
+
     default:
       return state;
   }
