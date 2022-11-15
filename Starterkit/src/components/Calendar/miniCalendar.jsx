@@ -50,13 +50,18 @@ function MiniCalendar(props) {
 
     dispatch({
       type: "bookedPTO/add",
-      payload: [...bookedDates.concat([...filteredDatesToAdd])],
+      payload: [...filteredDatesToAdd],
+    });
+    dispatch({
+      type: "selectedDays/add",
+      payload: [...filteredDatesToAdd],
     });
     setShowBookButton(true);
   };
 
   const handleBookNow = () => {
     setShowBookButton(false);
+    setSelectedDatesLocal([]);
   };
 
   return (
@@ -72,6 +77,7 @@ function MiniCalendar(props) {
         prev2Label={null}
         next2Label={null}
         nextLabel={null}
+        value={selectedDatesLocal}
       />
       {showBookButton ? (
         <button onClick={handleBookNow}>Book Now</button>
