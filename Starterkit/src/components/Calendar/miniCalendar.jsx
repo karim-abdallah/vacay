@@ -1,5 +1,6 @@
 import Calendar from "react-calendar";
 import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 import {
   selectBookedPTO,
   selectHolidays,
@@ -10,9 +11,12 @@ import {
   filterOutDuplicates,
   filterOutWeekends,
 } from "../../helpers/vacay_helpers";
+import styled from "styled-components";
 
 function MiniCalendar(props) {
   // let's try using the redux store directly
+  const [selectedDatesLocal, setSelectedDatesLocal] = useState();
+  const [showBookButton, setShowBookButton] = useState(false);
   const bookedDates = useSelector(selectBookedPTO);
   const holidays = useSelector(selectHolidays);
   const dispatch = useDispatch();
@@ -30,22 +34,16 @@ function MiniCalendar(props) {
   };
 
   const handleDateSelection = (valueRange) => {
-    // This needs to be smarter:
-    // Can't duplicate dates
-    // Should insert all dates using range (increment days)
-    // Should de-dupe holidays & week-ends
-    // Eventually should remove dates selected twice
-    // 1. expand range to actual days -> Done
-    // 2. Filter out those that are on week-end and holidays
-    // 3. Dispatch remaining values to redux store
+    // 1. Filter out values
+    // 2. Store selected dates in local variable
+    // 3. Show booked button
+    // 4. Dispatch add to SelectedDates redux element
+
     // TODO: this implementation is kindof ugly... fix it
-    const selectedDates = convertDateRangeToDiscreteDates(valueRange);
-    const dedupedSelectedDates = filterOutDuplicates(
-      selectedDates,
-      bookedDates
-    );
+    const dateValues = convertDateRangeToDiscreteDates(valueRange);
+    const dedupedDateValues = filterOutDuplicates(dateValues, bookedDates);
     const datesWithoutHolidays = filterOutDuplicates(
-      [...dedupedSelectedDates],
+      [...dedupedDateValues],
       holidays
     );
     const filteredDatesToAdd = filterOutWeekends([...datesWithoutHolidays]);
@@ -54,22 +52,37 @@ function MiniCalendar(props) {
       type: "bookedPTO/add",
       payload: [...bookedDates.concat([...filteredDatesToAdd])],
     });
+    setShowBookButton(true);
+  };
+
+  const handleBookNow = () => {
+    setShowBookButton(false);
   };
 
   return (
-    <Calendar
-      activeStartDate={props.startDate}
-      onChange={handleDateSelection}
-      defaultView="month"
-      showNeighboringMonth={null}
-      tileClassName={tileFormatting}
-      selectRange={true}
-      prevLabel={null}
-      prev2Label={null}
-      next2Label={null}
-      nextLabel={null}
-    />
+    <CalendarContainer>
+      <Calendar
+        activeStartDate={props.startDate}
+        onChange={handleDateSelection}
+        defaultView="month"
+        showNeighboringMonth={null}
+        tileClassName={tileFormatting}
+        selectRange={true}
+        prevLabel={null}
+        prev2Label={null}
+        next2Label={null}
+        nextLabel={null}
+      />
+      {showBookButton ? (
+        <button onClick={handleBookNow}>Book Now</button>
+      ) : null}
+    </CalendarContainer>
   );
 }
+
+const CalendarContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 export default MiniCalendar;

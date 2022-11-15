@@ -7,6 +7,7 @@ const INIT_STATE = {
   holidays: mockApiResponse.holidays,
   accrualRate: mockApiResponse.accrualRate,
   accrualCap: mockApiResponse.accrualCap,
+  selectedDays: new Set(),
 };
 
 const Dashboard = (state = INIT_STATE, action) => {
