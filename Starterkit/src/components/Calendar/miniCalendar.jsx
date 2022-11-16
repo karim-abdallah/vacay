@@ -35,6 +35,8 @@ function MiniCalendar(props) {
         return "bookedDays";
       } else if (holidays.find((dDate) => isSameDay(dDate, date))) {
         return "holidays";
+      } else if (selectedDates.find((dDate) => isSameDay(dDate, date))) {
+        return "selectedDates";
       }
     }
     return "inactiveDays";
@@ -64,6 +66,7 @@ function MiniCalendar(props) {
     );
     setSelectedDatesLocal([...filteredDatesToAdd]);
     setShowBookButton(true);
+    setMouseSelection([]);
   };
 
   const handleBookNow = () => {
@@ -73,7 +76,6 @@ function MiniCalendar(props) {
       dispatch({ type: "selectedDates/delete", payload: date })
     );
     setSelectedDatesLocal([]);
-    setMouseSelection([]);
   };
 
   return (
