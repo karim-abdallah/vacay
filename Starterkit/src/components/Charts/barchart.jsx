@@ -19,7 +19,7 @@ const computeMonthlyBalance = (
   ptoPerMonth
 ) => {
   // For each month:
-  //   calculate: previous balance + accrual rate - booked - currentDateSelection
+  //   calculate: previous balance + accrual rate - booked
   orderedLabels.forEach((element, index) => {
     if (index === 0) {
       // starting balance
