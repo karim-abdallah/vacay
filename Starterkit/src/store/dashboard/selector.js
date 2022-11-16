@@ -2,6 +2,10 @@ export const selectDashboardData = (state) => {
   return state.Dashboard;
 };
 
+export const getSelectedDates = (state) => {
+  return state.Dashboard.selectedDates;
+};
+
 export const selectBookedPTO = (state) => {
   const dates = state.Dashboard.bookedPTO.dates;
   return dates.map((date) => new Date(date));
