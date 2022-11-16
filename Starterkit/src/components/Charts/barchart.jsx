@@ -16,23 +16,19 @@ const computeMonthlyBalance = (
   startingBalance,
   accrualRate,
   accrualCap,
-  ptoPerMonth,
-  selectedDatesPerMonth
+  ptoPerMonth
 ) => {
   // For each month:
   //   calculate: previous balance + accrual rate - booked - currentDateSelection
-  console.log(selectedDatesPerMonth);
   orderedLabels.forEach((element, index) => {
     if (index === 0) {
       // starting balance
-      balancePerMonth[element] =
-        startingBalance - ptoPerMonth[element] - selectedDatesPerMonth[element];
+      balancePerMonth[element] = startingBalance - ptoPerMonth[element];
     } else {
       balancePerMonth[element] =
         balancePerMonth[orderedLabels[index - 1]] +
         accrualRate -
-        ptoPerMonth[element] -
-        selectedDatesPerMonth[element];
+        ptoPerMonth[element];
     }
   });
 };
@@ -82,7 +78,9 @@ const generateDashboardData = (
 
   selectedDates.forEach((element, index) => {
     const monthLabel = monthYearFormatter(element);
-    selectedDatesPerMonth[monthLabel] = selectedDatesPerMonth[monthLabel] + 1;
+    // add to booked pto the selection. This will get cleared if we don't book them,
+    // but it needs to appear on the chart
+    PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] + 1;
   });
 
   computeMonthlyBalance(
@@ -91,8 +89,7 @@ const generateDashboardData = (
     currentBalanceDays,
     accrualRate,
     accrualCap,
-    PTOPerMonth,
-    selectedDatesPerMonth
+    PTOPerMonth
   );
 
   // put together the data object

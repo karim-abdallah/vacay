@@ -3,7 +3,7 @@ export const selectDashboardData = (state) => {
 };
 
 export const getSelectedDates = (state) => {
-  return state.Dashboard.selectedDays;
+  return state.Dashboard.selectedDates;
 };
 
 export const selectBookedPTO = (state) => {

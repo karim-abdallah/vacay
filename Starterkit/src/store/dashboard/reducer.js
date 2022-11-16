@@ -1,4 +1,5 @@
 import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
+import { isSameDay } from "../../helpers/vacay_helpers";
 
 const INIT_STATE = {
   currentMonth: mockApiResponse.currentMonth,
@@ -7,7 +8,7 @@ const INIT_STATE = {
   holidays: mockApiResponse.holidays,
   accrualRate: mockApiResponse.accrualRate,
   accrualCap: mockApiResponse.accrualCap,
-  selectedDays: new Set(),
+  selectedDates: [],
 };
 
 const Dashboard = (state = INIT_STATE, action) => {
@@ -24,15 +25,27 @@ const Dashboard = (state = INIT_STATE, action) => {
           dates: state.bookedPTO.dates.concat(action.payload),
         },
       };
-    case "selectedDays/add":
+    case "selectedDates/add":
       return {
         ...state,
-        selectedDays: state.selectedDays.add(action.payload),
+        selectedDates: [...state.selectedDates, action.payload],
       };
-    case "selectedDays/delete":
+    case "selectedDates/delete":
+      const dedupedDates = new Set();
+      for (let n = 0; n < action.payload.length; n++) {
+        dedupedDates.add(state.selectedDates[n]);
+      }
+      for (let n = 0; n < state.selectedDates.length; n++) {
+        for (let m = 0; m < action.payload.length; m++) {
+          if (isSameDay(state.selectedDates[n], action.payload[m])) {
+            dedupedDates.delete(action.payload[n]);
+            break;
+          }
+        }
+      }
       return {
         ...state,
-        selectedDays: state.selectedDays.delete(action.payload),
+        selectedDates: [...dedupedDates],
       };
 
     default:

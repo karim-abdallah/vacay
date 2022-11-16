@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   selectBookedPTO,
   selectHolidays,
+  getSelectedDates,
 } from "../../store/dashboard/selector";
 import {
   isSameDay,
@@ -14,12 +15,18 @@ import {
 import styled from "styled-components";
 
 function MiniCalendar(props) {
-  // let's try using the redux store directly
-  const [selectedDatesLocal, setSelectedDatesLocal] = useState();
+  // Local variables
+  const [selectedDatesLocal, setSelectedDatesLocal] = useState([]);
   const [showBookButton, setShowBookButton] = useState(false);
+  const [mouseSelection, setMouseSelection] = useState();
+
+  // Redux store
   const bookedDates = useSelector(selectBookedPTO);
   const holidays = useSelector(selectHolidays);
+  const selectedDates = useSelector(getSelectedDates);
+
   const dispatch = useDispatch();
+
   const tileFormatting = ({ date, view }) => {
     // Add class to tiles in month view only
     if (view === "month") {
@@ -35,11 +42,6 @@ function MiniCalendar(props) {
 
   const handleDateSelection = (valueRange) => {
     // 1. Filter out values
-    // 2. Store selected dates in local variable
-    // 3. Show booked button
-    // 4. Dispatch add to SelectedDates redux element
-
-    // TODO: this implementation is kindof ugly... fix it
     const dateValues = convertDateRangeToDiscreteDates(valueRange);
     const dedupedDateValues = filterOutDuplicates(dateValues, bookedDates);
     const datesWithoutHolidays = filterOutDuplicates(
@@ -48,20 +50,30 @@ function MiniCalendar(props) {
     );
     const filteredDatesToAdd = filterOutWeekends([...datesWithoutHolidays]);
 
-    dispatch({
-      type: "bookedPTO/add",
-      payload: [...filteredDatesToAdd],
-    });
+    // 2. decision tree
+    // 2.a. if selected but not booked -> unselect
+    // 2. b if selected and booked -> unselect
+    // 2.b if unselected and booked -> unbook and unselect
+    // 2.c if unselected and unbooked -> book and unselect
 
-    filteredDatesToAdd.map((date) =>
-      dispatch({ type: "selectedDays/add", payload: date })
+    selectedDatesLocal.map((date) =>
+      dispatch({ type: "selectedDates/delete", payload: date })
     );
+    filteredDatesToAdd.map((date) =>
+      dispatch({ type: "selectedDates/add", payload: date })
+    );
+    setSelectedDatesLocal([...filteredDatesToAdd]);
     setShowBookButton(true);
   };
 
   const handleBookNow = () => {
     setShowBookButton(false);
+    dispatch({ type: "bookedPTO/add", payload: [...selectedDates] });
+    selectedDatesLocal.map((date) =>
+      dispatch({ type: "selectedDates/delete", payload: date })
+    );
     setSelectedDatesLocal([]);
+    setMouseSelection([]);
   };
 
   return (
@@ -77,7 +89,7 @@ function MiniCalendar(props) {
         prev2Label={null}
         next2Label={null}
         nextLabel={null}
-        value={selectedDatesLocal}
+        value={mouseSelection}
       />
       {showBookButton ? (
         <button onClick={handleBookNow}>Book Now</button>
