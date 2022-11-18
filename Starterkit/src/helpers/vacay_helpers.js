@@ -1,4 +1,4 @@
-import { defaultMonths } from "../constants";
+import { defaultMonths, weekendDayIndex } from "../constants";
 import { differenceInCalendarDays } from "date-fns";
 
 export const monthYearFormatter = (date) => {
@@ -81,5 +81,10 @@ export const filterOutDuplicates = (selectedDates, existingDates) => {
 export const areAllDaysWeekends = (daysArray) => {
   // Takes an array of DateTime objects and returns True
   // if all days in array are week-ends
-  return false;
+  for (let n = 0; n < daysArray.length; n++) {
+    if (!weekendDayIndex.includes(daysArray[n].getDay())) {
+      return false;
+    }
+  }
+  return true;
 };

@@ -79,9 +79,6 @@ const generateDashboardData = (
     // add to booked pto the selection. This will get cleared if we don't book them,
     // but it needs to appear on the chart
     // if currentDate not a week-end, increment, otherwise skip
-    console.log(element);
-    console.log(`Day of the week: ${element.getDay()}`);
-
     if (!weekendDayIndex.includes(element.getDay())) {
       PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] + 1;
     }

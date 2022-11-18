@@ -10,6 +10,7 @@ import {
   isSameDay,
   convertDateRangeToDiscreteDates,
   filterOutDuplicates,
+  areAllDaysWeekends,
 } from "../../helpers/vacay_helpers";
 import styled from "styled-components";
 
@@ -61,7 +62,12 @@ function MiniCalendar(props) {
       dispatch({ type: "selectedDates/add", payload: date })
     );
     setSelectedDatesLocal([...datesWithoutHolidays]);
-    setShowBookButton(true);
+    // don't show book button if an idiot tried to book week-ends
+    if (areAllDaysWeekends([...datesWithoutHolidays])) {
+      setShowBookButton(false);
+    } else {
+      setShowBookButton(true);
+    }
     setMouseSelection([]);
   };
 
