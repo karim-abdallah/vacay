@@ -9,6 +9,7 @@ import {
   monthYearFormatter,
   computeNextTwelveMonths,
 } from "../../helpers/vacay_helpers";
+import { weekendDayIndex } from "../../constants";
 
 const computeMonthlyBalance = (
   orderedLabels,
@@ -44,12 +45,6 @@ const generateDashboardData = (
 ) => {
   const monthLabels = computeNextTwelveMonths(currentMonth);
 
-  // should probably pass in "selectedWeekends" so that they get cancelled from the
-  // computation at the Dashboard level. But should still be highlighted.
-  // not the most efficient calculation but that's still fine.
-  // Or instead of doing "Selected week-ends" you loop through the whole list and
-  // if they're a week-end, you remove them from PTOPerMonth
-
   // The below manipulation of sets intends to count the number of days per month
   // for each category. This helps doing the final calculation to populate each month.
   const PTOPerMonth = {};
@@ -67,7 +62,10 @@ const generateDashboardData = (
   bookedPTO.dates.forEach((element, index) => {
     const currentDate = new Date(element);
     const monthLabel = monthYearFormatter(currentDate);
-    PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] + 1;
+    // if currentDate not a week-end, increment, otherwise skip
+    if (!weekendDayIndex.includes(currentDate.getDay())) {
+      PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] + 1;
+    }
   });
 
   holidays.dates.forEach((element, index) => {
@@ -80,7 +78,13 @@ const generateDashboardData = (
     const monthLabel = monthYearFormatter(element);
     // add to booked pto the selection. This will get cleared if we don't book them,
     // but it needs to appear on the chart
-    PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] + 1;
+    // if currentDate not a week-end, increment, otherwise skip
+    console.log(element);
+    console.log(`Day of the week: ${element.getDay()}`);
+
+    if (!weekendDayIndex.includes(element.getDay())) {
+      PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] + 1;
+    }
   });
 
   computeMonthlyBalance(

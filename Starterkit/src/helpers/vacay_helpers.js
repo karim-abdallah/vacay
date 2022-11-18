@@ -78,7 +78,8 @@ export const filterOutDuplicates = (selectedDates, existingDates) => {
   return dedupedDates;
 };
 
-export const filterOutWeekends = (selectedDates) => {
-  // Not sure how to do that yet... figure it out later
-  return selectedDates;
+export const areAllDaysWeekends = (daysArray) => {
+  // Takes an array of DateTime objects and returns True
+  // if all days in array are week-ends
+  return false;
 };

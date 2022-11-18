@@ -10,7 +10,6 @@ import {
   isSameDay,
   convertDateRangeToDiscreteDates,
   filterOutDuplicates,
-  filterOutWeekends,
 } from "../../helpers/vacay_helpers";
 import styled from "styled-components";
 
@@ -46,12 +45,9 @@ function MiniCalendar(props) {
     // 1. Filter out values
     const dateValues = convertDateRangeToDiscreteDates(valueRange);
     const dedupedDateValues = filterOutDuplicates(dateValues, bookedDates);
-    const datesWithoutHolidays = filterOutDuplicates(
-      [...dedupedDateValues],
-      holidays
-    );
-    const filteredDatesToAdd = filterOutWeekends([...datesWithoutHolidays]);
-
+    const datesWithoutHolidays = [
+      ...filterOutDuplicates([...dedupedDateValues], holidays),
+    ];
     // 2. decision tree
     // 2.a. if selected but not booked -> unselect
     // 2. b if selected and booked -> unselect
@@ -61,10 +57,10 @@ function MiniCalendar(props) {
     selectedDatesLocal.map((date) =>
       dispatch({ type: "selectedDates/delete", payload: date })
     );
-    filteredDatesToAdd.map((date) =>
+    datesWithoutHolidays.map((date) =>
       dispatch({ type: "selectedDates/add", payload: date })
     );
-    setSelectedDatesLocal([...filteredDatesToAdd]);
+    setSelectedDatesLocal([...datesWithoutHolidays]);
     setShowBookButton(true);
     setMouseSelection([]);
   };
