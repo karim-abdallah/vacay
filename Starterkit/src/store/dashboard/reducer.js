@@ -9,6 +9,7 @@ const INIT_STATE = {
   accrualRate: mockApiResponse.accrualRate,
   accrualCap: mockApiResponse.accrualCap,
   selectedDates: [],
+  datesToUnbook: [],
 };
 
 const Dashboard = (state = INIT_STATE, action) => {
@@ -36,6 +37,12 @@ const Dashboard = (state = INIT_STATE, action) => {
         selectedDates: state.selectedDates.filter(
           (x) => !isSameDay(x, action.payload)
         ),
+      };
+    case "datesToUnbook/add":
+      console.log(`Calling reducer`);
+      return {
+        ...state,
+        datesToUnbook: [...state.datesToUnbook, action.payload],
       };
 
     default:

@@ -88,3 +88,17 @@ export const areAllDaysWeekends = (daysArray) => {
   }
   return true;
 };
+
+export const isSelectionAlreadyBooked = (daysArray, bookedPTOArray) => {
+  // All dates in a selection need to be already booked for
+  // unbooking to be accepted.
+  // So essentially, make sure all the dates in the array are
+  // in the booked store
+  if (
+    daysArray.filter((x) => bookedPTOArray.find((y) => isSameDay(x, y)))
+      .length !== daysArray.length
+  ) {
+    return false;
+  }
+  return true;
+};

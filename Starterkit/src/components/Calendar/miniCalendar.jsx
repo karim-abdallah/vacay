@@ -11,6 +11,7 @@ import {
   convertDateRangeToDiscreteDates,
   filterOutDuplicates,
   areAllDaysWeekends,
+  isSelectionAlreadyBooked,
 } from "../../helpers/vacay_helpers";
 import styled from "styled-components";
 
@@ -45,25 +46,40 @@ function MiniCalendar(props) {
   const handleDateSelection = (valueRange) => {
     // 1. Filter out values
     const dateValues = convertDateRangeToDiscreteDates(valueRange);
-    const dedupedDateValues = filterOutDuplicates(dateValues, bookedDates);
     const datesWithoutHolidays = [
-      ...filterOutDuplicates([...dedupedDateValues], holidays),
+      ...filterOutDuplicates([...dateValues], holidays),
     ];
+    const datesWithoutAlreadyBooked = [
+      ...filterOutDuplicates([...datesWithoutHolidays], bookedDates),
+    ];
+
+    // clear out existing selections
+    // for both selected and dates to unbook.
+    selectedDatesLocal.map((date) =>
+      dispatch({ type: "selectedDates/delete", payload: date })
+    );
+    setSelectedDatesLocal([...datesWithoutHolidays]);
+
     // 2. decision tree
     // 2.a. if selected but not booked -> unselect
     // 2. b if selected and booked -> unselect
     // 2.b if unselected and booked -> unbook and unselect
+    if (isSelectionAlreadyBooked(dateValues, bookedDates)) {
+      // populate datesToCancel
+      console.log(`Dispatching adding dates to unbook`);
+      datesWithoutHolidays.map((date) =>
+        dispatch({ type: "datesToUnbook/add", payload: date })
+      );
+    }
     // 2.c if unselected and unbooked -> book and unselect
+    else {
+      datesWithoutAlreadyBooked.map((date) =>
+        dispatch({ type: "selectedDates/add", payload: date })
+      );
+    }
 
-    selectedDatesLocal.map((date) =>
-      dispatch({ type: "selectedDates/delete", payload: date })
-    );
-    datesWithoutHolidays.map((date) =>
-      dispatch({ type: "selectedDates/add", payload: date })
-    );
-    setSelectedDatesLocal([...datesWithoutHolidays]);
     // don't show book button if an idiot tried to book week-ends
-    if (areAllDaysWeekends([...datesWithoutHolidays])) {
+    if (areAllDaysWeekends([...datesWithoutAlreadyBooked])) {
       setShowBookButton(false);
     } else {
       setShowBookButton(true);
