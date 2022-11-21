@@ -31,21 +31,11 @@ const Dashboard = (state = INIT_STATE, action) => {
         selectedDates: [...state.selectedDates, action.payload],
       };
     case "selectedDates/delete":
-      const dedupedDates = new Set();
-      for (let n = 0; n < action.payload.length; n++) {
-        dedupedDates.add(state.selectedDates[n]);
-      }
-      for (let n = 0; n < state.selectedDates.length; n++) {
-        for (let m = 0; m < action.payload.length; m++) {
-          if (isSameDay(state.selectedDates[n], action.payload[m])) {
-            dedupedDates.delete(action.payload[n]);
-            break;
-          }
-        }
-      }
       return {
         ...state,
-        selectedDates: [...dedupedDates],
+        selectedDates: state.selectedDates.filter(
+          (x) => !isSameDay(x, action.payload)
+        ),
       };
 
     default:
