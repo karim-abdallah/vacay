@@ -14,6 +14,10 @@
     background: #FF00FF;
 }
 
+.datesToUnbook {
+    background: #6D7994;
+};
+
 
 .react-calendar {
   width: 100%;

@@ -5,6 +5,7 @@ import {
   selectBookedPTO,
   selectHolidays,
   getSelectedDates,
+  getDatesToUnbook,
 } from "../../store/dashboard/selector";
 import {
   isSameDay,
@@ -25,6 +26,7 @@ function MiniCalendar(props) {
   const bookedDates = useSelector(selectBookedPTO);
   const holidays = useSelector(selectHolidays);
   const selectedDates = useSelector(getSelectedDates);
+  const datesToUnbook = useSelector(getDatesToUnbook);
 
   const dispatch = useDispatch();
 
@@ -32,13 +34,15 @@ function MiniCalendar(props) {
     // Add class to tiles in month view only
     if (view === "month") {
       // Check if a date React-Calendar wants to check is on the list of dates to add class to
-      if (bookedDates.find((dDate) => isSameDay(dDate, date))) {
-        return "bookedDays";
-      } else if (holidays.find((dDate) => isSameDay(dDate, date))) {
-        return "holidays";
-      } else if (selectedDates.find((dDate) => isSameDay(dDate, date))) {
-        return "selectedDates";
-      }
+    }
+    if (selectedDates.find((dDate) => isSameDay(dDate, date))) {
+      return "selectedDates";
+    } else if (datesToUnbook.find((dDate) => isSameDay(dDate, date))) {
+      return "datesToUnbook";
+    } else if (bookedDates.find((dDate) => isSameDay(dDate, date))) {
+      return "bookedDays";
+    } else if (holidays.find((dDate) => isSameDay(dDate, date))) {
+      return "holidays";
     }
     return "inactiveDays";
   };
@@ -55,9 +59,10 @@ function MiniCalendar(props) {
 
     // clear out existing selections
     // for both selected and dates to unbook.
-    selectedDatesLocal.map((date) =>
-      dispatch({ type: "selectedDates/delete", payload: date })
-    );
+    selectedDatesLocal.forEach((date) => {
+      dispatch({ type: "selectedDates/delete", payload: date });
+      dispatch({ type: "datesToUnbook/delete", payload: date });
+    });
     setSelectedDatesLocal([...datesWithoutHolidays]);
 
     // 2. decision tree
@@ -66,7 +71,6 @@ function MiniCalendar(props) {
     // 2.b if unselected and booked -> unbook and unselect
     if (isSelectionAlreadyBooked(dateValues, bookedDates)) {
       // populate datesToCancel
-      console.log(`Dispatching adding dates to unbook`);
       datesWithoutHolidays.map((date) =>
         dispatch({ type: "datesToUnbook/add", payload: date })
       );
@@ -76,13 +80,12 @@ function MiniCalendar(props) {
       datesWithoutAlreadyBooked.map((date) =>
         dispatch({ type: "selectedDates/add", payload: date })
       );
+      setShowBookButton(true);
     }
 
     // don't show book button if an idiot tried to book week-ends
     if (areAllDaysWeekends([...datesWithoutAlreadyBooked])) {
       setShowBookButton(false);
-    } else {
-      setShowBookButton(true);
     }
     setMouseSelection([]);
   };

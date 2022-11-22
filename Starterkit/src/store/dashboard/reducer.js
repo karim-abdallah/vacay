@@ -39,12 +39,18 @@ const Dashboard = (state = INIT_STATE, action) => {
         ),
       };
     case "datesToUnbook/add":
-      console.log(`Calling reducer`);
       return {
         ...state,
         datesToUnbook: [...state.datesToUnbook, action.payload],
       };
 
+    case "datesToUnbook/delete":
+      return {
+        ...state,
+        datesToUnbook: state.datesToUnbook.filter(
+          (x) => !isSameDay(x, action.payload)
+        ),
+      };
     default:
       return state;
   }
