@@ -57,7 +57,7 @@ export const mockApiResponse = {
       "2023-05-22",
       "2023-07-05",
       "2023-08-08",
-    ],
+    ].map((x) => new Date(x)),
   },
   holidays: {
     dates: [
@@ -72,7 +72,7 @@ export const mockApiResponse = {
       "2023-04-12",
       "2023-05-19",
       "2023-07-04",
-    ],
+    ].map((x) => new Date(x)),
   },
   accrualRate: 1.5,
   accrualCap: 10,

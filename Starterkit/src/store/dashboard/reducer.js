@@ -9,6 +9,7 @@ const INIT_STATE = {
   accrualRate: mockApiResponse.accrualRate,
   accrualCap: mockApiResponse.accrualCap,
   selectedDates: [],
+  datesToUnbook: [],
 };
 
 const Dashboard = (state = INIT_STATE, action) => {
@@ -25,6 +26,16 @@ const Dashboard = (state = INIT_STATE, action) => {
           dates: state.bookedPTO.dates.concat(action.payload),
         },
       };
+    case "bookedPTO/delete":
+      console.log(state.bookedPTO.dates);
+      return {
+        ...state,
+        bookedPTO: {
+          dates: state.bookedPTO.dates.filter(
+            (x) => !isSameDay(x, action.payload)
+          ),
+        },
+      };
     case "selectedDates/add":
       return {
         ...state,
@@ -37,7 +48,19 @@ const Dashboard = (state = INIT_STATE, action) => {
           (x) => !isSameDay(x, action.payload)
         ),
       };
+    case "datesToUnbook/add":
+      return {
+        ...state,
+        datesToUnbook: [...state.datesToUnbook, action.payload],
+      };
 
+    case "datesToUnbook/delete":
+      return {
+        ...state,
+        datesToUnbook: state.datesToUnbook.filter(
+          (x) => !isSameDay(x, action.payload)
+        ),
+      };
     default:
       return state;
   }
