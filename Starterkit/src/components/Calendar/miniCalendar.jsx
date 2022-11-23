@@ -20,6 +20,7 @@ function MiniCalendar(props) {
   // Local variables
   const [selectedDatesLocal, setSelectedDatesLocal] = useState([]);
   const [showBookButton, setShowBookButton] = useState(false);
+  const [showUnbookButton, setShowUnbookButton] = useState(false);
   const [mouseSelection, setMouseSelection] = useState();
 
   // Redux store
@@ -29,6 +30,39 @@ function MiniCalendar(props) {
   const datesToUnbook = useSelector(getDatesToUnbook);
 
   const dispatch = useDispatch();
+
+  const displayBookButton = () => {
+    console.log("Displaying Book");
+    setShowUnbookButton(false);
+    setShowBookButton(true);
+  };
+  const displayUnbookButton = () => {
+    console.log("Displaying unbook");
+    setShowBookButton(false);
+    setShowUnbookButton(true);
+  };
+
+  const hideButtons = () => {
+    console.log("hide buttons");
+    setShowBookButton(false);
+    setShowUnbookButton(false);
+  };
+
+  const toggleButtons = () => {
+    const bookButton = <button onClick={handleBookNow}>Book Now</button>;
+    const unbookButton = <button onClick={handleUnbook}>Unbook</button>;
+
+    console.log(`book: ${showBookButton}`);
+    console.log(`unbook: ${showUnbookButton}`);
+
+    if (showBookButton) {
+      return bookButton;
+    } else if (showUnbookButton) {
+      return unbookButton;
+    }
+
+    return null;
+  };
 
   const tileFormatting = ({ date, view }) => {
     // Add class to tiles in month view only
@@ -74,27 +108,37 @@ function MiniCalendar(props) {
       datesWithoutHolidays.map((date) =>
         dispatch({ type: "datesToUnbook/add", payload: date })
       );
+      displayUnbookButton();
     }
     // 2.c if unselected and unbooked -> book and unselect
     else {
       datesWithoutAlreadyBooked.map((date) =>
         dispatch({ type: "selectedDates/add", payload: date })
       );
-      setShowBookButton(true);
+      displayBookButton();
     }
 
-    // don't show book button if an idiot tried to book week-ends
-    if (areAllDaysWeekends([...datesWithoutAlreadyBooked])) {
-      setShowBookButton(false);
+    // don't show book button if an idiot tried to select week-ends
+    if (areAllDaysWeekends(datesWithoutHolidays)) {
+      console.log(datesWithoutAlreadyBooked);
+      hideButtons();
     }
     setMouseSelection([]);
   };
 
   const handleBookNow = () => {
-    setShowBookButton(false);
+    hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
     selectedDatesLocal.map((date) =>
       dispatch({ type: "selectedDates/delete", payload: date })
+    );
+    setSelectedDatesLocal([]);
+  };
+  const handleUnbook = () => {
+    hideButtons();
+    dispatch({ type: "bookedPTO/delete", payload: [...selectedDatesLocal] });
+    selectedDatesLocal.map((date) =>
+      dispatch({ type: "datesToUnbook/delete", payload: date })
     );
     setSelectedDatesLocal([]);
   };
@@ -114,9 +158,7 @@ function MiniCalendar(props) {
         nextLabel={null}
         value={mouseSelection}
       />
-      {showBookButton ? (
-        <button onClick={handleBookNow}>Book Now</button>
-      ) : null}
+      {toggleButtons()}
     </CalendarContainer>
   );
 }
