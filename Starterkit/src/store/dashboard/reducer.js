@@ -26,6 +26,16 @@ const Dashboard = (state = INIT_STATE, action) => {
           dates: state.bookedPTO.dates.concat(action.payload),
         },
       };
+    case "bookedPTO/delete":
+      console.log(state.bookedPTO.dates);
+      return {
+        ...state,
+        bookedPTO: {
+          dates: state.bookedPTO.dates.filter(
+            (x) => !isSameDay(x, action.payload)
+          ),
+        },
+      };
     case "selectedDates/add":
       return {
         ...state,

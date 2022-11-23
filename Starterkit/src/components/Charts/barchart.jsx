@@ -65,17 +65,15 @@ const generateDashboardData = (
   });
 
   bookedPTO.dates.forEach((element, index) => {
-    const currentDate = new Date(element);
-    const monthLabel = monthYearFormatter(currentDate);
+    const monthLabel = monthYearFormatter(element);
     // if currentDate not a week-end, increment, otherwise skip
-    if (!weekendDayIndex.includes(currentDate.getDay())) {
+    if (!weekendDayIndex.includes(element.getDay())) {
       PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] + 1;
     }
   });
 
   holidays.dates.forEach((element, index) => {
-    const currentDate = new Date(element);
-    const monthLabel = monthYearFormatter(currentDate);
+    const monthLabel = monthYearFormatter(element);
     holidaysPerMonth[monthLabel] = holidaysPerMonth[monthLabel] + 1;
   });
 

@@ -32,12 +32,10 @@ function MiniCalendar(props) {
   const dispatch = useDispatch();
 
   const displayBookButton = () => {
-    console.log("Displaying Book");
     setShowUnbookButton(false);
     setShowBookButton(true);
   };
   const displayUnbookButton = () => {
-    console.log("Displaying unbook");
     setShowBookButton(false);
     setShowUnbookButton(true);
   };
@@ -51,9 +49,6 @@ function MiniCalendar(props) {
   const toggleButtons = () => {
     const bookButton = <button onClick={handleBookNow}>Book Now</button>;
     const unbookButton = <button onClick={handleUnbook}>Unbook</button>;
-
-    console.log(`book: ${showBookButton}`);
-    console.log(`unbook: ${showUnbookButton}`);
 
     if (showBookButton) {
       return bookButton;
@@ -73,10 +68,10 @@ function MiniCalendar(props) {
       return "selectedDates";
     } else if (datesToUnbook.find((dDate) => isSameDay(dDate, date))) {
       return "datesToUnbook";
-    } else if (bookedDates.find((dDate) => isSameDay(dDate, date))) {
-      return "bookedDays";
     } else if (holidays.find((dDate) => isSameDay(dDate, date))) {
       return "holidays";
+    } else if (bookedDates.find((dDate) => isSameDay(dDate, date))) {
+      return "bookedDays";
     }
     return "inactiveDays";
   };
@@ -120,7 +115,6 @@ function MiniCalendar(props) {
 
     // don't show book button if an idiot tried to select week-ends
     if (areAllDaysWeekends(datesWithoutHolidays)) {
-      console.log(datesWithoutAlreadyBooked);
       hideButtons();
     }
     setMouseSelection([]);
@@ -129,17 +123,17 @@ function MiniCalendar(props) {
   const handleBookNow = () => {
     hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
-    selectedDatesLocal.map((date) =>
+    selectedDatesLocal.forEach((date) =>
       dispatch({ type: "selectedDates/delete", payload: date })
     );
     setSelectedDatesLocal([]);
   };
   const handleUnbook = () => {
     hideButtons();
-    dispatch({ type: "bookedPTO/delete", payload: [...selectedDatesLocal] });
-    selectedDatesLocal.map((date) =>
-      dispatch({ type: "datesToUnbook/delete", payload: date })
-    );
+    selectedDatesLocal.forEach((date) => {
+      dispatch({ type: "datesToUnbook/delete", payload: date });
+      dispatch({ type: "bookedPTO/delete", payload: date });
+    });
     setSelectedDatesLocal([]);
   };
 
