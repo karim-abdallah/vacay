@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import {
   selectDashboardData,
   getSelectedDates,
+  getDatesToUnbook,
 } from "../../store/dashboard/selector";
 import {
   monthYearFormatter,
@@ -41,7 +42,8 @@ const generateDashboardData = (
   holidays,
   accrualRate,
   accrualCap,
-  selectedDates
+  selectedDates,
+  datesToUnbook
 ) => {
   const monthLabels = computeNextTwelveMonths(currentMonth);
 
@@ -51,12 +53,15 @@ const generateDashboardData = (
   const holidaysPerMonth = {};
   const balance = {};
   const selectedDatesPerMonth = {};
+  const datesToUnbookPerMonth = {};
 
   monthLabels.forEach((element, index) => {
     PTOPerMonth[element] = 0;
     holidaysPerMonth[element] = 0;
     balance[element] = 0;
+    // These will actually be used on the chart if we can do stacked bars
     selectedDatesPerMonth[element] = 0;
+    datesToUnbookPerMonth[element] = 0;
   });
 
   bookedPTO.dates.forEach((element, index) => {
@@ -81,6 +86,14 @@ const generateDashboardData = (
     // if currentDate not a week-end, increment, otherwise skip
     if (!weekendDayIndex.includes(element.getDay())) {
       PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] + 1;
+    }
+  });
+
+  datesToUnbook.forEach((element, index) => {
+    const monthLabel = monthYearFormatter(element);
+    // substract from PTO selection.
+    if (!weekendDayIndex.includes(element.getDay())) {
+      PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] - 1;
     }
   });
 
@@ -124,6 +137,7 @@ const generateDashboardData = (
 const BarChart = () => {
   const dashboardData = useSelector(selectDashboardData);
   const selectedDates = useSelector(getSelectedDates);
+  const datesToUnbook = useSelector(getDatesToUnbook);
   const data = generateDashboardData(
     dashboardData.currentMonth,
     dashboardData.currentBalanceDays,
@@ -131,7 +145,8 @@ const BarChart = () => {
     dashboardData.holidays,
     dashboardData.accrualRate,
     dashboardData.accrualCap,
-    selectedDates
+    selectedDates,
+    datesToUnbook
   );
   const options = {
     plugins: {

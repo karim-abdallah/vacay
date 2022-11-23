@@ -92,7 +92,7 @@ function MiniCalendar(props) {
 
   const handleBookNow = () => {
     setShowBookButton(false);
-    dispatch({ type: "bookedPTO/add", payload: [...selectedDates] });
+    dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
     selectedDatesLocal.map((date) =>
       dispatch({ type: "selectedDates/delete", payload: date })
     );
