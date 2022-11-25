@@ -12,6 +12,7 @@ import {
   convertDateRangeToDiscreteDates,
   filterOutDuplicates,
   areAllDaysWeekends,
+  isSelectionAlreadySelected,
   isSelectionAlreadyBooked,
 } from "../../helpers/vacay_helpers";
 import styled from "styled-components";
@@ -92,25 +93,30 @@ function MiniCalendar(props) {
       dispatch({ type: "selectedDates/delete", payload: date });
       dispatch({ type: "datesToUnbook/delete", payload: date });
     });
-    setSelectedDatesLocal([...datesWithoutHolidays]);
 
     // 2. decision tree
-    // 2.a. if selected but not booked -> unselect
-    // 2. b if selected and booked -> unselect
-    // 2.b if unselected and booked -> unbook and unselect
-    if (isSelectionAlreadyBooked(dateValues, bookedDates)) {
-      // populate datesToCancel
-      datesWithoutHolidays.map((date) =>
-        dispatch({ type: "datesToUnbook/add", payload: date })
-      );
-      displayUnbookButton();
-    }
-    // 2.c if unselected and unbooked -> book and unselect
-    else {
-      datesWithoutAlreadyBooked.map((date) =>
-        dispatch({ type: "selectedDates/add", payload: date })
-      );
-      displayBookButton();
+    // 2.a. if already selected -> unselect
+    if (isSelectionAlreadySelected(dateValues, selectedDatesLocal)) {
+      setSelectedDatesLocal([]);
+      hideButtons();
+    } else {
+      // 2.c if unselected and booked -> unbook and unselect
+      setSelectedDatesLocal([...datesWithoutHolidays]);
+
+      if (isSelectionAlreadyBooked(dateValues, bookedDates)) {
+        // populate datesToCancel
+        datesWithoutHolidays.map((date) =>
+          dispatch({ type: "datesToUnbook/add", payload: date })
+        );
+        displayUnbookButton();
+      }
+      // 2.d if unselected and unbooked -> book and unselect
+      else {
+        datesWithoutAlreadyBooked.map((date) =>
+          dispatch({ type: "selectedDates/add", payload: date })
+        );
+        displayBookButton();
+      }
     }
 
     // don't show book button if an idiot tried to select week-ends
