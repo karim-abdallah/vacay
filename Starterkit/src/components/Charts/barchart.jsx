@@ -18,19 +18,25 @@ const computeMonthlyBalance = (
   startingBalance,
   accrualRate,
   accrualCap,
-  ptoPerMonth
+  ptoPerMonth,
+  selectedPerMonth,
+  datesToUnbookPerMonth
 ) => {
   // For each month:
   //   calculate: previous balance + accrual rate - booked
   orderedLabels.forEach((element, index) => {
     if (index === 0) {
       // starting balance
-      balancePerMonth[element] = startingBalance - ptoPerMonth[element];
+      balancePerMonth[element] =
+        startingBalance -
+        (ptoPerMonth[element] +
+          selectedPerMonth[element] -
+          datesToUnbookPerMonth[element]);
     } else {
       balancePerMonth[element] =
         balancePerMonth[orderedLabels[index - 1]] +
         accrualRate -
-        ptoPerMonth[element];
+        (ptoPerMonth[element] + selectedPerMonth[element]);
     }
   });
 };
@@ -83,7 +89,7 @@ const generateDashboardData = (
     // but it needs to appear on the chart
     // if currentDate not a week-end, increment, otherwise skip
     if (!weekendDayIndex.includes(element.getDay())) {
-      PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] + 1;
+      selectedDatesPerMonth[monthLabel] = selectedDatesPerMonth[monthLabel] + 1;
     }
   });
 
@@ -91,6 +97,7 @@ const generateDashboardData = (
     const monthLabel = monthYearFormatter(element);
     // substract from PTO selection.
     if (!weekendDayIndex.includes(element.getDay())) {
+      datesToUnbookPerMonth[monthLabel] = datesToUnbookPerMonth[monthLabel] + 1;
       PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] - 1;
     }
   });
@@ -101,7 +108,9 @@ const generateDashboardData = (
     currentBalanceDays,
     accrualRate,
     accrualCap,
-    PTOPerMonth
+    PTOPerMonth,
+    selectedDatesPerMonth,
+    datesToUnbookPerMonth
   );
 
   // put together the data object
@@ -119,6 +128,19 @@ const generateDashboardData = (
         backgroundColor: "#6A48FF",
         borderRadius: 10,
         data: monthLabels.map((x) => PTOPerMonth[x]),
+        stack: "PTOStack",
+      },
+      {
+        label: "Selection",
+        backgroundColor: "#FF00FF",
+        data: monthLabels.map((x) => selectedDatesPerMonth[x]),
+        stack: "PTOStack",
+      },
+      {
+        label: "Unbook",
+        backgroundColor: "#6D7994",
+        data: monthLabels.map((x) => datesToUnbookPerMonth[x]),
+        stack: "PTOStack",
       },
       {
         label: "Balance",
