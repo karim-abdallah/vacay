@@ -20,14 +20,21 @@ const Dashboard = (state = INIT_STATE, action) => {
         currentMonth: action.payload,
       };
     case "bookedPTO/add":
+      // de-dupe additions
+      const dedupedDates = action.payload.filter(
+        (x) =>
+          !isSameDay(
+            x,
+            state.bookedPTO.dates.find((y) => isSameDay(x, y))
+          )
+      );
       return {
         ...state,
         bookedPTO: {
-          dates: state.bookedPTO.dates.concat(action.payload),
+          dates: state.bookedPTO.dates.concat(dedupedDates),
         },
       };
     case "bookedPTO/delete":
-      console.log(state.bookedPTO.dates);
       return {
         ...state,
         bookedPTO: {

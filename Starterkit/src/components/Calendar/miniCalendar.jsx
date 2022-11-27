@@ -42,7 +42,6 @@ function MiniCalendar(props) {
   };
 
   const hideButtons = () => {
-    console.log("hide buttons");
     setShowBookButton(false);
     setShowUnbookButton(false);
   };
@@ -100,9 +99,9 @@ function MiniCalendar(props) {
       setSelectedDatesLocal([]);
       hideButtons();
     } else {
-      // 2.c if unselected and booked -> unbook and unselect
       setSelectedDatesLocal([...datesWithoutHolidays]);
 
+      // 2.c if unselected and booked -> unbook and unselect
       if (isSelectionAlreadyBooked(dateValues, bookedDates)) {
         // populate datesToCancel
         datesWithoutHolidays.map((date) =>
@@ -110,6 +109,7 @@ function MiniCalendar(props) {
         );
         displayUnbookButton();
       }
+
       // 2.d if unselected and unbooked -> book and unselect
       else {
         datesWithoutAlreadyBooked.map((date) =>
