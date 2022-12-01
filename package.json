@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "react-calendar": "^3.9.0"
+    "react-calendar": "^3.9.0",
+    "styled-components": "^5.3.6"
   }
 }
