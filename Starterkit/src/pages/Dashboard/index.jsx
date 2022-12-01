@@ -7,6 +7,7 @@ import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
 import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
 import styled from "styled-components";
 import MiniCalendar from "../../components/Calendar/miniCalendar";
+import TimeOffSettings from "../../components/TimeOffSettings/index";
 
 class Dashboard extends Component {
   render() {
@@ -21,6 +22,7 @@ class Dashboard extends Component {
       <React.Fragment>
         <div className="page-content">
           <Container fluid>
+            <TimeOffSettings />
             <Card>
               <CardBody>
                 <BarChart />

@@ -1,6 +1,6 @@
 //
 // _menu.scss
-// 
+//
 
 .metismenu {
     margin: 0;
@@ -260,7 +260,7 @@
                         padding: 15px 20px;
                         min-height: 55px;
                         transition: none;
-                        
+
                         &:hover,
                         &:active,
                         &:focus {
@@ -370,7 +370,7 @@ body[data-sidebar="dark"] {
     }
 
     #sidebar-menu {
-    
+
         ul {
             li {
                 a {
@@ -379,7 +379,7 @@ body[data-sidebar="dark"] {
                     i {
                         color: $sidebar-dark-menu-item-icon-color;
                     }
-    
+
                     &:hover {
                         color: $sidebar-dark-menu-item-hover-color;
 
@@ -416,7 +416,7 @@ body[data-sidebar="dark"] {
 
                 > ul {
                     > li {
-                        
+
                         &:hover {
                             > a {
                                 background: lighten($sidebar-dark-bg, 2%);
@@ -440,7 +440,7 @@ body[data-sidebar="dark"] {
                     ul{
                         background-color: lighten($card-bg, 1%);
                     }
-                    
+
                 }
 
                 ul{
@@ -466,19 +466,19 @@ body[data-sidebar="dark"] {
                                     color: $sidebar-menu-item-active-color !important;
                                 }
 
-                                
+
                             }
                         }
                     }
-                    
-                    
+
+
                 }
             }
 
 
         }
     }
-    
+
     .mm-active {
         color: $sidebar-dark-menu-item-active-color !important;
         > a{
@@ -613,7 +613,7 @@ body[data-sidebar="colored"] {
                 &.menu-title{
                     color: rgba($white, 0.6);
                 }
-  
+
                 a{
                     color: rgba($white, 0.6);
                     i{
@@ -625,7 +625,7 @@ body[data-sidebar="colored"] {
                         }
                     }
                 }
-  
+
                 ul.sub-menu {
                     li {
                         a{
@@ -650,7 +650,7 @@ body[data-sidebar="colored"] {
                                 color: $white;
                             }
                         }
-                       
+
                     }
                 }
 
@@ -677,17 +677,17 @@ body[data-sidebar="colored"] {
                                     color: $sidebar-menu-item-active-color !important;
                                 }
 
-                                
+
                             }
                         }
                     }
-                    
-                    
+
+
                 }
             }
         }
     }
-    
+
     .mm-active {
         color: $white !important;
         > a{

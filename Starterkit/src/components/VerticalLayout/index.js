@@ -8,21 +8,19 @@ import {
   changeSidebarType,
   toggleRightSidebar,
   changeTopbarTheme,
-  changeLayoutWidth
+  changeLayoutWidth,
 } from "../../store/actions";
 import { pageTitle } from "../../constants";
 
 // Layout Related Components
-import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
-import Rightbar from "../CommonForBoth/Rightbar";
 
 class Layout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+      isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent),
     };
     this.toggleMenuCallback = this.toggleMenuCallback.bind(this);
     this.toggleRightSidebar = this.toggleRightSidebar.bind(this);
@@ -32,44 +30,36 @@ class Layout extends Component {
     this.props.toggleRightSidebar();
   }
 
-  capitalizeFirstLetter = string => {
+  capitalizeFirstLetter = (string) => {
     return string.charAt(1).toUpperCase() + string.slice(2);
   };
 
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
-      if(this.props.isPreloader === true)
-        {
-          document.getElementById('preloader').style.display = "block";
-          document.getElementById('status').style.display = "block";
+      if (this.props.isPreloader === true) {
+        document.getElementById("preloader").style.display = "block";
+        document.getElementById("status").style.display = "block";
 
-          setTimeout(function(){
-
-          document.getElementById('preloader').style.display = "none";
-          document.getElementById('status').style.display = "none";
-
-          }, 2500);
-        }
-        else
-        {
-          document.getElementById('preloader').style.display = "none";
-          document.getElementById('status').style.display = "none";
-        }
+        setTimeout(function () {
+          document.getElementById("preloader").style.display = "none";
+          document.getElementById("status").style.display = "none";
+        }, 2500);
+      } else {
+        document.getElementById("preloader").style.display = "none";
+        document.getElementById("status").style.display = "none";
+      }
     }
-}
+  }
 
   componentDidMount() {
-
-
     // Scroll Top to 0
     window.scrollTo(0, 0);
 
     let currentage = this.capitalizeFirstLetter(this.props.location.pathname);
 
-    currentage = currentage.replaceAll("-" , " ");
+    currentage = currentage.replaceAll("-", " ");
 
-    document.title =
-          currentage + " | " + pageTitle;
+    document.title = currentage + " | " + pageTitle;
 
     if (this.props.leftSideBarTheme) {
       this.props.changeSidebarTheme(this.props.leftSideBarTheme);
@@ -102,36 +92,31 @@ class Layout extends Component {
     return (
       <React.Fragment>
         <div id="preloader">
-            <div id="status">
-                <div className="spinner">
-                    <i className="ri-loader-line spin-icon"></i>
-                </div>
+          <div id="status">
+            <div className="spinner">
+              <i className="ri-loader-line spin-icon"></i>
             </div>
+          </div>
         </div>
-
-
-        <div id="layout-wrapper">
-        <Header toggleMenuCallback={this.toggleMenuCallback} toggleRightSidebar={this.toggleRightSidebar} />
+        <div>
           <Sidebar
             theme={this.props.leftSideBarTheme}
             type={this.props.leftSideBarType}
             isMobile={this.state.isMobile}
           />
-              <div className="main-content">
-                {this.props.children}
-                <Footer/>
-              </div>
+          <div className="main-content">
+            {this.props.children}
+            <Footer />
+          </div>
         </div>
-        <Rightbar />
       </React.Fragment>
     );
   }
 }
 
-
-const mapStatetoProps = state => {
+const mapStatetoProps = (state) => {
   return {
-    ...state.Layout
+    ...state.Layout,
   };
 };
 export default connect(mapStatetoProps, {
@@ -140,5 +125,5 @@ export default connect(mapStatetoProps, {
   changeSidebarType,
   toggleRightSidebar,
   changeTopbarTheme,
-  changeLayoutWidth
+  changeLayoutWidth,
 })(withRouter(Layout));
