@@ -1,6 +1,6 @@
 //import "react-calendar/dist/Calendar.css";
 import React, { Component } from "react";
-import { Container, Row, Card, CardBody } from "reactstrap";
+import { Container, Card, CardBody } from "reactstrap";
 import BarChart from "../../components/Charts/barchart";
 import "../../styles/style.css";
 import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
