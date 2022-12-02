@@ -1,24 +1,49 @@
 import { Card, CardBody } from "reactstrap";
 import styled from "styled-components";
+import { useState } from "react";
 
 const TimeOffSettings = () => {
+  const [expandedSettings, setExpandedSettings] = useState(true);
+
+  const handleExpandSettings = () => {
+    console.log("Expand Settings");
+    setExpandedSettings(!expandedSettings);
+  };
+
   return (
-    <Card>
-      <CardBody>
-        <TimeOffSettingsContainer>
-          <div>
-            <TimeOffSettingsHeader>Time Off Settings</TimeOffSettingsHeader>
-            <MinimizeButton>Minimize</MinimizeButton>
-          </div>
-          <SettingsContainer>
-            <SettingsSubheader>Holidays</SettingsSubheader>
-            <SettingsSubheader>Options</SettingsSubheader>
-          </SettingsContainer>
-        </TimeOffSettingsContainer>
-      </CardBody>
-    </Card>
+    <>
+      {!expandedSettings ? (
+        <ExpandSettingsCard>
+          <CardBody>
+            <button onClick={handleExpandSettings}>Time Off Settings</button>
+          </CardBody>
+        </ExpandSettingsCard>
+      ) : (
+        <Card>
+          <CardBody>
+            <TimeOffSettingsContainer>
+              <div>
+                <TimeOffSettingsHeader>Time Off Settings</TimeOffSettingsHeader>
+                <MinimizeButton onClick={handleExpandSettings}>
+                  Minimize
+                </MinimizeButton>
+              </div>
+              <SettingsContainer>
+                <SettingsSubheader>Holidays</SettingsSubheader>
+                <SettingsSubheader>Options</SettingsSubheader>
+              </SettingsContainer>
+            </TimeOffSettingsContainer>
+          </CardBody>
+        </Card>
+      )}
+    </>
   );
 };
+
+const ExpandSettingsCard = styled(Card)`
+  text-align: right;
+  //  float: right;
+`;
 
 const SettingsSubheader = styled.div`
   font-size: 16px;

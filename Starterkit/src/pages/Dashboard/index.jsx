@@ -1,6 +1,6 @@
 //import "react-calendar/dist/Calendar.css";
 import React, { Component } from "react";
-import { Container, Card, CardBody } from "reactstrap";
+import { Container, Row, Card, CardBody } from "reactstrap";
 import BarChart from "../../components/Charts/barchart";
 import "../../styles/style.css";
 import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
@@ -23,6 +23,11 @@ class Dashboard extends Component {
         <div className="page-content">
           <Container fluid>
             <TimeOffSettings />
+            <h1>DASHBOARD</h1>
+            <HowToSection>
+              To book time-off, expand the month to calendar view using , then
+              select the desired dates and hit to reflect your changes.
+            </HowToSection>
             <Card>
               <CardBody>
                 <BarChart />
@@ -35,6 +40,11 @@ class Dashboard extends Component {
     );
   }
 }
+
+const HowToSection = styled.div`
+  margin-bottom: 10px;
+  margin-top: 10px;
+`;
 
 const CalendarContainer = styled.div`
   display: grid;
