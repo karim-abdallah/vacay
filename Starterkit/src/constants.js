@@ -17,3 +17,7 @@ export const defaultMonths = [
 // Index for DateTime.getDay() method corresponding to week-ends
 // Monday = index 0, Sunday = index 6
 export const weekendDayIndex = [6, 0];
+
+export const minSettingsValueDays = 0;
+
+export const maxSettingsValueDays = 365;
