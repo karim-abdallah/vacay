@@ -3,11 +3,18 @@ import { isSameDay } from "../../helpers/vacay_helpers";
 
 const INIT_STATE = {
   currentMonth: mockApiResponse.currentMonth,
-  currentBalanceDays: mockApiResponse.currentBalanceDays,
   bookedPTO: mockApiResponse.bookedPTO,
   holidays: mockApiResponse.holidays,
-  accrualRate: mockApiResponse.accrualRate,
-  accrualCap: mockApiResponse.accrualCap,
+  PTOSettings: {
+    annualAllowanceDays: mockApiResponse.PTOSettings.annualAllowanceDays,
+    accrualCapDays: mockApiResponse.PTOSettings.accrualCapDays,
+    currentBalanceDays: mockApiResponse.PTOSettings.currentBalanceDays,
+  },
+  VacationSettings: {
+    annualAllowanceDays: mockApiResponse.VacationSettings.annualAllowanceDays,
+    accrualCapDays: mockApiResponse.VacationSettings.accrualCapDays,
+    currentBalanceDays: mockApiResponse.VacationSettings.currentBalanceDays,
+  },
   selectedDates: [],
   datesToUnbook: [],
 };
@@ -68,6 +75,22 @@ const Dashboard = (state = INIT_STATE, action) => {
           (x) => !isSameDay(x, action.payload)
         ),
       };
+    case "settings/update":
+      console.log(action.payload);
+      return {
+        ...state,
+        PTOSettings: {
+          annualAllowanceDays: action.payload.ptoAllowance,
+          accrualCapDays: action.payload.ptoCap,
+          currentBalanceDays: action.payload.ptoBalance,
+        },
+        VacationSettings: {
+          annualAllowanceDays: action.payload.vacationAllowance,
+          accrualCapDays: action.payload.vacationCap,
+          currentBalanceDays: action.payload.vacationBalance,
+        },
+      };
+
     default:
       return state;
   }

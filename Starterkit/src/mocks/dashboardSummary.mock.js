@@ -74,8 +74,16 @@ export const mockApiResponse = {
       "2023-07-04",
     ].map((x) => new Date(x)),
   },
-  accrualRate: 1.5,
-  accrualCap: 10,
+  PTOSettings: {
+    annualAllowanceDays: 9,
+    accrualCapDays: 5,
+    currentBalanceDays: 2,
+  },
+  VacationSettings: {
+    annualAllowanceDays: 9,
+    accrualCapDays: 5,
+    currentBalanceDays: 2,
+  },
 };
 
 // These are user-input for selected PTO on the reactive app
