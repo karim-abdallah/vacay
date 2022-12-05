@@ -74,6 +74,65 @@ export const mockApiResponse = {
       "2023-07-04",
     ].map((x) => new Date(x)),
   },
+  holidaysV2: [
+    // Need to set the time to 12 because otherwise the calendars
+    // evaluate this in UTC time, not US timezone...
+    {
+      name: "Labor Day",
+      date: new Date("2022-09-03T12:00:00"),
+      active: true,
+    },
+    {
+      name: "Karim's Bday",
+      date: new Date("2022-10-26T12:00:00"),
+      active: true,
+    },
+    {
+      name: "Thanksgiving Day",
+      date: new Date("2022-11-25T12:00:00"),
+      active: true,
+    },
+    {
+      name: "Day After Thanksgiving",
+      date: new Date("2022-11-26T12:00:00"),
+      active: true,
+    },
+    {
+      name: "Christmas",
+      date: new Date("2022-12-25T12:00:00"),
+      active: true,
+    },
+    {
+      name: "New Year's Eve",
+      date: new Date("2022-12-31T12:00:00"),
+      active: true,
+    },
+    {
+      name: "New Year's Day",
+      date: new Date("2023-01-01T12:00:00"),
+      active: true,
+    },
+    {
+      name: "Pierre's Birthday",
+      date: new Date("2023-02-21T12:00:00"),
+      active: true,
+    },
+    {
+      name: "MLK Day",
+      date: new Date("2023-01-25T12:00:00"),
+      active: true,
+    },
+    {
+      name: "Memorial Day",
+      date: new Date("2023-05-25T12:00:00"),
+      active: true,
+    },
+    {
+      name: "Independence Day",
+      date: new Date("2023-07-04T12:00:00"),
+      active: true,
+    },
+  ],
   PTOSettings: {
     annualAllowanceDays: 9,
     accrualCapDays: 5,

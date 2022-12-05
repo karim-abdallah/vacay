@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import {
   selectBookedPTO,
-  selectHolidays,
+  selectHolidaysDates,
   getSelectedDates,
   getDatesToUnbook,
 } from "../../store/dashboard/selector";
@@ -26,7 +26,7 @@ function MiniCalendar(props) {
 
   // Redux store
   const bookedDates = useSelector(selectBookedPTO);
-  const holidays = useSelector(selectHolidays);
+  const holidays = useSelector(selectHolidaysDates);
   const selectedDates = useSelector(getSelectedDates);
   const datesToUnbook = useSelector(getDatesToUnbook);
 

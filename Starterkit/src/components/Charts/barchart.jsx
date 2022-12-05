@@ -78,7 +78,7 @@ const generateDashboardData = (
     }
   });
 
-  holidays.dates.forEach((element, index) => {
+  holidays.forEach((element, index) => {
     const monthLabel = monthYearFormatter(element);
     holidaysPerMonth[monthLabel] = holidaysPerMonth[monthLabel] + 1;
   });
@@ -162,7 +162,7 @@ const BarChart = () => {
     dashboardData.currentMonth,
     dashboardData.currentBalanceDays,
     dashboardData.bookedPTO,
-    dashboardData.holidays,
+    dashboardData.holidaysV2,
     dashboardData.accrualRate,
     dashboardData.accrualCap,
     selectedDates,
