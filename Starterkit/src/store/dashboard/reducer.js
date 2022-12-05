@@ -4,7 +4,6 @@ import { isSameDay } from "../../helpers/vacay_helpers";
 const INIT_STATE = {
   currentMonth: mockApiResponse.currentMonth,
   bookedPTO: mockApiResponse.bookedPTO,
-  holidays: mockApiResponse.holidays,
   holidaysV2: mockApiResponse.holidaysV2,
   PTOSettings: {
     annualAllowanceDays: mockApiResponse.PTOSettings.annualAllowanceDays,
