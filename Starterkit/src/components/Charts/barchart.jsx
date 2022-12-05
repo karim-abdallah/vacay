@@ -162,7 +162,7 @@ const BarChart = () => {
     dashboardData.currentMonth,
     dashboardData.currentBalanceDays,
     dashboardData.bookedPTO,
-    dashboardData.holidaysV2,
+    dashboardData.holidays,
     dashboardData.accrualRate,
     dashboardData.accrualCap,
     selectedDates,

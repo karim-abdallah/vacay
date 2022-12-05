@@ -59,7 +59,7 @@ export const mockApiResponse = {
       "2023-08-08",
     ].map((x) => new Date(x)),
   },
-  holidaysV2: [
+  holidays: [
     // Need to set the time to 12 because otherwise the calendars
     // evaluate this in UTC time, not US timezone...
     {
