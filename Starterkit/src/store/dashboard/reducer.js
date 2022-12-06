@@ -76,7 +76,6 @@ const Dashboard = (state = INIT_STATE, action) => {
         ),
       };
     case "settings/update":
-      console.log(action.payload);
       return {
         ...state,
         PTOSettings: {
@@ -89,6 +88,13 @@ const Dashboard = (state = INIT_STATE, action) => {
           accrualCapDays: action.payload.vacationCap,
           currentBalanceDays: action.payload.vacationBalance,
         },
+      };
+    case "holidays/update":
+      console.log("updating holiday");
+      // Takes in all active holidays
+      // Should find the one that isn't in the list, and set it to false. Otherwise set them all to true
+      return {
+        ...state,
       };
 
     default:

@@ -36,6 +36,10 @@ export const selectHolidaysDates = (state) => {
   return state.Dashboard.holidays.filter((x) => x.active).map((x) => x.date);
 };
 
+export const getHolidays = (state) => {
+  return state.Dashboard.holidays;
+};
+
 export const getPTOSettings = (state) => {
   const settings = {
     currentMonth: state.Dashboard.currentMonth,

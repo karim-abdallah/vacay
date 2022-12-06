@@ -78,11 +78,6 @@ export const mockApiResponse = {
       active: true,
     },
     {
-      name: "Day After Thanksgiving",
-      date: new Date("2022-11-26T12:00:00"),
-      active: true,
-    },
-    {
       name: "Christmas",
       date: new Date("2022-12-25T12:00:00"),
       active: true,

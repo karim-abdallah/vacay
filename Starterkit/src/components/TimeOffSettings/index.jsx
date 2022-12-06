@@ -1,42 +1,36 @@
 import { Card, CardBody } from "reactstrap";
 import { useDispatch } from "react-redux";
-import { Form, InputNumber } from "antd";
+import { Form, InputNumber, Checkbox } from "antd";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { getPTOSettings } from "../../store/dashboard/selector";
+import { getPTOSettings, getHolidays } from "../../store/dashboard/selector";
 import { minSettingsValueDays, maxSettingsValueDays } from "../../constants";
 
 function HolidayCheckbox(props) {
-  return (
-    <div>
-      <input type="checkbox" id={props.holiday} name={props.holiday} />
-      <label for={props.holiday}>{props.holiday}</label>
-    </div>
-  );
+  return <Checkbox value={props.holiday}>{props.holiday}</Checkbox>;
 }
 
 const HolidaysPane = () => {
-  const availableHolidays = [
-    "New Year's Day",
-    "Labor Day",
-    "Independence Day",
-    "Martin Luther King Day",
-    "Thanksgiving Day",
-    "Juneteenth",
-    "Memorial Day",
-    "Christmas Day",
-    "Veterans Day",
-  ];
+  const dispatch = useDispatch();
+  const holidays = useSelector(getHolidays);
 
-  const holidayCheckboxes = availableHolidays.map((item, index) => {
-    return <HolidayCheckbox holiday={item} />;
+  const holidayCheckboxes = holidays.map((item, index) => {
+    return <HolidayCheckbox holiday={item.name} />;
   });
+
+  const checkboxHandler = (checkedValues) => {
+    console.log(checkedValues);
+    dispatch({ type: "holidays/update", payload: checkedValues });
+  };
 
   return (
     <PaneContainer>
       <SettingsSubheader>Holidays</SettingsSubheader>
-      <HolidaysContainer>
+      <HolidaysContainer
+        defaultValue={holidays.filter((x) => x.active).map((x) => x.name)}
+        onChange={checkboxHandler}
+      >
         {holidayCheckboxes}
         <button>Add Holiday</button>
       </HolidaysContainer>
@@ -152,7 +146,7 @@ const PaneContainer = styled.div`
   display: grid;
 `;
 
-const HolidaysContainer = styled.div`
+const HolidaysContainer = styled(Checkbox.Group)`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 `;
