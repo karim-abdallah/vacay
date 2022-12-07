@@ -90,11 +90,19 @@ const Dashboard = (state = INIT_STATE, action) => {
         },
       };
     case "holidays/update":
-      console.log("updating holiday");
-      // Takes in all active holidays
-      // Should find the one that isn't in the list, and set it to false. Otherwise set them all to true
+      // Takes in list of active holidays by name. Ex:
+      // ['Labor Day', 'New Year's Day']
+
       return {
         ...state,
+        holidays: state.holidays.map((x) => {
+          if (action.payload.find((day) => day === x.name)) {
+            x.active = true;
+          } else {
+            x.active = false;
+          }
+          return x;
+        }),
       };
 
     default:

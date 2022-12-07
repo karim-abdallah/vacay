@@ -100,7 +100,7 @@ export const mockApiResponse = {
     {
       name: "MLK Day",
       date: new Date("2023-01-25T12:00:00"),
-      active: true,
+      active: false,
     },
     {
       name: "Memorial Day",

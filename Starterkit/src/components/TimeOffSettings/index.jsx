@@ -20,7 +20,6 @@ const HolidaysPane = () => {
   });
 
   const checkboxHandler = (checkedValues) => {
-    console.log(checkedValues);
     dispatch({ type: "holidays/update", payload: checkedValues });
   };
 
