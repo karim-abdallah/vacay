@@ -49,8 +49,7 @@ const HowToSection = styled.div`
 const CalendarContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  column-gap: 5px;
-  row-gap: 5px;
+  column-gap: 20px;
 `;
 
 export default Dashboard;

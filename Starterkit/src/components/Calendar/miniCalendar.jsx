@@ -1,4 +1,5 @@
 import Calendar from "react-calendar";
+import { Card } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import {
@@ -8,6 +9,7 @@ import {
   getDatesToUnbook,
 } from "../../store/dashboard/selector";
 import {
+  monthYearFormatter,
   isSameDay,
   convertDateRangeToDiscreteDates,
   filterOutDuplicates,
@@ -145,17 +147,17 @@ function MiniCalendar(props) {
 
   return (
     <CalendarContainer>
+      <CalendarMonthTitle>
+        {monthYearFormatter(props.startDate)}
+      </CalendarMonthTitle>
       <Calendar
         activeStartDate={props.startDate}
         onChange={handleDateSelection}
         defaultView="month"
         showNeighboringMonth={null}
         tileClassName={tileFormatting}
+        showNavigation={false}
         selectRange={true}
-        prevLabel={null}
-        prev2Label={null}
-        next2Label={null}
-        nextLabel={null}
         value={mouseSelection}
       />
       {toggleButtons()}
@@ -163,7 +165,12 @@ function MiniCalendar(props) {
   );
 }
 
-const CalendarContainer = styled.div`
+const CalendarMonthTitle = styled.p`
+  font-size: 18px;
+  text-align: center;
+`;
+
+const CalendarContainer = styled(Card)`
   display: flex;
   flex-direction: column;
 `;
