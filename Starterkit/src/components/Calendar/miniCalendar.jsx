@@ -24,6 +24,7 @@ function MiniCalendar(props) {
   const [selectedDatesLocal, setSelectedDatesLocal] = useState([]);
   const [showBookButton, setShowBookButton] = useState(false);
   const [showUnbookButton, setShowUnbookButton] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [mouseSelection, setMouseSelection] = useState();
 
   // Redux store
@@ -58,7 +59,7 @@ function MiniCalendar(props) {
       return unbookButton;
     }
 
-    return null;
+    return <div> </div>;
   };
 
   const tileFormatting = ({ date, view }) => {
@@ -128,6 +129,10 @@ function MiniCalendar(props) {
     setMouseSelection([]);
   };
 
+  const handleShowCalendar = () => {
+    setShowCalendar(!showCalendar);
+  };
+
   const handleBookNow = () => {
     hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
@@ -147,27 +152,45 @@ function MiniCalendar(props) {
 
   return (
     <CalendarContainer>
-      <CalendarMonthTitle>
-        {monthYearFormatter(props.startDate)}
-      </CalendarMonthTitle>
-      <Calendar
-        activeStartDate={props.startDate}
-        onChange={handleDateSelection}
-        defaultView="month"
-        showNeighboringMonth={null}
-        tileClassName={tileFormatting}
-        showNavigation={false}
-        selectRange={true}
-        value={mouseSelection}
-      />
-      {toggleButtons()}
+      <div>
+        <CalendarMonthTitle>
+          {monthYearFormatter(props.startDate)}{" "}
+          <ToggleButton onClick={handleShowCalendar}>
+            {showCalendar ? "x" : "o"}
+          </ToggleButton>
+        </CalendarMonthTitle>
+      </div>
+      {showCalendar ? (
+        <>
+          <Calendar
+            activeStartDate={props.startDate}
+            onChange={handleDateSelection}
+            defaultView="month"
+            showNeighboringMonth={null}
+            tileClassName={tileFormatting}
+            showNavigation={false}
+            selectRange={true}
+            value={mouseSelection}
+          />
+          <BookButtonContainer>{toggleButtons()}</BookButtonContainer>
+        </>
+      ) : null}
     </CalendarContainer>
   );
 }
 
+const BookButtonContainer = styled.div`
+  text-align: center;
+`;
+
+const ToggleButton = styled.button`
+  float: right;
+`;
+
 const CalendarMonthTitle = styled.p`
   font-size: 18px;
   text-align: center;
+  white-space: nowrap;
 `;
 
 const CalendarContainer = styled(Card)`
