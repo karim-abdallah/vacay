@@ -1,4 +1,5 @@
 import Calendar from "react-calendar";
+import { Card } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import {
@@ -8,6 +9,7 @@ import {
   getDatesToUnbook,
 } from "../../store/dashboard/selector";
 import {
+  monthYearFormatter,
   isSameDay,
   convertDateRangeToDiscreteDates,
   filterOutDuplicates,
@@ -22,6 +24,7 @@ function MiniCalendar(props) {
   const [selectedDatesLocal, setSelectedDatesLocal] = useState([]);
   const [showBookButton, setShowBookButton] = useState(false);
   const [showUnbookButton, setShowUnbookButton] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [mouseSelection, setMouseSelection] = useState();
 
   // Redux store
@@ -56,7 +59,46 @@ function MiniCalendar(props) {
       return unbookButton;
     }
 
-    return null;
+    return <div> </div>;
+  };
+
+  const datesBullets = (currentMonth) => {
+    // need to return an array of sorted objects determined on whether they are
+    // vacation or pto
+    // 1. Create PTO array { date(day) , type }
+    // 2. create vacation array
+    // 3. combine both arrays
+    // 4. sort using date value
+    // 5. map: if {type -> return typeBullet(date)} else the other
+    // filter out days that are inside our own month
+    const ptoArray = bookedDates
+      .filter((x) => x.getMonth() === currentMonth)
+      .map((x) => {
+        return { date: x.getDate(), kind: "PTO" };
+      });
+    const holidaysArray = holidays
+      .filter((x) => x.getMonth() === currentMonth)
+      .map((x) => {
+        return { date: x.getDate(), kind: "Holiday" };
+      });
+
+    // 3. combine both arrays
+    const combinedArray = ptoArray.concat(holidaysArray);
+
+    // 4. sort using date value
+    const sortedArray = combinedArray.sort((a, b) => a.date - b.date);
+    console.log(`${currentMonth}`);
+    console.log(sortedArray);
+
+    return sortedArray.map((x) => {
+      if (x.kind === "PTO") {
+        return <BookedPTOBullet>{x.date}</BookedPTOBullet>;
+      } else if (x.kind === "Holiday") {
+        return <HolidayBullet>{x.date}</HolidayBullet>;
+      } else {
+        return null;
+      }
+    });
   };
 
   const tileFormatting = ({ date, view }) => {
@@ -126,6 +168,10 @@ function MiniCalendar(props) {
     setMouseSelection([]);
   };
 
+  const handleShowCalendar = () => {
+    setShowCalendar(!showCalendar);
+  };
+
   const handleBookNow = () => {
     hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
@@ -145,25 +191,75 @@ function MiniCalendar(props) {
 
   return (
     <CalendarContainer>
-      <Calendar
-        activeStartDate={props.startDate}
-        onChange={handleDateSelection}
-        defaultView="month"
-        showNeighboringMonth={null}
-        tileClassName={tileFormatting}
-        selectRange={true}
-        prevLabel={null}
-        prev2Label={null}
-        next2Label={null}
-        nextLabel={null}
-        value={mouseSelection}
-      />
-      {toggleButtons()}
+      <div>
+        <CalendarMonthTitle>
+          {monthYearFormatter(props.startDate)}{" "}
+          <ToggleButton onClick={handleShowCalendar}>
+            {showCalendar ? "x" : "o"}
+          </ToggleButton>
+        </CalendarMonthTitle>
+      </div>
+      {showCalendar ? (
+        <>
+          <Calendar
+            activeStartDate={props.startDate}
+            onChange={handleDateSelection}
+            defaultView="month"
+            showNeighboringMonth={null}
+            tileClassName={tileFormatting}
+            showNavigation={false}
+            selectRange={true}
+            value={mouseSelection}
+          />
+          <BookButtonContainer>{toggleButtons()}</BookButtonContainer>
+        </>
+      ) : (
+        <DatesContainer>
+          {datesBullets(props.startDate.getMonth())}
+        </DatesContainer>
+      )}
     </CalendarContainer>
   );
 }
 
-const CalendarContainer = styled.div`
+const DatesContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const HolidayBullet = styled.p`
+  justify-content: center;
+  padding: 2px 4px 2px;
+  margin: 0px 3px 10px;
+  background-color: #ff0099;
+  color: white;
+  border-radius: 25px;
+`;
+
+const BookedPTOBullet = styled.p`
+  justify-content: center;
+  padding: 2px 4px 2px;
+  margin: 0px 3px 10px;
+  background-color: #6a48ff;
+  color: white;
+  border-radius: 25px;
+`;
+
+const BookButtonContainer = styled.div`
+  text-align: center;
+`;
+
+const ToggleButton = styled.button`
+  float: right;
+`;
+
+const CalendarMonthTitle = styled.p`
+  font-size: 18px;
+  text-align: center;
+  white-space: nowrap;
+`;
+
+const CalendarContainer = styled(Card)`
   display: flex;
   flex-direction: column;
 `;
