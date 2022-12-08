@@ -62,6 +62,45 @@ function MiniCalendar(props) {
     return <div> </div>;
   };
 
+  const datesBullets = (currentMonth) => {
+    // need to return an array of sorted objects determined on whether they are
+    // vacation or pto
+    // 1. Create PTO array { date(day) , type }
+    // 2. create vacation array
+    // 3. combine both arrays
+    // 4. sort using date value
+    // 5. map: if {type -> return typeBullet(date)} else the other
+    // filter out days that are inside our own month
+    const ptoArray = bookedDates
+      .filter((x) => x.getMonth() === currentMonth)
+      .map((x) => {
+        return { date: x.getDate(), kind: "PTO" };
+      });
+    const holidaysArray = holidays
+      .filter((x) => x.getMonth() === currentMonth)
+      .map((x) => {
+        return { date: x.getDate(), kind: "Holiday" };
+      });
+
+    // 3. combine both arrays
+    const combinedArray = ptoArray.concat(holidaysArray);
+
+    // 4. sort using date value
+    const sortedArray = combinedArray.sort((a, b) => a.date - b.date);
+    console.log(`${currentMonth}`);
+    console.log(sortedArray);
+
+    return sortedArray.map((x) => {
+      if (x.kind === "PTO") {
+        return <BookedPTOBullet>{x.date}</BookedPTOBullet>;
+      } else if (x.kind === "Holiday") {
+        return <HolidayBullet>{x.date}</HolidayBullet>;
+      } else {
+        return null;
+      }
+    });
+  };
+
   const tileFormatting = ({ date, view }) => {
     // Add class to tiles in month view only
     if (view === "month") {
@@ -174,10 +213,37 @@ function MiniCalendar(props) {
           />
           <BookButtonContainer>{toggleButtons()}</BookButtonContainer>
         </>
-      ) : null}
+      ) : (
+        <DatesContainer>
+          {datesBullets(props.startDate.getMonth())}
+        </DatesContainer>
+      )}
     </CalendarContainer>
   );
 }
+
+const DatesContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const HolidayBullet = styled.p`
+  justify-content: center;
+  padding: 2px 4px 2px;
+  margin: 0px 3px 10px;
+  background-color: #ff0099;
+  color: white;
+  border-radius: 25px;
+`;
+
+const BookedPTOBullet = styled.p`
+  justify-content: center;
+  padding: 2px 4px 2px;
+  margin: 0px 3px 10px;
+  background-color: #6a48ff;
+  color: white;
+  border-radius: 25px;
+`;
 
 const BookButtonContainer = styled.div`
   text-align: center;
