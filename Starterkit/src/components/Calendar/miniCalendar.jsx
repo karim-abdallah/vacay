@@ -62,6 +62,20 @@ function MiniCalendar(props) {
     return <div> </div>;
   };
 
+  const cancelSelection = () => {
+    // remove global selected dates
+    selectedDatesLocal.forEach((date) => {
+      dispatch({ type: "selectedDates/delete", payload: date });
+      dispatch({ type: "datesToUnbook/delete", payload: date });
+    });
+    // clear local selection
+    setSelectedDatesLocal([]);
+    setMouseSelection([]);
+    // hide buttons
+    hideButtons();
+    // cancel mouse selection
+  };
+
   const datesBullets = (currentMonth) => {
     // need to return an array of sorted objects determined on whether they are
     // vacation or pto
@@ -170,6 +184,7 @@ function MiniCalendar(props) {
 
   const handleShowCalendar = () => {
     setShowCalendar(!showCalendar);
+    cancelSelection();
   };
 
   const handleBookNow = () => {
