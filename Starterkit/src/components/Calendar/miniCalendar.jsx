@@ -8,6 +8,7 @@ import {
   getSelectedDates,
   getDatesToUnbook,
 } from "../../store/dashboard/selector";
+import { weekendDayIndex } from "../../constants";
 import {
   monthYearFormatter,
   isSameDay,
@@ -77,16 +78,16 @@ function MiniCalendar(props) {
   };
 
   const datesBullets = (currentMonth) => {
-    // need to return an array of sorted objects determined on whether they are
-    // vacation or pto
     // 1. Create PTO array { date(day) , type }
     // 2. create vacation array
     // 3. combine both arrays
     // 4. sort using date value
     // 5. map: if {type -> return typeBullet(date)} else the other
-    // filter out days that are inside our own month
     const ptoArray = bookedDates
-      .filter((x) => x.getMonth() === currentMonth)
+      .filter(
+        (x) =>
+          x.getMonth() === currentMonth && !weekendDayIndex.includes(x.getDay())
+      )
       .map((x) => {
         return { date: x.getDate(), kind: "PTO" };
       });
