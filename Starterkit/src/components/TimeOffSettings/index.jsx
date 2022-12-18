@@ -31,7 +31,6 @@ const HolidaysPane = () => {
         onChange={checkboxHandler}
       >
         {holidayCheckboxes}
-        <button>Add Holiday</button>
       </HolidaysContainer>
     </PaneContainer>
   );
@@ -100,7 +99,7 @@ const OptionPaneWithForm = () => {
 };
 
 const TimeOffSettings = () => {
-  const [expandedSettings, setExpandedSettings] = useState(false);
+  const [expandedSettings, setExpandedSettings] = useState(true);
 
   const handleExpandSettings = () => {
     setExpandedSettings(!expandedSettings);

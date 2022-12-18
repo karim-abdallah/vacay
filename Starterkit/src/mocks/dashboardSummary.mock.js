@@ -2,6 +2,8 @@
 Assumes ordered list of months including all relevant data
 */
 
+import { monthYearFormatter } from "../helpers/vacay_helpers";
+
 export const mockData = {
   labels: [
     "September 2022",
@@ -39,8 +41,15 @@ export const mockData = {
   ],
 };
 
+export const firstDayOfCurrentMonth = () => {
+    const date = new Date();
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+
+    return firstDay;
+}
+
 export const mockApiResponse = {
-  currentMonth: "September 2022",
+    currentMonth: monthYearFormatter(firstDayOfCurrentMonth()),
   currentBalanceDays: 3,
   bookedPTO: {
     dates: [
@@ -63,27 +72,22 @@ export const mockApiResponse = {
     // evaluate this in UTC time, not US timezone...
     {
       name: "Labor Day",
-      date: new Date("2022-09-03T12:00:00"),
+      date: new Date("2023-09-03T12:00:00"),
       active: false,
     },
     {
-      name: "Karim's Bday",
-      date: new Date("2022-10-26T12:00:00"),
+      name: "Juneteenth",
+      date: new Date("2023-06-10T12:00:00"),
       active: true,
     },
     {
       name: "Thanksgiving Day",
-      date: new Date("2022-11-25T12:00:00"),
+      date: new Date("2023-11-25T12:00:00"),
       active: true,
     },
     {
-      name: "Christmas",
-      date: new Date("2022-12-25T12:00:00"),
-      active: true,
-    },
-    {
-      name: "New Year's Eve",
-      date: new Date("2022-12-31T12:00:00"),
+      name: "Christmas Day",
+      date: new Date("2023-12-25T12:00:00"),
       active: true,
     },
     {
@@ -92,8 +96,8 @@ export const mockApiResponse = {
       active: true,
     },
     {
-      name: "Pierre's Birthday",
-      date: new Date("2023-02-21T12:00:00"),
+      name: "Veteran's Day",
+      date: new Date("2023-11-10T12:00:00"),
       active: true,
     },
     {
