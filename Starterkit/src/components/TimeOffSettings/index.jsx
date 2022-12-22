@@ -150,11 +150,6 @@ const OptionsContainer = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
 `;
 
-const ExpandSettingsCard = styled(Card)`
-  text-align: right;
-  //  float: right;
-`;
-
 const SettingsSubheader = styled.div`
   font-size: 16px;
   border-bottom: solid;
