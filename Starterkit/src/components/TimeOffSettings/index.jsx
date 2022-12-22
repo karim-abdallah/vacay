@@ -166,8 +166,16 @@ const SettingsSubheader = styled.div`
 
 const MinimizeButton = styled.button`
   float: right;
-  font-size: 14px;
+  font-size: 15px;
   text-align: right;
+  border-radius: 10px;
+padding-top: 3px;
+padding-bottom: 3px;
+padding-right: 15px;
+padding-left: 15px;
+border-width: 0px;
+background-color: #F4F7FE;
+color: #2B3674;
 `;
 
 const TimeOffSettingsContainer = styled.div`
