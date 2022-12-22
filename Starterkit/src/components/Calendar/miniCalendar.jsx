@@ -18,6 +18,7 @@ import {
   isSelectionAlreadySelected,
   isSelectionAlreadyBooked,
 } from "../../helpers/vacay_helpers";
+import { StyledBookButton, StyledUnbookButton } from "./buttons.jsx";
 import styled from "styled-components";
 
 function MiniCalendar(props) {
@@ -51,8 +52,8 @@ function MiniCalendar(props) {
   };
 
   const toggleButtons = () => {
-    const bookButton = <button onClick={handleBookNow}>Book Now</button>;
-    const unbookButton = <button onClick={handleUnbook}>Unbook</button>;
+      const bookButton = <StyledBookButton onClick={handleBookNow}>Book</StyledBookButton>;
+      const unbookButton = <StyledUnbookButton onClick={handleUnbook}>Unbook</StyledUnbookButton>;
 
     if (showBookButton) {
       return bookButton;
