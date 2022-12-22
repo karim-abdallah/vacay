@@ -21,6 +21,7 @@ import {
 import { StyledBookButton, StyledUnbookButton } from "./buttons.jsx";
 import styled from "styled-components";
 import expand from "../../assets/images/expand.png";
+import minimize from "../../assets/images/minimize.png";
 
 function MiniCalendar(props) {
   // Local variables
@@ -213,7 +214,7 @@ function MiniCalendar(props) {
         <CalendarMonthTitle>
             {monthYearFormatter(props.startDate)}{" "}
           <ToggleButton onClick={handleShowCalendar}>
-            {showCalendar ? "x" : <StyledButtonIcon src={expand} alt="o" />}
+            {showCalendar ? <StyledButtonIcon src={minimize} alt="x" /> : <StyledButtonIcon src={expand} alt="o" />}
           </ToggleButton>
         </CalendarMonthTitle>
       </div>
@@ -240,7 +241,7 @@ function MiniCalendar(props) {
   );
 }
 
-const StyledButtonIcon = styled.img`
+export const StyledButtonIcon = styled.img`
 height: 13px;
 `;
 

@@ -6,8 +6,9 @@ import "../../styles/style.css";
 import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
 import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
 import styled from "styled-components";
-import MiniCalendar from "../../components/Calendar/miniCalendar";
+import MiniCalendar, {StyledButtonIcon} from "../../components/Calendar/miniCalendar";
 import TimeOffSettings from "../../components/TimeOffSettings/index";
+import expand from "../../assets/images/expand.png";
 
 class Dashboard extends Component {
   render() {
@@ -25,7 +26,7 @@ class Dashboard extends Component {
             <TimeOffSettings />
             <h2>Dashboard</h2>
             <HowToSection>
-              To book time-off, expand the month to calendar view using , then
+              To book time-off, expand the month to calendar view using <StyledButtonIcon src={expand} alt="x"/>, then
               select the desired dates and hit <MockStyledButton>Book</MockStyledButton> to reflect your changes.
             </HowToSection>
             <Card>
