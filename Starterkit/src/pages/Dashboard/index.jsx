@@ -23,7 +23,7 @@ class Dashboard extends Component {
         <div className="page-content">
           <Container fluid>
             <TimeOffSettings />
-            <h1>Dashboard</h1>
+            <h2>Dashboard</h2>
             <HowToSection>
               To book time-off, expand the month to calendar view using , then
               select the desired dates and hit <MockStyledButton>Book</MockStyledButton> to reflect your changes.

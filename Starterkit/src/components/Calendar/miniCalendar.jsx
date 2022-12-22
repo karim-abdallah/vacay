@@ -20,6 +20,7 @@ import {
 } from "../../helpers/vacay_helpers";
 import { StyledBookButton, StyledUnbookButton } from "./buttons.jsx";
 import styled from "styled-components";
+import expand from "../../assets/images/expand.png";
 
 function MiniCalendar(props) {
   // Local variables
@@ -212,7 +213,7 @@ function MiniCalendar(props) {
         <CalendarMonthTitle>
             {monthYearFormatter(props.startDate)}{" "}
           <ToggleButton onClick={handleShowCalendar}>
-            {showCalendar ? "x" : "o"}
+            {showCalendar ? "x" : <StyledButtonIcon src={expand} alt="o" />}
           </ToggleButton>
         </CalendarMonthTitle>
       </div>
@@ -238,6 +239,10 @@ function MiniCalendar(props) {
     </CalendarContainer>
   );
 }
+
+const StyledButtonIcon = styled.img`
+height: 13px;
+`;
 
 const DatesContainer = styled.div`
   display: flex;
@@ -269,10 +274,9 @@ const BookButtonContainer = styled.div`
 const ToggleButton = styled.button`
   float: right;
   border-radius: 10px;
+text-align: center;
 margin-right: 10px;
 border-width: 0px;
-height: 32.23px;
-width: 32.23px;
 padding-right: 8px;
 padding-left: 8px;
 background-color: #F4F7FE;
