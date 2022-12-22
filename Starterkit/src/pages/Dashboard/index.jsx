@@ -6,7 +6,9 @@ import "../../styles/style.css";
 import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
 import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
 import styled from "styled-components";
-import MiniCalendar, {StyledButtonIcon} from "../../components/Calendar/miniCalendar";
+import MiniCalendar, {
+  StyledButtonIcon,
+} from "../../components/Calendar/miniCalendar";
 import TimeOffSettings from "../../components/TimeOffSettings/index";
 import expand from "../../assets/images/expand.png";
 
@@ -26,8 +28,10 @@ class Dashboard extends Component {
             <TimeOffSettings />
             <h2>Dashboard</h2>
             <HowToSection>
-              To book time-off, expand the month to calendar view using <StyledButtonIcon src={expand} alt="x"/>, then
-              select the desired dates and hit <MockStyledButton>Book</MockStyledButton> to reflect your changes.
+              To book time-off, expand the month to calendar view using{" "}
+              <StyledButtonIcon src={expand} alt="x" />, then select the desired
+              dates and hit <MockStyledButton>Book</MockStyledButton> to reflect
+              your changes.
             </HowToSection>
             <Card>
               <CardBody>
@@ -43,15 +47,15 @@ class Dashboard extends Component {
 }
 
 const MockStyledButton = styled.button`
-margin-bottom: 10px;
-margin-left: 3px;
-margin-right: 3px;
-color: #FFFFFF;
-border-radius: 25px;
-border-width: 0px;
-width: 80px;
-background-color: #6A48FF;
-font-size: 13px;
+  margin-bottom: 10px;
+  margin-left: 3px;
+  margin-right: 3px;
+  color: #ffffff;
+  border-radius: 25px;
+  border-width: 0px;
+  width: 80px;
+  background-color: #6a48ff;
+  font-size: 13px;
 `;
 
 const HowToSection = styled.div`

@@ -54,8 +54,12 @@ function MiniCalendar(props) {
   };
 
   const toggleButtons = () => {
-      const bookButton = <StyledBookButton onClick={handleBookNow}>Book</StyledBookButton>;
-      const unbookButton = <StyledUnbookButton onClick={handleUnbook}>Unbook</StyledUnbookButton>;
+    const bookButton = (
+      <StyledBookButton onClick={handleBookNow}>Book</StyledBookButton>
+    );
+    const unbookButton = (
+      <StyledUnbookButton onClick={handleUnbook}>Unbook</StyledUnbookButton>
+    );
 
     if (showBookButton) {
       return bookButton;
@@ -212,9 +216,13 @@ function MiniCalendar(props) {
     <CalendarContainer>
       <div>
         <CalendarMonthTitle>
-            {monthYearFormatter(props.startDate)}{" "}
+          {monthYearFormatter(props.startDate)}{" "}
           <ToggleButton onClick={handleShowCalendar}>
-            {showCalendar ? <StyledButtonIcon src={minimize} alt="x" /> : <StyledButtonIcon src={expand} alt="o" />}
+            {showCalendar ? (
+              <StyledButtonIcon src={minimize} alt="x" />
+            ) : (
+              <StyledButtonIcon src={expand} alt="o" />
+            )}
           </ToggleButton>
         </CalendarMonthTitle>
       </div>
@@ -242,7 +250,7 @@ function MiniCalendar(props) {
 }
 
 export const StyledButtonIcon = styled.img`
-height: 13px;
+  height: 13px;
 `;
 
 const DatesContainer = styled.div`
@@ -275,13 +283,13 @@ const BookButtonContainer = styled.div`
 const ToggleButton = styled.button`
   float: right;
   border-radius: 10px;
-text-align: center;
-margin-right: 10px;
-border-width: 0px;
-padding-right: 8px;
-padding-left: 8px;
-background-color: #F4F7FE;
-color: #2B3674;
+  text-align: center;
+  margin-right: 10px;
+  border-width: 0px;
+  padding-right: 8px;
+  padding-left: 8px;
+  background-color: #f4f7fe;
+  color: #2b3674;
 `;
 
 const CalendarMonthTitle = styled.div`
