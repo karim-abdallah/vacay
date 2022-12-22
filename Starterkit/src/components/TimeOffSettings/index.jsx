@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { getPTOSettings, getHolidays } from "../../store/dashboard/selector";
 import { minSettingsValueDays, maxSettingsValueDays } from "../../constants";
+import minimize from "../../assets/images/minimize.png";
+import settings from "../../assets/images/settings.png";
 
 function HolidayCheckbox(props) {
   return <Checkbox value={props.holiday}>{props.holiday}</Checkbox>;
@@ -108,15 +110,21 @@ const TimeOffSettings = () => {
   return (
     <>
       {!expandedSettings ? (
-            <TimeOffSettingsButton onClick={handleExpandSettings}>Time Off Settings</TimeOffSettingsButton>
+        <TimeOffSettingsButton onClick={handleExpandSettings}>
+          Time Off Settings <SmallTimeOffSettingsIcon src={settings} />
+        </TimeOffSettingsButton>
       ) : (
         <Card>
           <CardBody>
             <TimeOffSettingsContainer>
               <div>
-                <TimeOffSettingsHeader>Time Off Settings</TimeOffSettingsHeader>
+                <TimeOffSettingsHeader>
+                  Time Off Settings
+                  <SmallTimeOffSettingsIcon src={settings} />
+                </TimeOffSettingsHeader>
                 <MinimizeButton onClick={handleExpandSettings}>
-                  Minimize
+                  Minimize{" "}
+                  <StyledMinimizeIcon src={minimize} alt="x" height="15" />
                 </MinimizeButton>
               </div>
               <SettingsContainer>
@@ -130,6 +138,16 @@ const TimeOffSettings = () => {
     </>
   );
 };
+
+const SmallTimeOffSettingsIcon = styled.img`
+  height: 20px;
+  padding-left: 10px;
+`;
+
+const StyledMinimizeIcon = styled.img`
+  height: 12px;
+  padding-left: 5px;
+`;
 
 const StyledFormItem = styled(Form.Item)`
   margin: 0px;
@@ -156,12 +174,12 @@ const SettingsSubheader = styled.div`
 `;
 
 const TimeOffSettingsButton = styled.button`
-float: right;
-background-color: #FFFFFF;
-height: 40px;
-width: 200px;
-border-width: 0px;
-border-radius: 13px;
+  float: right;
+  background-color: #ffffff;
+  height: 40px;
+  width: 180px;
+  border-width: 0px;
+  border-radius: 13px;
 `;
 
 const MinimizeButton = styled.button`
@@ -169,13 +187,13 @@ const MinimizeButton = styled.button`
   font-size: 15px;
   text-align: right;
   border-radius: 10px;
-padding-top: 3px;
-padding-bottom: 3px;
-padding-right: 15px;
-padding-left: 15px;
-border-width: 0px;
-background-color: #F4F7FE;
-color: #2B3674;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-right: 15px;
+  padding-left: 15px;
+  border-width: 0px;
+  background-color: #f4f7fe;
+  color: #2b3674;
 `;
 
 const TimeOffSettingsContainer = styled.div`
@@ -185,7 +203,7 @@ const TimeOffSettingsContainer = styled.div`
 const TimeOffSettingsHeader = styled.div`
   float: left;
   text-align: left;
-  font-size: 20px;
+  font-size: 18px;
 `;
 
 const SettingsContainer = styled.div`
