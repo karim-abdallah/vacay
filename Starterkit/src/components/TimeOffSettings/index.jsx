@@ -108,11 +108,7 @@ const TimeOffSettings = () => {
   return (
     <>
       {!expandedSettings ? (
-        <ExpandSettingsCard>
-          <CardBody>
-            <button onClick={handleExpandSettings}>Time Off Settings</button>
-          </CardBody>
-        </ExpandSettingsCard>
+            <TimeOffSettingsButton onClick={handleExpandSettings}>Time Off Settings</TimeOffSettingsButton>
       ) : (
         <Card>
           <CardBody>
@@ -154,20 +150,32 @@ const OptionsContainer = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
 `;
 
-const ExpandSettingsCard = styled(Card)`
-  text-align: right;
-  //  float: right;
-`;
-
 const SettingsSubheader = styled.div`
   font-size: 16px;
   border-bottom: solid;
 `;
 
+const TimeOffSettingsButton = styled.button`
+float: right;
+background-color: #FFFFFF;
+height: 40px;
+width: 200px;
+border-width: 0px;
+border-radius: 13px;
+`;
+
 const MinimizeButton = styled.button`
   float: right;
-  font-size: 14px;
+  font-size: 15px;
   text-align: right;
+  border-radius: 10px;
+padding-top: 3px;
+padding-bottom: 3px;
+padding-right: 15px;
+padding-left: 15px;
+border-width: 0px;
+background-color: #F4F7FE;
+color: #2B3674;
 `;
 
 const TimeOffSettingsContainer = styled.div`
