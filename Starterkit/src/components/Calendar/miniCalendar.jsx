@@ -210,7 +210,7 @@ function MiniCalendar(props) {
     <CalendarContainer>
       <div>
         <CalendarMonthTitle>
-          {monthYearFormatter(props.startDate)}{" "}
+            {monthYearFormatter(props.startDate)}{" "}
           <ToggleButton onClick={handleShowCalendar}>
             {showCalendar ? "x" : "o"}
           </ToggleButton>
@@ -268,9 +268,19 @@ const BookButtonContainer = styled.div`
 
 const ToggleButton = styled.button`
   float: right;
+  border-radius: 10px;
+margin-right: 10px;
+border-width: 0px;
+height: 32.23px;
+width: 32.23px;
+padding-right: 8px;
+padding-left: 8px;
+background-color: #F4F7FE;
+color: #2B3674;
 `;
 
-const CalendarMonthTitle = styled.p`
+const CalendarMonthTitle = styled.div`
+  margin-top: 10px;
   font-size: 18px;
   text-align: center;
   white-space: nowrap;
