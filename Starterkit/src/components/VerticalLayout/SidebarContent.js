@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import styled from "styled-components";
 
 // MetisMenu
 import MetisMenu from "metismenujs";
@@ -16,6 +17,7 @@ import {
   changeSidebarType,
   changePreloader,
 } from "../../store/actions";
+import logo from "../../assets/images/logo.png";
 
 class SidebarContent extends Component {
   componentDidMount() {
@@ -77,47 +79,33 @@ class SidebarContent extends Component {
   render() {
     return (
       <React.Fragment>
-        <div id="sidebar-menu">
+        <StyledSidebar>
           <ul className="metismenu list-unstyled" id="side-menu">
-            <li className="menu-title">{this.props.t("Menu")}</li>
-
+            <Link to="/" className="logo logo-dark">
+              <StyledLogo>
+                <img src={logo} alt="" height="50" />
+              </StyledLogo>
+            </Link>
             <li>
               <Link to="/dashboard" className="waves-effect">
                 <i className="ri-dashboard-line"></i>
                 <span className="ms-1">{this.props.t("Dashboard")}</span>
               </Link>
             </li>
-
-            <li>
-              <Link to="/" className="waves-effect">
-                <i className="ri-calendar-2-line"></i>
-                <span className="ms-1">{this.props.t("Profile")}</span>
-              </Link>
-            </li>
-
-            <li>
-              <Link to="/" className="waves-effect">
-                <i className="ri-chat-1-line"></i>
-                <span className="ms-1">
-                  {this.props.t("Plan with friends")}
-                </span>
-              </Link>
-            </li>
-
-            <li>
-              <Link to="/#" className="waves-effect">
-                <i className="ri-store-2-line"></i>
-                <span className="ms-1">
-                  {this.props.t("Deals - coming soon")}
-                </span>
-              </Link>
-            </li>
           </ul>
-        </div>
+        </StyledSidebar>
       </React.Fragment>
     );
   }
 }
+
+const StyledLogo = styled.div`
+  padding-bottom: 30px;
+`;
+
+const StyledSidebar = styled.div`
+  padding-left: 30px;
+`;
 
 const mapStatetoProps = (state) => {
   return { ...state.Layout };
