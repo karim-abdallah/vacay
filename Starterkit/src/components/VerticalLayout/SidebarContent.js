@@ -87,10 +87,12 @@ class SidebarContent extends Component {
               </StyledLogo>
             </Link>
             <li>
-              <Link to="/dashboard" className="waves-effect">
-                <i className="ri-dashboard-line"></i>
-                <span className="ms-1">{this.props.t("Dashboard")}</span>
-              </Link>
+              {
+                //<Link to="/dashboard" className="waves-effect">
+                // <i className="ri-dashboard-line"></i>
+                // <span className="ms-1">{this.props.t("Dashboard")}</span>
+                //</Link>
+              }
             </li>
           </ul>
         </StyledSidebar>
