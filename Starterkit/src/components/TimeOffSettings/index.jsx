@@ -83,16 +83,12 @@ const OptionPaneWithForm = () => {
       >
         <OptionsContainer>
           <div>Days</div>
-          <div>Vacation Time</div>
           <div>Personnal Time (PTO)</div>
           <div>Annual Allowance</div>
-          <NumberOptionDays name="vacationAllowance" />
           <NumberOptionDays name="ptoAllowance" />
           <div>Annual Cap</div>
-          <NumberOptionDays name="vacationCap" />
           <NumberOptionDays name="ptoCap" />
           <div>Current Balance ({settings.currentMonth.split(" ")[0]})</div>
-          <NumberOptionDays name="vacationBalance" />
           <NumberOptionDays name="ptoBalance" />
         </OptionsContainer>
       </Form>
@@ -155,7 +151,8 @@ const StyledFormItem = styled(Form.Item)`
 `;
 
 const PaneContainer = styled.div`
-  display: grid;
+  display: inline-grid;
+  grid-template-rows: 45px;
 `;
 
 const HolidaysContainer = styled(Checkbox.Group)`
@@ -165,10 +162,10 @@ const HolidaysContainer = styled(Checkbox.Group)`
 
 const OptionsContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
 `;
 
-const SettingsSubheader = styled.div`
+const SettingsSubheader = styled.p`
   font-size: 16px;
   border-bottom: solid;
 `;
