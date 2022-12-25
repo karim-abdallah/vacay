@@ -109,8 +109,6 @@ function MiniCalendar(props) {
 
     // 4. sort using date value
     const sortedArray = combinedArray.sort((a, b) => a.date - b.date);
-    console.log(`${currentMonth}`);
-    console.log(sortedArray);
 
     return sortedArray.map((x) => {
       if (x.kind === "PTO") {

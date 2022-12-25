@@ -19,8 +19,7 @@ const computeMonthlyBalance = (
   accrualRate,
   accrualCap,
   ptoPerMonth,
-  selectedPerMonth,
-  datesToUnbookPerMonth
+  selectedPerMonth
 ) => {
   // For each month:
   //   calculate: previous balance + accrual rate - booked
@@ -28,10 +27,7 @@ const computeMonthlyBalance = (
     if (index === 0) {
       // starting balance
       balancePerMonth[element] =
-        startingBalance -
-        (ptoPerMonth[element] +
-          selectedPerMonth[element] -
-          datesToUnbookPerMonth[element]);
+        startingBalance - (ptoPerMonth[element] + selectedPerMonth[element]);
     } else {
       balancePerMonth[element] =
         balancePerMonth[orderedLabels[index - 1]] +
