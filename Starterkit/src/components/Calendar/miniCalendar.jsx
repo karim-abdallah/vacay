@@ -258,6 +258,7 @@ const DatesContainer = styled.div`
 
 const DateBullet = styled.p`
   font-size: 13px;
+  font-weight: bold;
   justify-content: center;
   padding: 2px 4px 2px;
   margin: 0px 3px 10px;

@@ -83,7 +83,7 @@ class SidebarContent extends Component {
           <ul className="metismenu list-unstyled" id="side-menu">
             <Link to="/" className="logo logo-dark">
               <StyledLogo>
-                <img src={logo} alt="" height="50" />
+                <img src={logo} alt="" height="43" />
               </StyledLogo>
             </Link>
             <li>
@@ -106,7 +106,8 @@ const StyledLogo = styled.div`
 `;
 
 const StyledSidebar = styled.div`
-  padding-left: 30px;
+  text-align: left;
+  padding-left: 20px;
 `;
 
 const mapStatetoProps = (state) => {
