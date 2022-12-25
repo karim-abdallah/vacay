@@ -116,14 +116,14 @@ const generateDashboardData = (
   // put together the data object
   const chartData = {
     labels: monthLabels,
-      datasets: [
+    datasets: [
       {
         label: "Holidays",
-          backgroundColor: "#FF0099",
-          borderWidth:1,
-          borderRadius:10,
-          data: monthLabels.map((x) => holidaysPerMonth[x]),
-          borderSkipped: false,
+        backgroundColor: "#FF0099",
+        borderWidth: 1,
+        borderRadius: 10,
+        data: monthLabels.map((x) => holidaysPerMonth[x]),
+        borderSkipped: false,
       },
       {
         label: "Booked",
@@ -141,8 +141,8 @@ const generateDashboardData = (
         label: "Unbook",
         backgroundColor: "#6D7994",
         data: monthLabels.map((x) => datesToUnbookPerMonth[x]),
-          stack: "PTOStack",
-          hidde: true,
+        stack: "PTOStack",
+        hidde: true,
       },
       {
         label: "Balance",
@@ -169,14 +169,15 @@ const BarChart = () => {
     selectedDates,
     datesToUnbook
   );
-    const options = {
-      legend: {
-          labels:
-              {
-              filter: function(item, chart) {
-                  return !item.text.includes("Selection") && !item.text.includes("Unbook");
-              }
-          }
+  const options = {
+    legend: {
+      labels: {
+        filter: function (item, chart) {
+          return (
+            !item.text.includes("Selection") && !item.text.includes("Unbook")
+          );
+        },
+      },
     },
   };
 
