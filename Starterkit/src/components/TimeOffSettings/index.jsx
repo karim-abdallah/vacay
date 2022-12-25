@@ -202,6 +202,7 @@ const TimeOffSettingsHeader = styled.div`
   float: left;
   text-align: left;
   font-size: 18px;
+  font-weight: bold;
 `;
 
 const SettingsContainer = styled.div`

@@ -256,22 +256,21 @@ const DatesContainer = styled.div`
   justify-content: center;
 `;
 
-const HolidayBullet = styled.p`
+const DateBullet = styled.p`
+  font-size: 13px;
   justify-content: center;
   padding: 2px 4px 2px;
   margin: 0px 3px 10px;
-  background-color: #ff0099;
   color: white;
-  border-radius: 25px;
+  border-radius: 50%;
 `;
 
-const BookedPTOBullet = styled.p`
-  justify-content: center;
-  padding: 2px 4px 2px;
-  margin: 0px 3px 10px;
+const HolidayBullet = styled(DateBullet)`
+  background-color: #ff0099;
+`;
+
+const BookedPTOBullet = styled(DateBullet)`
   background-color: #6a48ff;
-  color: white;
-  border-radius: 25px;
 `;
 
 const BookButtonContainer = styled.div`
