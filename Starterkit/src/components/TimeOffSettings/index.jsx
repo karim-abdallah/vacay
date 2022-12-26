@@ -10,7 +10,7 @@ import minimize from "../../assets/images/minimize.png";
 import settings from "../../assets/images/settings.png";
 
 function HolidayCheckbox(props) {
-  return <Checkbox value={props.holiday}>{props.holiday}</Checkbox>;
+  return <CheckboxLabel value={props.holiday}>{props.holiday}</CheckboxLabel>;
 }
 
 const HolidaysPane = () => {
@@ -28,6 +28,7 @@ const HolidaysPane = () => {
   return (
     <PaneContainer>
       <SettingsSubheader>Holidays</SettingsSubheader>
+      <div />
       <HolidaysContainer
         defaultValue={holidays.filter((x) => x.active).map((x) => x.name)}
         onChange={checkboxHandler}
@@ -82,8 +83,8 @@ const OptionPaneWithForm = () => {
         onValuesChange={updateSettingsHandler}
       >
         <OptionsContainer>
-          <div>Days</div>
-          <div>Personnal Time (PTO)</div>
+          <div></div>
+          <div>PTO (Days)</div>
           <div>Annual Allowance</div>
           <NumberOptionDays name="ptoAllowance" />
           <div>Annual Cap</div>
@@ -111,7 +112,7 @@ const TimeOffSettings = () => {
         </TimeOffSettingsButton>
       ) : (
         <Card>
-          <CardBody>
+          <ExpandedTimeOffSettingsCard>
             <TimeOffSettingsContainer>
               <div>
                 <TimeOffSettingsHeader>
@@ -128,12 +129,16 @@ const TimeOffSettings = () => {
                 <OptionPaneWithForm />
               </SettingsContainer>
             </TimeOffSettingsContainer>
-          </CardBody>
+          </ExpandedTimeOffSettingsCard>
         </Card>
       )}
     </>
   );
 };
+
+const ExpandedTimeOffSettingsCard = styled(CardBody)`
+  padding: 10px;
+`;
 
 const SmallTimeOffSettingsIcon = styled.img`
   height: 20px;
@@ -152,20 +157,30 @@ const StyledFormItem = styled(Form.Item)`
 
 const PaneContainer = styled.div`
   display: inline-grid;
-  grid-template-rows: 45px;
+  grid-template-rows: 30px 30px;
+`;
+
+const CheckboxLabel = styled(Checkbox)`
+  font-weight: normal;
 `;
 
 const HolidaysContainer = styled(Checkbox.Group)`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: 30px;
+  align-items: center;
 `;
 
 const OptionsContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 30px 30px 30px 30px;
+  align-items: center;
 `;
 
-const SettingsSubheader = styled.p`
+const SettingsSubheader = styled.div`
+  color: #2b3674;
+  font-weight: bold;
   font-size: 16px;
   border-bottom: solid;
 `;
@@ -199,10 +214,11 @@ const TimeOffSettingsContainer = styled.div`
 `;
 
 const TimeOffSettingsHeader = styled.div`
+  color: #2b3674;
   float: left;
   text-align: left;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 900;
 `;
 
 const SettingsContainer = styled.div`

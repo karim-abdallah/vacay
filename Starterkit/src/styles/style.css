@@ -11,6 +11,7 @@
 }
 
 .selectedDates {
+    border-radius: 50%;
     background: #FF00FF;
 }
 
