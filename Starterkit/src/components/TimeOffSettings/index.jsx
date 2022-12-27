@@ -56,17 +56,8 @@ const OptionPaneWithForm = () => {
   const settings = useSelector(getPTOSettings);
 
   const fields = [
-    {
-      name: "vacationAllowance",
-      value: settings.vacationSettings.annualAllowanceDays,
-    },
     { name: "ptoAllowance", value: settings.PTOSettings.annualAllowanceDays },
-    { name: "vacationCap", value: settings.vacationSettings.accrualCapDays },
     { name: "ptoCap", value: settings.PTOSettings.accrualCapDays },
-    {
-      name: "vacationBalance",
-      value: settings.vacationSettings.currentBalanceDays,
-    },
     { name: "ptoBalance", value: settings.PTOSettings.currentBalanceDays },
   ];
 

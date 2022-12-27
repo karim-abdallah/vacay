@@ -5,16 +5,9 @@ export const selectDashboardData = (state) => {
     holidays: state.Dashboard.holidays
       .filter((x) => x.active)
       .map((x) => x.date),
-    accrualRate:
-      (state.Dashboard.PTOSettings.annualAllowanceDays +
-        state.Dashboard.VacationSettings.annualAllowanceDays) /
-      12,
-    currentBalanceDays:
-      state.Dashboard.PTOSettings.currentBalanceDays +
-      state.Dashboard.VacationSettings.currentBalanceDays,
-    accrualCap:
-      state.Dashboard.PTOSettings.accrualCapDays +
-      state.Dashboard.VacationSettings.accrualCapDays,
+    accrualRate: state.Dashboard.PTOSettings.annualAllowanceDays / 12,
+    currentBalanceDays: state.Dashboard.PTOSettings.currentBalanceDays,
+    accrualCap: state.Dashboard.PTOSettings.accrualCapDays,
   };
   return adjustedDashboard;
 };

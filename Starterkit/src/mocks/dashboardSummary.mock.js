@@ -42,24 +42,18 @@ export const mockData = {
 };
 
 export const firstDayOfCurrentMonth = () => {
-    const date = new Date();
-    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  const date = new Date();
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
 
-    return firstDay;
-}
+  return firstDay;
+};
 
 export const mockApiResponse = {
-    currentMonth: monthYearFormatter(firstDayOfCurrentMonth()),
+  currentMonth: monthYearFormatter(firstDayOfCurrentMonth()),
   currentBalanceDays: 3,
   bookedPTO: {
     dates: [
       "2022-11-22",
-      "2022-12-20",
-      "2022-12-21",
-      "2022-12-22",
-      "2022-12-23",
-      "2022-12-24",
-      "2022-12-25",
       "2023-02-15",
       "2023-05-20",
       "2023-05-21",
@@ -117,9 +111,9 @@ export const mockApiResponse = {
     },
   ],
   PTOSettings: {
-    annualAllowanceDays: 9,
-    accrualCapDays: 5,
-    currentBalanceDays: 2,
+    annualAllowanceDays: 20,
+    accrualCapDays: 10,
+    currentBalanceDays: 4,
   },
   VacationSettings: {
     annualAllowanceDays: 9,

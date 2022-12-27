@@ -10,11 +10,6 @@ const INIT_STATE = {
     accrualCapDays: mockApiResponse.PTOSettings.accrualCapDays,
     currentBalanceDays: mockApiResponse.PTOSettings.currentBalanceDays,
   },
-  VacationSettings: {
-    annualAllowanceDays: mockApiResponse.VacationSettings.annualAllowanceDays,
-    accrualCapDays: mockApiResponse.VacationSettings.accrualCapDays,
-    currentBalanceDays: mockApiResponse.VacationSettings.currentBalanceDays,
-  },
   selectedDates: [],
   datesToUnbook: [],
 };
@@ -82,11 +77,6 @@ const Dashboard = (state = INIT_STATE, action) => {
           annualAllowanceDays: action.payload.ptoAllowance,
           accrualCapDays: action.payload.ptoCap,
           currentBalanceDays: action.payload.ptoBalance,
-        },
-        VacationSettings: {
-          annualAllowanceDays: action.payload.vacationAllowance,
-          accrualCapDays: action.payload.vacationCap,
-          currentBalanceDays: action.payload.vacationBalance,
         },
       };
     case "holidays/update":
