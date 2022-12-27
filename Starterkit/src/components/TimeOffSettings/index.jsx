@@ -57,7 +57,6 @@ const OptionPaneWithForm = () => {
 
   const fields = [
     { name: "ptoAllowance", value: settings.PTOSettings.annualAllowanceDays },
-    { name: "ptoCap", value: settings.PTOSettings.accrualCapDays },
     { name: "ptoBalance", value: settings.PTOSettings.currentBalanceDays },
   ];
 
@@ -75,11 +74,9 @@ const OptionPaneWithForm = () => {
       >
         <OptionsContainer>
           <div></div>
-          <div>PTO (Days)</div>
+          <div>Time Off (Days)</div>
           <div>Annual Allowance</div>
           <NumberOptionDays name="ptoAllowance" />
-          <div>Annual Cap</div>
-          <NumberOptionDays name="ptoCap" />
           <div>Current Balance ({settings.currentMonth.split(" ")[0]})</div>
           <NumberOptionDays name="ptoBalance" />
         </OptionsContainer>
