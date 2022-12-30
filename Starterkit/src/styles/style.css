@@ -13,11 +13,10 @@
 
 .inactiveDays {
     background: none;
-    color: var(--vacay-font-color);
 }
 
 .holidays{
-    background: #FF77B3;
+    background: var(--holidaysColor);
     color: white;
 }
 
@@ -28,7 +27,7 @@
 }
 
 .datesToUnbook {
-    background: #6D7994;
+    background: var(--datesToUnbookColor);
     color: white;
 }
 
@@ -37,7 +36,6 @@
   max-width: 100%;
   background: white;
   font-family: Arial, Helvetica, sans-serif;
-  color: var(--vacay-font-color);
   line-height: 1.125em;
   border-radius: 13px;
 }
@@ -103,7 +101,7 @@
 }
 
 .react-calendar__month-view__days__day--weekend {
-  color: #d10000;
+    font-weight: lighter;
 }
 .react-calendar__month-view__days__day--neighboringMonth {
   color: #757575;
@@ -124,7 +122,7 @@
     background-color: #f0f0f0;
 }
 .react-calendar__tile:enabled:hover {
-    background-color: #8B77FF;
+    background-color: var(--selectedDatesColor);
 }
 .react-calendar__tile--now {
   background: #ffff76;
