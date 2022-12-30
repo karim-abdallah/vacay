@@ -113,8 +113,8 @@ const TimeOffSettings = () => {
                 </MinimizeButton>
               </div>
               <SettingsContainer>
-                <HolidaysPane />
                 <OptionPaneWithForm />
+                <HolidaysPane />
               </SettingsContainer>
             </TimeOffSettingsContainer>
           </ExpandedTimeOffSettingsCard>

@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Container, Card, CardBody } from "reactstrap";
 import BarChart from "../../components/Charts/barchart";
 import "../../styles/style.css";
+import { bookedPtoColor, unbookColor } from "../../styles/constants";
 import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
 import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
 import styled from "styled-components";
@@ -30,8 +31,9 @@ class Dashboard extends Component {
             <HowToSection>
               To book time-off, expand the month to calendar view using{" "}
               <StyledButtonIcon src={expand} alt="x" />, then select the desired
-              dates and hit <MockStyledButton>Book</MockStyledButton> to reflect
-              your changes.
+              dates and hit <MockBookButton>Book</MockBookButton> to reflect
+              your changes. To unbook time-off, select booked days and hit
+              <MockUnbookButton>Unbook</MockUnbookButton>.
             </HowToSection>
             <Card>
               <CardBody>
@@ -53,8 +55,15 @@ const MockStyledButton = styled.b`
   padding: 3px 23px 3px;
   color: #ffffff;
   border-radius: 25px;
-  background-color: #6a48ff;
   font-size: 13px;
+`;
+
+const MockBookButton = styled(MockStyledButton)`
+  background-color: ${bookedPtoColor};
+`;
+
+const MockUnbookButton = styled(MockStyledButton)`
+  background-color: ${unbookColor};
 `;
 
 const HowToSection = styled.div`
