@@ -3,17 +3,11 @@ import React, { Component } from "react";
 import { Container, Card, CardBody } from "reactstrap";
 import BarChart from "../../components/Charts/barchart";
 import "../../styles/style.css";
-import {
-  bookedPtoColor,
-  unbookColor,
-  toggleButtonBackgroundColor,
-} from "../../styles/constants";
+import { bookedPtoColor, unbookColor } from "../../styles/constants";
 import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
 import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
 import styled from "styled-components";
-import MiniCalendar, {
-  StyledButtonIcon,
-} from "../../components/Calendar/miniCalendar";
+import MiniCalendar from "../../components/Calendar/miniCalendar";
 import TimeOffSettings from "../../components/TimeOffSettings/index";
 import expand from "../../assets/images/expand.png";
 
