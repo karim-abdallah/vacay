@@ -17,7 +17,9 @@ const HolidaysPane = () => {
   const dispatch = useDispatch();
   const holidays = useSelector(getHolidays);
 
-  const holidayCheckboxes = holidays.map((item, index) => {
+  const sortedHolidays = holidays.sort((a, b) => a.date - b.date);
+
+  const holidayCheckboxes = sortedHolidays.map((item, index) => {
     return <HolidayCheckbox holiday={item.name} />;
   });
 
@@ -29,7 +31,7 @@ const HolidaysPane = () => {
     <HolidayPaneContainer>
       <SettingsSubheader>Holidays</SettingsSubheader>
       <HolidaysContainer
-        defaultValue={holidays.filter((x) => x.active).map((x) => x.name)}
+        defaultValue={sortedHolidays.filter((x) => x.active).map((x) => x.name)}
         onChange={checkboxHandler}
       >
         {holidayCheckboxes}
