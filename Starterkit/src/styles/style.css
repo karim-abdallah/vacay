@@ -1,22 +1,35 @@
+:root {
+    --vacay-font-color: #2B3674;
+    --bookedDaysColor: #6A48FF;
+    --holidaysColor: #FF77B3;
+    --selectedDatesColor: #8B77FF;
+    --datesToUnbookColor: #6D7994;
+}
+
 .bookedDays {
-    background: #6A48FF;
+    background: var(--bookedDaysColor);
+    color: white;
 }
 
 .inactiveDays {
     background: none;
+    color: var(--vacay-font-color);
 }
 
 .holidays{
     background: #FF77B3;
+    color: white;
 }
 
 .selectedDates {
     border-radius: 50%;
     background: #8B77FF;
+    color: white;
 }
 
 .datesToUnbook {
     background: #6D7994;
+    color: white;
 }
 
 .react-calendar {
@@ -24,6 +37,7 @@
   max-width: 100%;
   background: white;
   font-family: Arial, Helvetica, sans-serif;
+  color: var(--vacay-font-color);
   line-height: 1.125em;
   border-radius: 13px;
 }
@@ -78,7 +92,7 @@
   font-size: 0.6em;
 }
 .react-calendar__month-view__weekdays__weekday {
-  padding: 0.5em;
+    padding: 0.5em;
 }
 .react-calendar__month-view__weekNumbers .react-calendar__tile {
   display: flex;
@@ -87,6 +101,7 @@
   font-size: 0.75em;
   font-weight: bold;
 }
+
 .react-calendar__month-view__days__day--weekend {
   color: #d10000;
 }
@@ -106,11 +121,10 @@
   font-size: 0.9em;
 }
 .react-calendar__tile:disabled {
-  background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
-.react-calendar__tile:enabled:hover,
-.react-calendar__tile:enabled:focus {
-    background-color: #e6e6e6;
+.react-calendar__tile:enabled:hover {
+    background-color: #8B77FF;
 }
 .react-calendar__tile--now {
   background: #ffff76;
@@ -127,13 +141,14 @@
   background: #a9d4ff;
 }
 .react-calendar__tile--active {
-  background: #006edc;
+  background: #8B77FF;
   color: white;
 }
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
-  background: #1087ff;
+  background: #8B77FF;
 }
 .react-calendar--selectRange .react-calendar__tile--hover {
-  background-color: #e6e6e6;
+    background-color: #F4F7FE;
+    color: var(--vacay-font-color);
 }
