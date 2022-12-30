@@ -7,6 +7,13 @@ import {
   getDatesToUnbook,
 } from "../../store/dashboard/selector";
 import {
+  bookedPtoColor,
+  holidayColor,
+  selectionColor,
+  unbookColor,
+  balanceColor,
+} from "../../styles/constants";
+import {
   monthYearFormatter,
   computeNextTwelveMonths,
 } from "../../helpers/vacay_helpers";
@@ -115,7 +122,7 @@ const generateDashboardData = (
     datasets: [
       {
         label: "Holidays",
-        backgroundColor: "#FF0099",
+        backgroundColor: holidayColor,
         borderWidth: 1,
         borderRadius: 10,
         data: monthLabels.map((x) => holidaysPerMonth[x]),
@@ -123,26 +130,26 @@ const generateDashboardData = (
       },
       {
         label: "Booked",
-        backgroundColor: "#6A48FF",
+        backgroundColor: bookedPtoColor,
         data: monthLabels.map((x) => PTOPerMonth[x]),
         stack: "PTOStack",
       },
       {
         label: "Selection",
-        backgroundColor: "#FF00FF",
+        backgroundColor: selectionColor,
         data: monthLabels.map((x) => selectedDatesPerMonth[x]),
         stack: "PTOStack",
       },
       {
         label: "Unbook",
-        backgroundColor: "#6D7994",
+        backgroundColor: unbookColor,
         data: monthLabels.map((x) => datesToUnbookPerMonth[x]),
         stack: "PTOStack",
         hidde: true,
       },
       {
         label: "Balance",
-        backgroundColor: "#AC9BF2",
+        backgroundColor: balanceColor,
         data: monthLabels.map((x) => balance[x]),
       },
     ],

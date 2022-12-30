@@ -7,12 +7,12 @@
 }
 
 .holidays{
-    background: #FF0099;
+    background: #FF77B3;
 }
 
 .selectedDates {
     border-radius: 50%;
-    background: #FF00FF;
+    background: #8B77FF;
 }
 
 .datesToUnbook {

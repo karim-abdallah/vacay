@@ -8,6 +8,11 @@ import {
   getSelectedDates,
   getDatesToUnbook,
 } from "../../store/dashboard/selector";
+import {
+  bookedPtoColor,
+  holidayColor,
+  toggleButtonBackgroundColor,
+} from "../../styles/constants";
 import { weekendDayIndex } from "../../constants";
 import {
   monthYearFormatter,
@@ -215,13 +220,13 @@ function MiniCalendar(props) {
       <div>
         <CalendarMonthTitle>
           {monthYearFormatter(props.startDate)}{" "}
-          <ToggleButton onClick={handleShowCalendar}>
+          <ToggleCalendarButton onClick={handleShowCalendar}>
             {showCalendar ? (
               <StyledButtonIcon src={minimize} alt="x" />
             ) : (
               <StyledButtonIcon src={expand} alt="o" />
             )}
-          </ToggleButton>
+          </ToggleCalendarButton>
         </CalendarMonthTitle>
       </div>
       {showCalendar ? (
@@ -267,18 +272,18 @@ const DateBullet = styled.p`
 `;
 
 const HolidayBullet = styled(DateBullet)`
-  background-color: #ff0099;
+  background-color: ${holidayColor};
 `;
 
 const BookedPTOBullet = styled(DateBullet)`
-  background-color: #6a48ff;
+  background-color: ${bookedPtoColor};
 `;
 
 const BookButtonContainer = styled.div`
   text-align: center;
 `;
 
-const ToggleButton = styled.button`
+const ToggleCalendarButton = styled.button`
   float: right;
   border-radius: 10px;
   text-align: center;
@@ -286,8 +291,7 @@ const ToggleButton = styled.button`
   border-width: 0px;
   padding-right: 8px;
   padding-left: 8px;
-  background-color: #f4f7fe;
-  color: #2b3674;
+  background-color: ${toggleButtonBackgroundColor};
 `;
 
 const CalendarMonthTitle = styled.div`
