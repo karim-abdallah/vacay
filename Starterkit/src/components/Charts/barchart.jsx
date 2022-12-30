@@ -173,6 +173,21 @@ const BarChart = () => {
     datesToUnbook
   );
   const options = {
+    scales: {
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: "Days",
+          },
+
+          gridLines: {
+            display: false,
+          },
+        },
+      ],
+    },
+
     legend: {
       labels: {
         filter: function (item, chart) {
