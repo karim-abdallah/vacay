@@ -289,14 +289,15 @@ const ToggleCalendarButton = styled.button`
   text-align: center;
   margin-right: 10px;
   border-width: 0px;
-  padding-right: 8px;
-  padding-left: 8px;
+  padding-right: 6px;
+  padding-left: 6px;
+  padding-bottom: 2px;
   background-color: ${toggleButtonBackgroundColor};
 `;
 
 const CalendarMonthTitle = styled.div`
   margin-top: 10px;
-  font-size: 18px;
+  font-size: 15px;
   text-align: center;
   white-space: nowrap;
 `;
