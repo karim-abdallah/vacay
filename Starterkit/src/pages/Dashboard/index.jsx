@@ -46,14 +46,13 @@ class Dashboard extends Component {
   }
 }
 
-const MockStyledButton = styled.button`
+const MockStyledButton = styled.b`
   margin-bottom: 10px;
-  margin-left: 3px;
-  margin-right: 3px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 3px 23px 3px;
   color: #ffffff;
   border-radius: 25px;
-  border-width: 0px;
-  width: 80px;
   background-color: #6a48ff;
   font-size: 13px;
 `;
