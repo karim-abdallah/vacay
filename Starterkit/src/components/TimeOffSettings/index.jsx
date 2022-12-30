@@ -26,16 +26,15 @@ const HolidaysPane = () => {
   };
 
   return (
-    <PaneContainer>
+    <HolidayPaneContainer>
       <SettingsSubheader>Holidays</SettingsSubheader>
-      <div />
       <HolidaysContainer
         defaultValue={holidays.filter((x) => x.active).map((x) => x.name)}
         onChange={checkboxHandler}
       >
         {holidayCheckboxes}
       </HolidaysContainer>
-    </PaneContainer>
+    </HolidayPaneContainer>
   );
 };
 
@@ -65,7 +64,7 @@ const OptionPaneWithForm = () => {
   };
 
   return (
-    <PaneContainer>
+    <OptionsPaneContainer>
       <SettingsSubheader>Options</SettingsSubheader>
       <Form
         name="PTO Settings"
@@ -81,7 +80,7 @@ const OptionPaneWithForm = () => {
           <NumberOptionDays name="ptoBalance" />
         </OptionsContainer>
       </Form>
-    </PaneContainer>
+    </OptionsPaneContainer>
   );
 };
 
@@ -112,6 +111,7 @@ const TimeOffSettings = () => {
                   <StyledMinimizeIcon src={minimize} alt="x" height="15" />
                 </MinimizeButton>
               </div>
+              <p>Enter your time-off options and select your holidays.</p>
               <SettingsContainer>
                 <OptionPaneWithForm />
                 <HolidaysPane />
@@ -143,9 +143,14 @@ const StyledFormItem = styled(Form.Item)`
   height: 32px;
 `;
 
-const PaneContainer = styled.div`
+const OptionsPaneContainer = styled.div`
   display: inline-grid;
   grid-template-rows: 30px 30px;
+`;
+
+const HolidayPaneContainer = styled.div`
+  display: grid;
+  grid-template-rows: 30px;
 `;
 
 const CheckboxLabel = styled(Checkbox)`
