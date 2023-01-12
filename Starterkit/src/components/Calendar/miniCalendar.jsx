@@ -264,11 +264,15 @@ const DatesContainer = styled.div`
 `;
 
 const DateBullet = styled.p`
+  text-align: center;
   font-size: 13px;
+  width: 25px;
+  height: 25px;
   font-weight: bold;
-  justify-content: center;
-  padding: 2px 4px 2px;
-  margin: 0px 3px 10px;
+  padding-top: 3px;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-bottom: 10px;
   color: white;
   border-radius: 50%;
 `;
