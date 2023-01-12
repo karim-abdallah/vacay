@@ -15,7 +15,7 @@ import NonAuthLayout from "./components/NonAuthLayout";
 import "./assets/scss/theme.scss";
 
 import { initializeApp } from "firebase/app";
-// import { logEvent } from "firebase/analytics";
+// import { getAnalytics, logEvent } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDROfNBM8eysxV01txzLBC8GxHLzcbAYiw",
@@ -31,8 +31,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Initialize Analytics and get a reference to the service
-const analytics = 10;
-// logEvent(analytics, "notification_received");
+// const analytics = getAnalytics(app);
 
 class App extends Component {
   constructor(props) {

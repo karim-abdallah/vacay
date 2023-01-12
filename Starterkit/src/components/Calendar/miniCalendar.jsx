@@ -218,8 +218,10 @@ function MiniCalendar(props) {
   return (
     <CalendarContainer>
       <div>
-        <CalendarMonthTitle>
-          {monthYearFormatter(props.startDate)}{" "}
+        <CalendarHeaderContainer>
+          <StyledMonthTitle>
+            {monthYearFormatter(props.startDate)}{" "}
+          </StyledMonthTitle>
           <ToggleCalendarButton onClick={handleShowCalendar}>
             {showCalendar ? (
               <StyledButtonIcon src={minimize} alt="x" />
@@ -227,7 +229,7 @@ function MiniCalendar(props) {
               <StyledButtonIcon src={expand} alt="o" />
             )}
           </ToggleCalendarButton>
-        </CalendarMonthTitle>
+        </CalendarHeaderContainer>
       </div>
       {showCalendar ? (
         <>
@@ -295,11 +297,21 @@ const ToggleCalendarButton = styled.button`
   background-color: ${toggleButtonBackgroundColor};
 `;
 
-const CalendarMonthTitle = styled.div`
+const CalendarHeaderContainer = styled.div`
   margin-top: 10px;
   font-size: 15px;
   text-align: center;
   white-space: nowrap;
+  margin-bottom: 10px;
+`;
+
+const StyledMonthTitle = styled.b`
+  background-color: ${toggleButtonBackgroundColor};
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border-radius: 15px;
 `;
 
 const CalendarContainer = styled(Card)`
