@@ -26,7 +26,8 @@ const computeMonthlyBalance = (
   accrualRate,
   accrualCap,
   ptoPerMonth,
-  selectedPerMonth
+  selectedPerMonth,
+  datesToUnbookPerMonth
 ) => {
   // For each month:
   //   calculate: previous balance + accrual rate - booked
@@ -34,12 +35,18 @@ const computeMonthlyBalance = (
     if (index === 0) {
       // starting balance
       balancePerMonth[element] =
-        startingBalance - (ptoPerMonth[element] + selectedPerMonth[element]);
+        startingBalance -
+        (ptoPerMonth[element] +
+          selectedPerMonth[element] +
+          datesToUnbookPerMonth[element]);
     } else {
       balancePerMonth[element] =
         balancePerMonth[orderedLabels[index - 1]] +
+        datesToUnbookPerMonth[orderedLabels[index - 1]] +
         accrualRate -
-        (ptoPerMonth[element] + selectedPerMonth[element]);
+        (ptoPerMonth[element] +
+          selectedPerMonth[element] +
+          datesToUnbookPerMonth[element]);
     }
   });
 };
@@ -116,6 +123,8 @@ const generateDashboardData = (
     datesToUnbookPerMonth
   );
 
+  console.log(balance);
+
   // put together the data object
   const chartData = {
     labels: monthLabels,
@@ -127,6 +136,12 @@ const generateDashboardData = (
         borderRadius: 10,
         data: monthLabels.map((x) => holidaysPerMonth[x]),
         borderSkipped: false,
+      },
+      {
+        label: "Balance",
+        backgroundColor: balanceColor,
+        data: monthLabels.map((x) => balance[x].toFixed(1)),
+        stack: "PTOStack",
       },
       {
         label: "Booked",
@@ -146,11 +161,6 @@ const generateDashboardData = (
         data: monthLabels.map((x) => datesToUnbookPerMonth[x]),
         stack: "PTOStack",
         hidde: true,
-      },
-      {
-        label: "Balance",
-        backgroundColor: balanceColor,
-        data: monthLabels.map((x) => balance[x]),
       },
     ],
   };
