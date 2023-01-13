@@ -130,7 +130,7 @@ const generateDashboardData = (
     labels: monthLabels,
     datasets: [
       {
-        label: "Holidays",
+        label: "Public Holidays",
         backgroundColor: holidayColor,
         borderWidth: 1,
         borderRadius: 10,
@@ -138,13 +138,13 @@ const generateDashboardData = (
         borderSkipped: false,
       },
       {
-        label: "Balance",
+        label: "Your Balance",
         backgroundColor: balanceColor,
         data: monthLabels.map((x) => balance[x].toFixed(1)),
         stack: "PTOStack",
       },
       {
-        label: "Booked",
+        label: "Days Booked",
         backgroundColor: bookedPtoColor,
         data: monthLabels.map((x) => PTOPerMonth[x]),
         stack: "PTOStack",

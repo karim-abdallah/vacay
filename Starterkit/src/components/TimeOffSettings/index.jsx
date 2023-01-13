@@ -29,7 +29,7 @@ const HolidaysPane = () => {
 
   return (
     <HolidayPaneContainer>
-      <SettingsSubheader>Holidays</SettingsSubheader>
+      <SettingsSubheader>Public holidays</SettingsSubheader>
       <HolidaysContainer
         defaultValue={sortedHolidays.filter((x) => x.active).map((x) => x.name)}
         onChange={checkboxHandler}
@@ -67,7 +67,7 @@ const OptionPaneWithForm = () => {
 
   return (
     <OptionsPaneContainer>
-      <SettingsSubheader>Options</SettingsSubheader>
+      <SettingsSubheader>Your settings</SettingsSubheader>
       <Form
         name="PTO Settings"
         fields={fields}
@@ -75,10 +75,10 @@ const OptionPaneWithForm = () => {
       >
         <OptionsContainer>
           <div></div>
-          <div>Time Off (Days)</div>
-          <div>Annual Allowance</div>
+          <div>Time off (Days)</div>
+          <div>Annual allowance</div>
           <NumberOptionDays name="ptoAllowance" />
-          <div>Current Balance ({settings.currentMonth.split(" ")[0]})</div>
+          <div>Your current balance</div>
           <NumberOptionDays name="ptoBalance" />
         </OptionsContainer>
       </Form>
