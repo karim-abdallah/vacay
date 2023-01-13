@@ -144,12 +144,6 @@ const generateDashboardData = (
         stack: "PTOStack",
       },
       {
-        label: "Days Booked",
-        backgroundColor: bookedPtoColor,
-        data: monthLabels.map((x) => PTOPerMonth[x]),
-        stack: "PTOStack",
-      },
-      {
         label: "Selection",
         backgroundColor: selectionColor,
         data: monthLabels.map((x) => selectedDatesPerMonth[x]),
@@ -161,6 +155,12 @@ const generateDashboardData = (
         data: monthLabels.map((x) => datesToUnbookPerMonth[x]),
         stack: "PTOStack",
         hidde: true,
+      },
+      {
+        label: "Days Booked",
+        backgroundColor: bookedPtoColor,
+        data: monthLabels.map((x) => PTOPerMonth[x]),
+        stack: "PTOStack",
       },
     ],
   };
