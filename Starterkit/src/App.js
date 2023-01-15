@@ -15,6 +15,7 @@ import NonAuthLayout from "./components/NonAuthLayout";
 import "./assets/scss/theme.scss";
 
 import { initializeApp } from "firebase/app";
+import ReactGA from "react-ga";
 // import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -32,6 +33,8 @@ const app = initializeApp(firebaseConfig);
 
 //Initialize Analytics and get a reference to the service
 // const analytics = getAnalytics(app);
+const TRACKING_ID = "UA-251789826-1"; // YOUR_OWN_TRACKING_ID
+ReactGA.initialize(TRACKING_ID);
 
 class App extends Component {
   constructor(props) {

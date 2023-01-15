@@ -61,6 +61,7 @@
     "react-draft-wysiwyg": "^1.14.4",
     "react-dropzone": "^10.2.1",
     "react-flatpickr": "^3.10.7",
+    "react-ga": "^3.3.1",
     "react-i18next": "^9.0.10",
     "react-image-lightbox": "^5.1.1",
     "react-input-mask": "^2.0.4",
