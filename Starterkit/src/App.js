@@ -35,6 +35,7 @@ const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 const TRACKING_ID = "UA-251789826-1"; // YOUR_OWN_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
+ReactGA.pageview("Init page view");
 
 class App extends Component {
   constructor(props) {
