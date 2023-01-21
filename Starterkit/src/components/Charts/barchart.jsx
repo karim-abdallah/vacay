@@ -135,19 +135,13 @@ const generateDashboardData = (
     labels: monthLabels,
     datasets: [
       {
-        label: "Public Holidays",
-        backgroundColor: holidayColor,
-        data: monthLabels.map(x => holidaysPerMonth[x]),
-        borderSkipped: false
-      },
-      {
         label: "Your Balance",
         backgroundColor: balanceColor,
         data: monthLabels.map(x => balance[x].toFixed(1)),
         stack: "PTOStack"
       },
       {
-        label: "Selection",
+        label: "Selected Days",
         backgroundColor: selectionColor,
         data: monthLabels.map(x => selectedDatesPerMonth[x]),
         stack: "PTOStack"
@@ -164,6 +158,12 @@ const generateDashboardData = (
         backgroundColor: bookedPtoColor,
         data: monthLabels.map(x => PTOPerMonth[x]),
         stack: "PTOStack"
+      },
+      {
+        label: "Public Holidays",
+        backgroundColor: holidayColor,
+        data: monthLabels.map(x => holidaysPerMonth[x]),
+        borderSkipped: false
       }
     ]
   };
@@ -186,12 +186,51 @@ const BarChart = () => {
     datesToUnbook
   );
   const options = {
-    legend: {
-      labels: {
-        filter: function(item, chart) {
-          return (
-            !item.text.includes("Selection") && !item.text.includes("Unbook")
-          );
+    borderRadius: {
+      topRight: 10,
+      topLeft: 10,
+      bottomRight: 10,
+      bottomLeft: 10
+    },
+    borderSkipped: "middle",
+    barPercentage: 0.4,
+    scales: {
+      y: {
+        border: {
+          display: false
+        },
+        grid: {
+          display: false
+        }
+      },
+      x: {
+        border: {
+          display: false
+        },
+        grid: {
+          display: false
+        }
+      }
+    },
+    plugins: {
+      title: {
+        display: true,
+        position: "top",
+        align: "start",
+        text: "Days",
+        padding: 0
+      },
+      legend: {
+        position: "top",
+        align: "end",
+        labels: {
+          boxWidth: 20,
+          boxHeight: 20,
+          useBorderRadius: true,
+          borderRadius: 10,
+          filter: function(item, chart) {
+            return !item.text.includes("Unbook");
+          }
         }
       }
     }
