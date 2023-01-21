@@ -222,7 +222,6 @@ const BarChart = () => {
       },
       legend: {
         position: "top",
-        align: "end",
         labels: {
           boxWidth: 20,
           boxHeight: 20,
