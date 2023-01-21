@@ -14,22 +14,7 @@ import NonAuthLayout from "./components/NonAuthLayout";
 // Import scss
 import "./assets/scss/theme.scss";
 
-import { initializeApp } from "firebase/app";
 import ReactGA from "react-ga";
-// import { getAnalytics } from "firebase/analytics";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDROfNBM8eysxV01txzLBC8GxHLzcbAYiw",
-  authDomain: "vacay-p1.firebaseapp.com",
-  projectId: "vacay-p1",
-  storageBucket: "vacay-p1.appspot.com",
-  messagingSenderId: "1059695905619",
-  appId: "1:1059695905619:web:92baf614ca77970ba66fa6",
-  measurementId: "G-XG1YB0GB2S",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
 
 //Initialize Analytics and get a reference to the service
 // const analytics = getAnalytics(app);
@@ -94,9 +79,9 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    layout: state.Layout,
+    layout: state.Layout
   };
 };
 

@@ -1,8 +1,8 @@
-import firebase from "firebase/app";
+import firebase from "firebase/compat/app";
 
 // Add the Firebase products that you want to use
-import "firebase/auth";
-import "firebase/firestore";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
 
 class FirebaseAuthBackend {
   constructor(firebaseConfig) {

@@ -1,23 +1,28 @@
 import React from "react";
+import { Chart as ChartJS } from "chart.js/auto";
 import { Bar } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 import {
   selectDashboardData,
   getSelectedDates,
-  getDatesToUnbook,
+  getDatesToUnbook
 } from "../../store/dashboard/selector";
 import {
   bookedPtoColor,
   holidayColor,
   selectionColor,
   unbookColor,
-  balanceColor,
+  balanceColor
 } from "../../styles/constants";
 import {
   monthYearFormatter,
-  computeNextTwelveMonths,
+  computeNextTwelveMonths
 } from "../../helpers/vacay_helpers";
-import { weekendDayIndex } from "../../constants";
+import {
+  weekendDayIndex,
+  barChartThickness,
+  barChartBorderRadius
+} from "../../constants";
 
 const computeMonthlyBalance = (
   orderedLabels,
@@ -132,37 +137,35 @@ const generateDashboardData = (
       {
         label: "Public Holidays",
         backgroundColor: holidayColor,
-        borderWidth: 1,
-        borderRadius: 10,
-        data: monthLabels.map((x) => holidaysPerMonth[x]),
-        borderSkipped: false,
+        data: monthLabels.map(x => holidaysPerMonth[x]),
+        borderSkipped: false
       },
       {
         label: "Your Balance",
         backgroundColor: balanceColor,
-        data: monthLabels.map((x) => balance[x].toFixed(1)),
-        stack: "PTOStack",
+        data: monthLabels.map(x => balance[x].toFixed(1)),
+        stack: "PTOStack"
       },
       {
         label: "Selection",
         backgroundColor: selectionColor,
-        data: monthLabels.map((x) => selectedDatesPerMonth[x]),
-        stack: "PTOStack",
+        data: monthLabels.map(x => selectedDatesPerMonth[x]),
+        stack: "PTOStack"
       },
       {
         label: "Unbook",
         backgroundColor: unbookColor,
-        data: monthLabels.map((x) => datesToUnbookPerMonth[x]),
+        data: monthLabels.map(x => datesToUnbookPerMonth[x]),
         stack: "PTOStack",
-        hidde: true,
+        hidde: true
       },
       {
         label: "Days Booked",
         backgroundColor: bookedPtoColor,
-        data: monthLabels.map((x) => PTOPerMonth[x]),
-        stack: "PTOStack",
-      },
-    ],
+        data: monthLabels.map(x => PTOPerMonth[x]),
+        stack: "PTOStack"
+      }
+    ]
   };
 
   return chartData;
@@ -183,30 +186,15 @@ const BarChart = () => {
     datesToUnbook
   );
   const options = {
-    scales: {
-      yAxes: [
-        {
-          scaleLabel: {
-            display: true,
-            labelString: "Days",
-          },
-
-          gridLines: {
-            display: false,
-          },
-        },
-      ],
-    },
-
     legend: {
       labels: {
-        filter: function (item, chart) {
+        filter: function(item, chart) {
           return (
             !item.text.includes("Selection") && !item.text.includes("Unbook")
           );
-        },
-      },
-    },
+        }
+      }
+    }
   };
 
   return <Bar height={83} width={250} data={data} options={options} />;
