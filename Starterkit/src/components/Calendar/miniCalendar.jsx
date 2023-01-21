@@ -131,14 +131,14 @@ function MiniCalendar(props) {
     // Format specific tiles based on certain rules
     if (selectedDates.find(dDate => isSameDay(dDate, date))) {
       return "selectedDates";
-    } else if (isDayInThePast(date)) {
-      return "pastDates";
     } else if (datesToUnbook.find(dDate => isSameDay(dDate, date))) {
       return "datesToUnbook";
     } else if (holidays.find(dDate => isSameDay(dDate, date))) {
       return "holidays";
     } else if (bookedDates.find(dDate => isSameDay(dDate, date))) {
       return "bookedDays";
+    } else if (isDayInThePast(date)) {
+      return "pastDates";
     }
     return "inactiveDays";
   };
