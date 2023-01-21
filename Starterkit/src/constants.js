@@ -11,7 +11,7 @@ export const defaultMonths = [
   "September",
   "October",
   "November",
-  "December",
+  "December"
 ];
 
 // Index for DateTime.getDay() method corresponding to week-ends
@@ -21,3 +21,7 @@ export const weekendDayIndex = [6, 0];
 export const minSettingsValueDays = 0;
 
 export const maxSettingsValueDays = 365;
+
+export const barChartBorderRadius = 10;
+
+export const barChartThickness = 30;
