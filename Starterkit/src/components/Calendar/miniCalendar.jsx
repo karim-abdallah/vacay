@@ -6,12 +6,12 @@ import {
   selectBookedPTO,
   selectHolidaysDates,
   getSelectedDates,
-  getDatesToUnbook,
+  getDatesToUnbook
 } from "../../store/dashboard/selector";
 import {
   bookedPtoColor,
   holidayColor,
-  toggleButtonBackgroundColor,
+  toggleButtonBackgroundColor
 } from "../../styles/constants";
 import { weekendDayIndex } from "../../constants";
 import {
@@ -22,6 +22,7 @@ import {
   areAllDaysWeekends,
   isSelectionAlreadySelected,
   isSelectionAlreadyBooked,
+  isDayInThePast
 } from "../../helpers/vacay_helpers";
 import { StyledBookButton, StyledUnbookButton } from "./buttons.jsx";
 import styled from "styled-components";
@@ -77,7 +78,7 @@ function MiniCalendar(props) {
 
   const cancelSelection = () => {
     // remove global selected dates
-    selectedDatesLocal.forEach((date) => {
+    selectedDatesLocal.forEach(date => {
       dispatch({ type: "selectedDates/delete", payload: date });
       dispatch({ type: "datesToUnbook/delete", payload: date });
     });
@@ -89,7 +90,7 @@ function MiniCalendar(props) {
     // cancel mouse selection
   };
 
-  const datesBullets = (currentMonth) => {
+  const datesBullets = currentMonth => {
     // 1. Create PTO array { date(day) , type }
     // 2. create vacation array
     // 3. combine both arrays
@@ -97,15 +98,15 @@ function MiniCalendar(props) {
     // 5. map: if {type -> return typeBullet(date)} else the other
     const ptoArray = bookedDates
       .filter(
-        (x) =>
+        x =>
           x.getMonth() === currentMonth && !weekendDayIndex.includes(x.getDay())
       )
-      .map((x) => {
+      .map(x => {
         return { date: x.getDate(), kind: "PTO" };
       });
     const holidaysArray = holidays
-      .filter((x) => x.getMonth() === currentMonth)
-      .map((x) => {
+      .filter(x => x.getMonth() === currentMonth)
+      .map(x => {
         return { date: x.getDate(), kind: "Holiday" };
       });
 
@@ -115,7 +116,7 @@ function MiniCalendar(props) {
     // 4. sort using date value
     const sortedArray = combinedArray.sort((a, b) => a.date - b.date);
 
-    return sortedArray.map((x) => {
+    return sortedArray.map(x => {
       if (x.kind === "PTO") {
         return <BookedPTOBullet>{x.date}</BookedPTOBullet>;
       } else if (x.kind === "Holiday") {
@@ -127,35 +128,34 @@ function MiniCalendar(props) {
   };
 
   const tileFormatting = ({ date, view }) => {
-    // Add class to tiles in month view only
-    if (view === "month") {
-      // Check if a date React-Calendar wants to check is on the list of dates to add class to
-    }
-    if (selectedDates.find((dDate) => isSameDay(dDate, date))) {
+    // Format specific tiles based on certain rules
+    if (selectedDates.find(dDate => isSameDay(dDate, date))) {
       return "selectedDates";
-    } else if (datesToUnbook.find((dDate) => isSameDay(dDate, date))) {
+    } else if (isDayInThePast(date)) {
+      return "pastDates";
+    } else if (datesToUnbook.find(dDate => isSameDay(dDate, date))) {
       return "datesToUnbook";
-    } else if (holidays.find((dDate) => isSameDay(dDate, date))) {
+    } else if (holidays.find(dDate => isSameDay(dDate, date))) {
       return "holidays";
-    } else if (bookedDates.find((dDate) => isSameDay(dDate, date))) {
+    } else if (bookedDates.find(dDate => isSameDay(dDate, date))) {
       return "bookedDays";
     }
     return "inactiveDays";
   };
 
-  const handleDateSelection = (valueRange) => {
+  const handleDateSelection = valueRange => {
     // 1. Filter out values
     const dateValues = convertDateRangeToDiscreteDates(valueRange);
     const datesWithoutHolidays = [
-      ...filterOutDuplicates([...dateValues], holidays),
+      ...filterOutDuplicates([...dateValues], holidays)
     ];
     const datesWithoutAlreadyBooked = [
-      ...filterOutDuplicates([...datesWithoutHolidays], bookedDates),
+      ...filterOutDuplicates([...datesWithoutHolidays], bookedDates)
     ];
 
     // clear out existing selections
     // for both selected and dates to unbook.
-    selectedDatesLocal.forEach((date) => {
+    selectedDatesLocal.forEach(date => {
       dispatch({ type: "selectedDates/delete", payload: date });
       dispatch({ type: "datesToUnbook/delete", payload: date });
     });
@@ -171,7 +171,7 @@ function MiniCalendar(props) {
       // 2.c if unselected and booked -> unbook and unselect
       if (isSelectionAlreadyBooked(dateValues, bookedDates)) {
         // populate datesToCancel
-        datesWithoutHolidays.map((date) =>
+        datesWithoutHolidays.map(date =>
           dispatch({ type: "datesToUnbook/add", payload: date })
         );
         displayUnbookButton();
@@ -179,7 +179,7 @@ function MiniCalendar(props) {
 
       // 2.d if unselected and unbooked -> book and unselect
       else {
-        datesWithoutAlreadyBooked.map((date) =>
+        datesWithoutAlreadyBooked.map(date =>
           dispatch({ type: "selectedDates/add", payload: date })
         );
         displayBookButton();
@@ -201,14 +201,14 @@ function MiniCalendar(props) {
   const handleBookNow = () => {
     hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
-    selectedDatesLocal.forEach((date) =>
+    selectedDatesLocal.forEach(date =>
       dispatch({ type: "selectedDates/delete", payload: date })
     );
     setSelectedDatesLocal([]);
   };
   const handleUnbook = () => {
     hideButtons();
-    selectedDatesLocal.forEach((date) => {
+    selectedDatesLocal.forEach(date => {
       dispatch({ type: "datesToUnbook/delete", payload: date });
       dispatch({ type: "bookedPTO/delete", payload: date });
     });

@@ -1,9 +1,15 @@
 :root {
     --vacay-font-color: #2B3674;
+    --vacay-font-color-light: #daddf1;
     --bookedDaysColor: #6A48FF;
     --holidaysColor: #FF77B3;
     --selectedDatesColor: #8B77FF;
     --datesToUnbookColor: #6D7994;
+}
+
+.pastDates {
+    background: none;
+    color: var(--vacay-font-color-light);
 }
 
 .bookedDays {
@@ -123,13 +129,6 @@
 }
 .react-calendar__tile:enabled:hover {
     background-color: var(--selectedDatesColor);
-}
-.react-calendar__tile--now {
-  background: #ffff76;
-}
-.react-calendar__tile--now:enabled:hover,
-.react-calendar__tile--now:enabled:focus {
-  background: #ffffa9;
 }
 .react-calendar__tile--hasActive {
   background: #76baff;
