@@ -20,8 +20,9 @@ import {
 } from "../../helpers/vacay_helpers";
 import {
   weekendDayIndex,
-  barChartThickness,
-  barChartBorderRadius
+  barChartBarPercentage,
+  barChartBorderRadius,
+  barChartLegendBoxSize
 } from "../../constants";
 
 const computeMonthlyBalance = (
@@ -186,14 +187,9 @@ const BarChart = () => {
     datesToUnbook
   );
   const options = {
-    borderRadius: {
-      topRight: 10,
-      topLeft: 10,
-      bottomRight: 10,
-      bottomLeft: 10
-    },
+    borderRadius: barChartBorderRadius,
     borderSkipped: "middle",
-    barPercentage: 0.4,
+    barPercentage: barChartBarPercentage,
     scales: {
       y: {
         border: {
@@ -223,10 +219,10 @@ const BarChart = () => {
       legend: {
         position: "top",
         labels: {
-          boxWidth: 20,
-          boxHeight: 20,
+          boxWidth: barChartLegendBoxSize,
+          boxHeight: barChartLegendBoxSize,
           useBorderRadius: true,
-          borderRadius: 10,
+          borderRadius: barChartBorderRadius,
           filter: function(item, chart) {
             return !item.text.includes("Unbook");
           }
