@@ -12,7 +12,8 @@ import {
   holidayColor,
   selectionColor,
   unbookColor,
-  balanceColor
+  balanceColor,
+  negativeBalanceColor
 } from "../../styles/constants";
 import {
   monthYearFormatter,
@@ -137,7 +138,12 @@ const generateDashboardData = (
     datasets: [
       {
         label: "Your Balance",
-        backgroundColor: balanceColor,
+        backgroundColor: function(context) {
+          const index = context.dataIndex;
+          const value = context.dataset.data[index];
+
+          return value < 0 ? negativeBalanceColor : balanceColor;
+        },
         data: monthLabels.map(x => balance[x].toFixed(1)),
         stack: "PTOStack"
       },
