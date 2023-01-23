@@ -11,7 +11,6 @@ import BarChart from "../../components/Charts/barchart";
 import "../../styles/style.css";
 import { bookedPtoColor, unbookColor } from "../../styles/constants";
 import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
-import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
 import styled from "styled-components";
 import MiniCalendar from "../../components/Calendar/miniCalendar";
 import TimeOffSettings from "../../components/TimeOffSettings/index";
@@ -29,7 +28,9 @@ const Dashboard = () => {
   const generateWarning = negativeBalanceMonths => {
     return negativeBalanceMonths.length ? (
       <StyledAlert
-        message={`Warning: You have exceeded the maximum number of days selected or booked for ${negativeBalanceMonths[0]}, resulting in a negative balance.`}
+        message={`Warning: You have exceeded the maximum number of days selected or booked for ${negativeBalanceMonths.join(
+          ", "
+        )}, resulting in a negative balance.`}
         closable={true}
         showIcon={true}
         type="warning"
