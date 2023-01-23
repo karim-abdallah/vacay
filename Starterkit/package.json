@@ -114,5 +114,8 @@
   },
   "resolutions": {
     "moment": "2.24.0"
+  },
+  "devDependencies": {
+    "jest": "^29.3.1"
   }
 }

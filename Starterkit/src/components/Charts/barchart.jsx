@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Bar } from "react-chartjs-2";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   selectDashboardData,
   getSelectedDates,
-  getDatesToUnbook
+  getDatesToUnbook,
+  getNegativeBalanceMonths
 } from "../../store/dashboard/selector";
 import {
   bookedPtoColor,
@@ -17,7 +18,8 @@ import {
 } from "../../styles/constants";
 import {
   monthYearFormatter,
-  computeNextTwelveMonths
+  computeNextTwelveMonths,
+  arraysEqual
 } from "../../helpers/vacay_helpers";
 import {
   weekendDayIndex,
@@ -130,7 +132,7 @@ const generateDashboardData = (
     datesToUnbookPerMonth
   );
 
-  console.log(balance);
+  const negativeBalanceMonths = monthLabels.filter(x => balance[x] < 0);
 
   // put together the data object
   const chartData = {
@@ -175,14 +177,15 @@ const generateDashboardData = (
     ]
   };
 
-  return chartData;
+  return [chartData, negativeBalanceMonths];
 };
 
 const BarChart = () => {
+  const dispatch = useDispatch();
   const dashboardData = useSelector(selectDashboardData);
   const selectedDates = useSelector(getSelectedDates);
   const datesToUnbook = useSelector(getDatesToUnbook);
-  const data = generateDashboardData(
+  const [data, negativeBalanceMonths] = generateDashboardData(
     dashboardData.currentMonth,
     dashboardData.currentBalanceDays,
     dashboardData.bookedPTO,
@@ -192,6 +195,14 @@ const BarChart = () => {
     selectedDates,
     datesToUnbook
   );
+  const currentNegativeBalanceMonths = useSelector(getNegativeBalanceMonths);
+
+  if (!arraysEqual(currentNegativeBalanceMonths, negativeBalanceMonths)) {
+    dispatch({
+      type: "negativeBalanceMonths/update",
+      payload: [...negativeBalanceMonths]
+    });
+  }
   const options = {
     borderRadius: barChartBorderRadius,
     borderSkipped: "middle",

@@ -1,5 +1,6 @@
 //import "react-calendar/dist/Calendar.css";
 import React, { Component } from "react";
+import { Alert } from "antd";
 import { Container, Card, CardBody } from "reactstrap";
 import BarChart from "../../components/Charts/barchart";
 import "../../styles/style.css";
@@ -24,6 +25,12 @@ class Dashboard extends Component {
       <React.Fragment>
         <div className="page-content">
           <Container fluid>
+            <StyledAlert
+              message="Warning: You have exceeded the maximum number of days selected or booked for June 2022, resulting in a negative balance."
+              closable={true}
+              showIcon={true}
+              type="warning"
+            />
             <TimeOffSettings />
             <h2>Dashboard</h2>
             <HowToSection>
@@ -46,6 +53,10 @@ class Dashboard extends Component {
     );
   }
 }
+
+const StyledAlert = styled(Alert)`
+  margin-bottom: 10px;
+`;
 
 const MockStyledButton = styled.b`
   margin-bottom: 10px;
