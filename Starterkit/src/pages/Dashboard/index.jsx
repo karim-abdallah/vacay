@@ -1,51 +1,73 @@
 //import "react-calendar/dist/Calendar.css";
-import React, { Component } from "react";
+import React from "react";
 import { Container, Card, CardBody } from "reactstrap";
+import { Alert } from "antd";
+import { useSelector } from "react-redux";
+import {
+  getCurrentMonth,
+  getNegativeBalanceMonths
+} from "../../store/dashboard/selector";
 import BarChart from "../../components/Charts/barchart";
 import "../../styles/style.css";
 import { bookedPtoColor, unbookColor } from "../../styles/constants";
 import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
-import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
 import styled from "styled-components";
 import MiniCalendar from "../../components/Calendar/miniCalendar";
 import TimeOffSettings from "../../components/TimeOffSettings/index";
 import expand from "../../assets/images/expand.png";
 
-class Dashboard extends Component {
-  render() {
-    const twelveMonths = computeNextTwelveMonths(
-      mockApiResponse.currentMonth,
-      "date"
+const Dashboard = () => {
+  const currentMonth = useSelector(getCurrentMonth);
+  const negativeBalanceMonths = useSelector(getNegativeBalanceMonths);
+
+  const twelveMonths = computeNextTwelveMonths(currentMonth, "date");
+  const calendarArray = twelveMonths.map((item, index) => {
+    return <MiniCalendar startDate={item} />;
+  });
+
+  const generateWarning = negativeBalanceMonths => {
+    return negativeBalanceMonths.length ? (
+      <StyledAlert
+        message={`Warning: You have exceeded the maximum number of days selected or booked for ${negativeBalanceMonths.join(
+          ", "
+        )}, resulting in a negative balance.`}
+        closable={true}
+        showIcon={true}
+        type="warning"
+      />
+    ) : (
+      ""
     );
-    const calendarArray = twelveMonths.map((item, index) => {
-      return <MiniCalendar startDate={item} />;
-    });
-    return (
-      <React.Fragment>
-        <div className="page-content">
-          <Container fluid>
-            <TimeOffSettings />
-            <h2>Dashboard</h2>
-            <HowToSection>
-              To book time-off, expand the month to calendar view using{" "}
-              <MockStyledExpandButton src={expand} alt="x" />, then select the
-              desired dates and hit <MockBookButton>Book</MockBookButton> to
-              reflect your changes. To unbook time-off, select booked days and
-              hit
-              <MockUnbookButton>Unbook</MockUnbookButton>.
-            </HowToSection>
-            <Card>
-              <CardBody>
-                <BarChart />
-              </CardBody>
-            </Card>
-            <CalendarContainer>{calendarArray}</CalendarContainer>
-          </Container>
-        </div>
-      </React.Fragment>
-    );
-  }
-}
+  };
+  return (
+    <React.Fragment>
+      <div className="page-content">
+        <Container fluid>
+          {generateWarning(negativeBalanceMonths)}
+          <TimeOffSettings />
+          <h2>Dashboard</h2>
+          <HowToSection>
+            To book time-off, expand the month to calendar view using{" "}
+            <MockStyledExpandButton src={expand} alt="x" />, then select the
+            desired dates and hit <MockBookButton>Book</MockBookButton> to
+            reflect your changes. To unbook time-off, select booked days and hit
+            <MockUnbookButton>Unbook</MockUnbookButton>.
+          </HowToSection>
+          <Card>
+            <CardBody>
+              <BarChart />
+            </CardBody>
+          </Card>
+          <CalendarContainer>{calendarArray}</CalendarContainer>
+        </Container>
+      </div>
+    </React.Fragment>
+  );
+};
+
+const StyledAlert = styled(Alert)`
+  margin-bottom: 10px;
+`;
 
 const MockStyledButton = styled.b`
   margin-bottom: 10px;
