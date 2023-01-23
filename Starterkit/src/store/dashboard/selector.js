@@ -10,6 +10,10 @@ export const selectDashboardData = state => {
   return adjustedDashboard;
 };
 
+export const getCurrentMonth = state => {
+  return state.Dashboard.currentMonth;
+};
+
 export const getSelectedDates = state => {
   return state.Dashboard.selectedDates;
 };
