@@ -89,16 +89,34 @@ function MiniCalendar(props) {
   };
 
   const ConfirmationBox = () => {
+    const selectedDatesWithoutWeekends = selectedDates.filter(
+      x => !weekendDayIndex.includes(x.getDay())
+    );
+    console.log(selectedDates[0]);
+    console.log(
+      `Selected dates length (with weekend): ${selectedDates.length}`
+    );
+    console.log(
+      `Selected dates length (without weekend): ${selectedDatesWithoutWeekends.length})`
+    );
+    console.log(
+      `Selected dates (without weekend): ${selectedDatesWithoutWeekends})`
+    );
+
     return (
       <StyledConfirmationBox>
         <p>
-          Selected dates: <strong>January 12th - January 23rd</strong>
+          Selected dates:{" "}
+          <strong>
+            {selectedDates[0]?.toLocaleDateString()} -{" "}
+            {selectedDates[selectedDates.length - 1]?.toLocaleDateString()}
+          </strong>
         </p>
         <p>
-          Total duration: <b>4 days</b>
+          Total duration: <b>{selectedDates.length}</b>
         </p>
         <p>
-          Days booked: <b>4 days</b>
+          Days booked: <b>{selectedDatesWithoutWeekends.length}</b>
         </p>
         <CenteredFlexContainer>
           <StyledConfirmBookingButton onClick={handleBookNow}>
