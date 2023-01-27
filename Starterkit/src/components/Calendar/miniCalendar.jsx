@@ -34,26 +34,6 @@ import styled from "styled-components";
 import expand from "../../assets/images/expand.png";
 import minimize from "../../assets/images/minimize.png";
 
-const ConfirmationBox = () => {
-  return (
-    <StyledConfirmationBox>
-      <p>
-        Selected dates: <strong>January 12th - January 23rd</strong>
-      </p>
-      <p>
-        Total duration: <b>4 days</b>
-      </p>
-      <p>
-        Days booked: <b>4 days</b>
-      </p>
-      <CenteredFlexContainer>
-        <StyledConfirmBookingButton>Confirm</StyledConfirmBookingButton>
-        <StyledCancelBookingButton>Cancel</StyledCancelBookingButton>
-      </CenteredFlexContainer>
-    </StyledConfirmationBox>
-  );
-};
-
 const StyledConfirmationBox = styled(Card)`
   background-color: rgba(106, 72, 255, 0.05);
   margin: 20% 7%;
@@ -93,7 +73,7 @@ function MiniCalendar(props) {
 
   const toggleButtons = () => {
     const bookButton = (
-      <StyledBookButton onClick={handleBookNow}>Book</StyledBookButton>
+      <StyledBookButton onClick={handleShowConfirmation}>Book</StyledBookButton>
     );
     const unbookButton = (
       <StyledUnbookButton onClick={handleUnbook}>Unbook</StyledUnbookButton>
@@ -106,6 +86,30 @@ function MiniCalendar(props) {
     }
 
     return <div> </div>;
+  };
+
+  const ConfirmationBox = () => {
+    return (
+      <StyledConfirmationBox>
+        <p>
+          Selected dates: <strong>January 12th - January 23rd</strong>
+        </p>
+        <p>
+          Total duration: <b>4 days</b>
+        </p>
+        <p>
+          Days booked: <b>4 days</b>
+        </p>
+        <CenteredFlexContainer>
+          <StyledConfirmBookingButton onClick={handleBookNow}>
+            Confirm
+          </StyledConfirmBookingButton>
+          <StyledCancelBookingButton onClick={handleShowConfirmation}>
+            Cancel
+          </StyledCancelBookingButton>
+        </CenteredFlexContainer>
+      </StyledConfirmationBox>
+    );
   };
 
   const cancelSelection = () => {
@@ -230,6 +234,10 @@ function MiniCalendar(props) {
     cancelSelection();
   };
 
+  const handleShowConfirmation = () => {
+    setShowConfirmationBox(!showConfirmationBox);
+  };
+
   const handleBookNow = () => {
     hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
@@ -237,7 +245,9 @@ function MiniCalendar(props) {
       dispatch({ type: "selectedDates/delete", payload: date })
     );
     setSelectedDatesLocal([]);
+    handleShowConfirmation();
   };
+
   const handleUnbook = () => {
     hideButtons();
     selectedDatesLocal.forEach(date => {
