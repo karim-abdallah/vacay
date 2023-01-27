@@ -24,10 +24,41 @@ import {
   isSelectionAlreadyBooked,
   isDayInThePast
 } from "../../helpers/vacay_helpers";
-import { StyledBookButton, StyledUnbookButton } from "./buttons.jsx";
+import {
+  StyledBookButton,
+  StyledUnbookButton,
+  StyledCancelBookingButton,
+  StyledConfirmBookingButton
+} from "./buttons.jsx";
 import styled from "styled-components";
 import expand from "../../assets/images/expand.png";
 import minimize from "../../assets/images/minimize.png";
+
+const ConfirmationBox = () => {
+  return (
+    <StyledConfirmationBox>
+      <p>
+        Selected dates: <strong>January 12th - January 23rd</strong>
+      </p>
+      <p>
+        Total duration: <b>4 days</b>
+      </p>
+      <p>
+        Days booked: <b>4 days</b>
+      </p>
+      <CenteredFlexContainer>
+        <StyledConfirmBookingButton>Confirm</StyledConfirmBookingButton>
+        <StyledCancelBookingButton>Cancel</StyledCancelBookingButton>
+      </CenteredFlexContainer>
+    </StyledConfirmationBox>
+  );
+};
+
+const StyledConfirmationBox = styled(Card)`
+  background-color: rgba(106, 72, 255, 0.05);
+  margin: 20% 7%;
+  padding: 7%;
+`;
 
 function MiniCalendar(props) {
   // Local variables
@@ -35,6 +66,7 @@ function MiniCalendar(props) {
   const [showBookButton, setShowBookButton] = useState(false);
   const [showUnbookButton, setShowUnbookButton] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [showConfirmationBox, setShowConfirmationBox] = useState(false);
   const [mouseSelection, setMouseSelection] = useState();
 
   // Redux store
@@ -217,38 +249,44 @@ function MiniCalendar(props) {
 
   return (
     <CalendarContainer>
-      <div>
-        <CalendarHeaderContainer>
-          <StyledMonthTitle>
-            {monthYearFormatter(props.startDate)}{" "}
-          </StyledMonthTitle>
-          <ToggleCalendarButton onClick={handleShowCalendar}>
-            {showCalendar ? (
-              <StyledButtonIcon src={minimize} alt="x" />
-            ) : (
-              <StyledButtonIcon src={expand} alt="o" />
-            )}
-          </ToggleCalendarButton>
-        </CalendarHeaderContainer>
-      </div>
-      {showCalendar ? (
-        <>
-          <Calendar
-            activeStartDate={props.startDate}
-            onChange={handleDateSelection}
-            defaultView="month"
-            showNeighboringMonth={null}
-            tileClassName={tileFormatting}
-            showNavigation={false}
-            selectRange={true}
-            value={mouseSelection}
-          />
-          <BookButtonContainer>{toggleButtons()}</BookButtonContainer>
-        </>
+      {showConfirmationBox ? (
+        <ConfirmationBox />
       ) : (
-        <DatesContainer>
-          {datesBullets(props.startDate.getMonth())}
-        </DatesContainer>
+        <>
+          <div>
+            <CalendarHeaderContainer>
+              <StyledMonthTitle>
+                {monthYearFormatter(props.startDate)}{" "}
+              </StyledMonthTitle>
+              <ToggleCalendarButton onClick={handleShowCalendar}>
+                {showCalendar ? (
+                  <StyledButtonIcon src={minimize} alt="x" />
+                ) : (
+                  <StyledButtonIcon src={expand} alt="o" />
+                )}
+              </ToggleCalendarButton>
+            </CalendarHeaderContainer>
+          </div>
+          {showCalendar ? (
+            <>
+              <Calendar
+                activeStartDate={props.startDate}
+                onChange={handleDateSelection}
+                defaultView="month"
+                showNeighboringMonth={null}
+                tileClassName={tileFormatting}
+                showNavigation={false}
+                selectRange={true}
+                value={mouseSelection}
+              />
+              <BookButtonContainer>{toggleButtons()}</BookButtonContainer>
+            </>
+          ) : (
+            <CenteredFlexContainer>
+              {datesBullets(props.startDate.getMonth())}
+            </CenteredFlexContainer>
+          )}
+        </>
       )}
     </CalendarContainer>
   );
@@ -258,7 +296,7 @@ export const StyledButtonIcon = styled.img`
   height: 13px;
 `;
 
-const DatesContainer = styled.div`
+const CenteredFlexContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
