@@ -24,10 +24,28 @@ import {
   isSelectionAlreadyBooked,
   isDayInThePast
 } from "../../helpers/vacay_helpers";
-import { StyledBookButton, StyledUnbookButton } from "./buttons.jsx";
+import {
+  StyledBookButton,
+  StyledUnbookButton,
+  StyledCancelBookingButton,
+  StyledConfirmBookingButton,
+  StyledCancelUnbookButton
+} from "./buttons.jsx";
 import styled from "styled-components";
 import expand from "../../assets/images/expand.png";
 import minimize from "../../assets/images/minimize.png";
+
+const StyledBookingConfirmationBox = styled(Card)`
+  background-color: rgba(106, 72, 255, 0.05);
+  margin: 20% 7%;
+  padding: 7%;
+`;
+
+const StyledUnbookConfirmationBox = styled(Card)`
+  background-color: rgba(109, 121, 148, 0.04);
+  margin: 20% 7%;
+  padding: 7%;
+`;
 
 function MiniCalendar(props) {
   // Local variables
@@ -35,6 +53,7 @@ function MiniCalendar(props) {
   const [showBookButton, setShowBookButton] = useState(false);
   const [showUnbookButton, setShowUnbookButton] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [showConfirmationBox, setShowConfirmationBox] = useState(false);
   const [mouseSelection, setMouseSelection] = useState();
 
   // Redux store
@@ -61,10 +80,12 @@ function MiniCalendar(props) {
 
   const toggleButtons = () => {
     const bookButton = (
-      <StyledBookButton onClick={handleBookNow}>Book</StyledBookButton>
+      <StyledBookButton onClick={handleShowConfirmation}>Book</StyledBookButton>
     );
     const unbookButton = (
-      <StyledUnbookButton onClick={handleUnbook}>Unbook</StyledUnbookButton>
+      <StyledUnbookButton onClick={handleShowConfirmation}>
+        Unbook
+      </StyledUnbookButton>
     );
 
     if (showBookButton) {
@@ -74,6 +95,72 @@ function MiniCalendar(props) {
     }
 
     return <div> </div>;
+  };
+
+  const ConfirmationBox = () => {
+    const selectedDatesWithoutWeekends = selectedDates.filter(
+      x => !weekendDayIndex.includes(x.getDay())
+    );
+
+    const unselectedDatesWithoutWeekends = datesToUnbook.filter(
+      x => !weekendDayIndex.includes(x.getDay())
+    );
+
+    if (showBookButton) {
+      return (
+        <StyledBookingConfirmationBox>
+          <p>
+            Selected dates:{" "}
+            <strong>
+              {selectedDates[0]?.toLocaleDateString()} -{" "}
+              {selectedDates[selectedDates.length - 1]?.toLocaleDateString()}
+            </strong>
+          </p>
+          <p>
+            Total duration: <b>{selectedDates.length}</b>
+          </p>
+          <p>
+            Days booked: <b>{selectedDatesWithoutWeekends.length}</b>
+          </p>
+          <CenteredFlexContainer>
+            <StyledConfirmBookingButton onClick={handleBookNow}>
+              Confirm
+            </StyledConfirmBookingButton>
+            <StyledCancelBookingButton onClick={handleShowConfirmation}>
+              Cancel
+            </StyledCancelBookingButton>
+          </CenteredFlexContainer>
+        </StyledBookingConfirmationBox>
+      );
+    } else if (showUnbookButton) {
+      return (
+        <StyledUnbookConfirmationBox>
+          <p>
+            Selected dates:{" "}
+            <strong>
+              {datesToUnbook[0]?.toLocaleDateString()} -{" "}
+              {datesToUnbook[datesToUnbook.length - 1]?.toLocaleDateString()}
+            </strong>
+          </p>
+          <p>
+            Total duration: <b>{datesToUnbook.length}</b>
+          </p>
+          <p>
+            Days Unbooked: <b>{unselectedDatesWithoutWeekends.length}</b>
+          </p>
+          <CenteredFlexContainer>
+            <StyledUnbookButton onClick={handleUnbook}>
+              Confirm
+            </StyledUnbookButton>
+            <StyledCancelUnbookButton onClick={handleShowConfirmation}>
+              Cancel
+            </StyledCancelUnbookButton>
+          </CenteredFlexContainer>
+        </StyledUnbookConfirmationBox>
+      );
+    } else {
+      return <></>;
+    }
   };
 
   const cancelSelection = () => {
@@ -198,6 +285,10 @@ function MiniCalendar(props) {
     cancelSelection();
   };
 
+  const handleShowConfirmation = () => {
+    setShowConfirmationBox(!showConfirmationBox);
+  };
+
   const handleBookNow = () => {
     hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
@@ -205,7 +296,9 @@ function MiniCalendar(props) {
       dispatch({ type: "selectedDates/delete", payload: date })
     );
     setSelectedDatesLocal([]);
+    handleShowConfirmation();
   };
+
   const handleUnbook = () => {
     hideButtons();
     selectedDatesLocal.forEach(date => {
@@ -213,42 +306,49 @@ function MiniCalendar(props) {
       dispatch({ type: "bookedPTO/delete", payload: date });
     });
     setSelectedDatesLocal([]);
+    handleShowConfirmation();
   };
 
   return (
     <CalendarContainer>
-      <div>
-        <CalendarHeaderContainer>
-          <StyledMonthTitle>
-            {monthYearFormatter(props.startDate)}{" "}
-          </StyledMonthTitle>
-          <ToggleCalendarButton onClick={handleShowCalendar}>
-            {showCalendar ? (
-              <StyledButtonIcon src={minimize} alt="x" />
-            ) : (
-              <StyledButtonIcon src={expand} alt="o" />
-            )}
-          </ToggleCalendarButton>
-        </CalendarHeaderContainer>
-      </div>
-      {showCalendar ? (
-        <>
-          <Calendar
-            activeStartDate={props.startDate}
-            onChange={handleDateSelection}
-            defaultView="month"
-            showNeighboringMonth={null}
-            tileClassName={tileFormatting}
-            showNavigation={false}
-            selectRange={true}
-            value={mouseSelection}
-          />
-          <BookButtonContainer>{toggleButtons()}</BookButtonContainer>
-        </>
+      {showConfirmationBox ? (
+        <ConfirmationBox />
       ) : (
-        <DatesContainer>
-          {datesBullets(props.startDate.getMonth())}
-        </DatesContainer>
+        <>
+          <div>
+            <CalendarHeaderContainer>
+              <StyledMonthTitle>
+                {monthYearFormatter(props.startDate)}{" "}
+              </StyledMonthTitle>
+              <ToggleCalendarButton onClick={handleShowCalendar}>
+                {showCalendar ? (
+                  <StyledButtonIcon src={minimize} alt="x" />
+                ) : (
+                  <StyledButtonIcon src={expand} alt="o" />
+                )}
+              </ToggleCalendarButton>
+            </CalendarHeaderContainer>
+          </div>
+          {showCalendar ? (
+            <>
+              <Calendar
+                activeStartDate={props.startDate}
+                onChange={handleDateSelection}
+                defaultView="month"
+                showNeighboringMonth={null}
+                tileClassName={tileFormatting}
+                showNavigation={false}
+                selectRange={true}
+                value={mouseSelection}
+              />
+              <BookButtonContainer>{toggleButtons()}</BookButtonContainer>
+            </>
+          ) : (
+            <CenteredFlexContainer>
+              {datesBullets(props.startDate.getMonth())}
+            </CenteredFlexContainer>
+          )}
+        </>
       )}
     </CalendarContainer>
   );
@@ -258,7 +358,7 @@ export const StyledButtonIcon = styled.img`
   height: 13px;
 `;
 
-const DatesContainer = styled.div`
+const CenteredFlexContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
