@@ -28,14 +28,21 @@ import {
   StyledBookButton,
   StyledUnbookButton,
   StyledCancelBookingButton,
-  StyledConfirmBookingButton
+  StyledConfirmBookingButton,
+  StyledCancelUnbookButton
 } from "./buttons.jsx";
 import styled from "styled-components";
 import expand from "../../assets/images/expand.png";
 import minimize from "../../assets/images/minimize.png";
 
-const StyledConfirmationBox = styled(Card)`
+const StyledBookingConfirmationBox = styled(Card)`
   background-color: rgba(106, 72, 255, 0.05);
+  margin: 20% 7%;
+  padding: 7%;
+`;
+
+const StyledUnbookConfirmationBox = styled(Card)`
+  background-color: rgba(109, 121, 148, 0.04);
   margin: 20% 7%;
   padding: 7%;
 `;
@@ -76,7 +83,9 @@ function MiniCalendar(props) {
       <StyledBookButton onClick={handleShowConfirmation}>Book</StyledBookButton>
     );
     const unbookButton = (
-      <StyledUnbookButton onClick={handleUnbook}>Unbook</StyledUnbookButton>
+      <StyledUnbookButton onClick={handleShowConfirmation}>
+        Unbook
+      </StyledUnbookButton>
     );
 
     if (showBookButton) {
@@ -92,42 +101,66 @@ function MiniCalendar(props) {
     const selectedDatesWithoutWeekends = selectedDates.filter(
       x => !weekendDayIndex.includes(x.getDay())
     );
-    console.log(selectedDates[0]);
-    console.log(
-      `Selected dates length (with weekend): ${selectedDates.length}`
-    );
-    console.log(
-      `Selected dates length (without weekend): ${selectedDatesWithoutWeekends.length})`
-    );
-    console.log(
-      `Selected dates (without weekend): ${selectedDatesWithoutWeekends})`
+
+    const unselectedDatesWithoutWeekends = datesToUnbook.filter(
+      x => !weekendDayIndex.includes(x.getDay())
     );
 
-    return (
-      <StyledConfirmationBox>
-        <p>
-          Selected dates:{" "}
-          <strong>
-            {selectedDates[0]?.toLocaleDateString()} -{" "}
-            {selectedDates[selectedDates.length - 1]?.toLocaleDateString()}
-          </strong>
-        </p>
-        <p>
-          Total duration: <b>{selectedDates.length}</b>
-        </p>
-        <p>
-          Days booked: <b>{selectedDatesWithoutWeekends.length}</b>
-        </p>
-        <CenteredFlexContainer>
-          <StyledConfirmBookingButton onClick={handleBookNow}>
-            Confirm
-          </StyledConfirmBookingButton>
-          <StyledCancelBookingButton onClick={handleShowConfirmation}>
-            Cancel
-          </StyledCancelBookingButton>
-        </CenteredFlexContainer>
-      </StyledConfirmationBox>
-    );
+    if (showBookButton) {
+      return (
+        <StyledBookingConfirmationBox>
+          <p>
+            Selected dates:{" "}
+            <strong>
+              {selectedDates[0]?.toLocaleDateString()} -{" "}
+              {selectedDates[selectedDates.length - 1]?.toLocaleDateString()}
+            </strong>
+          </p>
+          <p>
+            Total duration: <b>{selectedDates.length}</b>
+          </p>
+          <p>
+            Days booked: <b>{selectedDatesWithoutWeekends.length}</b>
+          </p>
+          <CenteredFlexContainer>
+            <StyledConfirmBookingButton onClick={handleBookNow}>
+              Confirm
+            </StyledConfirmBookingButton>
+            <StyledCancelBookingButton onClick={handleShowConfirmation}>
+              Cancel
+            </StyledCancelBookingButton>
+          </CenteredFlexContainer>
+        </StyledBookingConfirmationBox>
+      );
+    } else if (showUnbookButton) {
+      return (
+        <StyledUnbookConfirmationBox>
+          <p>
+            Selected dates:{" "}
+            <strong>
+              {datesToUnbook[0]?.toLocaleDateString()} -{" "}
+              {datesToUnbook[datesToUnbook.length - 1]?.toLocaleDateString()}
+            </strong>
+          </p>
+          <p>
+            Total duration: <b>{datesToUnbook.length}</b>
+          </p>
+          <p>
+            Days Unbooked: <b>{unselectedDatesWithoutWeekends.length}</b>
+          </p>
+          <CenteredFlexContainer>
+            <StyledUnbookButton onClick={handleUnbook}>
+              Confirm
+            </StyledUnbookButton>
+            <StyledCancelUnbookButton onClick={handleShowConfirmation}>
+              Cancel
+            </StyledCancelUnbookButton>
+          </CenteredFlexContainer>
+        </StyledUnbookConfirmationBox>
+      );
+    } else {
+      return <></>;
+    }
   };
 
   const cancelSelection = () => {
@@ -273,6 +306,7 @@ function MiniCalendar(props) {
       dispatch({ type: "bookedPTO/delete", payload: date });
     });
     setSelectedDatesLocal([]);
+    handleShowConfirmation();
   };
 
   return (

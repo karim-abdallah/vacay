@@ -159,8 +159,7 @@ const generateDashboardData = (
         label: "Unbook",
         backgroundColor: unbookColor,
         data: monthLabels.map(x => datesToUnbookPerMonth[x]),
-        stack: "PTOStack",
-        hidde: true
+        stack: "PTOStack"
       },
       {
         label: "Days Booked",
