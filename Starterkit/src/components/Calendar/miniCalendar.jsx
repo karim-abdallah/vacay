@@ -32,7 +32,6 @@ import {
   StyledCancelUnbookButton
 } from "./buttons.jsx";
 import styled from "styled-components";
-import expand from "../../assets/images/expand.png";
 import minimize from "../../assets/images/minimize.png";
 
 const StyledBookingConfirmationBox = styled(Card)`
@@ -308,25 +307,27 @@ function MiniCalendar(props) {
     setSelectedDatesLocal([]);
     handleShowConfirmation();
   };
+  console.log(showCalendar);
 
   return (
-    <CalendarContainer>
+    <CalendarContainer
+      onClick={!showCalendar ? handleShowCalendar : null}
+      showPointer={showCalendar}
+    >
       {showConfirmationBox ? (
         <ConfirmationBox />
       ) : (
         <>
           <div>
             <CalendarHeaderContainer>
-              <StyledMonthTitle>
+              <StyledMonthTitle showCalendar={showCalendar}>
                 {monthYearFormatter(props.startDate)}{" "}
               </StyledMonthTitle>
-              <ToggleCalendarButton onClick={handleShowCalendar}>
-                {showCalendar ? (
+              {showCalendar ? (
+                <ToggleCalendarButton onClick={handleShowCalendar}>
                   <StyledButtonIcon src={minimize} alt="x" />
-                ) : (
-                  <StyledButtonIcon src={expand} alt="o" />
-                )}
-              </ToggleCalendarButton>
+                </ToggleCalendarButton>
+              ) : null}
             </CalendarHeaderContainer>
           </div>
           {showCalendar ? (
@@ -417,13 +418,14 @@ const StyledMonthTitle = styled.b`
   padding-bottom: 3px;
   border-radius: 15px;
   position: relative;
-  left: 15px;
+  left: ${props => (props.showCalendar ? "20px" : "0px")};
 `;
 
 const CalendarContainer = styled(Card)`
   display: flex;
   flex-direction: column;
   min-height: 120px;
+  cursor: ${props => (props.showPointer ? "auto" : "pointer")};
 `;
 
 export default MiniCalendar;
