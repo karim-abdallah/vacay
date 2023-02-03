@@ -21,9 +21,30 @@ const Dashboard = () => {
   const negativeBalanceMonths = useSelector(getNegativeBalanceMonths);
 
   const twelveMonths = computeNextTwelveMonths(currentMonth, "date");
-  const calendarArray = twelveMonths.map((item, index) => {
-    return <MiniCalendar startDate={item} />;
-  });
+  const calendarDiv = () => {
+    // Split out the calendar array into 3 sub arrays
+    const calendarArray = twelveMonths.map((item, index) => {
+      return <MiniCalendar startDate={item} />;
+    });
+    const groupedArray = [[], [], [], []];
+    var groupIndex = 0;
+
+    calendarArray.forEach((item, index) => {
+      if (groupIndex > 3) {
+        groupIndex = 0;
+      }
+      groupedArray[groupIndex].push(item);
+      groupIndex += 1;
+    });
+    return (
+      <>
+        <GroupDiv>{groupedArray[0]}</GroupDiv>
+        <GroupDiv>{groupedArray[1]}</GroupDiv>
+        <GroupDiv>{groupedArray[2]}</GroupDiv>
+        <GroupDiv>{groupedArray[3]}</GroupDiv>
+      </>
+    );
+  };
 
   const generateWarning = negativeBalanceMonths => {
     return negativeBalanceMonths.length ? (
@@ -58,7 +79,7 @@ const Dashboard = () => {
               <BarChart />
             </CardBody>
           </Card>
-          <CalendarContainer>{calendarArray}</CalendarContainer>
+          <CalendarContainer>{calendarDiv()}</CalendarContainer>
         </Container>
       </div>
     </React.Fragment>
@@ -99,10 +120,14 @@ const HowToSection = styled.div`
   margin-top: 10px;
 `;
 
+const GroupDiv = styled.div`
+  flex: 1;
+`;
+
 const CalendarContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  column-gap: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 `;
 
 export default Dashboard;
