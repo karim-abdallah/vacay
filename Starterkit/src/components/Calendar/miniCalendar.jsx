@@ -365,14 +365,14 @@ const CenteredFlexContainer = styled.div`
 
 const DateBullet = styled.p`
   text-align: center;
-  font-size: 13px;
-  width: 25px;
-  height: 25px;
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
   font-weight: bold;
-  padding-top: 3px;
+  padding-top: 4px;
   margin-right: 5px;
   margin-left: 5px;
-  margin-bottom: 10px;
+  margin-top: 13px;
   color: white;
   border-radius: 50%;
 `;
@@ -393,7 +393,7 @@ const ToggleCalendarButton = styled.button`
   float: right;
   border-radius: 10px;
   text-align: center;
-  margin-right: 10px;
+  margin-right: 15px;
   border-width: 0px;
   padding-right: 6px;
   padding-left: 6px;
@@ -402,7 +402,7 @@ const ToggleCalendarButton = styled.button`
 `;
 
 const CalendarHeaderContainer = styled.div`
-  margin-top: 10px;
+  margin-top: 15px;
   font-size: 15px;
   text-align: center;
   white-space: nowrap;
@@ -416,11 +416,14 @@ const StyledMonthTitle = styled.b`
   padding-top: 3px;
   padding-bottom: 3px;
   border-radius: 15px;
+  position: relative;
+  left: 15px;
 `;
 
 const CalendarContainer = styled(Card)`
   display: flex;
   flex-direction: column;
+  min-height: 120px;
 `;
 
 export default MiniCalendar;
