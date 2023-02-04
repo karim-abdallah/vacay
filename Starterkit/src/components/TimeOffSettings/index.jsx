@@ -12,7 +12,7 @@ import settings from "../../assets/images/settings.png";
 function HolidayCheckbox(props) {
   return (
     <CheckboxLabel value={props.holiday.name}>
-      <Tooltip title={props.holiday.date.toLocaleDateString()}>
+      <Tooltip color="#2b3674" title={props.holiday.date.toLocaleDateString()}>
         {props.holiday.name}
       </Tooltip>
     </CheckboxLabel>
