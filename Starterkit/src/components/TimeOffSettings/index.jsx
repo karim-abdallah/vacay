@@ -1,6 +1,6 @@
 import { Card, CardBody } from "reactstrap";
 import { useDispatch } from "react-redux";
-import { Form, InputNumber, Checkbox } from "antd";
+import { Form, InputNumber, Checkbox, Tooltip } from "antd";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { useState } from "react";
@@ -10,7 +10,13 @@ import minimize from "../../assets/images/minimize.png";
 import settings from "../../assets/images/settings.png";
 
 function HolidayCheckbox(props) {
-  return <CheckboxLabel value={props.holiday}>{props.holiday}</CheckboxLabel>;
+  return (
+    <CheckboxLabel value={props.holiday.name}>
+      <Tooltip title={props.holiday.date.toLocaleDateString()}>
+        {props.holiday.name}
+      </Tooltip>
+    </CheckboxLabel>
+  );
 }
 
 const HolidaysPane = () => {
@@ -20,10 +26,10 @@ const HolidaysPane = () => {
   const sortedHolidays = holidays.sort((a, b) => a.date - b.date);
 
   const holidayCheckboxes = sortedHolidays.map((item, index) => {
-    return <HolidayCheckbox holiday={item.name} />;
+    return <HolidayCheckbox holiday={item} />;
   });
 
-  const checkboxHandler = (checkedValues) => {
+  const checkboxHandler = checkedValues => {
     dispatch({ type: "holidays/update", payload: checkedValues });
   };
 
@@ -31,7 +37,7 @@ const HolidaysPane = () => {
     <HolidayPaneContainer>
       <SettingsSubheader>Public holidays</SettingsSubheader>
       <HolidaysContainer
-        defaultValue={sortedHolidays.filter((x) => x.active).map((x) => x.name)}
+        defaultValue={sortedHolidays.filter(x => x.active).map(x => x.name)}
         onChange={checkboxHandler}
       >
         {holidayCheckboxes}
@@ -58,7 +64,7 @@ const OptionPaneWithForm = () => {
 
   const fields = [
     { name: "ptoAllowance", value: settings.PTOSettings.annualAllowanceDays },
-    { name: "ptoBalance", value: settings.PTOSettings.currentBalanceDays },
+    { name: "ptoBalance", value: settings.PTOSettings.currentBalanceDays }
   ];
 
   const updateSettingsHandler = (_, allValues) => {
