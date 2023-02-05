@@ -24,8 +24,7 @@ import {
 import {
   weekendDayIndex,
   barChartBarPercentage,
-  barChartBorderRadius,
-  barChartLegendBoxSize
+  barChartBorderRadius
 } from "../../constants";
 
 const computeMonthlyBalance = (
@@ -171,7 +170,8 @@ const generateDashboardData = (
         label: "Public Holidays",
         backgroundColor: holidayColor,
         data: monthLabels.map(x => holidaysPerMonth[x]),
-        borderSkipped: false
+        borderSkipped: false,
+        hidden: true
       }
     ]
   };
@@ -225,24 +225,8 @@ const BarChart = () => {
       }
     },
     plugins: {
-      title: {
-        display: true,
-        position: "top",
-        align: "start",
-        text: "Days",
-        padding: 0
-      },
       legend: {
-        position: "top",
-        labels: {
-          boxWidth: barChartLegendBoxSize,
-          boxHeight: barChartLegendBoxSize,
-          useBorderRadius: true,
-          borderRadius: barChartBorderRadius,
-          filter: function(item, chart) {
-            return !item.text.includes("Unbook");
-          }
-        }
+        display: false
       }
     }
   };
