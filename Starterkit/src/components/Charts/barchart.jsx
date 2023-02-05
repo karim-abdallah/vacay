@@ -195,6 +195,8 @@ const BarChart = () => {
     datesToUnbook
   );
   const currentNegativeBalanceMonths = useSelector(getNegativeBalanceMonths);
+  const yAxisMax =
+    dashboardData.currentBalanceDays + 12 * dashboardData.accrualRate;
 
   if (!arraysEqual(currentNegativeBalanceMonths, negativeBalanceMonths)) {
     dispatch({
@@ -213,7 +215,8 @@ const BarChart = () => {
         },
         grid: {
           display: false
-        }
+        },
+        max: yAxisMax
       },
       x: {
         border: {
