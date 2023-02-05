@@ -8,25 +8,36 @@ import {
 export const Legend = () => {
   return (
     <StyledLegend>
-      <FlexDiv color={bookedPtoColor}>
-        <Circle />
-        Days Booked
-      </FlexDiv>
-      <FlexDiv color={selectionColor}>
-        <Circle />
-        Selected Dates
-      </FlexDiv>
-      <FlexDiv color={balanceColor}>
-        <Circle />
-        Your Balance
-      </FlexDiv>
-      <HolidayFlexDiv>
-        <HolidayCircle />
-        Holidays
-      </HolidayFlexDiv>
+      <StyledDaysLegend>Days</StyledDaysLegend>
+      <FlexContainer>
+        <FlexDiv color={bookedPtoColor}>
+          <Circle />
+          Days Booked
+        </FlexDiv>
+        <FlexDiv color={selectionColor}>
+          <Circle />
+          Selected Dates
+        </FlexDiv>
+        <FlexDiv color={balanceColor}>
+          <Circle />
+          Your Balance
+        </FlexDiv>
+        <HolidayFlexDiv>
+          <HolidayCircle />
+          Holidays
+        </HolidayFlexDiv>
+      </FlexContainer>
     </StyledLegend>
   );
 };
+
+const StyledDaysLegend = styled.b`
+  color: #a3aed0;
+`;
+
+const FlexContainer = styled.div`
+  display: flex;
+`;
 
 const HolidayFlexDiv = styled.div`
   display: flex;
@@ -56,9 +67,10 @@ const FlexDiv = styled.div`
 `;
 
 const StyledLegend = styled.div`
-  margin-top: 10px;
-  justify-content: end;
+  margin-top: 7px;
   display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
 `;
 
 export default Legend;
