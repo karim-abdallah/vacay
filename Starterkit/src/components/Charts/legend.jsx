@@ -8,42 +8,51 @@ import {
 export const Legend = () => {
   return (
     <StyledLegend>
-      <FlexDiv>
-        <Circle color={bookedPtoColor} />
+      <FlexDiv color={bookedPtoColor}>
+        <Circle />
         Days Booked
       </FlexDiv>
-      <FlexDiv>
-        <Circle color={selectionColor} />
+      <FlexDiv color={selectionColor}>
+        <Circle />
         Selected Dates
       </FlexDiv>
-      <FlexDiv>
-        <Circle color={balanceColor} />
+      <FlexDiv color={balanceColor}>
+        <Circle />
         Your Balance
       </FlexDiv>
-      <FlexDiv>
-        <HolidayCircle color="white" />
+      <HolidayFlexDiv>
+        <HolidayCircle />
         Holidays
-      </FlexDiv>
+      </HolidayFlexDiv>
     </StyledLegend>
   );
 };
+
+const HolidayFlexDiv = styled.div`
+  display: flex;
+  color: ${bookedPtoColor};
+`;
 
 const Circle = styled.div`
   height: 20px;
   width: 20px;
   border-radius: 50%;
-  background-color: ${props => props.color};
   margin-right: 10px;
   margin-left: 10px;
 `;
 
 const HolidayCircle = styled(Circle)`
+  background-color: white;
   color: ${bookedPtoColor};
   border: 3px solid;
 `;
 
 const FlexDiv = styled.div`
   display: flex;
+  color: ${props => props.color};
+  > * {
+    background-color: ${props => props.color};
+  }
 `;
 
 const StyledLegend = styled.div`

@@ -10,7 +10,6 @@ import {
 } from "../../store/dashboard/selector";
 import {
   bookedPtoColor,
-  holidayColor,
   toggleButtonBackgroundColor
 } from "../../styles/constants";
 import { weekendDayIndex } from "../../constants";
@@ -379,7 +378,10 @@ const DateBullet = styled.p`
 `;
 
 const HolidayBullet = styled(DateBullet)`
-  background-color: ${holidayColor};
+  background-color: white;
+  color: ${bookedPtoColor};
+  border: 2px solid;
+  padding-top: 2px;
 `;
 
 const BookedPTOBullet = styled(DateBullet)`
