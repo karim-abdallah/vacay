@@ -15,31 +15,37 @@
 .pastDates {
     background: none;
     color: var(--vacay-font-color-light);
+    border: 0;
 }
 
 .bookedDays {
     background: var(--bookedDaysColor);
     color: white;
+    border: 0;
 }
 
 .inactiveDays {
     background: none;
+    border: 0;
 }
 
 .holidays{
-    background: var(--holidaysColor);
-    color: white;
+    background: white;
+    border: 2px solid;
+    border-color: var(--bookedDaysColor);
 }
 
 .selectedDates {
     border-radius: 50%;
     background: #8B77FF;
     color: white;
+    border: 0;
 }
 
 .datesToUnbook {
     background: var(--datesToUnbookColor);
     color: white;
+    border: 0;
 }
 
 .react-calendar {
@@ -73,7 +79,6 @@
 
 .react-calendar button {
   margin: 0;
-  border: 0;
   outline: none;
 }
 .react-calendar button:enabled:hover {
