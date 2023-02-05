@@ -8,6 +8,7 @@ import {
   getNegativeBalanceMonths
 } from "../../store/dashboard/selector";
 import BarChart from "../../components/Charts/barchart";
+import Legend from "../../components/Charts/legend";
 import "../../styles/style.css";
 import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
 import styled from "styled-components";
@@ -67,6 +68,7 @@ const Dashboard = () => {
           <h2>Dashboard</h2>
           <Card>
             <CardBody>
+              <Legend />
               <BarChart />
             </CardBody>
           </Card>

@@ -24,6 +24,4 @@ export const maxSettingsValueDays = 365;
 
 export const barChartBorderRadius = 10;
 
-export const barChartBarPercentage = 0.4;
-
-export const barChartLegendBoxSize = 20;
+export const barChartBarPercentage = 0.2;
