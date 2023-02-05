@@ -1,5 +1,0 @@
-export const Legend = () => {
-  return <div>. Legend . Legend . Legend</div>;
-};
-
-export default Legend;
