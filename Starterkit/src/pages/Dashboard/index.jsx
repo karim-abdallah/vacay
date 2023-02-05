@@ -67,13 +67,6 @@ const Dashboard = () => {
           {generateWarning(negativeBalanceMonths)}
           <TimeOffSettings />
           <h2>Dashboard</h2>
-          <HowToSection>
-            To book time-off, expand the month to calendar view using{" "}
-            <MockStyledExpandButton src={expand} alt="x" />, then select the
-            desired dates and hit <MockBookButton>Book</MockBookButton> to
-            reflect your changes. To unbook time-off, select booked days and hit
-            <MockUnbookButton>Unbook</MockUnbookButton>.
-          </HowToSection>
           <Card>
             <CardBody>
               <BarChart />
@@ -113,11 +106,6 @@ const MockBookButton = styled(MockStyledButton)`
 
 const MockUnbookButton = styled(MockStyledButton)`
   background-color: ${unbookColor};
-`;
-
-const HowToSection = styled.div`
-  margin-bottom: 10px;
-  margin-top: 10px;
 `;
 
 const GroupDiv = styled.div`

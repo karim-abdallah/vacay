@@ -8,3 +8,5 @@ export const balanceColor = "#AC9BF2";
 export const negativeBalanceColor = "#FA0A0A";
 
 export const toggleButtonBackgroundColor = "#F4F7FE";
+
+export const tooltipBackground = "#2b3674";

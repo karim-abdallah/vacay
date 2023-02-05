@@ -5,14 +5,19 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { getPTOSettings, getHolidays } from "../../store/dashboard/selector";
+import { tooltipBackground } from "../../styles/constants";
 import { minSettingsValueDays, maxSettingsValueDays } from "../../constants";
+import { TimeOffSettingsInstructions } from "./instructionText";
 import minimize from "../../assets/images/minimize.png";
 import settings from "../../assets/images/settings.png";
 
 function HolidayCheckbox(props) {
   return (
     <CheckboxLabel value={props.holiday.name}>
-      <Tooltip color="#2b3674" title={props.holiday.date.toLocaleDateString()}>
+      <Tooltip
+        color={tooltipBackground}
+        title={props.holiday.date.toLocaleDateString()}
+      >
         {props.holiday.name}
       </Tooltip>
     </CheckboxLabel>
@@ -73,7 +78,18 @@ const OptionPaneWithForm = () => {
 
   return (
     <OptionsPaneContainer>
-      <SettingsSubheader>Your settings</SettingsSubheader>
+      <SettingsSubheader>
+        Your settings{" "}
+        <StyledInfoTooltip
+          title={TimeOffSettingsInstructions()}
+          arrowPointAtCenter
+          placement="bottomLeft"
+          trigger="click"
+          color={tooltipBackground}
+        >
+          ?
+        </StyledInfoTooltip>
+      </SettingsSubheader>
       <Form
         name="PTO Settings"
         fields={fields}
@@ -182,7 +198,7 @@ const OptionsContainer = styled.div`
 const SettingsSubheader = styled.div`
   color: #2b3674;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 18px;
   border-bottom: solid;
 `;
 
@@ -194,6 +210,8 @@ const TimeOffSettingsButton = styled.button`
   width: 180px;
   border-width: 0px;
   border-radius: 13px;
+  position: relative;
+  bottom: 8px;
 `;
 
 const MinimizeButton = styled.button`
@@ -226,6 +244,20 @@ const SettingsContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 50px;
+`;
+
+const StyledInfoTooltip = styled(Tooltip)`
+  cursor: pointer;
+  border: 1px solid;
+  border-color: ${tooltipBackground};
+  border-radius: 50%;
+  font-size: 10px;
+  padding-right: 5px;
+  padding-left: 5px;
+  position: relative;
+  bottom: 2px;
+  white-space: nowrap;
+  inline-size: min-content;
 `;
 
 export default TimeOffSettings;
