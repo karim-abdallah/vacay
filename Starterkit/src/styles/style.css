@@ -7,6 +7,11 @@
     --datesToUnbookColor: #6D7994;
 }
 
+.ant-tooltip-inner {
+    white-space: nowrap;
+    inline-size: min-content;
+}
+
 .pastDates {
     background: none;
     color: var(--vacay-font-color-light);

@@ -256,8 +256,6 @@ const StyledInfoTooltip = styled(Tooltip)`
   padding-left: 5px;
   position: relative;
   bottom: 2px;
-  white-space: nowrap;
-  inline-size: min-content;
 `;
 
 export default TimeOffSettings;
