@@ -10,7 +10,8 @@ import {
 } from "../../store/dashboard/selector";
 import {
   bookedPtoColor,
-  toggleButtonBackgroundColor
+  toggleButtonBackgroundColor,
+  cardHoverColor
 } from "../../styles/constants";
 import { weekendDayIndex } from "../../constants";
 import {
@@ -401,8 +402,8 @@ const DateBullet = styled.p`
 const HolidayBullet = styled(DateBullet)`
   background-color: white;
   color: ${bookedPtoColor};
-  border: 2px solid;
-  padding-top: 2px;
+  border: 3px solid;
+  padding-top: 1px;
 `;
 
 const BookedPTOBullet = styled(DateBullet)`
@@ -449,6 +450,9 @@ const CalendarContainer = styled(Card)`
   flex-direction: column;
   min-height: 120px;
   cursor: ${props => (props.showPointer ? "auto" : "pointer")};
+  &:hover {
+    background-color: ${props => !props.showPointer && cardHoverColor};
+  }
 `;
 
 export default MiniCalendar;

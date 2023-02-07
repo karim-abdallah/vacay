@@ -10,3 +10,5 @@ export const negativeBalanceColor = "#FA0A0A";
 export const toggleButtonBackgroundColor = "#F4F7FE";
 
 export const tooltipBackground = "#2b3674";
+
+export const cardHoverColor = "rgb(255, 255, 255, 0.3)";

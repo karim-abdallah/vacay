@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { getPTOSettings, getHolidays } from "../../store/dashboard/selector";
-import { tooltipBackground } from "../../styles/constants";
+import { tooltipBackground, cardHoverColor } from "../../styles/constants";
 import { minSettingsValueDays, maxSettingsValueDays } from "../../constants";
 import { TimeOffSettingsInstructions } from "./instructionText";
 import minimize from "../../assets/images/minimize.png";
@@ -212,6 +212,9 @@ const TimeOffSettingsButton = styled.button`
   border-radius: 13px;
   position: relative;
   bottom: 8px;
+  &:hover {
+    background-color: ${props => !props.showPointer && cardHoverColor};
+  }
 `;
 
 const MinimizeButton = styled.button`
