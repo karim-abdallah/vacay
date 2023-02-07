@@ -21,7 +21,8 @@ import {
   areAllDaysWeekends,
   isSelectionAlreadySelected,
   isSelectionAlreadyBooked,
-  isDayInThePast
+  isDayInThePast,
+  generateDayOffset
 } from "../../helpers/vacay_helpers";
 import {
   StyledBookButton,
@@ -303,24 +304,24 @@ function MiniCalendar(props) {
       dispatch({ type: "datesToUnbook/delete", payload: date });
       dispatch({ type: "bookedPTO/delete", payload: date });
       // unbook week-ends if either monday or friday selected to unbook
-      if (date.getDay() == 5) {
+      if (date.getDay() === 5) {
         dispatch({
           type: "bookedPTO/delete",
-          payload: new Date(date.getTime() + 24 * 60 * 60 * 1000)
+          payload: generateDayOffset(date, 1)
         });
         dispatch({
           type: "bookedPTO/delete",
-          payload: new Date(date.getTime() + 48 * 60 * 60 * 1000)
+          payload: generateDayOffset(date, 2)
         });
       }
-      if (date.getDay() == 1) {
+      if (date.getDay() === 1) {
         dispatch({
           type: "bookedPTO/delete",
-          payload: new Date(date.getTime() - 24 * 60 * 60 * 1000)
+          payload: generateDayOffset(date, -1)
         });
         dispatch({
           type: "bookedPTO/delete",
-          payload: new Date(date.getTime() - 48 * 60 * 60 * 1000)
+          payload: generateDayOffset(date, -2)
         });
       }
     });
