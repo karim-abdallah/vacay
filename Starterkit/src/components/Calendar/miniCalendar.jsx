@@ -302,11 +302,31 @@ function MiniCalendar(props) {
     selectedDatesLocal.forEach(date => {
       dispatch({ type: "datesToUnbook/delete", payload: date });
       dispatch({ type: "bookedPTO/delete", payload: date });
+      // unbook week-ends if either monday or friday selected to unbook
+      if (date.getDay() == 5) {
+        dispatch({
+          type: "bookedPTO/delete",
+          payload: new Date(date.getTime() + 24 * 60 * 60 * 1000)
+        });
+        dispatch({
+          type: "bookedPTO/delete",
+          payload: new Date(date.getTime() + 48 * 60 * 60 * 1000)
+        });
+      }
+      if (date.getDay() == 1) {
+        dispatch({
+          type: "bookedPTO/delete",
+          payload: new Date(date.getTime() - 24 * 60 * 60 * 1000)
+        });
+        dispatch({
+          type: "bookedPTO/delete",
+          payload: new Date(date.getTime() - 48 * 60 * 60 * 1000)
+        });
+      }
     });
     setSelectedDatesLocal([]);
     handleShowConfirmation();
   };
-  console.log(showCalendar);
 
   return (
     <CalendarContainer
