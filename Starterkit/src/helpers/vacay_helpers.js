@@ -139,3 +139,11 @@ export function arraysEqual(arr1, arr2) {
 
   return true;
 }
+
+export function generateDayOffset(date, offsetValue) {
+  // takes in a date and a signed integer offset and returns the date
+  // offset by the given integer
+  // ex: Monday February 2nd 2023 + 1 = Tuesday February 3rd 2023
+
+  return new Date(date.getTime() + offsetValue * 24 * 60 * 60 * 1000);
+}
