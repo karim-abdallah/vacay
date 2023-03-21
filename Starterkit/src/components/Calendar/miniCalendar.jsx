@@ -98,7 +98,7 @@ function MiniCalendar(props) {
   };
 
   const ConfirmationBox = () => {
-    const selectedDatesWithoutWeekends = selectedDates.filter(
+    const selectedDatesWithoutWeekends = selectedDatesLocal.filter(
       x => !weekendDayIndex.includes(x.getDay())
     );
 
@@ -113,11 +113,13 @@ function MiniCalendar(props) {
             Selected dates:{" "}
             <strong>
               {selectedDates[0]?.toLocaleDateString()} -{" "}
-              {selectedDates[selectedDates.length - 1]?.toLocaleDateString()}
+              {selectedDates[
+                selectedDatesLocal.length - 1
+              ]?.toLocaleDateString()}
             </strong>
           </p>
           <p>
-            Total duration: <b>{selectedDates.length}</b>
+            Total duration: <b>{selectedDatesLocal.length}</b>
           </p>
           <p>
             Days booked: <b>{selectedDatesWithoutWeekends.length}</b>
