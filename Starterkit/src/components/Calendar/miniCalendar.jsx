@@ -249,14 +249,14 @@ function MiniCalendar(props) {
 
     // 2. decision tree
     // 2.a. if already selected -> unselect
-    if (isSelectionAlreadySelected(dateValues, selectedDatesLocal)) {
+    if (isSelectionAlreadySelected(datesWithoutHolidays, selectedDatesLocal)) {
       setSelectedDatesLocal([]);
       hideButtons();
     } else {
       setSelectedDatesLocal([...datesWithoutHolidays]);
 
       // 2.c if unselected and booked -> unbook and unselect
-      if (isSelectionAlreadyBooked(dateValues, bookedDates)) {
+      if (isSelectionAlreadyBooked(datesWithoutHolidays, bookedDates)) {
         // populate datesToCancel
         datesWithoutHolidays.map(date =>
           dispatch({ type: "datesToUnbook/add", payload: date })
