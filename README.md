@@ -7,7 +7,7 @@ Make sure to use the `vacay` .npmrc file and use the default npm registry.
 # To run
 ```bash
 yarn install
-yarn start
+yarn start o
 ```
 ===========
 livari
