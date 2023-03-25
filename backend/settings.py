@@ -72,20 +72,32 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-
+AUTH_USER_MODEL = 'api.Account'
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # <-- And token auth
+        #'rest_framework.authentication.SessionAuthentication', #<-- default auth
+
+    ],
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': env("DB_ENGINE",default='django.db.backends.sqlite3') ,
+        'NAME': env( "DB_NAME" ,default =os.path.join(BASE_DIR,'db.sqlite3')),
+        'USER': env("DB_USER", default=''),
+        'PASSWORD': env("DB_PASSWORD", default=''),
+        'HOST': env("DB_HOST", default='localhost'),
+        'PORT': env("DB_PORT", default=''),
     }
 }
 

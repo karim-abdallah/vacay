@@ -10,4 +10,11 @@ yarn install
 yarn start
 ```  
 # github  
-`git push origin HEAD:raj-login-signup`
+`git push origin HEAD:raj-login-signup`  
+
+# database  
+```
+database test  
+user root  
+password 1234  
+```
