@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     #third party apps
     'rest_framework.authtoken',
     'rest_framework',
+    'corsheaders',
     #custom apps
     'api',
     'frontend'
@@ -40,6 +41,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    #third party middleware
+    'corsheaders.middleware.CorsMiddleware',
+    #inbuilt middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -68,6 +72,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
+
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+]
 
 
 # Database
