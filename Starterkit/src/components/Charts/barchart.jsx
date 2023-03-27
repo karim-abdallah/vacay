@@ -14,7 +14,8 @@ import {
   selectionColor,
   unbookColor,
   balanceColor,
-  negativeBalanceColor
+  negativeBalanceColor,
+  stripedSelection
 } from "../../styles/constants";
 import {
   monthYearFormatter,
@@ -150,7 +151,7 @@ const generateDashboardData = (
       },
       {
         label: "Selected Days",
-        backgroundColor: selectionColor,
+        backgroundColor: stripedSelection.background,
         data: monthLabels.map(x => selectedDatesPerMonth[x]),
         stack: "PTOStack"
       },

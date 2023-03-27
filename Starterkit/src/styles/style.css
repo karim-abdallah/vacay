@@ -7,11 +7,6 @@
     --datesToUnbookColor: #6D7994;
 }
 
-.chart-canvas {
-  background-image: linear-gradient(45deg, rgba(0,0,0,0.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0.1));
-  background-size: 6px 6px;
-}
-
 .ant-tooltip-inner {
     white-space: nowrap;
     inline-size: min-content;
