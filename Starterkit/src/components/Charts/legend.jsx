@@ -2,7 +2,8 @@ import styled from "styled-components";
 import {
   bookedPtoColor,
   selectionColor,
-  balanceColor
+  balanceColor,
+  stripedSelection
 } from "../../styles/constants";
 
 export const Legend = () => {
@@ -14,10 +15,13 @@ export const Legend = () => {
           <Circle />
           Days Booked
         </FlexDiv>
-        <FlexDiv color={selectionColor}>
+        <SelectedDatesDiv
+          color={selectionColor}
+          background={stripedSelection.background}
+        >
           <Circle />
           Selected Dates
-        </FlexDiv>
+        </SelectedDatesDiv>
         <FlexDiv color={balanceColor}>
           <Circle />
           Your Balance
@@ -63,6 +67,14 @@ const FlexDiv = styled.div`
   color: ${props => props.color};
   > * {
     background-color: ${props => props.color};
+  }
+`;
+
+const SelectedDatesDiv = styled.div`
+  display: flex;
+  color: ${props => props.color};
+  > * {
+    background: ${props => props.background};
   }
 `;
 

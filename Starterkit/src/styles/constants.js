@@ -12,3 +12,18 @@ export const toggleButtonBackgroundColor = "#F4F7FE";
 export const tooltipBackground = "#2b3674";
 
 export const cardHoverColor = "rgb(255, 255, 255, 0.3)";
+
+export const stripedSelection = {
+  background: `
+    linear-gradient(
+      -45deg,
+      ${selectionColor} 25%,
+      ${bookedPtoColor} 25%,
+      ${bookedPtoColor} 50%,
+      ${selectionColor} 50%,
+      ${selectionColor} 75%,
+      ${bookedPtoColor} 75%,
+      ${bookedPtoColor}
+    )
+  `
+};
