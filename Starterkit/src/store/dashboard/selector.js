@@ -32,6 +32,7 @@ export const selectHolidaysDates = state => {
 };
 
 export const getHolidays = state => {
+  // returns holidays with names
   return state.Dashboard.holidays;
 };
 
