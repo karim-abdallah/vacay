@@ -2,16 +2,19 @@ import Calendar from "react-calendar";
 import { Card } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
+import { Tooltip } from "antd";
 import {
   selectBookedPTO,
   selectHolidaysDates,
+  getHolidays,
   getSelectedDates,
   getDatesToUnbook
 } from "../../store/dashboard/selector";
 import {
   bookedPtoColor,
   toggleButtonBackgroundColor,
-  cardHoverColor
+  cardHoverColor,
+  tooltipBackground
 } from "../../styles/constants";
 import { weekendDayIndex } from "../../constants";
 import {
@@ -58,7 +61,8 @@ function MiniCalendar(props) {
 
   // Redux store
   const bookedDates = useSelector(selectBookedPTO);
-  const holidays = useSelector(selectHolidaysDates);
+  const holidaysWithNames = useSelector(getHolidays);
+  const holidayDates = useSelector(selectHolidaysDates);
   const selectedDates = useSelector(getSelectedDates);
   const datesToUnbook = useSelector(getDatesToUnbook);
 
@@ -193,10 +197,13 @@ function MiniCalendar(props) {
       .map(x => {
         return { date: x.getDate(), kind: "PTO" };
       });
-    const holidaysArray = holidays
-      .filter(x => x.getMonth() === currentMonth)
+
+    console.log(holidayDates);
+    const holidaysArray = holidaysWithNames
+      .filter(x => x.active)
+      .filter(x => x.date.getMonth() === currentMonth)
       .map(x => {
-        return { date: x.getDate(), kind: "Holiday" };
+        return { date: x.date.getDate(), name: x.name, kind: "Holiday" };
       });
 
     // 3. combine both arrays
@@ -209,7 +216,11 @@ function MiniCalendar(props) {
       if (x.kind === "PTO") {
         return <BookedPTOBullet>{x.date}</BookedPTOBullet>;
       } else if (x.kind === "Holiday") {
-        return <HolidayBullet>{x.date}</HolidayBullet>;
+        return (
+          <Tooltip title={x.name} color={tooltipBackground}>
+            <HolidayBullet>{x.date}</HolidayBullet>
+          </Tooltip>
+        );
       } else {
         return null;
       }
@@ -222,7 +233,7 @@ function MiniCalendar(props) {
       return "selectedDates";
     } else if (datesToUnbook.find(dDate => isSameDay(dDate, date))) {
       return "datesToUnbook";
-    } else if (holidays.find(dDate => isSameDay(dDate, date))) {
+    } else if (holidayDates.find(dDate => isSameDay(dDate, date))) {
       return "holidays";
     } else if (bookedDates.find(dDate => isSameDay(dDate, date))) {
       return "bookedDays";
@@ -236,7 +247,7 @@ function MiniCalendar(props) {
     // 1. Filter out values
     const dateValues = convertDateRangeToDiscreteDates(valueRange);
     const datesWithoutHolidays = [
-      ...filterOutDuplicates([...dateValues], holidays)
+      ...filterOutDuplicates([...dateValues], holidayDates)
     ];
     const datesWithoutAlreadyBooked = [
       ...filterOutDuplicates([...datesWithoutHolidays], bookedDates)
