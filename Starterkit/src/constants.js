@@ -1,4 +1,4 @@
-export const pageTitle = "Vacay - Excellence, Innovation, Climate Pledge";
+export const pageTitle = "Vacay - Optimize your time off";
 export const defaultMonths = [
   "January",
   "February",
