@@ -13,13 +13,14 @@ export const XAxis = props => {
 const StyledMonthBox = styled.div`
   word-wrap: break-word;
   width: calc(100% / 12);
+  text-align: center;
 `;
 
 const StyledAxisContainer = styled.div`
-  margin-left: 20px;
+  margin-left: 30px;
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  gap: 13px;
 `;
 
 export default XAxis;

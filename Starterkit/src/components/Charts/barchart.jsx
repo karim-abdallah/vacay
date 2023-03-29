@@ -219,6 +219,8 @@ const BarChart = () => {
         max: yAxisMax
       },
       x: {
+        display: false,
+
         border: {
           display: false
         },
