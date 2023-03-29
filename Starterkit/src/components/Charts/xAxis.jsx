@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { monthYearFormatter } from "../../helpers/vacay_helpers";
+import { xAxisMonthYearFormatter } from "../../helpers/vacay_helpers";
 
 export const XAxis = props => {
   console.log(props.months);
-  const monthYears = props.months.map(x => monthYearFormatter(x));
+  const monthYears = props.months.map(x => xAxisMonthYearFormatter(x));
   console.log(monthYears);
   const xAxis = monthYears.map(name => <StyledMonthBox>{name}</StyledMonthBox>);
 

@@ -7,6 +7,38 @@ export const monthYearFormatter = date => {
   return defaultMonths[date.getMonth()] + " " + date.getFullYear();
 };
 
+export const xAxisMonthYearFormatter = date => {
+  const formattedDate = (month, year) => {
+    return (
+      <div>
+        {month}
+        <br />
+        {year}
+      </div>
+    );
+  };
+  switch (date.getMonth()) {
+    case 0:
+      return formattedDate("Jan.", date.getFullYear());
+    case 1:
+      return formattedDate("Feb.", date.getFullYear());
+    case 2:
+      return formattedDate("Mar.", date.getFullYear());
+    case 7:
+      return formattedDate("Aug.", date.getFullYear());
+    case 8:
+      return formattedDate("Sept.", date.getFullYear());
+    case 9:
+      return formattedDate("Oct.", date.getFullYear());
+    case 10:
+      return formattedDate("Nov.", date.getFullYear());
+    case 11:
+      return formattedDate("Dec.", date.getFullYear());
+  }
+
+  return formattedDate(defaultMonths[date.getMonth()], date.getFullYear());
+};
+
 export const monthStartFormatter = date => {
   // Returns start date of the month for a given date
   return null;
