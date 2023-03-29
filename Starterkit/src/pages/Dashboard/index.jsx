@@ -9,6 +9,7 @@ import {
 } from "../../store/dashboard/selector";
 import BarChart from "../../components/Charts/barchart";
 import Legend from "../../components/Charts/legend";
+import XAxis from "../../components/Charts/xAxis";
 import "../../styles/style.css";
 import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
 import styled from "styled-components";
@@ -70,6 +71,7 @@ const Dashboard = () => {
             <CardBody>
               <Legend />
               <BarChart />
+              <XAxis months={twelveMonths} />
             </CardBody>
           </Card>
           <CalendarContainer>{calendarDiv()}</CalendarContainer>

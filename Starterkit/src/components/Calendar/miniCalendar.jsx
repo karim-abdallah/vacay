@@ -198,7 +198,6 @@ function MiniCalendar(props) {
         return { date: x.getDate(), kind: "PTO" };
       });
 
-    console.log(holidayDates);
     const holidaysArray = holidaysWithNames
       .filter(x => x.active)
       .filter(x => x.date.getMonth() === currentMonth)
