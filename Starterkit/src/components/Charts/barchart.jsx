@@ -14,7 +14,8 @@ import {
   selectionColor,
   unbookColor,
   balanceColor,
-  negativeBalanceColor
+  negativeBalanceColor,
+  axisColor
 } from "../../styles/constants";
 import {
   monthYearFormatter,
@@ -216,7 +217,10 @@ const BarChart = () => {
         grid: {
           display: false
         },
-        max: yAxisMax
+        max: yAxisMax,
+        ticks: {
+          color: axisColor
+        }
       },
       x: {
         display: false,

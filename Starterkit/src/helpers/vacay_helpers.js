@@ -1,3 +1,5 @@
+import styled from "styled-components";
+import { axisColor } from "../styles/constants";
 import { defaultMonths, weekendDayIndex } from "../constants";
 import { differenceInCalendarDays } from "date-fns";
 
@@ -10,11 +12,11 @@ export const monthYearFormatter = date => {
 export const xAxisMonthYearFormatter = date => {
   const formattedDate = (month, year) => {
     return (
-      <div>
+      <StyledMonthyearLabel>
         {month}
         <br />
         {year}
-      </div>
+      </StyledMonthyearLabel>
     );
   };
   switch (date.getMonth()) {
@@ -34,10 +36,14 @@ export const xAxisMonthYearFormatter = date => {
       return formattedDate("Nov.", date.getFullYear());
     case 11:
       return formattedDate("Dec.", date.getFullYear());
+    default:
+      return formattedDate(defaultMonths[date.getMonth()], date.getFullYear());
   }
-
-  return formattedDate(defaultMonths[date.getMonth()], date.getFullYear());
 };
+
+const StyledMonthyearLabel = styled.div`
+  color: ${axisColor};
+`;
 
 export const monthStartFormatter = date => {
   // Returns start date of the month for a given date
