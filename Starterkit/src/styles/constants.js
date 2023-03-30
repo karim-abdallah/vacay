@@ -6,6 +6,7 @@ export const selectionColor = "#8B77FF";
 export const unbookColor = "#6D7994";
 export const balanceColor = "#AC9BF2";
 export const negativeBalanceColor = "#FA0A0A";
+export const axisColor = "#A3AED0";
 
 export const toggleButtonBackgroundColor = "#F4F7FE";
 
