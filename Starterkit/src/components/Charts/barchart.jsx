@@ -224,7 +224,6 @@ const BarChart = () => {
       },
       x: {
         display: false,
-
         border: {
           display: false
         },
