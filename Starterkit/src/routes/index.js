@@ -11,31 +11,33 @@ import AuthLockScreen from "../pages/Authentication/AuthLockScreen";
 // Dashboard
 import Dashboard from "../pages/Dashboard/index";
 
+// PlanWithFriends
+import PlanWithFriends from "../pages/PlanWithFriends/index";
+
 // Inner Authentication
 import Login1 from "../pages/AuthenticationInner/Login";
 import Register1 from "../pages/AuthenticationInner/Register";
 import ForgetPwd1 from "../pages/AuthenticationInner/ForgetPassword";
 
 const authProtectedRoutes = [
+  { path: "/dashboard", component: Dashboard },
+  { path: "/planWithFriends", component: PlanWithFriends },
 
-	{ path: "/dashboard", component: Dashboard },
-
-	// this route should be at the end of all other routes
-	{ path: "/", exact: true, component: () => <Redirect to="/dashboard" /> }
+  // this route should be at the end of all other routes
+  { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> }
 ];
 
 const publicRoutes = [
-	{ path: "/logout", component: Logout },
-	{ path: "/login", component: Login },
-	{ path: "/forgot-password", component: ForgetPwd },
-	{ path: "/register", component: Register },
-	{ path: "/lock-screen", component: AuthLockScreen },
+  { path: "/logout", component: Logout },
+  { path: "/login", component: Login },
+  { path: "/forgot-password", component: ForgetPwd },
+  { path: "/register", component: Register },
+  { path: "/lock-screen", component: AuthLockScreen },
 
-	// Authentication Inner
-	{ path: "/auth-login", component: Login1 },
-	{ path: "/auth-register", component: Register1 },
-	{ path: "/auth-recoverpw", component: ForgetPwd1 },
-
+  // Authentication Inner
+  { path: "/auth-login", component: Login1 },
+  { path: "/auth-register", component: Register1 },
+  { path: "/auth-recoverpw", component: ForgetPwd1 }
 ];
 
 export { authProtectedRoutes, publicRoutes };

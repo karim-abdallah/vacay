@@ -15,7 +15,7 @@ import {
   changeLayoutWidth,
   changeSidebarTheme,
   changeSidebarType,
-  changePreloader,
+  changePreloader
 } from "../../store/actions";
 import logo from "../../assets/images/logo.png";
 
@@ -49,7 +49,7 @@ class SidebarContent extends Component {
     }
   }
 
-  activateParentDropdown = (item) => {
+  activateParentDropdown = item => {
     item.classList.add("active");
     const parent = item.parentElement;
 
@@ -88,10 +88,20 @@ class SidebarContent extends Component {
             </Link>
             <li>
               {
-                //<Link to="/dashboard" className="waves-effect">
-                // <i className="ri-dashboard-line"></i>
-                // <span className="ms-1">{this.props.t("Dashboard")}</span>
-                //</Link>
+                <Link to="/dashboard" className="waves-effect">
+                  <i className="ri-dashboard-line"></i>
+                  <span className="ms-1">{this.props.t("Dashboard")}</span>
+                </Link>
+              }
+            </li>
+            <li>
+              {
+                <Link to="/planWithFriends" className="waves-effect">
+                  <i className="ri-dashboard-line"></i>
+                  <span className="ms-1">
+                    {this.props.t("Plan With Friends")}
+                  </span>
+                </Link>
               }
             </li>
           </ul>
@@ -110,7 +120,7 @@ const StyledSidebar = styled.div`
   padding-left: 20px;
 `;
 
-const mapStatetoProps = (state) => {
+const mapStatetoProps = state => {
   return { ...state.Layout };
 };
 
@@ -120,6 +130,6 @@ export default withRouter(
     changeSidebarTheme,
     changeSidebarType,
     changeLayoutWidth,
-    changePreloader,
+    changePreloader
   })(withNamespaces()(SidebarContent))
 );
