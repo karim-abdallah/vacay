@@ -8,7 +8,7 @@ const PlanWithFriends = () => {
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
-          <h2>Plan with friends - COMING SOON</h2>
+          <h2>Plan with friends</h2>
           <Card>
             <StyledCardBody>
               <div>Friend component</div>
