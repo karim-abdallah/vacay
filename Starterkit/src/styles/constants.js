@@ -1,5 +1,8 @@
 // this is pretty terible but right now don't have time to refactor all the styling...
 
+// Theme colors
+export const lightBlue = "#F4F7FE";
+
 export const calendarSelectionBackgroundColor = "#F4F7FE";
 export const bookedPtoColor = "#6A48FF";
 export const holidayColor = "#FF77B3";

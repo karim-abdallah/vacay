@@ -1,0 +1,40 @@
+import { Card, CardBody } from "reactstrap";
+import styled from "styled-components";
+import { lightBlue } from "../../styles/constants";
+import pierreProfilePic from "../../assets/images/pierre.png";
+
+export const FriendCard = () => {
+  // TODO: integrate with back-end and S3 to pull info
+  const friendName = "Pierre Funkis";
+  const profilePic = pierreProfilePic;
+  return (
+    <StyledCard>
+      <StyledCardBody>
+        {" "}
+        <StyledImage src={profilePic} alt="" />
+        {friendName}
+      </StyledCardBody>
+    </StyledCard>
+  );
+};
+
+const StyledImage = styled.img`
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+  margin-right: 10px;
+`;
+
+const StyledCardBody = styled(CardBody)`
+  display: flex;
+  padding: 10px;
+`;
+
+const StyledCard = styled(Card)`
+  border-radius: 25px;
+  text-align: left;
+  margin: 0px 15px 0px;
+  height: 40px;
+  background-color: ${lightBlue};
+  width: 180px;
+`;

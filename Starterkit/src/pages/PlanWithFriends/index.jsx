@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Card, CardBody } from "reactstrap";
 import styled from "styled-components";
 import { CalendarSelection } from "../../components/Calendar/planWithFriendsCalendar";
+import { FriendCard } from "./FriendCard";
 
 const PlanWithFriends = () => {
   return (
@@ -11,7 +12,7 @@ const PlanWithFriends = () => {
           <h2>Plan with friends</h2>
           <Card>
             <StyledCardBody>
-              <div>Friend component</div>
+              <FriendCard />
               <CalendarSelection />
             </StyledCardBody>
           </Card>
