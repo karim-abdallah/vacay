@@ -8,6 +8,7 @@ import Account from "./auth/register/reducer";
 import Login from "./auth/login/reducer";
 import Forget from "./auth/forgetpwd/reducer";
 import Dashboard from "./dashboard/reducer";
+import PlanWithFriends from "./planWithFriends/reducer";
 
 const rootReducer = combineReducers({
   // public
@@ -19,6 +20,9 @@ const rootReducer = combineReducers({
   Forget,
   // Dashboard
   Dashboard,
+
+  // Plan With Friends
+  PlanWithFriends
 });
 
 export default rootReducer;

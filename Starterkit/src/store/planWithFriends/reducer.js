@@ -24,3 +24,5 @@ const PlanWithFriends = (state = INIT_STATE, action) => {
       return state;
   }
 };
+
+export default PlanWithFriends;
