@@ -1,5 +1,0 @@
-const INIT_STATE = {
-    friends: []
-};
-
-const Da
