@@ -1,10 +1,42 @@
 import { Card, CardBody } from "reactstrap";
 import { calendarSelectionBackgroundColor } from "../../styles/constants";
 import styled from "styled-components";
+import { computeNextNMonths } from "../../helpers/vacay_helpers";
 
-export const CalendarSelection = () => {
+export const CalendarSummaryGroup = ({
+  currentMonth,
+  bookedPtoDays,
+  nMonthsAhead
+}) => {
+  // 1. Compute name of N next months
+
+  const nNextMonthNames = computeNextNMonths(currentMonth, nMonthsAhead);
+  // 2. Calculate available days (right now assuming only 1 user, will add combining
+  // and de-duping for multiple people shortly after
+
+  
   const month = "March 2023";
-  const daysAvailable = 18;
+    const daysAvailable = 18;
+    
+  // 3. Render the month array
+
+    return (
+        nNextMonthNames.map(x => {
+                            return (
+    <StyledCard>
+      <StyledCardBody>
+        <div>ICON</div>
+        <div>{x}</div>
+        <div>{daysAvailable} days available</div>
+      </StyledCardBody>
+    </StyledCard>
+                            );
+        }
+                           )
+    );
+};
+
+export const CalendarSelection = ({ month, daysAvailable }) => {
   return (
     <StyledCard>
       <CardBody>
@@ -16,14 +48,17 @@ export const CalendarSelection = () => {
   );
 };
 
-// Oddly the cursor thing isn't working. Fix later.
+const StyledCardBody = styled(CardBody)`
+padding: 5px;
+`;
+
 const StyledCard = styled(Card)`
-  margin: 0px 15px 0px;
+  margin: 0px 5px 0px;
   text-align: center;
-  height: 150px;
-  width: 150px;
+  height: 120px;
   background-color: ${calendarSelectionBackgroundColor};
-  cursor: "pointer";
+  cursor: pointer;
+border: 1px solid transparent;
   &:hover {
     border: 1px solid;
   }

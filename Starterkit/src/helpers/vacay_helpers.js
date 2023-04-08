@@ -73,6 +73,27 @@ export const computeNextTwelveMonths = (startingMonth, format = "string") => {
   return nextTwelveMonths;
 };
 
+export const computeNextNMonths = (
+  startingMonth,
+  nMonths,
+  format = "string"
+) => {
+  // Takes in a start month and computes N next ones
+    // Returns an array either in Date object format or as string of dates
+  const nextNMonths = [];
+  let currentDate = new Date(startingMonth);
+
+    console.log(currentDate);
+  for (let step = 0; step < nMonths; step++) {
+    const formattedMonth =
+          format === "string" ? monthYearFormatter(currentDate) : currentDate;
+    nextNMonths.push(formattedMonth);
+      currentDate.setMonth(currentDate.getMonth() + 1);
+  }
+
+    return nextNMonths;
+};
+
 export const convertDateRangeToDiscreteDates = dateRange => {
   // Returns an array of all dates found in between the two-date dateRange
   // dateRange should be [startDate, endDate]

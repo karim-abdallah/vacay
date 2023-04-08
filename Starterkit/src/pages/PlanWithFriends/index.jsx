@@ -1,10 +1,16 @@
 import React from "react";
 import { Container, Card, CardBody } from "reactstrap";
 import styled from "styled-components";
-import { CalendarSelection } from "../../components/Calendar/planWithFriendsCalendar";
+import { useSelector, useDispatch } from "react-redux";
+import { CalendarSummaryGroup } from "../../components/Calendar/planWithFriendsCalendar";
 import { FriendCard } from "./FriendCard";
+import { selectDashboardData } from "../../store/dashboard/selector";
+
+const nMonthsAheadDefault = 6;
 
 const PlanWithFriends = () => {
+    const myDashboardData = useSelector(selectDashboardData);
+
   return (
     <React.Fragment>
       <div className="page-content">
@@ -13,7 +19,10 @@ const PlanWithFriends = () => {
           <Card>
             <StyledCardBody>
               <FriendCard />
-              <CalendarSelection />
+              <CalendarSummaryGroup
+                currentMonth={myDashboardData.currentMonth}
+                bookedPtoDays={myDashboardData.bookedPTO.dates}
+                nMonthsAhead={nMonthsAheadDefault}/>
             </StyledCardBody>
           </Card>
         </Container>
