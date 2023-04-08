@@ -3,6 +3,9 @@ import { axisColor } from "../styles/constants";
 import { defaultMonths, weekendDayIndex } from "../constants";
 import { differenceInCalendarDays } from "date-fns";
 
+
+/* Formatting Helpers */
+
 export const monthYearFormatter = date => {
   // returns date in format "Month Year"
   // Should be moved to util folder
@@ -50,28 +53,16 @@ export const monthStartFormatter = date => {
   return null;
 };
 
-export const computeNextTwelveMonths = (startingMonth, format = "string") => {
-  // This is causing a weird exception in the console log. If it's too slow
-  // get that to compute in the backend and return nextTwelveMonths in mock API
-  // Response
-  // Also, this feels a little weird with no typing it's unclear what the return type shoudld be.
-  // Maybe split it off into two different functions
-  // Also the math is a bit odd here - +31 could lead to errors. Could use a better method
-  const nextTwelveMonths = [];
-  if (format === "string") {
-    nextTwelveMonths.push(startingMonth);
-  } else {
-    nextTwelveMonths.push(new Date(startingMonth));
-  }
-  for (let step = 0; step < 11; step++) {
-    const month = new Date(nextTwelveMonths[nextTwelveMonths.length - 1]);
-    month.setDate(month.getDate() + 31);
-    const formattedMonth =
-      format === "string" ? monthYearFormatter(month) : month;
-    nextTwelveMonths.push(formattedMonth);
-  }
-  return nextTwelveMonths;
-};
+
+/* Date Manipulation Helpers */
+
+export function generateDayOffset(date, offsetValue) {
+  // takes in a date and a signed integer offset and returns the date
+  // offset by the given integer
+  // ex: Monday February 2nd 2023 + 1 = Tuesday February 3rd 2023
+
+  return new Date(date.getTime() + offsetValue * 24 * 60 * 60 * 1000);
+}
 
 export const computeNextNMonths = (
   startingMonth,
@@ -148,6 +139,8 @@ export const areAllDaysWeekends = daysArray => {
   return true;
 };
 
+/* Array Comparison Helpers */
+
 export const isSelectionAlreadySelected = (daysArray, alreadySelectedArray) => {
   // Returns true if daysArray and alreadySelectedArray contain the same objects
   // For now assumes both arrays are sorted in increasing date (which it should be)
@@ -199,10 +192,5 @@ export function arraysEqual(arr1, arr2) {
   return true;
 }
 
-export function generateDayOffset(date, offsetValue) {
-  // takes in a date and a signed integer offset and returns the date
-  // offset by the given integer
-  // ex: Monday February 2nd 2023 + 1 = Tuesday February 3rd 2023
+/* Logic Helpers */
 
-  return new Date(date.getTime() + offsetValue * 24 * 60 * 60 * 1000);
-}

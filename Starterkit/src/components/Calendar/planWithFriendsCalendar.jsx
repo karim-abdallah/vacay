@@ -15,7 +15,6 @@ export const CalendarSummaryGroup = ({
   // and de-duping for multiple people shortly after
 
   
-  const month = "March 2023";
     const daysAvailable = 18;
     
   // 3. Render the month array

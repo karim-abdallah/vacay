@@ -19,7 +19,7 @@ import {
 } from "../../styles/constants";
 import {
   monthYearFormatter,
-  computeNextTwelveMonths,
+  computeNextNMonths,
   arraysEqual
 } from "../../helpers/vacay_helpers";
 import {
@@ -38,6 +38,9 @@ const computeMonthlyBalance = (
   selectedPerMonth,
   datesToUnbookPerMonth
 ) => {
+    // Calculates monthly balance using orderedLabels as index
+    // Writes into balancePerMonth array
+    
   // For each month:
   //   calculate: previous balance + accrual rate - booked
   orderedLabels.forEach((element, index) => {
@@ -70,7 +73,7 @@ const generateDashboardData = (
   selectedDates,
   datesToUnbook
 ) => {
-  const monthLabels = computeNextTwelveMonths(currentMonth);
+    const monthLabels = computeNextNMonths(currentMonth, 12);
 
   // The below manipulation of sets intends to count the number of days per month
   // for each category. This helps doing the final calculation to populate each month.
