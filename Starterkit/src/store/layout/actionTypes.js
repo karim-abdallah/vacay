@@ -14,4 +14,3 @@ export const HIDE_RIGHT_SIDEBAR = "HIDE_RIGHT_SIDEBAR";
 
 // Preloader
 export const CHANGE_PRELOADER = "CHANGE_PRELOADER";
-

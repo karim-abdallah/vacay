@@ -1,7 +1,6 @@
 //
 // datatable.scss
 
-
 .dataTables_wrapper {
   &.container-fluid {
     padding: 0;
@@ -15,7 +14,6 @@ div.dataTables_wrapper {
     @media (max-width: 767px) {
       text-align: center;
     }
-
 
     input {
       margin-left: 0.5em;
@@ -32,7 +30,7 @@ div.dataTables_wrapper {
   }
 }
 
-div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"] {
+div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"] {
   &:first-child {
     padding-left: 0;
   }
@@ -42,14 +40,12 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"] {
   }
 }
 
-
 table.dataTable {
   border-collapse: collapse !important;
   margin-bottom: 15px !important;
 
   // Change icons view
   thead {
-
     .sorting,
     .sorting_asc,
     .sorting_desc,
@@ -62,8 +58,6 @@ table.dataTable {
         font-family: "Material Design Icons";
         font-size: 1rem;
         top: 9px;
-
-
       }
 
       &:after {
@@ -77,10 +71,8 @@ table.dataTable {
     }
 
     tr {
-
       th,
       td {
-
         &.sorting_asc,
         &.sorting_desc,
         &.sorting {
@@ -94,40 +86,40 @@ table.dataTable {
   tbody {
     // Multi select table
 
-    > tr.selected, >tr>.selected {
-        background-color: rgba($primary,.2);
-        
-        td {
-            border-color: rgba($primary,.2);
-            color: $primary;
-        }
+    > tr.selected,
+    > tr > .selected {
+      background-color: rgba($primary, 0.2);
+
+      td {
+        border-color: rgba($primary, 0.2);
+        color: $primary;
+      }
     }
     td {
-        &:focus {
-            outline: none !important;
-        }
+      &:focus {
+        outline: none !important;
+      }
     }
     // Key Tables
-    th.focus,td.focus{
-        outline: 2px solid $primary !important;
-        outline-offset: -1px;
-        background-color: rgba($primary, 0.15);
+    th.focus,
+    td.focus {
+      outline: 2px solid $primary !important;
+      outline-offset: -1px;
+      background-color: rgba($primary, 0.15);
     }
-}
+  }
 }
 
 .dataTables_info {
   font-weight: $font-weight-semibold;
 }
 
-
 // Responsive data table
 table.dataTable.dtr-inline.collapsed {
-  >tbody {
-    >tr[role=row] {
-
-      >td,
-      >th {
+  > tbody {
+    > tr[role="row"] {
+      > td,
+      > th {
         &:first-child {
           &:before {
             box-shadow: $box-shadow-lg;
@@ -138,10 +130,9 @@ table.dataTable.dtr-inline.collapsed {
       }
     }
 
-    >tr.parent {
-
-      >td,
-      >th {
+    > tr.parent {
+      > td,
+      > th {
         &:first-child {
           &:before {
             background-color: $danger;
@@ -151,7 +142,6 @@ table.dataTable.dtr-inline.collapsed {
     }
   }
 }
-
 
 // Data Table copy button
 div.dt-button-info {
@@ -171,7 +161,6 @@ div.dt-button-info {
 }
 
 @include media-breakpoint-down(md) {
-
   li.paginate_button.previous,
   li.paginate_button.next {
     display: inline-block;
@@ -203,21 +192,16 @@ div.dt-button-info {
   }
 }
 
-
-
 // datatable
-
 
 .table-bordered {
   border: $table-border-width solid $table-border-color;
 }
 
-
-
 .table,
 table {
   &.dataTable {
-    &.dtr-inline.collapsed>tbody>tr>td {
+    &.dtr-inline.collapsed > tbody > tr > td {
       position: relative;
 
       &.dtr-control {
@@ -238,7 +222,7 @@ table {
           text-align: center;
           text-indent: 0 !important;
           line-height: 12px;
-          content: '+';
+          content: "+";
           background-color: $primary;
         }
       }

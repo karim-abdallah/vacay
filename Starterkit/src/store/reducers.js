@@ -22,7 +22,7 @@ const rootReducer = combineReducers({
   Dashboard,
 
   // Plan With Friends
-  PlanWithFriends
+  PlanWithFriends,
 });
 
 export default rootReducer;

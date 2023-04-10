@@ -1,10 +1,10 @@
-import user1 from "../../assets/images/users/avatar-1.jpg"
-import user2 from "../../assets/images/users/avatar-2.jpg"
-import user3 from "../../assets/images/users/avatar-3.jpg"
-import user4 from "../../assets/images/users/avatar-4.jpg"
-import user5 from "../../assets/images/users/avatar-5.jpg"
-import user6 from "../../assets/images/users/avatar-6.jpg"
-import user7 from "../../assets/images/users/avatar-7.jpg"
+import user1 from "../../assets/images/users/avatar-1.jpg";
+import user2 from "../../assets/images/users/avatar-2.jpg";
+import user3 from "../../assets/images/users/avatar-3.jpg";
+import user4 from "../../assets/images/users/avatar-4.jpg";
+import user5 from "../../assets/images/users/avatar-5.jpg";
+import user6 from "../../assets/images/users/avatar-6.jpg";
+import user7 from "../../assets/images/users/avatar-7.jpg";
 
 const chats = [
   {
@@ -70,7 +70,7 @@ const chats = [
     description: "This theme is awesome!",
     time: "24 min",
   },
-]
+];
 
 const groups = [
   { id: 1, image: "G", name: "General" },
@@ -78,7 +78,7 @@ const groups = [
   { id: 3, image: "M", name: "Meeting" },
   { id: 4, image: "A", name: "Project A" },
   { id: 5, image: "B", name: "Project B" },
-]
+];
 
 const contacts = [
   {
@@ -104,7 +104,7 @@ const contacts = [
     category: "D",
     child: [{ id: 4, name: "Dolores Minter" }],
   },
-]
+];
 
 const messages = [
   {
@@ -179,6 +179,6 @@ const messages = [
     message: "Hello!",
     createdAt: "2020-04-02T17:07:21.529Z",
   },
-]
+];
 
-export { chats, messages, contacts, groups }
+export { chats, messages, contacts, groups };

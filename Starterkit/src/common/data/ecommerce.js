@@ -1,18 +1,18 @@
-import product1 from '../../assets/images/product/img-1.png'
-import product2 from '../../assets/images/product/img-2.png'
-import product3 from '../../assets/images/product/img-3.png'
-import product4 from '../../assets/images/product/img-4.png'
-import product5 from '../../assets/images/product/img-5.png'
-import product6 from '../../assets/images/product/img-6.png'
+import product1 from "../../assets/images/product/img-1.png";
+import product2 from "../../assets/images/product/img-2.png";
+import product3 from "../../assets/images/product/img-3.png";
+import product4 from "../../assets/images/product/img-4.png";
+import product5 from "../../assets/images/product/img-5.png";
+import product6 from "../../assets/images/product/img-6.png";
 
-import company1 from '../../assets/images/companies/img-1.png';
-import company2 from '../../assets/images/companies/img-2.png';
-import company3 from '../../assets/images/companies/img-3.png';
-import company4 from '../../assets/images/companies/img-4.png';
-import company5 from '../../assets/images/companies/img-5.png';
-import company6 from '../../assets/images/companies/img-6.png';
-import company7 from '../../assets/images/companies/img-7.png';
-import company8 from '../../assets/images/companies/img-8.png';
+import company1 from "../../assets/images/companies/img-1.png";
+import company2 from "../../assets/images/companies/img-2.png";
+import company3 from "../../assets/images/companies/img-3.png";
+import company4 from "../../assets/images/companies/img-4.png";
+import company5 from "../../assets/images/companies/img-5.png";
+import company6 from "../../assets/images/companies/img-6.png";
+import company7 from "../../assets/images/companies/img-7.png";
+import company8 from "../../assets/images/companies/img-8.png";
 
 const productsData = [
   {
@@ -25,12 +25,17 @@ const productsData = [
     oldprice: 0,
     newprice: 240,
     islable: true,
-    lable: 'Trending',
-    extraimgs :[product2,product3,product4],
-    shortspecifications: ['Full Sleeve', 'Cotton', 'All Sizes available', '4 Different Color'],
+    lable: "Trending",
+    extraimgs: [product2, product3, product4],
+    shortspecifications: [
+      "Full Sleeve",
+      "Cotton",
+      "All Sizes available",
+      "4 Different Color",
+    ],
     category: "T-shirts",
     reviews: 132,
-    shortservices:[
+    shortservices: [
       { icon: "mdi-sync", value: "10 Days Replacement" },
       { icon: "mdi-currency-usd-circle", value: "Cash on Delivery available" },
     ],
@@ -56,13 +61,18 @@ const productsData = [
     date: "22/05/2017",
     oldprice: 240,
     newprice: 225,
-    isOffer:true,
-    offer:25,
-    extraimgs :[product1,product3,product4],
-    shortspecifications: ['Full Sleeve', 'Cotton', 'All Sizes available', '4 Different Color'],
+    isOffer: true,
+    offer: 25,
+    extraimgs: [product1, product3, product4],
+    shortspecifications: [
+      "Full Sleeve",
+      "Cotton",
+      "All Sizes available",
+      "4 Different Color",
+    ],
     category: "T-shirts",
     reviews: 132,
-    shortservices:[
+    shortservices: [
       { icon: "mdi-sync", value: "10 Days Replacement" },
       { icon: "mdi-currency-usd-circle", value: "Cash on Delivery available" },
     ],
@@ -88,12 +98,17 @@ const productsData = [
     date: "22/05/2017",
     oldprice: 290,
     newprice: 275,
-    islike:true,
-    extraimgs :[product1,product2,product4],
-    shortspecifications: ['Full Sleeve', 'Cotton', 'All Sizes available', '4 Different Color'],
+    islike: true,
+    extraimgs: [product1, product2, product4],
+    shortspecifications: [
+      "Full Sleeve",
+      "Cotton",
+      "All Sizes available",
+      "4 Different Color",
+    ],
     category: "T-shirts",
     reviews: 132,
-    shortservices:[
+    shortservices: [
       { icon: "mdi-sync", value: "10 Days Replacement" },
       { icon: "mdi-currency-usd-circle", value: "Cash on Delivery available" },
     ],
@@ -119,18 +134,23 @@ const productsData = [
     date: "22/05/2017",
     oldprice: 290,
     newprice: 275,
-    extraimgs :[product1,product2,product3],
-    shortspecifications: ['Full Sleeve', 'Cotton', 'All Sizes available', '4 Different Color'],
+    extraimgs: [product1, product2, product3],
+    shortspecifications: [
+      "Full Sleeve",
+      "Cotton",
+      "All Sizes available",
+      "4 Different Color",
+    ],
     category: "T-shirts",
     reviews: 132,
-    shortservices:[
+    shortservices: [
       { icon: "mdi-sync", value: "10 Days Replacement" },
       { icon: "mdi-currency-usd-circle", value: "Cash on Delivery available" },
     ],
     colorOptions: [
-      { image: product2,color: "Blue" },
-      { image: product3,color: "Cyan" },
-      { image: product4,color: "Green" },
+      { image: product2, color: "Blue" },
+      { image: product3, color: "Cyan" },
+      { image: product4, color: "Green" },
     ],
     specification: [
       { type: "Category", value: "T-shirt" },
@@ -149,12 +169,17 @@ const productsData = [
     date: "22/05/2017",
     oldprice: 290,
     newprice: 275,
-    islike:true,
-    extraimgs :[product5,product2,product3],
-    shortspecifications: ['Full Sleeve', 'Cotton', 'All Sizes available', '4 Different Color'],
+    islike: true,
+    extraimgs: [product5, product2, product3],
+    shortspecifications: [
+      "Full Sleeve",
+      "Cotton",
+      "All Sizes available",
+      "4 Different Color",
+    ],
     category: "T-shirts",
     reviews: 132,
-    shortservices:[
+    shortservices: [
       { icon: "mdi-sync", value: "10 Days Replacement" },
       { icon: "mdi-currency-usd-circle", value: "Cash on Delivery available" },
     ],
@@ -180,11 +205,16 @@ const productsData = [
     date: "22/05/2017",
     oldprice: 242,
     newprice: 0,
-    extraimgs :[product6,product4,product3],
-    shortspecifications: ['Full Sleeve', 'Cotton', 'All Sizes available', '4 Different Color'],
+    extraimgs: [product6, product4, product3],
+    shortspecifications: [
+      "Full Sleeve",
+      "Cotton",
+      "All Sizes available",
+      "4 Different Color",
+    ],
     category: "T-shirts",
     reviews: 132,
-    shortservices:[
+    shortservices: [
       { icon: "mdi-sync", value: "10 Days Replacement" },
       { icon: "mdi-currency-usd-circle", value: "Cash on Delivery available" },
     ],
@@ -210,11 +240,16 @@ const productsData = [
     date: "22/05/2017",
     oldprice: 240,
     newprice: 225,
-    extraimgs :[product2,product4,product3],
-    shortspecifications: ['Full Sleeve', 'Cotton', 'All Sizes available', '4 Different Color'],
+    extraimgs: [product2, product4, product3],
+    shortspecifications: [
+      "Full Sleeve",
+      "Cotton",
+      "All Sizes available",
+      "4 Different Color",
+    ],
     category: "T-shirts",
     reviews: 132,
-    shortservices:[
+    shortservices: [
       { icon: "mdi-sync", value: "10 Days Replacement" },
       { icon: "mdi-currency-usd-circle", value: "Cash on Delivery available" },
     ],
@@ -230,8 +265,8 @@ const productsData = [
       { type: "Material", value: "Cotton" },
       { type: "Weight", value: "140 Gm" },
     ],
-  }
-]
+  },
+];
 
 const recentProducts = [
   {
@@ -261,7 +296,7 @@ const recentProducts = [
     oldPrice: 138,
     newPrice: 135,
   },
-]
+];
 
 const comments = [
   {
@@ -281,11 +316,10 @@ const comments = [
   {
     id: 3,
     name: "Scott",
-    description:
-      "If several languages coalesce, the grammar of the resulting",
+    description: "If several languages coalesce, the grammar of the resulting",
     date: "04 Jan, 2020",
   },
-]
+];
 
 const discountData = [
   { label: "Less than 10%", value: 0 },
@@ -294,7 +328,7 @@ const discountData = [
   { label: "30% or more", value: 30 },
   { label: "40% or more", value: 40 },
   { label: "50% or more", value: 50 },
-]
+];
 
 const orders = [
   {
@@ -396,7 +430,7 @@ const orders = [
     badge: "success",
     paymentStatus: "Paid",
   },
-]
+];
 
 const cartData = {
   products: [
@@ -444,7 +478,7 @@ const cartData = {
     estimatedTax: "$ 19.22",
     total: "$ 1744.22",
   },
-}
+};
 
 const customerData = [
   {
@@ -535,20 +569,20 @@ const customerData = [
     walletBalance: "$52870",
     joiningDate: "02 Oct, 2019",
   },
-]
+];
 
 const shops = [
   {
     id: 1,
-    img : company1, 
+    img: company1,
     name: "Nedick's",
-    author: 'Wayne McClain',
+    author: "Wayne McClain",
     product: 86,
-    balance: "12,456"
+    balance: "12,456",
   },
   {
     id: 2,
-    img : company2, 
+    img: company2,
     author: "David Marshall",
     name: "Brendle's",
     product: 72,
@@ -557,7 +591,7 @@ const shops = [
   },
   {
     id: 3,
-    img : company3, 
+    img: company3,
     author: "Katia Stapleton",
     name: "Tech Hifi",
     product: 75,
@@ -566,7 +600,7 @@ const shops = [
   },
   {
     id: 4,
-    img : company4, 
+    img: company4,
     author: "Andrew Bivens",
     name: "Lafayette",
     product: 65,
@@ -575,7 +609,7 @@ const shops = [
   },
   {
     id: 5,
-    img : company5, 
+    img: company5,
     author: "Mae Rankin",
     name: "Packer",
     product: 82,
@@ -584,7 +618,7 @@ const shops = [
   },
   {
     id: 6,
-    img : company6, 
+    img: company6,
     author: "Brian Correa",
     name: "Micro Design",
     product: 71,
@@ -593,7 +627,7 @@ const shops = [
   },
   {
     id: 7,
-    img : company7, 
+    img: company7,
     author: "Dean Odom",
     name: "Keeney's",
     product: 66,
@@ -602,14 +636,14 @@ const shops = [
   },
   {
     id: 8,
-    img : company8, 
+    img: company8,
     author: "John McLeroy",
     name: "Tech Hifi",
     product: 58,
     balance: "14,654",
     profileLink: "#",
-  }
-]
+  },
+];
 
 export {
   productsData,
@@ -620,4 +654,4 @@ export {
   shops,
   customerData,
   cartData,
-}
+};

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {
   bookedPtoColor,
   selectionColor,
-  balanceColor
+  balanceColor,
 } from "../../styles/constants";
 
 export const Legend = () => {
@@ -60,9 +60,9 @@ const HolidayCircle = styled(Circle)`
 
 const FlexDiv = styled.div`
   display: flex;
-  color: ${props => props.color};
+  color: ${(props) => props.color};
   > * {
-    background-color: ${props => props.color};
+    background-color: ${(props) => props.color};
   }
 `;
 

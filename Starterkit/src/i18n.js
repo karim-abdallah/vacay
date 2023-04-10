@@ -2,29 +2,29 @@ import i18n from "i18next";
 import detector from "i18next-browser-languagedetector";
 import { reactI18nextModule } from "react-i18next";
 
-import translationGr from './locales/gr/translation.json';
-import translationIT from './locales/it/translation.json';
-import translationRS from './locales/rs/translation.json';
-import translationSP from './locales/sp/translation.json';
-import translationENG from './locales/en/translation.json';
+import translationGr from "./locales/gr/translation.json";
+import translationIT from "./locales/it/translation.json";
+import translationRS from "./locales/rs/translation.json";
+import translationSP from "./locales/sp/translation.json";
+import translationENG from "./locales/en/translation.json";
 
 //translations
 const resources = {
   gr: {
-    translation: translationGr
+    translation: translationGr,
   },
   it: {
-    translation: translationIT
+    translation: translationIT,
   },
-   rs: {
-    translation: translationRS
+  rs: {
+    translation: translationRS,
   },
-   sp: {
-    translation: translationSP
+  sp: {
+    translation: translationSP,
   },
-   eng: {
-    translation: translationENG
-  }
+  eng: {
+    translation: translationENG,
+  },
 };
 
 i18n
@@ -38,8 +38,8 @@ i18n
     keySeparator: false, // we do not use keys in form messages.welcome
 
     interpolation: {
-      escapeValue: false // react already safes from xss
-    }
+      escapeValue: false, // react already safes from xss
+    },
   });
 
 export default i18n;

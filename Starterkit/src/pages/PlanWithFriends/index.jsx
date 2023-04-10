@@ -9,7 +9,7 @@ import { selectDashboardData } from "../../store/dashboard/selector";
 const nMonthsAheadDefault = 6;
 
 const PlanWithFriends = () => {
-    const myDashboardData = useSelector(selectDashboardData);
+  const myDashboardData = useSelector(selectDashboardData);
 
   return (
     <React.Fragment>
@@ -22,7 +22,8 @@ const PlanWithFriends = () => {
               <CalendarSummaryGroup
                 currentMonth={myDashboardData.currentMonth}
                 bookedPtoDays={myDashboardData.bookedPTO.dates}
-                nMonthsAhead={nMonthsAheadDefault}/>
+                nMonthsAhead={nMonthsAheadDefault}
+              />
             </StyledCardBody>
           </Card>
         </Container>

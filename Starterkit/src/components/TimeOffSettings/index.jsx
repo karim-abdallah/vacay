@@ -34,7 +34,7 @@ const HolidaysPane = () => {
     return <HolidayCheckbox holiday={item} />;
   });
 
-  const checkboxHandler = checkedValues => {
+  const checkboxHandler = (checkedValues) => {
     dispatch({ type: "holidays/update", payload: checkedValues });
   };
 
@@ -42,7 +42,7 @@ const HolidaysPane = () => {
     <HolidayPaneContainer>
       <SettingsSubheader>Public holidays</SettingsSubheader>
       <HolidaysContainer
-        defaultValue={sortedHolidays.filter(x => x.active).map(x => x.name)}
+        defaultValue={sortedHolidays.filter((x) => x.active).map((x) => x.name)}
         onChange={checkboxHandler}
       >
         {holidayCheckboxes}
@@ -69,7 +69,7 @@ const OptionPaneWithForm = () => {
 
   const fields = [
     { name: "ptoAllowance", value: settings.PTOSettings.annualAllowanceDays },
-    { name: "ptoBalance", value: settings.PTOSettings.currentBalanceDays }
+    { name: "ptoBalance", value: settings.PTOSettings.currentBalanceDays },
   ];
 
   const updateSettingsHandler = (_, allValues) => {
@@ -213,7 +213,7 @@ const TimeOffSettingsButton = styled.button`
   position: relative;
   bottom: 8px;
   &:hover {
-    background-color: ${props => !props.showPointer && cardHoverColor};
+    background-color: ${(props) => !props.showPointer && cardHoverColor};
   }
 `;
 

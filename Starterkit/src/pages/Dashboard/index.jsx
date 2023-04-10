@@ -5,7 +5,7 @@ import { Alert } from "antd";
 import { useSelector } from "react-redux";
 import {
   getCurrentMonth,
-  getNegativeBalanceMonths
+  getNegativeBalanceMonths,
 } from "../../store/dashboard/selector";
 import BarChart from "../../components/Charts/barchart";
 import Legend from "../../components/Charts/legend";
@@ -20,7 +20,7 @@ const Dashboard = () => {
   const currentMonth = useSelector(getCurrentMonth);
   const negativeBalanceMonths = useSelector(getNegativeBalanceMonths);
 
-    const twelveMonths = computeNextNMonths(currentMonth, 12, "date");
+  const twelveMonths = computeNextNMonths(currentMonth, 12, "date");
   const calendarDiv = () => {
     // Split out the calendar array into 3 sub arrays
     const calendarArray = twelveMonths.map((item, index) => {
@@ -46,7 +46,7 @@ const Dashboard = () => {
     );
   };
 
-  const generateWarning = negativeBalanceMonths => {
+  const generateWarning = (negativeBalanceMonths) => {
     return negativeBalanceMonths.length ? (
       <StyledAlert
         message={`Warning: You have exceeded the maximum number of days selected or booked for ${negativeBalanceMonths.join(

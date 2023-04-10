@@ -11,7 +11,7 @@ export const defaultMonths = [
   "September",
   "October",
   "November",
-  "December"
+  "December",
 ];
 
 // Index for DateTime.getDay() method corresponding to week-ends
