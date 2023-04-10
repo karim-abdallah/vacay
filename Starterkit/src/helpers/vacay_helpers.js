@@ -74,14 +74,15 @@ export const computeNextNMonths = (
   const nextNMonths = [];
   let currentDate = new Date(startingMonth);
 
-    console.log(currentDate);
-  for (let step = 0; step < nMonths; step++) {
+    for (let step = 0; step < nMonths; step++) {
     const formattedMonth =
-          format === "string" ? monthYearFormatter(currentDate) : currentDate;
-    nextNMonths.push(formattedMonth);
+          format === "string" ? monthYearFormatter(currentDate) : new Date(currentDate);
+        nextNMonths.push(formattedMonth);
+
       currentDate.setMonth(currentDate.getMonth() + 1);
   }
 
+    console.log(`Month array: ${nextNMonths}`);
     return nextNMonths;
 };
 

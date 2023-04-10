@@ -12,8 +12,8 @@ export const CalendarSummaryGroup = ({
 
   const nNextMonthNames = computeNextNMonths(currentMonth, nMonthsAhead);
   // 2. Calculate available days (right now assuming only 1 user, will add combining
-  // and de-duping for multiple people shortly after
-
+    // and de-duping for multiple people shortly after
+    
   
     const daysAvailable = 18;
     
