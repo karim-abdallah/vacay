@@ -24,7 +24,7 @@ const events = [
     start: new Date().setDate(new Date().getDate() + 7),
     className: "bg-primary text-white",
   },
-];
+]
 
 const calenderDefaultCategories = [
   {
@@ -47,6 +47,6 @@ const calenderDefaultCategories = [
     title: "Report Error",
     type: "bg-danger",
   },
-];
+]
 
-export { calenderDefaultCategories, events };
+export { calenderDefaultCategories, events }

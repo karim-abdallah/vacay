@@ -3,15 +3,16 @@ import { axisColor } from "../styles/constants";
 import { defaultMonths, weekendDayIndex } from "../constants";
 import { differenceInCalendarDays } from "date-fns";
 
+
 /* Formatting Helpers */
 
-export const monthYearFormatter = (date) => {
+export const monthYearFormatter = date => {
   // returns date in format "Month Year"
   // Should be moved to util folder
   return defaultMonths[date.getMonth()] + " " + date.getFullYear();
 };
 
-export const xAxisMonthYearFormatter = (date) => {
+export const xAxisMonthYearFormatter = date => {
   const formattedDate = (month, year) => {
     return (
       <StyledMonthyearLabel>
@@ -47,10 +48,11 @@ const StyledMonthyearLabel = styled.div`
   color: ${axisColor};
 `;
 
-export const monthStartFormatter = (date) => {
+export const monthStartFormatter = date => {
   // Returns start date of the month for a given date
   return null;
 };
+
 
 /* Date Manipulation Helpers */
 
@@ -68,25 +70,23 @@ export const computeNextNMonths = (
   format = "string"
 ) => {
   // Takes in a start month and computes N next ones
-  // Returns an array either in Date object format or as string of dates
+    // Returns an array either in Date object format or as string of dates
   const nextNMonths = [];
   let currentDate = new Date(startingMonth);
 
-  for (let step = 0; step < nMonths; step++) {
+    for (let step = 0; step < nMonths; step++) {
     const formattedMonth =
-      format === "string"
-        ? monthYearFormatter(currentDate)
-        : new Date(currentDate);
-    nextNMonths.push(formattedMonth);
+          format === "string" ? monthYearFormatter(currentDate) : new Date(currentDate);
+        nextNMonths.push(formattedMonth);
 
-    currentDate.setMonth(currentDate.getMonth() + 1);
+      currentDate.setMonth(currentDate.getMonth() + 1);
   }
 
-  console.log(`Month array: ${nextNMonths}`);
-  return nextNMonths;
+    console.log(`Month array: ${nextNMonths}`);
+    return nextNMonths;
 };
 
-export const convertDateRangeToDiscreteDates = (dateRange) => {
+export const convertDateRangeToDiscreteDates = dateRange => {
   // Returns an array of all dates found in between the two-date dateRange
   // dateRange should be [startDate, endDate]
   const dates = [];
@@ -129,7 +129,7 @@ export const filterOutDuplicates = (selectedDates, existingDates) => {
   return dedupedDates;
 };
 
-export const areAllDaysWeekends = (daysArray) => {
+export const areAllDaysWeekends = daysArray => {
   // Takes an array of DateTime objects and returns True
   // if all days in array are week-ends
   for (let n = 0; n < daysArray.length; n++) {
@@ -157,15 +157,15 @@ export const isSelectionAlreadyBooked = (daysArray, bookedPTOArray) => {
   // So essentially, make sure all the dates in the array are
   // in the booked store
   if (
-    daysArray.filter((x) => bookedPTOArray.find((y) => isSameDay(x, y)))
-      .length !== daysArray.length
+    daysArray.filter(x => bookedPTOArray.find(y => isSameDay(x, y))).length !==
+    daysArray.length
   ) {
     return false;
   }
   return true;
 };
 
-export const isDayInThePast = (date) => {
+export const isDayInThePast = date => {
   // Verifies if supplied date is in the past
   // If the date is today, returns false
   const today = new Date();
@@ -194,3 +194,4 @@ export function arraysEqual(arr1, arr2) {
 }
 
 /* Logic Helpers */
+

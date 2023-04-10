@@ -7,9 +7,8 @@ import {
   changeLayout,
   changeLayoutWidth,
   changeSidebarTheme,
-  changeSidebarType,
-  changePreloader,
-  changeTopbarTheme,
+  changeSidebarType, changePreloader,
+  changeTopbarTheme
 } from "../../store/actions";
 
 //SimpleBar
@@ -43,8 +42,8 @@ class RightSidebar extends Component {
   }
 
   /**
-   * Hides the right sidebar
-   */
+    * Hides the right sidebar
+    */
   hideRightbar(e) {
     e.preventDefault();
     this.props.hideRightSidebar();
@@ -57,14 +56,14 @@ class RightSidebar extends Component {
         sidebarType: this.props.leftSideBarType,
         layoutWidth: this.props.layoutWidth,
         sidebarTheme: this.props.leftSideBarTheme,
-        topbarTheme: this.props.topbarTheme,
+        topbarTheme: this.props.topbarTheme
       });
     }
   }
 
   changeThemePreloader = () => {
     this.props.changePreloader(!this.props.isPreloader);
-  };
+  }
   /**
    * Change the layout
    * @param {*} e
@@ -77,7 +76,7 @@ class RightSidebar extends Component {
 
   /**
    * Changes layout width
-   * @param {*} e
+   * @param {*} e 
    */
   changeLayoutWidth(e) {
     if (e.target.checked) {
@@ -110,14 +109,11 @@ class RightSidebar extends Component {
     return (
       <React.Fragment>
         <div className="right-bar">
+
           <SimpleBar style={{ height: "900px" }}>
             <div data-simplebar className="h-100">
               <div className="rightbar-title px-3 py-4">
-                <Link
-                  to="#"
-                  onClick={this.hideRightbar}
-                  className="right-bar-toggle float-end"
-                >
+                <Link to="#" onClick={this.hideRightbar} className="right-bar-toggle float-end">
                   <i className="mdi mdi-close noti-icon"></i>
                 </Link>
                 <h5 className="m-0">Settings</h5>
@@ -134,8 +130,7 @@ class RightSidebar extends Component {
                     name="radioFruit"
                     value="vertical"
                     checked={this.state.layoutType === "vertical"}
-                    onChange={this.changeLayout}
-                  />
+                    onChange={this.changeLayout} />
                   <Label htmlFor="radioVertical">Vertical</Label>
                   {"   "}
                   <Input
@@ -144,25 +139,21 @@ class RightSidebar extends Component {
                     name="radioFruit"
                     value="horizontal"
                     checked={this.state.layoutType === "horizontal"}
-                    onChange={this.changeLayout}
-                  />
+                    onChange={this.changeLayout} />
                   <Label htmlFor="radioHorizontal">Horizontal</Label>
                 </div>
 
                 <hr className="mt-1" />
 
                 <div className="radio-toolbar">
-                  <span className="mb-2 d-block" id="radio-title">
-                    Layout Width
-                  </span>
+                  <span className="mb-2 d-block" id="radio-title">Layout Width</span>
                   <Input
                     type="radio"
                     id="radioFluid"
                     name="radioWidth"
                     value="fluid"
                     checked={this.state.layoutWidth !== "boxed"}
-                    onChange={this.changeLayoutWidth}
-                  />
+                    onChange={this.changeLayoutWidth} />
                   <Label htmlFor="radioFluid">Fluid</Label>
                   {"   "}
                   <Input
@@ -171,24 +162,20 @@ class RightSidebar extends Component {
                     name="radioWidth"
                     value="boxed"
                     checked={this.state.layoutWidth === "boxed"}
-                    onChange={this.changeLayoutWidth}
-                  />
+                    onChange={this.changeLayoutWidth} />
                   <Label htmlFor="radioBoxed">Boxed</Label>
                 </div>
                 <hr className="mt-1" />
 
                 <div className="radio-toolbar">
-                  <span className="mb-2 d-block" id="radio-title">
-                    Topbar Theme
-                  </span>
+                  <span className="mb-2 d-block" id="radio-title">Topbar Theme</span>
                   <Input
                     type="radio"
                     id="radioThemeLight"
                     name="radioTheme"
                     value="light"
                     checked={this.state.topbarTheme === "light"}
-                    onChange={this.changeTopbarTheme}
-                  />
+                    onChange={this.changeTopbarTheme} />
 
                   <Label htmlFor="radioThemeLight">Light</Label>
                   {"   "}
@@ -198,109 +185,98 @@ class RightSidebar extends Component {
                     name="radioTheme"
                     value="dark"
                     checked={this.state.topbarTheme === "dark"}
-                    onChange={this.changeTopbarTheme}
-                  />
+                    onChange={this.changeTopbarTheme} />
                   <Label htmlFor="radioThemeDark">Dark</Label>
                   {"   "}
+
                 </div>
 
-                {this.state.layoutType === "vertical" ? (
-                  <React.Fragment>
-                    <hr className="mt-1" />
-                    <div className="radio-toolbar">
-                      <span className="mb-2 d-block" id="radio-title">
-                        Left Sidebar Type
-                      </span>
-                      <Input
-                        type="radio"
-                        id="sidebarDefault"
-                        name="sidebarType"
-                        value="default"
-                        checked={this.state.sidebarType === "default"}
-                        onChange={this.changeLeftSidebarType}
-                      />
 
-                      <Label htmlFor="sidebarDefault">Default</Label>
-                      {"   "}
-                      <Input
-                        type="radio"
-                        id="sidebarCompact"
-                        name="sidebarType"
-                        value="compact"
-                        checked={this.state.sidebarType === "compact"}
-                        onChange={this.changeLeftSidebarType}
-                      />
-                      <Label htmlFor="sidebarCompact">Compact</Label>
-                      {"   "}
-                      <Input
-                        type="radio"
-                        id="sidebarIcon"
-                        name="sidebarType"
-                        value="icon"
-                        checked={this.state.sidebarType === "icon"}
-                        onChange={this.changeLeftSidebarType}
-                      />
-                      <Label htmlFor="sidebarIcon">Icon</Label>
-                    </div>
+                {this.state.layoutType === "vertical" ? <React.Fragment>
+                  <hr className="mt-1" />
+                  <div className="radio-toolbar">
+                    <span className="mb-2 d-block" id="radio-title">Left Sidebar Type</span>
+                    <Input
+                      type="radio"
+                      id="sidebarDefault"
+                      name="sidebarType"
+                      value="default"
+                      checked={this.state.sidebarType === "default"}
+                      onChange={this.changeLeftSidebarType} />
 
-                    <hr className="mt-1" />
+                    <Label htmlFor="sidebarDefault">Default</Label>
+                    {"   "}
+                    <Input
+                      type="radio"
+                      id="sidebarCompact"
+                      name="sidebarType"
+                      value="compact"
+                      checked={this.state.sidebarType === "compact"}
+                      onChange={this.changeLeftSidebarType} />
+                    <Label htmlFor="sidebarCompact">Compact</Label>
+                    {"   "}
+                    <Input
+                      type="radio"
+                      id="sidebarIcon"
+                      name="sidebarType"
+                      value="icon"
+                      checked={this.state.sidebarType === "icon"}
+                      onChange={this.changeLeftSidebarType}
+                    />
+                    <Label htmlFor="sidebarIcon">Icon</Label>
 
-                    <div className="radio-toolbar">
-                      <span className="mb-2 d-block" id="radio-title">
-                        Left Sidebar Color
-                      </span>
-                      <Input
-                        type="radio"
-                        id="leftsidebarThemelight"
-                        name="leftsidebarTheme"
-                        value="light"
-                        checked={this.state.sidebarTheme === "light"}
-                        onChange={this.changeLeftSidebarTheme}
-                      />
+                  </div>
 
-                      <Label htmlFor="leftsidebarThemelight">Light</Label>
-                      {"   "}
-                      <Input
-                        type="radio"
-                        id="leftsidebarThemedark"
-                        name="leftsidebarTheme"
-                        value="dark"
-                        checked={this.state.sidebarTheme === "dark"}
-                        onChange={this.changeLeftSidebarTheme}
-                      />
-                      <Label htmlFor="leftsidebarThemedark">Dark</Label>
-                      {"   "}
-                      <Input
-                        type="radio"
-                        id="leftsidebarThemecolored"
-                        name="leftsidebarTheme"
-                        value="colored"
-                        checked={this.state.sidebarTheme === "colored"}
-                        onChange={this.changeLeftSidebarTheme}
-                      />
-                      <Label htmlFor="leftsidebarThemecolored">Colored</Label>
-                    </div>
-                    <hr className="mt-1" />
-                  </React.Fragment>
-                ) : null}
+                  <hr className="mt-1" />
+
+                  <div className="radio-toolbar">
+                    <span className="mb-2 d-block" id="radio-title">Left Sidebar Color</span>
+                    <Input
+                      type="radio"
+                      id="leftsidebarThemelight"
+                      name="leftsidebarTheme"
+                      value="light"
+                      checked={this.state.sidebarTheme === "light"}
+                      onChange={this.changeLeftSidebarTheme} />
+
+                    <Label htmlFor="leftsidebarThemelight">Light</Label>
+                    {"   "}
+                    <Input
+                      type="radio"
+                      id="leftsidebarThemedark"
+                      name="leftsidebarTheme"
+                      value="dark"
+                      checked={this.state.sidebarTheme === "dark"}
+                      onChange={this.changeLeftSidebarTheme} />
+                    <Label htmlFor="leftsidebarThemedark">Dark</Label>
+                    {"   "}
+                    <Input
+                      type="radio"
+                      id="leftsidebarThemecolored"
+                      name="leftsidebarTheme"
+                      value="colored"
+                      checked={this.state.sidebarTheme === "colored"}
+                      onChange={this.changeLeftSidebarTheme}
+                    />
+                    <Label htmlFor="leftsidebarThemecolored">Colored</Label>
+
+                  </div>
+                  <hr className="mt-1" />
+
+
+                </React.Fragment> : null}
 
                 <FormGroup>
-                  <span className="mb-2 d-block" id="radio-title">
-                    Preloader
-                  </span>
+
+                  <span className="mb-2 d-block" id="radio-title">Preloader</span>
 
                   <div className="form-check form-switch mb-3">
-                    <Input
-                      type="checkbox"
-                      className="form-check-input theme-choice"
-                      id="checkbox_1"
+                    <Input type="checkbox" className="form-check-input theme-choice" id="checkbox_1"
                       checked={this.props.isPreloader}
-                      onChange={this.changeThemePreloader}
-                    />
-                    <Label className="form-check-label" htmlFor="checkbox_1">
-                      Preloader
-                    </Label>
+                      onChange={this.changeThemePreloader} />
+                    <Label className="form-check-label" htmlFor="checkbox_1">Preloader</Label>
                   </div>
+
                 </FormGroup>
 
                 <h6 className="text-center">Choose Layouts</h6>
@@ -316,7 +292,10 @@ class RightSidebar extends Component {
                 </div>
 
                 <div className="mb-2">
-                  <Link to="#" target="_blank">
+                  <Link
+                    to="#"
+                    target="_blank"
+                  >
                     <img
                       src={layout2}
                       className="img-fluid img-thumbnail"
@@ -326,7 +305,10 @@ class RightSidebar extends Component {
                 </div>
 
                 <div className="mb-2">
-                  <Link to="#" target="_blank">
+                  <Link
+                    to="#"
+                    target="_blank"
+                  >
                     <img
                       src={layout3}
                       className="img-fluid img-thumbnail"
@@ -343,7 +325,9 @@ class RightSidebar extends Component {
                   <i className="mdi mdi-cart me-1"></i> Purchase Now
                 </Link>
               </div>
+
             </div>
+
           </SimpleBar>
         </div>
         <div className="rightbar-overlay"></div>
@@ -352,7 +336,7 @@ class RightSidebar extends Component {
   }
 }
 
-const mapStatetoProps = (state) => {
+const mapStatetoProps = state => {
   return { ...state.Layout };
 };
 
@@ -363,5 +347,5 @@ export default connect(mapStatetoProps, {
   changeSidebarType,
   changeLayoutWidth,
   changeTopbarTheme,
-  changePreloader,
+  changePreloader
 })(RightSidebar);

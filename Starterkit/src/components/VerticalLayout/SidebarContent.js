@@ -15,7 +15,7 @@ import {
   changeLayoutWidth,
   changeSidebarTheme,
   changeSidebarType,
-  changePreloader,
+  changePreloader
 } from "../../store/actions";
 import logo from "../../assets/images/logo.png";
 
@@ -49,7 +49,7 @@ class SidebarContent extends Component {
     }
   }
 
-  activateParentDropdown = (item) => {
+  activateParentDropdown = item => {
     item.classList.add("active");
     const parent = item.parentElement;
 
@@ -120,7 +120,7 @@ const StyledSidebar = styled.div`
   padding-left: 20px;
 `;
 
-const mapStatetoProps = (state) => {
+const mapStatetoProps = state => {
   return { ...state.Layout };
 };
 
@@ -130,6 +130,6 @@ export default withRouter(
     changeSidebarTheme,
     changeSidebarType,
     changeLayoutWidth,
-    changePreloader,
+    changePreloader
   })(withNamespaces()(SidebarContent))
 );

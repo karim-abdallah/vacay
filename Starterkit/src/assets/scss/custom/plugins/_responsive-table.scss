@@ -1,3 +1,4 @@
+
 //
 // Responsive Table
 //
@@ -9,17 +10,17 @@
   .table-responsive {
     border: none !important;
   }
-  .btn-group {
+  .btn-group{
     .btn-default {
       background-color: $light;
       color: $dark;
       border: 1px solid darken($light, 2%);
       &.btn-primary {
-        background-color: $primary;
-        border-color: $primary;
-        color: $white;
+          background-color: $primary;
+          border-color: $primary;
+          color: $white;
       }
-    }
+  }
     &.pull-right {
       float: right;
       .dropdown-menu {
@@ -40,7 +41,7 @@
     padding-left: 40px;
     color: $dropdown-color !important;
 
-    &:hover {
+    &:hover{
       background-color: lighten($gray-200, 2%) !important;
     }
 
@@ -97,7 +98,7 @@
     input[type="checkbox"]:checked + label {
       &::after {
         content: "\f00c";
-        font-family: "Font Awesome 5 Free";
+        font-family: 'Font Awesome 5 Free';
         font-weight: 900;
       }
     }
@@ -119,10 +120,10 @@
   }
 
   .fixed-solution {
-    .sticky-table-header {
+    .sticky-table-header{
       top: $header-height !important;
       background-color: $primary;
-      table {
+      table{
         color: $white;
       }
     }
@@ -132,8 +133,8 @@
 body[data-layout="horizontal"] {
   @media (min-width: 992px) {
     .fixed-solution {
-      .sticky-table-header {
-        top: $header-height + 50px !important;
+      .sticky-table-header{
+        top: $header-height + 50px !important;;
       }
     }
   }

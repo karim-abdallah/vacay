@@ -6,7 +6,7 @@ import {
   changeLayout,
   changeTopbarTheme,
   toggleRightSidebar,
-  changeLayoutWidth,
+  changeLayoutWidth
 } from "../../store/actions";
 import { pageTitle } from "../../constants";
 
@@ -20,7 +20,7 @@ class Layout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isMenuOpened: false,
+      isMenuOpened: false
     };
     this.toggleRightSidebar = this.toggleRightSidebar.bind(this);
   }
@@ -38,7 +38,7 @@ class Layout extends Component {
         document.getElementById("preloader").style.display = "block";
         document.getElementById("status").style.display = "block";
 
-        setTimeout(function () {
+        setTimeout(function() {
           document.getElementById("preloader").style.display = "none";
           document.getElementById("status").style.display = "none";
         }, 2500);
@@ -74,7 +74,7 @@ class Layout extends Component {
   /**
    * Opens the menu - mobile
    */
-  openMenu = (e) => {
+  openMenu = e => {
     this.setState({ isMenuOpened: !this.state.isMenuOpened });
   };
   render() {
@@ -106,14 +106,14 @@ class Layout extends Component {
     );
   }
 }
-const mapStatetoProps = (state) => {
+const mapStatetoProps = state => {
   return {
-    ...state.Layout,
+    ...state.Layout
   };
 };
 export default connect(mapStatetoProps, {
   changeTopbarTheme,
   toggleRightSidebar,
   changeLayout,
-  changeLayoutWidth,
+  changeLayoutWidth
 })(withRouter(Layout));

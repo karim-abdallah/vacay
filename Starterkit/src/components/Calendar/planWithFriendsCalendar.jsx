@@ -6,29 +6,33 @@ import { computeNextNMonths } from "../../helpers/vacay_helpers";
 export const CalendarSummaryGroup = ({
   currentMonth,
   bookedPtoDays,
-  nMonthsAhead,
+  nMonthsAhead
 }) => {
   // 1. Compute name of N next months
 
   const nNextMonthNames = computeNextNMonths(currentMonth, nMonthsAhead);
   // 2. Calculate available days (right now assuming only 1 user, will add combining
-  // and de-duping for multiple people shortly after
-
-  const daysAvailable = 18;
-
+    // and de-duping for multiple people shortly after
+    
+  
+    const daysAvailable = 18;
+    
   // 3. Render the month array
 
-  return nNextMonthNames.map((x) => {
     return (
-      <StyledCard>
-        <StyledCardBody>
-          <div>ICON</div>
-          <div>{x}</div>
-          <div>{daysAvailable} days available</div>
-        </StyledCardBody>
-      </StyledCard>
+        nNextMonthNames.map(x => {
+                            return (
+    <StyledCard>
+      <StyledCardBody>
+        <div>ICON</div>
+        <div>{x}</div>
+        <div>{daysAvailable} days available</div>
+      </StyledCardBody>
+    </StyledCard>
+                            );
+        }
+                           )
     );
-  });
 };
 
 export const CalendarSelection = ({ month, daysAvailable }) => {
@@ -44,7 +48,7 @@ export const CalendarSelection = ({ month, daysAvailable }) => {
 };
 
 const StyledCardBody = styled(CardBody)`
-  padding: 5px;
+padding: 5px;
 `;
 
 const StyledCard = styled(Card)`
@@ -53,7 +57,7 @@ const StyledCard = styled(Card)`
   height: 120px;
   background-color: ${calendarSelectionBackgroundColor};
   cursor: pointer;
-  border: 1px solid transparent;
+border: 1px solid transparent;
   &:hover {
     border: 1px solid;
   }

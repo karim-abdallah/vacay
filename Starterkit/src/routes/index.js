@@ -24,7 +24,7 @@ const authProtectedRoutes = [
   { path: "/planWithFriends", component: PlanWithFriends },
 
   // this route should be at the end of all other routes
-  { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
+  { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> }
 ];
 
 const publicRoutes = [
@@ -37,7 +37,7 @@ const publicRoutes = [
   // Authentication Inner
   { path: "/auth-login", component: Login1 },
   { path: "/auth-register", component: Register1 },
-  { path: "/auth-recoverpw", component: ForgetPwd1 },
+  { path: "/auth-recoverpw", component: ForgetPwd1 }
 ];
 
 export { authProtectedRoutes, publicRoutes };

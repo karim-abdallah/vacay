@@ -6,7 +6,7 @@ import {
   selectDashboardData,
   getSelectedDates,
   getDatesToUnbook,
-  getNegativeBalanceMonths,
+  getNegativeBalanceMonths
 } from "../../store/dashboard/selector";
 import {
   bookedPtoColor,
@@ -15,17 +15,17 @@ import {
   unbookColor,
   balanceColor,
   negativeBalanceColor,
-  axisColor,
+  axisColor
 } from "../../styles/constants";
 import {
   monthYearFormatter,
   computeNextNMonths,
-  arraysEqual,
+  arraysEqual
 } from "../../helpers/vacay_helpers";
 import {
   weekendDayIndex,
   barChartBarPercentage,
-  barChartBorderRadius,
+  barChartBorderRadius
 } from "../../constants";
 
 const computeMonthlyBalance = (
@@ -38,9 +38,9 @@ const computeMonthlyBalance = (
   selectedPerMonth,
   datesToUnbookPerMonth
 ) => {
-  // Calculates monthly balance using orderedLabels as index
-  // Writes into balancePerMonth array
-
+    // Calculates monthly balance using orderedLabels as index
+    // Writes into balancePerMonth array
+    
   // For each month:
   //   calculate: previous balance + accrual rate - booked
   orderedLabels.forEach((element, index) => {
@@ -73,7 +73,7 @@ const generateDashboardData = (
   selectedDates,
   datesToUnbook
 ) => {
-  const monthLabels = computeNextNMonths(currentMonth, 12);
+    const monthLabels = computeNextNMonths(currentMonth, 12);
 
   // The below manipulation of sets intends to count the number of days per month
   // for each category. This helps doing the final calculation to populate each month.
@@ -135,7 +135,7 @@ const generateDashboardData = (
     datesToUnbookPerMonth
   );
 
-  const negativeBalanceMonths = monthLabels.filter((x) => balance[x] < 0);
+  const negativeBalanceMonths = monthLabels.filter(x => balance[x] < 0);
 
   // put together the data object
   const chartData = {
@@ -143,41 +143,41 @@ const generateDashboardData = (
     datasets: [
       {
         label: "Your Balance",
-        backgroundColor: function (context) {
+        backgroundColor: function(context) {
           const index = context.dataIndex;
           const value = context.dataset.data[index];
 
           return value < 0 ? negativeBalanceColor : balanceColor;
         },
-        data: monthLabels.map((x) => balance[x].toFixed(1)),
-        stack: "PTOStack",
+        data: monthLabels.map(x => balance[x].toFixed(1)),
+        stack: "PTOStack"
       },
       {
         label: "Selected Days",
         backgroundColor: selectionColor,
-        data: monthLabels.map((x) => selectedDatesPerMonth[x]),
-        stack: "PTOStack",
+        data: monthLabels.map(x => selectedDatesPerMonth[x]),
+        stack: "PTOStack"
       },
       {
         label: "Unbook",
         backgroundColor: unbookColor,
-        data: monthLabels.map((x) => datesToUnbookPerMonth[x]),
-        stack: "PTOStack",
+        data: monthLabels.map(x => datesToUnbookPerMonth[x]),
+        stack: "PTOStack"
       },
       {
         label: "Days Booked",
         backgroundColor: bookedPtoColor,
-        data: monthLabels.map((x) => PTOPerMonth[x]),
-        stack: "PTOStack",
+        data: monthLabels.map(x => PTOPerMonth[x]),
+        stack: "PTOStack"
       },
       {
         label: "Public Holidays",
         backgroundColor: holidayColor,
-        data: monthLabels.map((x) => holidaysPerMonth[x]),
+        data: monthLabels.map(x => holidaysPerMonth[x]),
         borderSkipped: false,
-        hidden: true,
-      },
-    ],
+        hidden: true
+      }
+    ]
   };
 
   return [chartData, negativeBalanceMonths];
@@ -205,7 +205,7 @@ const BarChart = () => {
   if (!arraysEqual(currentNegativeBalanceMonths, negativeBalanceMonths)) {
     dispatch({
       type: "negativeBalanceMonths/update",
-      payload: [...negativeBalanceMonths],
+      payload: [...negativeBalanceMonths]
     });
   }
   const options = {
@@ -215,31 +215,31 @@ const BarChart = () => {
     scales: {
       y: {
         border: {
-          display: false,
+          display: false
         },
         grid: {
-          display: false,
+          display: false
         },
         max: yAxisMax,
         ticks: {
-          color: axisColor,
-        },
+          color: axisColor
+        }
       },
       x: {
         display: false,
         border: {
-          display: false,
+          display: false
         },
         grid: {
-          display: false,
-        },
-      },
+          display: false
+        }
+      }
     },
     plugins: {
       legend: {
-        display: false,
-      },
-    },
+        display: false
+      }
+    }
   };
 
   return <Bar height={83} width={250} data={data} options={options} />;

@@ -1,51 +1,51 @@
 :root {
-  --vacay-font-color: #2b3674;
-  --vacay-font-color-light: #daddf1;
-  --bookedDaysColor: #6a48ff;
-  --holidaysColor: #ff77b3;
-  --selectedDatesColor: #8b77ff;
-  --datesToUnbookColor: #6d7994;
+    --vacay-font-color: #2B3674;
+    --vacay-font-color-light: #daddf1;
+    --bookedDaysColor: #6A48FF;
+    --holidaysColor: #FF77B3;
+    --selectedDatesColor: #8B77FF;
+    --datesToUnbookColor: #6D7994;
 }
 
 .ant-tooltip-inner {
-  white-space: nowrap;
-  inline-size: min-content;
+    white-space: nowrap;
+    inline-size: min-content;
 }
 
 .pastDates {
-  background: none;
-  color: var(--vacay-font-color-light);
-  border: 0;
+    background: none;
+    color: var(--vacay-font-color-light);
+    border: 0;
 }
 
 .bookedDays {
-  background: var(--bookedDaysColor);
-  color: white;
-  border: 0;
+    background: var(--bookedDaysColor);
+    color: white;
+    border: 0;
 }
 
 .inactiveDays {
-  background: none;
-  border: 0;
+    background: none;
+    border: 0;
 }
 
-.holidays {
-  background: white;
-  border: 2px solid;
-  border-color: var(--bookedDaysColor);
+.holidays{
+    background: white;
+    border: 2px solid;
+    border-color: var(--bookedDaysColor);
 }
 
 .selectedDates {
-  border-radius: 50%;
-  background: #8b77ff;
-  color: white;
-  border: 0;
+    border-radius: 50%;
+    background: #8B77FF;
+    color: white;
+    border: 0;
 }
 
 .datesToUnbook {
-  background: var(--datesToUnbookColor);
-  color: white;
-  border: 0;
+    background: var(--datesToUnbookColor);
+    color: white;
+    border: 0;
 }
 
 .react-calendar {
@@ -106,7 +106,7 @@
   font-size: 0.6em;
 }
 .react-calendar__month-view__weekdays__weekday {
-  padding: 0.5em;
+    padding: 0.5em;
 }
 .react-calendar__month-view__weekNumbers .react-calendar__tile {
   display: flex;
@@ -117,7 +117,7 @@
 }
 
 .react-calendar__month-view__days__day--weekend {
-  font-weight: lighter;
+    font-weight: lighter;
 }
 .react-calendar__month-view__days__day--neighboringMonth {
   color: #757575;
@@ -135,10 +135,10 @@
   font-size: 0.9em;
 }
 .react-calendar__tile:disabled {
-  background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 .react-calendar__tile:enabled:hover {
-  background-color: var(--selectedDatesColor);
+    background-color: var(--selectedDatesColor);
 }
 .react-calendar__tile--hasActive {
   background: #76baff;
@@ -148,14 +148,14 @@
   background: #a9d4ff;
 }
 .react-calendar__tile--active {
-  background: #8b77ff;
+  background: #8B77FF;
   color: white;
 }
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
-  background: #8b77ff;
+  background: #8B77FF;
 }
 .react-calendar--selectRange .react-calendar__tile--hover {
-  background-color: #f4f7fe;
-  color: var(--vacay-font-color);
+    background-color: #F4F7FE;
+    color: var(--vacay-font-color);
 }

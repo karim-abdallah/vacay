@@ -4,20 +4,20 @@
 
 // UI Elements
 
-.ui-elements-demo-bar {
+.ui-elements-demo-bar{
   margin-left: 0;
   margin-right: 20px;
 }
 
-//
+// 
 
-.search-box {
-  .form-control {
+.search-box{
+  .form-control{
     padding-right: 40px;
     padding-left: 20px;
   }
 
-  .search-icon {
+  .search-icon{
     left: auto;
     right: 13px;
   }
@@ -25,20 +25,22 @@
 
 // dropdown
 
-.dropdown-megamenu {
-  &.show {
-    left: 20px !important;
+.dropdown-megamenu{
+  &.show{
+    left: 20px!important;
   }
 }
 
+
 // icons
 
-.icon-demo-content {
-  i {
+.icon-demo-content{
+  i{
     margin-left: 10px;
     margin-right: 0;
   }
 }
+
 
 // Breadcrumb
 
@@ -50,7 +52,7 @@
 
 // activity-feed
 
-.activity-feed {
+.activity-feed{
   .feed-item {
     padding-left: 0;
     padding-right: 16px;
@@ -63,19 +65,21 @@
   }
 }
 
+
 // Invoice
 
 @media print {
   .content-page,
   .content,
   body {
-    margin-right: 0;
+      margin-right: 0;
   }
 }
 
-// Demos button
+// Demos button 
 .demos-show-btn {
   left: 0;
   right: auto;
   border-radius: 0 6px 6px 0;
 }
+

@@ -3,7 +3,7 @@
 //
 
 // topbar.scss
-.navbar-header {
+.navbar-header{
   padding: 0 0 0 calc(#{$grid-gutter-width} / 2);
 }
 
@@ -15,18 +15,18 @@
 }
 
 .app-search {
-  .form-control {
+  .form-control{
     padding-right: 40px;
     padding-left: 20px;
   }
 
-  span {
+  span{
     left: auto;
     right: 13px;
   }
 }
 
-.main-content {
+.main-content{
   margin-left: 0;
   margin-right: $sidebar-width;
 }
@@ -35,7 +35,7 @@
   left: 0px;
   right: $sidebar-width;
 
-  @media (max-width: 991.98px) {
+  @media (max-width: 991.98px){
     right: 0;
   }
 }
@@ -51,11 +51,11 @@
   }
 
   .mm-active {
-    > .has-arrow {
-      &:after {
-        transform: rotate(-90deg);
+      >.has-arrow {
+          &:after {
+              transform: rotate(-90deg);
+          }
       }
-    }
   }
 
   ul {
@@ -90,7 +90,7 @@ body[data-sidebar-size="sm"] {
     left: 0px;
     right: $sidebar-collapsed-width;
   }
-
+  
   .vertical-menu {
     #sidebar-menu {
       > ul {
@@ -109,7 +109,7 @@ body[data-sidebar-size="sm"] {
           &:hover {
             > ul {
               left: 0;
-              right: $sidebar-collapsed-width;
+              right: $sidebar-collapsed-width;;
             }
           }
         }
@@ -124,21 +124,21 @@ body[data-sidebar-size="sm"] {
 
 @media (max-width: 992px) {
   .main-content {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
   }
 }
 
 // right sidebar
 
-.right-bar {
+.right-bar{
   float: left !important;
   right: auto;
   left: -($rightbar-width + 10px);
 }
 
-.right-bar-enabled {
-  .right-bar {
+.right-bar-enabled{
+  .right-bar{
     right: auto;
     left: 0;
   }
@@ -148,31 +148,31 @@ body[data-sidebar-size="sm"] {
 
 body[data-sidebar-size="md"] {
   .main-content {
-    margin-left: 0;
-    margin-right: $sidebar-width-sm;
+      margin-left: 0;
+      margin-right: $sidebar-width-sm;
   }
 
   .footer {
-    left: 0;
-    right: $sidebar-width-sm;
-    @media (max-width: 991.98px) {
-      right: 0;
-    }
+      left: 0;
+      right: $sidebar-width-sm;
+      @media (max-width: 991.98px) {
+          right: 0;
+      }
   }
 
   #sidebar-menu {
     ul li {
-      ul.sub-menu {
-        li {
-          a {
-            padding-right: 1.5rem;
-          }
+        ul.sub-menu {
+            li {
+                a{
+                    padding-right: 1.5rem;
+                }
 
-          ul.sub-menu li a {
-            padding-right: 1.5rem;
-          }
+                ul.sub-menu li a {
+                    padding-right: 1.5rem;
+                }
+            }
         }
-      }
     }
   }
 }
@@ -180,7 +180,7 @@ body[data-sidebar-size="md"] {
 // Horizontal Layout
 
 body[data-layout="horizontal"] {
-  .main-content {
+  .main-content{
     margin-right: 0 !important;
   }
 
@@ -189,19 +189,19 @@ body[data-layout="horizontal"] {
   }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 992px){
   body[data-layout="horizontal"] {
-    .navbar-brand-box {
-      padding-left: 1.5rem;
-      padding-right: 0;
+      .navbar-brand-box {
+        padding-left: 1.5rem;
+        padding-right: 0;
     }
   }
 
   .topnav {
     .navbar-nav {
-      .nav-item {
+      .nav-item{
         &:first-of-type {
-          .nav-link {
+          .nav-link{
             padding-right: 0;
             padding-left: 1.3rem;
           }
@@ -211,10 +211,10 @@ body[data-layout="horizontal"] {
 
     .dropdown {
       .dropdown-menu {
-        .arrow-down::after {
+        .arrow-down::after{
           left: 15px;
           right: auto;
-          transform: rotate(45deg) translateY(-50%);
+          transform: rotate(45deg) translateY(-50%)
         }
         .dropdown {
           .dropdown-menu {
@@ -227,15 +227,15 @@ body[data-layout="horizontal"] {
   }
 }
 
-.arrow-down:after {
+.arrow-down:after{
   margin-left: 0;
   margin-right: 10px;
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 991.98px){
   .topnav {
-    .dropdown {
-      .dropdown-menu {
+    .dropdown{
+      .dropdown-menu{
         padding-left: 0px;
         padding-right: 20px;
       }
