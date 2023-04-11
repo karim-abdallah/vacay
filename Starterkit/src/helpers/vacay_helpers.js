@@ -9,6 +9,7 @@ import { differenceInCalendarDays } from "date-fns";
 export const monthYearFormatter = date => {
   // returns date in format "Month Year"
   // Should be moved to util folder
+
   return defaultMonths[date.getMonth()] + " " + date.getFullYear();
 };
 
@@ -50,7 +51,7 @@ const StyledMonthyearLabel = styled.div`
 
 export const monthStartFormatter = date => {
   // Returns start date of the month for a given date
-  return null;
+    return null;
 };
 
 
@@ -194,4 +195,3 @@ export function arraysEqual(arr1, arr2) {
 }
 
 /* Logic Helpers */
-
