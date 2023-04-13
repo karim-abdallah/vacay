@@ -3,17 +3,16 @@ import { axisColor } from "../styles/constants";
 import { defaultMonths, weekendDayIndex } from "../constants";
 import { differenceInCalendarDays } from "date-fns";
 
-
 /* Formatting Helpers */
 
-export const monthYearFormatter = date => {
+export const monthYearFormatter = (date) => {
   // returns date in format "Month Year"
   // Should be moved to util folder
 
   return defaultMonths[date.getMonth()] + " " + date.getFullYear();
 };
 
-export const xAxisMonthYearFormatter = date => {
+export const xAxisMonthYearFormatter = (date) => {
   const formattedDate = (month, year) => {
     return (
       <StyledMonthyearLabel>
@@ -49,11 +48,10 @@ const StyledMonthyearLabel = styled.div`
   color: ${axisColor};
 `;
 
-export const monthStartFormatter = date => {
+export const monthStartFormatter = (date) => {
   // Returns start date of the month for a given date
-    return null;
+  return null;
 };
-
 
 /* Date Manipulation Helpers */
 
@@ -71,23 +69,25 @@ export const computeNextNMonths = (
   format = "string"
 ) => {
   // Takes in a start month and computes N next ones
-    // Returns an array either in Date object format or as string of dates
+  // Returns an array either in Date object format or as string of dates
   const nextNMonths = [];
   let currentDate = new Date(startingMonth);
 
-    for (let step = 0; step < nMonths; step++) {
+  for (let step = 0; step < nMonths; step++) {
     const formattedMonth =
-          format === "string" ? monthYearFormatter(currentDate) : new Date(currentDate);
-        nextNMonths.push(formattedMonth);
+      format === "string"
+        ? monthYearFormatter(currentDate)
+        : new Date(currentDate);
+    nextNMonths.push(formattedMonth);
 
-      currentDate.setMonth(currentDate.getMonth() + 1);
+    currentDate.setMonth(currentDate.getMonth() + 1);
   }
 
-    console.log(`Month array: ${nextNMonths}`);
-    return nextNMonths;
+  console.log(`Month array: ${nextNMonths}`);
+  return nextNMonths;
 };
 
-export const convertDateRangeToDiscreteDates = dateRange => {
+export const convertDateRangeToDiscreteDates = (dateRange) => {
   // Returns an array of all dates found in between the two-date dateRange
   // dateRange should be [startDate, endDate]
   const dates = [];
@@ -130,7 +130,7 @@ export const filterOutDuplicates = (selectedDates, existingDates) => {
   return dedupedDates;
 };
 
-export const areAllDaysWeekends = daysArray => {
+export const areAllDaysWeekends = (daysArray) => {
   // Takes an array of DateTime objects and returns True
   // if all days in array are week-ends
   for (let n = 0; n < daysArray.length; n++) {
@@ -158,15 +158,15 @@ export const isSelectionAlreadyBooked = (daysArray, bookedPTOArray) => {
   // So essentially, make sure all the dates in the array are
   // in the booked store
   if (
-    daysArray.filter(x => bookedPTOArray.find(y => isSameDay(x, y))).length !==
-    daysArray.length
+    daysArray.filter((x) => bookedPTOArray.find((y) => isSameDay(x, y)))
+      .length !== daysArray.length
   ) {
     return false;
   }
   return true;
 };
 
-export const isDayInThePast = date => {
+export const isDayInThePast = (date) => {
   // Verifies if supplied date is in the past
   // If the date is today, returns false
   const today = new Date();
@@ -195,3 +195,116 @@ export function arraysEqual(arr1, arr2) {
 }
 
 /* Logic Helpers */
+
+const computeMonthlyBalance = (
+  orderedLabels,
+  balancePerMonth,
+  startingBalance,
+  accrualRate,
+  accrualCap,
+  ptoPerMonth,
+  selectedPerMonth,
+  datesToUnbookPerMonth
+) => {
+  // Calculates monthly balance using orderedLabels as index
+  // Writes into balancePerMonth array
+
+  // For each month:
+  //   calculate: previous balance + accrual rate - booked
+  orderedLabels.forEach((element, index) => {
+    if (index === 0) {
+      // starting balance
+      balancePerMonth[element] =
+        startingBalance -
+        (ptoPerMonth[element] +
+          selectedPerMonth[element] +
+          datesToUnbookPerMonth[element]);
+    } else {
+      balancePerMonth[element] =
+        balancePerMonth[orderedLabels[index - 1]] +
+        datesToUnbookPerMonth[orderedLabels[index - 1]] +
+        accrualRate -
+        (ptoPerMonth[element] +
+          selectedPerMonth[element] +
+          datesToUnbookPerMonth[element]);
+    }
+  });
+};
+
+export const computeDashboardData = (
+  monthLabels,
+  currentBalanceDays,
+  bookedPTO,
+  holidays,
+  accrualRate,
+  accrualCap,
+  selectedDates,
+  datesToUnbook
+) => {
+  // The below manipulation of sets intends to count the number of days per month
+  // for each category. This helps doing the final calculation to populate each month.
+  const PTOPerMonth = {};
+  const holidaysPerMonth = {};
+  const balance = {};
+  const selectedDatesPerMonth = {};
+  const datesToUnbookPerMonth = {};
+
+  monthLabels.forEach((element, index) => {
+    PTOPerMonth[element] = 0;
+    holidaysPerMonth[element] = 0;
+    balance[element] = 0;
+    // These will actually be used on the chart if we can do stacked bars
+    selectedDatesPerMonth[element] = 0;
+    datesToUnbookPerMonth[element] = 0;
+  });
+
+  bookedPTO.dates.forEach((element, index) => {
+    const monthLabel = monthYearFormatter(element);
+    // if currentDate not a week-end, increment, otherwise skip
+    if (!weekendDayIndex.includes(element.getDay())) {
+      PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] + 1;
+    }
+  });
+
+  holidays.forEach((element, index) => {
+    const monthLabel = monthYearFormatter(element);
+    holidaysPerMonth[monthLabel] = holidaysPerMonth[monthLabel] + 1;
+  });
+
+  selectedDates.forEach((element, index) => {
+    const monthLabel = monthYearFormatter(element);
+    // add to booked pto the selection. This will get cleared if we don't book them,
+    // but it needs to appear on the chart
+    // if currentDate not a week-end, increment, otherwise skip
+    if (!weekendDayIndex.includes(element.getDay())) {
+      selectedDatesPerMonth[monthLabel] = selectedDatesPerMonth[monthLabel] + 1;
+    }
+  });
+
+  datesToUnbook.forEach((element, index) => {
+    const monthLabel = monthYearFormatter(element);
+    // substract from PTO selection.
+    if (!weekendDayIndex.includes(element.getDay())) {
+      datesToUnbookPerMonth[monthLabel] = datesToUnbookPerMonth[monthLabel] + 1;
+      PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] - 1;
+    }
+  });
+
+  computeMonthlyBalance(
+    monthLabels,
+    balance,
+    currentBalanceDays,
+    accrualRate,
+    accrualCap,
+    PTOPerMonth,
+    selectedDatesPerMonth,
+    datesToUnbookPerMonth
+  );
+  return [
+    PTOPerMonth,
+    holidaysPerMonth,
+    balance,
+    selectedDatesPerMonth,
+    datesToUnbookPerMonth,
+  ];
+};

@@ -12,9 +12,9 @@ export const CalendarSummaryGroup = ({
   const nNextMonthNames = computeNextNMonths(currentMonth, nMonthsAhead);
   // 2. Calculate available days (right now assuming only 1 user, will add combining
   // and de-duping for multiple people shortly after
+  // available days = smallest common denominator of balance for next N days
 
   const daysAvailable = 18;
-
   // 3. Render the month array
 
   return nNextMonthNames.map((x) => {
@@ -28,18 +28,6 @@ export const CalendarSummaryGroup = ({
       </StyledCard>
     );
   });
-};
-
-export const CalendarSelection = ({ month, daysAvailable }) => {
-  return (
-    <StyledCard>
-      <CardBody>
-        <div>ICON</div>
-        <div>{month}</div>
-        <div>{daysAvailable} days available</div>
-      </CardBody>
-    </StyledCard>
-  );
 };
 
 const StyledCardBody = styled(CardBody)`
