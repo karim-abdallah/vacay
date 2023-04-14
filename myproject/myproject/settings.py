@@ -80,14 +80,20 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 DATABASES = {
     'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        #'ENGINE': 'django.db.backends.postgresql',
-        #'NAME': 'postgres',
-        #'USER': 'vacay',
-        #'PASSWORD': 'Vacaydbadmin2023!',
-        #'HOST': 'vacay-db.cwx5iz62mons.us-east-1.rds.amazonaws.com',
-        #'PORT': '5432'
+        #  'ENGINE': 'django.db.backends.sqlite3',
+        #  'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': 'postgres',
+        # 'USER': 'vacay',
+        # 'PASSWORD': 'Vacaydbadmin2023!',
+        # 'HOST': 'vacay-db.cwx5iz62mons.us-east-1.rds.amazonaws.com',
+        # 'PORT': '5432',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'yasircloud',
+        'USER': 'postgres',
+        'PASSWORD': 'iswgpHvkartlKGP4KrBE',
+        'HOST': 'yasir-cloud.c6y22qabsnxb.us-east-2.rds.amazonaws.com',
+        'PORT': '5432'
     }
 }
 
