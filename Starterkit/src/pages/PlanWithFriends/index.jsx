@@ -11,10 +11,21 @@ import { selectProfileData } from "../../store/profile/selector";
 const nMonthsAheadDefault = 6;
 
 const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
+  const generateFriendCards = () => {
+    const friendNames = [myProfile.name];
+    groupInfo.friends.forEach((x) => friendNames.push(x.name));
+
+    console.log(friendNames);
+
+    return friendNames.map((x) => {
+      return <FriendCard name={x} />;
+    });
+  };
+
   return (
     <Card>
       <StyledCardBody>
-        <FriendCard />
+        <div>{generateFriendCards()}</div>
         <CalendarSummaryGroup
           dashboardData={myData}
           nMonthsAhead={nMonthsAhead}
