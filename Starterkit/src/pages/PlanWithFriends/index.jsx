@@ -6,10 +6,11 @@ import { CalendarSummaryGroup } from "../../components/Calendar/planWithFriendsC
 import { FriendCard } from "./FriendCard";
 import { selectDashboardData } from "../../store/dashboard/selector";
 import { selectGroupInfo } from "../../store/planWithFriends/selectors";
+import { selectProfileData } from "../../store/profile/selector";
 
 const nMonthsAheadDefault = 6;
 
-const GroupCard = ({ myData, groupInfo, nMonthsAhead }) => {
+const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
   return (
     <Card>
       <StyledCardBody>
@@ -24,6 +25,7 @@ const GroupCard = ({ myData, groupInfo, nMonthsAhead }) => {
 };
 
 const PlanWithFriends = () => {
+  const myProfile = useSelector(selectProfileData);
   const myDashboardData = useSelector(selectDashboardData);
   const groupData = useSelector(selectGroupInfo);
 
@@ -35,6 +37,7 @@ const PlanWithFriends = () => {
           {groupData.map((x) => {
             return (
               <GroupCard
+                myProfile={myProfile}
                 myData={myDashboardData}
                 groupInfo={x}
                 nMonthsAhead={nMonthsAheadDefault}

@@ -9,6 +9,7 @@ import Login from "./auth/login/reducer";
 import Forget from "./auth/forgetpwd/reducer";
 import Dashboard from "./dashboard/reducer";
 import PlanWithFriends from "./planWithFriends/reducer";
+import Profile from "./profile/reducer";
 
 const rootReducer = combineReducers({
   // public
@@ -22,7 +23,10 @@ const rootReducer = combineReducers({
   Dashboard,
 
   // Plan With Friends
-  PlanWithFriends
+  PlanWithFriends,
+
+  // Profile Page
+  Profile,
 });
 
 export default rootReducer;

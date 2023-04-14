@@ -18,7 +18,6 @@ const computeAvailableDays = (PTOPerMonth) => {
 };
 
 export const CalendarSummaryGroup = ({ dashboardData, nMonthsAhead }) => {
-  console.log(dashboardData);
   // 1. Compute name of N next months
   const nNextMonthNames = computeNextNMonths(
     dashboardData.currentMonth,
