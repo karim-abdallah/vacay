@@ -1,5 +1,7 @@
+import { groupMock } from "../../mocks/planWithFriends.mock";
+
 const INIT_STATE = {
-  groups: []
+  groups: [groupMock],
 };
 
 const PlanWithFriends = (state = INIT_STATE, action) => {
@@ -14,11 +16,11 @@ const PlanWithFriends = (state = INIT_STATE, action) => {
           } else {
             const updatedGroup = {
               ...item,
-              friends: [...item.friends, action.friend]
+              friends: [...item.friends, action.friend],
             };
             return updatedGroup;
           }
-        })
+        }),
       };
     default:
       return state;

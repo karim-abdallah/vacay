@@ -2,11 +2,11 @@ import styled from "styled-components";
 import { axisColor } from "../../styles/constants";
 import { xAxisMonthYearFormatter } from "../../helpers/vacay_helpers";
 
-export const XAxis = props => {
-  console.log(props.months);
-  const monthYears = props.months.map(x => xAxisMonthYearFormatter(x));
-  console.log(monthYears);
-  const xAxis = monthYears.map(name => <StyledMonthBox>{name}</StyledMonthBox>);
+export const XAxis = (props) => {
+  const monthYears = props.months.map((x) => xAxisMonthYearFormatter(x));
+  const xAxis = monthYears.map((name) => (
+    <StyledMonthBox>{name}</StyledMonthBox>
+  ));
 
   return <StyledAxisContainer>{xAxis}</StyledAxisContainer>;
 };

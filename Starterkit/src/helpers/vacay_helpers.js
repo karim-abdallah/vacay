@@ -55,6 +55,17 @@ export const monthStartFormatter = (date) => {
 
 /* Date Manipulation Helpers */
 
+export function getDaysInMonth(date) {
+  // Get the current month
+  const month = date.getMonth();
+
+  // Set the date to the first day of the next month
+  date.setMonth(month + 1, 0);
+
+  // Get the last day of the current month (which is the same as the number of days in the month)
+  return date.getDate();
+}
+
 export function generateDayOffset(date, offsetValue) {
   // takes in a date and a signed integer offset and returns the date
   // offset by the given integer
@@ -83,7 +94,6 @@ export const computeNextNMonths = (
     currentDate.setMonth(currentDate.getMonth() + 1);
   }
 
-  console.log(`Month array: ${nextNMonths}`);
   return nextNMonths;
 };
 
@@ -231,15 +241,15 @@ const computeMonthlyBalance = (
   });
 };
 
-export const computeDashboardData = (
+export const computeMonthlyData = (
   monthLabels,
   currentBalanceDays,
   bookedPTO,
   holidays,
   accrualRate,
   accrualCap,
-  selectedDates,
-  datesToUnbook
+  selectedDates = null,
+  datesToUnbook = null
 ) => {
   // The below manipulation of sets intends to count the number of days per month
   // for each category. This helps doing the final calculation to populate each month.
@@ -271,7 +281,7 @@ export const computeDashboardData = (
     holidaysPerMonth[monthLabel] = holidaysPerMonth[monthLabel] + 1;
   });
 
-  selectedDates.forEach((element, index) => {
+  selectedDates?.forEach((element, index) => {
     const monthLabel = monthYearFormatter(element);
     // add to booked pto the selection. This will get cleared if we don't book them,
     // but it needs to appear on the chart
@@ -281,7 +291,7 @@ export const computeDashboardData = (
     }
   });
 
-  datesToUnbook.forEach((element, index) => {
+  datesToUnbook?.forEach((element, index) => {
     const monthLabel = monthYearFormatter(element);
     // substract from PTO selection.
     if (!weekendDayIndex.includes(element.getDay())) {
