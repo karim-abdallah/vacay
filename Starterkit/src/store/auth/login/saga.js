@@ -19,7 +19,7 @@ function* loginUser({ payload: { user, history } }) {
                 yield put(loginUserSuccessful(response));
             }
             else {
-                const response = yield call(postLogin, '/post-login', {username: user.username, password: user.password});
+                const response = yield call(postLogin, 'http://localhost:8000/api/login', {email: user.email, password: user.password});
                 localStorage.setItem("authUser", JSON.stringify(response));
                 yield put(loginUserSuccessful(response));
             }

@@ -1,9 +1,9 @@
 import { REGISTER_USER, REGISTER_USER_SUCCESSFUL, REGISTER_USER_FAILED } from './actionTypes';
 
-export const registerUser = (user) => {
+export const registerUser = (user, history) => {
     return {
         type: REGISTER_USER,
-        payload: { user }
+        payload: { user, history }
     }
 }
 

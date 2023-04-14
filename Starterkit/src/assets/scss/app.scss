@@ -74,3 +74,176 @@ File: Main Css File
 @import "custom/pages/coming-soon";
 @import "custom/pages/timeline";
 @import "custom/pages/extras-pages";
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+
+.Login-form {
+    background: #2B3674;
+}
+
+.Login-form a {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 33px;
+    display: flex;
+    align-items: center;
+    text-decoration-line: underline;
+    color: #2B3674;
+}
+
+.Login-form .content-section {
+    padding-left: 78px;
+}
+
+.Login-form .content-section p {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 46px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.04em;
+    color: #FFFFFF;
+}
+
+.Login-form .content-section h2 {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 60px;
+    line-height: 100%;
+    color: #FFFFFF;
+}
+
+.Login-form .form-card {
+    height: 100vh;
+    background: #F4F7FE;
+    border-radius: 20px 0px 0px 20px;
+}
+
+.Login-form .form-card h3 {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 68px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.04em;
+    color: #2B3674;
+}
+
+.Login-form .form-card p {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    color: #2B3674;
+    margin-bottom: 0px;
+}
+
+.Login-form .form-card .social-btn {
+    background: #FFFFFF;
+    border: 1px solid #F4F7FE;
+    border-radius: 9px;
+}
+
+
+.Login-form .form-card .btn-submit {
+    background: #2B3674;
+    border-radius: 9px;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 39px;
+    color: #FFFFFF;
+}
+
+.Login-form .form-card .custom-link {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 33px;
+    display: flex;
+    align-items: center;
+    color: rgba(43, 54, 116, 0.67);
+}
+
+::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgba(43, 54, 116, 0.67);
+    opacity: 1;
+    /* Firefox */
+}
+
+:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: rgba(43, 54, 116, 0.67);
+}
+
+::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: rgba(43, 54, 116, 0.67);
+}
+
+input {
+    background: transparent;
+    border: 1px solid rgba(43, 54, 116, 0.33) !important;
+}
+
+input:focus-visible {
+    outline: none !important
+}
+
+.checkbox {
+    width: 20px !important
+}
+
+.forget {
+    text-decoration-line: underline;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 1024px) {
+    .Login-form .content-section {
+        padding-left: 30px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .form-card {
+        height: 100% !important;
+        border-radius: 0px !important;
+    }
+
+    body {
+        background: #F4F7FE !important;
+    }
+
+    .custom-link {
+        font-size: 16px !important;
+    }
+
+    .Login-form .form-card {
+        h3 {
+            font-size: 24px;
+            margin-top: 30px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+    }
+}

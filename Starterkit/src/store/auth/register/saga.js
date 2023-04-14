@@ -12,16 +12,18 @@ import { getFirebaseBackend } from '../../../helpers/firebase_helper';
 const fireBaseBackend = getFirebaseBackend();
 
 // Is user register successfull then direct plot user in redux.
-function* registerUser({ payload: { user } }) {
+function* registerUser({ payload: { user, history } }) {
     try {
-        if(process.env.REACT_APP_DEFAULTAUTH === "firebase"){
+        if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
             const response = yield call(fireBaseBackend.registerUser, user.email, user.password);
             yield put(registerUserSuccessful(response));
         }
-        else{
-            const response = yield call(postRegister, '/post-register', user);
+        else {
+            const response = yield call(postRegister, 'http://localhost:8000/api/register', user);
             yield put(registerUserSuccessful(response));
         }
+        console.log("Hey")
+        history.push('/login');
     } catch (error) {
         yield put(registerUserFailed(error));
     }
