@@ -3,6 +3,7 @@ import { calendarSelectionBackgroundColor } from "../../styles/constants";
 import styled from "styled-components";
 import { FriendCard } from "../../pages/PlanWithFriends/FriendCard";
 import {
+  calculateBookedPTOPerMonth,
   computeNextNMonths,
   getDaysInMonth,
   getUniqueDates,
@@ -17,43 +18,6 @@ const computeAvailableDays = (PTOPerMonth) => {
 
   return availableDays;
 };
-
-/* export const CalendarSummaryGroupLegacy = ({ dashboardData, nMonthsAhead }) => {
-  // 1. Compute name of N next months
-  const nNextMonthNames = computeNextNMonths(
-    dashboardData.currentMonth,
-    nMonthsAhead
-  );
-  // 2. Calculate available days (right now assuming only 1 user, will add combining
-  // and de-duping for multiple people shortly after
-  // available days = smallest common denominator of balance for next N days or n free days
-  const [PTOPerMonth, holidaysPerMonth, balance] = computeMonthlyData(
-    nNextMonthNames,
-    dashboardData.currentBalanceDays,
-    dashboardData.bookedPTO,
-    dashboardData.holidays,
-    dashboardData.accrualRate,
-    dashboardData.accruaCap
-  );
-
-  // TODO: compute min between available days and balance per month
-
-  const availableDays = computeAvailableDays(PTOPerMonth);
-
-  // 3. Render the month array
-
-  return nNextMonthNames.map((x) => {
-    return (
-      <StyledCard>
-        <StyledCardBody>
-          <div>ICON</div>
-          <div>{x}</div>
-          <div>{availableDays[x]} days available</div>
-        </StyledCardBody>
-      </StyledCard>
-    );
-  });
-}; */
 
 export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
   // 1. Compute name of N next months
@@ -71,28 +35,22 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
     });
   };
   // Determine bookedPTO for the whole group
-  const groupBookedPTO = [];
   const arrayOfBookedDates = [];
 
   Object.keys(friendsData).forEach((friend) => {
     arrayOfBookedDates.push(friendsData[friend].bookedPTO.dates);
   });
 
-  groupBookedPTO.push(getUniqueDates(arrayOfBookedDates));
+  const groupBookedPTO = getUniqueDates(arrayOfBookedDates);
 
   // Group dates by month of the year
-  const groupPTOPerMonth = {};
-  nNextMonthNames.forEach((element, index) => {
-    groupPTOPerMonth[element] = 0;
-  });
+  const groupPTOPerMonth = calculateBookedPTOPerMonth(
+    groupBookedPTO,
+    nNextMonthNames
+  );
+  const availableDays = computeAvailableDays(groupPTOPerMonth);
 
-  groupBookedPTO.forEach((element, index) => {
-    /* const monthLabel = monthYearFormatter(element);
-     */
-    // if currentDate not a week-end, increment, otherwise skip
-  });
   const CalendarSummaryGroup = ({ nNextMonthNames, availableDays }) => {
-    console.log(nNextMonthNames);
     return nNextMonthNames.map((x) => {
       return (
         <StyledCard>
@@ -104,10 +62,6 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
         </StyledCard>
       );
     });
-  };
-
-  const availableDays = {
-    "June 2023": 5,
   };
 
   return (
