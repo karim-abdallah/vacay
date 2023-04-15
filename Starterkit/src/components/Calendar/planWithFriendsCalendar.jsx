@@ -10,6 +10,7 @@ import {
   getUniqueDates,
 } from "../../helpers/vacay_helpers";
 import calendarIcon from "../../assets/images/calendarIcon.svg";
+import { defaultMonths } from "../../constants";
 
 const nDaysInHeader = 35;
 
@@ -27,8 +28,11 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
   const [isDrilldown, setIsDrilldown] = useState(false);
   const [drilledDownMonth, setDrilledDownMonth] = useState(null);
 
-  const handleShowDrilldown = () => {
+  const handleShowDrilldown = (selectedMonth) => {
     setIsDrilldown(!isDrilldown);
+    if (selectedMonth) {
+      setDrilledDownMonth(selectedMonth);
+    }
   };
   // 1. Compute name of N next months
   const nNextMonthNames = computeNextNMonths(myData.currentMonth, nMonthsAhead);
@@ -64,7 +68,7 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
     return nNextMonthNames.map((x) => {
       return (
         <StyledCard>
-          <StyledCalendarSummaryBody onClick={handleShowDrilldown}>
+          <StyledCalendarSummaryBody onClick={() => handleShowDrilldown(x)}>
             <StyledImage src={calendarIcon} alt="ICON" />
             <div>{x}</div>
             <div>{availableDays[x]} days available</div>
@@ -80,7 +84,7 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
         {" "}
         {isDrilldown && (
           <DrilldownCalendar
-            mainMonth={myData.currentMonth}
+            mainMonth={drilledDownMonth}
             onClickDrilldownHandler={handleShowDrilldown}
           />
         )}
@@ -104,7 +108,7 @@ export const DrilldownCalendar = ({ mainMonth, onClickDrilldownHandler }) => {
   // Renders header with columns in the bottom
   const CalendarDrillout = () => {
     return (
-      <StyledDrillout onClick={onClickDrilldownHandler}>
+      <StyledDrillout onClick={() => onClickDrilldownHandler(null)}>
         <StyledDrilledoutImage src={calendarIcon} alt="ICON" />
       </StyledDrillout>
     );
@@ -129,13 +133,27 @@ export const DrilldownCalendar = ({ mainMonth, onClickDrilldownHandler }) => {
     });
   };
 
+  const getMonthName = (monthYearString) => {
+    const monthDate = new Date(monthYearString);
+    return defaultMonths[monthDate.getMonth()];
+  };
+
+  const getNextMonthName = (monthYearString) => {
+    const monthDate = new Date(monthYearString);
+    return defaultMonths[monthDate.getMonth() + 1];
+  };
+
   const mockDay = 3;
   return (
     <StyledHeaderDiv>
       <CalendarDrillout />
       <StyledHeaderGrid>
-        <MainMonth>June</MainMonth>
-        <SecondaryMonth>July</SecondaryMonth>
+        <MainMonth nDaysInMonth={getDaysInMonth(mainMonth)}>
+          {getMonthName(mainMonth)}
+        </MainMonth>
+        <SecondaryMonth nDaysInPreviousMonth={getDaysInMonth(mainMonth)}>
+          {getNextMonthName(mainMonth)}
+        </SecondaryMonth>
         <DayColumns mainMonth={mainMonth} />
       </StyledHeaderGrid>
     </StyledHeaderDiv>
@@ -168,13 +186,14 @@ const Day = styled(HeaderCard)`
 `;
 
 const MainMonth = styled(HeaderCard)`
-  grid-column: 1/31;
+  grid-column: 1 / ${(props) => props.nDaysInMonth + 1};
   grid-row: 1;
   margin-bottom: 2px;
 `;
 
 const SecondaryMonth = styled(HeaderCard)`
-  grid-column: 31 / ${nDaysInHeader + 1};
+  grid-column: ${(props) => props.nDaysInPreviousMonth + 1} /
+    ${nDaysInHeader + 1};
   grid-row: 1;
   margin-bottom: 2px;
 `;
