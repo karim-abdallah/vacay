@@ -19,7 +19,7 @@ const computeAvailableDays = (PTOPerMonth) => {
   return availableDays;
 };
 
-export const CalendarSummaryGroup = ({ dashboardData, nMonthsAhead }) => {
+export const CalendarSummaryGroupLegacy = ({ dashboardData, nMonthsAhead }) => {
   // 1. Compute name of N next months
   const nNextMonthNames = computeNextNMonths(
     dashboardData.currentMonth,
@@ -56,7 +56,7 @@ export const CalendarSummaryGroup = ({ dashboardData, nMonthsAhead }) => {
   });
 };
 
-const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
+export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
   // 1. Compute name of N next months
   const nNextMonthNames = computeNextNMonths(myData.currentMonth, nMonthsAhead);
 
@@ -81,18 +81,23 @@ const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
 
   groupBookedPTO.push(getUniqueDates(arrayOfBookedDates));
 
-  const CalendarSummaryGroup = (nNextMonthNames, availableDays) => {
+  const CalendarSummaryGroup = ({ nNextMonthNames, availableDays }) => {
+    console.log(nNextMonthNames);
     return nNextMonthNames.map((x) => {
       return (
         <StyledCard>
-          <StyledCardBody>
+          <StyledCalendarSummaryBody>
             <div>ICON</div>
             <div>{x}</div>
             <div>{availableDays[x]} days available</div>
-          </StyledCardBody>
+          </StyledCalendarSummaryBody>
         </StyledCard>
       );
     });
+  };
+
+  const availableDays = {
+    "June 2023": 5,
   };
 
   return (
@@ -100,8 +105,8 @@ const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
       <StyledCardBody>
         <div>{generateFriendCards()}</div>
         <CalendarSummaryGroup
-          dashboardData={myData}
-          nMonthsAhead={nMonthsAhead}
+          nNextMonthNames={nNextMonthNames}
+          availableDays={availableDays}
         />
       </StyledCardBody>
     </Card>
@@ -109,6 +114,10 @@ const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
 };
 
 const StyledCardBody = styled(CardBody)`
+  display: flex;
+`;
+
+const StyledCalendarSummaryBody = styled(CardBody)`
   padding: 5px;
 `;
 
