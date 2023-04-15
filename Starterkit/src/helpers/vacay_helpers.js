@@ -80,13 +80,14 @@ export function getUniqueDates(arraysOfDates) {
 
 export function getDaysInMonth(date) {
   // Get the current month
-  const month = date.getMonth();
+  const dateCopy = new Date(date); // copy date so that it doesn't mutate the input.
+  const month = dateCopy.getMonth();
 
   // Set the date to the first day of the next month
-  date.setMonth(month + 1, 0);
+  dateCopy.setMonth(month + 1, 0);
 
   // Get the last day of the current month (which is the same as the number of days in the month)
-  return date.getDate();
+  return dateCopy.getDate();
 }
 
 export function generateDayOffset(date, offsetValue) {

@@ -32,7 +32,7 @@ const StyledCardBody = styled(CardBody)`
 const StyledCard = styled(Card)`
   border-radius: 25px;
   text-align: left;
-  margin: 10px 15px 0px;
+  margin: 15px 15px 0px;
   height: 40px;
   background-color: ${lightBlue};
   width: 200px;

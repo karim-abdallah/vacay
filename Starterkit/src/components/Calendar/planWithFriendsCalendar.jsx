@@ -1,5 +1,6 @@
 import { Card, CardBody } from "reactstrap";
 import { calendarSelectionBackgroundColor } from "../../styles/constants";
+import { useState } from "react";
 import styled from "styled-components";
 import { FriendCard } from "../../pages/PlanWithFriends/FriendCard";
 import {
@@ -10,17 +11,25 @@ import {
 } from "../../helpers/vacay_helpers";
 import calendarIcon from "../../assets/images/calendarIcon.svg";
 
+const nDaysInHeader = 35;
+
 const computeAvailableDays = (PTOPerMonth) => {
   const availableDays = {};
   // for each month in the PTO Per Month array, compute n days - element
   for (const [key, value] of Object.entries(PTOPerMonth)) {
-    availableDays[key] = getDaysInMonth(new Date(key)) - value;
+    availableDays[key] = getDaysInMonth(key) - value;
   }
 
   return availableDays;
 };
 
 export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
+  const [isDrilldown, setIsDrilldown] = useState(false);
+  const [drilledDownMonth, setDrilledDownMonth] = useState(null);
+
+  const handleShowDrilldown = () => {
+    setIsDrilldown(!isDrilldown);
+  };
   // 1. Compute name of N next months
   const nNextMonthNames = computeNextNMonths(myData.currentMonth, nMonthsAhead);
 
@@ -55,7 +64,7 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
     return nNextMonthNames.map((x) => {
       return (
         <StyledCard>
-          <StyledCalendarSummaryBody>
+          <StyledCalendarSummaryBody onClick={handleShowDrilldown}>
             <StyledImage src={calendarIcon} alt="ICON" />
             <div>{x}</div>
             <div>{availableDays[x]} days available</div>
@@ -67,26 +76,133 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
 
   return (
     <Card>
-      <StyledCardBody>
-        <div>{generateFriendCards()}</div>
-        <CalendarSummaryGroup
-          nNextMonthNames={nNextMonthNames}
-          availableDays={availableDays}
-        />
-      </StyledCardBody>
+      <CardBody>
+        {" "}
+        {isDrilldown && (
+          <DrilldownCalendar
+            mainMonth={myData.currentMonth}
+            onClickDrilldownHandler={handleShowDrilldown}
+          />
+        )}
+        <StyledFriendsElement>
+          <div>{generateFriendCards()}</div>
+          {isDrilldown ? (
+            <div>FRIEND AVAILABILITIES</div>
+          ) : (
+            <CalendarSummaryGroup
+              nNextMonthNames={nNextMonthNames}
+              availableDays={availableDays}
+            />
+          )}
+        </StyledFriendsElement>
+      </CardBody>
     </Card>
   );
 };
 
-export const DrilldownCalendar = ({ startMonth }) => {
+export const DrilldownCalendar = ({ mainMonth, onClickDrilldownHandler }) => {
   // Renders header with columns in the bottom
   const CalendarDrillout = () => {
-    <Card>
-      <img></img>
-    </Card>;
+    return (
+      <StyledDrillout onClick={onClickDrilldownHandler}>
+        <StyledDrilledoutImage src={calendarIcon} alt="ICON" />
+      </StyledDrillout>
+    );
   };
-  return <CalendarDrillout />;
+
+  const DayColumns = ({ mainMonth }) => {
+    // 1. generate array of days in order
+    const startDayOfMainMonth = 1; // TODO: eventually replace with dynamic value
+    const daysArray = [];
+    const nDaysMainMonth = getDaysInMonth(mainMonth);
+    for (let n = startDayOfMainMonth; n < nDaysMainMonth + 1; n++) {
+      daysArray.push(n);
+    }
+
+    for (let n = 1; n < nDaysInHeader - nDaysMainMonth + 1; n++) {
+      daysArray.push(n);
+    }
+
+    // 2. Loop through and return day object with parameter.
+    return daysArray.map((x, index) => {
+      return <Day day={index}>{x}</Day>;
+    });
+  };
+
+  const mockDay = 3;
+  return (
+    <StyledHeaderDiv>
+      <CalendarDrillout />
+      <StyledHeaderGrid>
+        <MainMonth>June</MainMonth>
+        <SecondaryMonth>July</SecondaryMonth>
+        <DayColumns mainMonth={mainMonth} />
+      </StyledHeaderGrid>
+    </StyledHeaderDiv>
+  );
 };
+
+const headerHeight = "60px";
+
+const StyledHeaderGrid = styled.div`
+  margin-left: 15px;
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(${nDaysInHeader}, 1fr);
+  height: ${headerHeight};
+  width: 860px;
+`;
+
+const HeaderCard = styled(Card)`
+  border-radius: 8px;
+  background-color: ${calendarSelectionBackgroundColor};
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0px;
+  text-align: center;
+`;
+
+const Day = styled(HeaderCard)`
+  grid-column: ${(props) => props.day + 1};
+  grid-row: 2;
+`;
+
+const MainMonth = styled(HeaderCard)`
+  grid-column: 1/31;
+  grid-row: 1;
+  margin-bottom: 2px;
+`;
+
+const SecondaryMonth = styled(HeaderCard)`
+  grid-column: 31 / ${nDaysInHeader + 1};
+  grid-row: 1;
+  margin-bottom: 2px;
+`;
+
+const StyledHeaderDiv = styled.div`
+  display: flex;
+  justify-content: right;
+`;
+
+const StyledDrillout = styled(Card)`
+  margin-bottom: 0px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  height: ${headerHeight};
+  width: ${headerHeight};
+  background-color: ${calendarSelectionBackgroundColor};
+  border: 1px solid transparent;
+  &:hover {
+    border: 1px solid;
+  }
+`;
+
+const StyledDrilledoutImage = styled.img`
+  margin-left: 14px;
+  height: 30px;
+  width: 30px;
+`;
 
 const StyledImage = styled.img`
   height: 50px;
@@ -95,7 +211,7 @@ const StyledImage = styled.img`
   margin-bottom: 5px;
 `;
 
-const StyledCardBody = styled(CardBody)`
+const StyledFriendsElement = styled.div`
   display: flex;
 `;
 
