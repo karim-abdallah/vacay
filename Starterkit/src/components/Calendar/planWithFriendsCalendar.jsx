@@ -8,6 +8,7 @@ import {
   getDaysInMonth,
   getUniqueDates,
 } from "../../helpers/vacay_helpers";
+import calendarIcon from "../../assets/images/calendarIcon.svg";
 
 const computeAvailableDays = (PTOPerMonth) => {
   const availableDays = {};
@@ -55,7 +56,7 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
       return (
         <StyledCard>
           <StyledCalendarSummaryBody>
-            <div>ICON</div>
+            <StyledImage src={calendarIcon} alt="ICON" />
             <div>{x}</div>
             <div>{availableDays[x]} days available</div>
           </StyledCalendarSummaryBody>
@@ -76,6 +77,23 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
     </Card>
   );
 };
+
+export const DrilldownCalendar = ({ startMonth }) => {
+  // Renders header with columns in the bottom
+  const CalendarDrillout = () => {
+    <Card>
+      <img></img>
+    </Card>;
+  };
+  return <CalendarDrillout />;
+};
+
+const StyledImage = styled.img`
+  height: 50px;
+  width: 50px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+`;
 
 const StyledCardBody = styled(CardBody)`
   display: flex;
