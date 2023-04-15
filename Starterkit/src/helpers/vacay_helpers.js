@@ -264,7 +264,28 @@ const computeMonthlyBalance = (
   });
 };
 
-export const computeMonthlyData = (
+export const calculateBookedPTOPerMonth = (bookedPTODates, monthLabels) => {
+  /* Takes in an array of PTO dates and an array of month lables, and counts the number
+  of days per month.
+
+  Returns an object of the format {<month Year>: <count per month>}
+  */
+  const PTOPerMonth = {};
+
+  monthLabels.forEach((x) => (PTOPerMonth[x] = 0));
+
+  bookedPTODates.forEach((x) => {
+    const monthLabel = monthYearFormatter(x);
+    // if currentDate not a week-end, increment, otherwise skip
+    if (!weekendDayIndex.includes(x.getDay())) {
+      PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] + 1;
+    }
+  });
+
+  return PTOPerMonth;
+};
+
+/* export const computeMonthlyData = (
   monthLabels,
   currentBalanceDays,
   bookedPTO,
@@ -341,3 +362,4 @@ export const computeMonthlyData = (
     datesToUnbookPerMonth,
   ];
 };
+ */

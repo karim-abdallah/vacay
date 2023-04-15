@@ -21,6 +21,7 @@ import {
   monthYearFormatter,
   computeNextNMonths,
   arraysEqual,
+  calculateBookedPTOPerMonth,
 } from "../../helpers/vacay_helpers";
 import {
   weekendDayIndex,
@@ -77,14 +78,12 @@ const generateDashboardData = (
 
   // The below manipulation of sets intends to count the number of days per month
   // for each category. This helps doing the final calculation to populate each month.
-  const PTOPerMonth = {};
   const holidaysPerMonth = {};
   const balance = {};
   const selectedDatesPerMonth = {};
   const datesToUnbookPerMonth = {};
 
   monthLabels.forEach((element, index) => {
-    PTOPerMonth[element] = 0;
     holidaysPerMonth[element] = 0;
     balance[element] = 0;
     // These will actually be used on the chart if we can do stacked bars
@@ -92,13 +91,7 @@ const generateDashboardData = (
     datesToUnbookPerMonth[element] = 0;
   });
 
-  bookedPTO.dates.forEach((element, index) => {
-    const monthLabel = monthYearFormatter(element);
-    // if currentDate not a week-end, increment, otherwise skip
-    if (!weekendDayIndex.includes(element.getDay())) {
-      PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] + 1;
-    }
-  });
+  const PTOPerMonth = calculateBookedPTOPerMonth(bookedPTO.dates, monthLabels);
 
   holidays.forEach((element, index) => {
     const monthLabel = monthYearFormatter(element);

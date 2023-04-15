@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { FriendCard } from "../../pages/PlanWithFriends/FriendCard";
 import {
   computeNextNMonths,
-  computeMonthlyData,
   getDaysInMonth,
   getUniqueDates,
 } from "../../helpers/vacay_helpers";
@@ -19,7 +18,7 @@ const computeAvailableDays = (PTOPerMonth) => {
   return availableDays;
 };
 
-export const CalendarSummaryGroupLegacy = ({ dashboardData, nMonthsAhead }) => {
+/* export const CalendarSummaryGroupLegacy = ({ dashboardData, nMonthsAhead }) => {
   // 1. Compute name of N next months
   const nNextMonthNames = computeNextNMonths(
     dashboardData.currentMonth,
@@ -54,7 +53,7 @@ export const CalendarSummaryGroupLegacy = ({ dashboardData, nMonthsAhead }) => {
       </StyledCard>
     );
   });
-};
+}; */
 
 export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
   // 1. Compute name of N next months
@@ -81,6 +80,17 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
 
   groupBookedPTO.push(getUniqueDates(arrayOfBookedDates));
 
+  // Group dates by month of the year
+  const groupPTOPerMonth = {};
+  nNextMonthNames.forEach((element, index) => {
+    groupPTOPerMonth[element] = 0;
+  });
+
+  groupBookedPTO.forEach((element, index) => {
+    /* const monthLabel = monthYearFormatter(element);
+     */
+    // if currentDate not a week-end, increment, otherwise skip
+  });
   const CalendarSummaryGroup = ({ nNextMonthNames, availableDays }) => {
     console.log(nNextMonthNames);
     return nNextMonthNames.map((x) => {
