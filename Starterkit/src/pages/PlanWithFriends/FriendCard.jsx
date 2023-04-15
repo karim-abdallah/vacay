@@ -6,7 +6,6 @@ import pierreProfilePic from "../../assets/images/pierre.png";
 export const FriendCard = ({ name }) => {
   // TODO: integrate with back-end and S3 to pull info
   const profilePic = pierreProfilePic;
-  console.log(name);
   return (
     <StyledCard>
       <StyledCardBody>

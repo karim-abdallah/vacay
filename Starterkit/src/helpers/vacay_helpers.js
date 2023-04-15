@@ -55,6 +55,29 @@ export const monthStartFormatter = (date) => {
 
 /* Date Manipulation Helpers */
 
+export function getUniqueDates(arraysOfDates) {
+  const uniqueDates = new Set();
+
+  const isDateAlreadyInSet = (dateToCheck) => {
+    for (const date of uniqueDates) {
+      if (isSameDay(date.getTime(), dateToCheck.getTime())) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  for (const dates of arraysOfDates) {
+    for (const date of dates) {
+      if (!isDateAlreadyInSet(date)) {
+        uniqueDates.add(date);
+      }
+    }
+  }
+
+  return Array.from(uniqueDates);
+}
+
 export function getDaysInMonth(date) {
   // Get the current month
   const month = date.getMonth();

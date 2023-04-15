@@ -1,10 +1,12 @@
 import { Card, CardBody } from "reactstrap";
 import { calendarSelectionBackgroundColor } from "../../styles/constants";
 import styled from "styled-components";
+import { FriendCard } from "../../pages/PlanWithFriends/FriendCard";
 import {
   computeNextNMonths,
   computeMonthlyData,
   getDaysInMonth,
+  getUniqueDates,
 } from "../../helpers/vacay_helpers";
 
 const computeAvailableDays = (PTOPerMonth) => {
@@ -52,6 +54,58 @@ export const CalendarSummaryGroup = ({ dashboardData, nMonthsAhead }) => {
       </StyledCard>
     );
   });
+};
+
+const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
+  // 1. Compute name of N next months
+  const nNextMonthNames = computeNextNMonths(myData.currentMonth, nMonthsAhead);
+
+  // 2. Compute group data
+  const friendsData = {};
+  friendsData[myProfile.name] = myData;
+  groupInfo.friends.forEach((x) => (friendsData[x.name] = x.dashboard));
+
+  const generateFriendCards = () => {
+    const friendNames = Object.keys(friendsData);
+    return friendNames.map((x) => {
+      return <FriendCard name={x} />;
+    });
+  };
+  // Determine bookedPTO for the whole group
+  const groupBookedPTO = [];
+  const arrayOfBookedDates = [];
+
+  Object.keys(friendsData).forEach((friend) => {
+    arrayOfBookedDates.push(friendsData[friend].bookedPTO.dates);
+  });
+
+  groupBookedPTO.push(getUniqueDates(arrayOfBookedDates));
+
+  const CalendarSummaryGroup = (nNextMonthNames, availableDays) => {
+    return nNextMonthNames.map((x) => {
+      return (
+        <StyledCard>
+          <StyledCardBody>
+            <div>ICON</div>
+            <div>{x}</div>
+            <div>{availableDays[x]} days available</div>
+          </StyledCardBody>
+        </StyledCard>
+      );
+    });
+  };
+
+  return (
+    <Card>
+      <StyledCardBody>
+        <div>{generateFriendCards()}</div>
+        <CalendarSummaryGroup
+          dashboardData={myData}
+          nMonthsAhead={nMonthsAhead}
+        />
+      </StyledCardBody>
+    </Card>
+  );
 };
 
 const StyledCardBody = styled(CardBody)`
