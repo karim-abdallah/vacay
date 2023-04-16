@@ -14,7 +14,7 @@ const account = (state = initialState, action) => {
                 registrationError: null
             }
             break;
-       
+
         case REGISTER_USER_SUCCESSFUL:
             state = {
                 ...state,

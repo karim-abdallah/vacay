@@ -13,20 +13,20 @@ const fireBaseBackend = getFirebaseBackend();
 
 //If user is login then dispatch redux action's are directly from here.
 function* loginUser({ payload: { user, history } }) {
-        try {
-            if(process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-                const response = yield call(fireBaseBackend.loginUser, user.username, user.password);
-                yield put(loginUserSuccessful(response));
-            }
-            else {
-                const response = yield call(postLogin, 'http://localhost:8000/api/login', {email: user.email, password: user.password});
-                localStorage.setItem("authUser", JSON.stringify(response));
-                yield put(loginUserSuccessful(response));
-            }
-            history.push('/dashboard');
-        } catch (error) {
-            yield put(apiError(error));
+    try {
+        if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
+            const response = yield call(fireBaseBackend.loginUser, user.username, user.password);
+            yield put(loginUserSuccessful(response));
         }
+        else {
+            const response = yield call(postLogin, 'http://44.213.127.97/api/login', { email: user.email, password: user.password });
+            localStorage.setItem("authUser", JSON.stringify(response));
+            yield put(loginUserSuccessful(response));
+        }
+        history.push('/dashboard');
+    } catch (error) {
+        yield put(apiError(error));
+    }
 }
 
 function* logoutUser({ payload: { history } }) {

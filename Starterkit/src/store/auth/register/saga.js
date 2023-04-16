@@ -19,10 +19,9 @@ function* registerUser({ payload: { user, history } }) {
             yield put(registerUserSuccessful(response));
         }
         else {
-            const response = yield call(postRegister, 'http://localhost:8000/api/register', user);
+            const response = yield call(postRegister, 'http://44.213.127.97/api/register', user);
             yield put(registerUserSuccessful(response));
         }
-        console.log("Hey")
         history.push('/login');
     } catch (error) {
         yield put(registerUserFailed(error));

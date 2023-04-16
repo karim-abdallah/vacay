@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!k=3@7#76*x6kj9#7^k=ne3%iuc!20qvdawyu(zk5+p$g^_io!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -82,18 +82,12 @@ DATABASES = {
     'default': {
         #  'ENGINE': 'django.db.backends.sqlite3',
         #  'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'postgres',
-        # 'USER': 'vacay',
-        # 'PASSWORD': 'Vacaydbadmin2023!',
-        # 'HOST': 'vacay-db.cwx5iz62mons.us-east-1.rds.amazonaws.com',
-        # 'PORT': '5432',
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'yasircloud',
-        'USER': 'postgres',
-        'PASSWORD': 'iswgpHvkartlKGP4KrBE',
-        'HOST': 'yasir-cloud.c6y22qabsnxb.us-east-2.rds.amazonaws.com',
-        'PORT': '5432'
+        'NAME': 'postgres',
+        'USER': 'vacay',
+        'PASSWORD': 'Vacaydbadmin2023!',
+        'HOST': 'vacay-db.cwx5iz62mons.us-east-1.rds.amazonaws.com',
+        'PORT': '5433',
     }
 }
 
