@@ -1,20 +1,20 @@
-import { Card, CardBody } from "reactstrap";
-import { calendarSelectionBackgroundColor } from "../../styles/constants";
-import { useState } from "react";
-import styled from "styled-components";
-import { FriendCard } from "../../pages/PlanWithFriends/FriendCard";
+import { Card, CardBody } from 'reactstrap';
+import { calendarSelectionBackgroundColor } from '../../styles/constants';
+import { useState } from 'react';
+import styled from 'styled-components';
+import { FriendCard } from '../../pages/PlanWithFriends/FriendCard';
 import {
   calculateBookedPTOPerMonth,
   computeNextNMonths,
   getDaysInMonth,
   getUniqueDates,
-} from "../../helpers/vacay_helpers";
-import calendarIcon from "../../assets/images/calendarIcon.svg";
-import { defaultMonths } from "../../constants";
+} from '../../helpers/vacay_helpers';
+import calendarIcon from '../../assets/images/calendarIcon.svg';
+import { defaultMonths } from '../../constants';
 
 const nDaysInHeader = 35;
 
-const computeAvailableDays = (PTOPerMonth) => {
+const computeAvailableDays = PTOPerMonth => {
   const availableDays = {};
   // for each month in the PTO Per Month array, compute n days - element
   for (const [key, value] of Object.entries(PTOPerMonth)) {
@@ -28,7 +28,7 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
   const [isDrilldown, setIsDrilldown] = useState(false);
   const [drilledDownMonth, setDrilledDownMonth] = useState(null);
 
-  const handleShowDrilldown = (selectedMonth) => {
+  const handleShowDrilldown = selectedMonth => {
     setIsDrilldown(!isDrilldown);
     if (selectedMonth) {
       setDrilledDownMonth(selectedMonth);
@@ -40,18 +40,18 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
   // 2. Compute group data
   const friendsData = {};
   friendsData[myProfile.name] = myData;
-  groupInfo.friends.forEach((x) => (friendsData[x.name] = x.dashboard));
+  groupInfo.friends.forEach(x => (friendsData[x.name] = x.dashboard));
 
   const generateFriendCards = () => {
     const friendNames = Object.keys(friendsData);
-    return friendNames.map((x) => {
+    return friendNames.map(x => {
       return <FriendCard name={x} />;
     });
   };
   // Determine bookedPTO for the whole group
   const arrayOfBookedDates = [];
 
-  Object.keys(friendsData).forEach((friend) => {
+  Object.keys(friendsData).forEach(friend => {
     arrayOfBookedDates.push(friendsData[friend].bookedPTO.dates);
   });
 
@@ -65,15 +65,15 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
   const availableDays = computeAvailableDays(groupPTOPerMonth);
 
   const CalendarSummaryGroup = ({ nNextMonthNames, availableDays }) => {
-    return nNextMonthNames.map((x) => {
+    return nNextMonthNames.map(x => {
       return (
-        <StyledCard>
+        <StyledSummaryCard>
           <StyledCalendarSummaryBody onClick={() => handleShowDrilldown(x)}>
             <StyledImage src={calendarIcon} alt="ICON" />
             <div>{x}</div>
             <div>{availableDays[x]} days available</div>
           </StyledCalendarSummaryBody>
-        </StyledCard>
+        </StyledSummaryCard>
       );
     });
   };
@@ -81,24 +81,28 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
   return (
     <Card>
       <CardBody>
-        {" "}
-        {isDrilldown && (
-          <DrilldownCalendar
-            mainMonth={drilledDownMonth}
-            onClickDrilldownHandler={handleShowDrilldown}
-          />
-        )}
-        <StyledFriendsElement>
-          <div>{generateFriendCards()}</div>
-          {isDrilldown ? (
-            <div>FRIEND AVAILABILITIES</div>
-          ) : (
-            <CalendarSummaryGroup
-              nNextMonthNames={nNextMonthNames}
-              availableDays={availableDays}
+        <StyledPlanWithFriendsGrid>
+          {' '}
+          {isDrilldown && (
+            <DrilldownCalendar
+              mainMonth={drilledDownMonth}
+              onClickDrilldownHandler={handleShowDrilldown}
             />
           )}
-        </StyledFriendsElement>
+          <StyledFriendsElement>
+            <div>{generateFriendCards()}</div>
+          </StyledFriendsElement>
+          {!isDrilldown ? (
+            <SummaryGrid>
+              <CalendarSummaryGroup
+                nNextMonthNames={nNextMonthNames}
+                availableDays={availableDays}
+              />
+            </SummaryGrid>
+          ) : (
+            <div>Friends details</div>
+          )}
+        </StyledPlanWithFriendsGrid>
       </CardBody>
     </Card>
   );
@@ -106,6 +110,7 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
 
 export const DrilldownCalendar = ({ mainMonth, onClickDrilldownHandler }) => {
   // Renders header with columns in the bottom
+
   const CalendarDrillout = () => {
     return (
       <StyledDrillout onClick={() => onClickDrilldownHandler(null)}>
@@ -133,34 +138,38 @@ export const DrilldownCalendar = ({ mainMonth, onClickDrilldownHandler }) => {
     });
   };
 
-  const getMonthName = (monthYearString) => {
+  const getMonthName = monthYearString => {
     const monthDate = new Date(monthYearString);
     return defaultMonths[monthDate.getMonth()];
   };
 
-  const getNextMonthName = (monthYearString) => {
+  const getNextMonthName = monthYearString => {
     const monthDate = new Date(monthYearString);
     return defaultMonths[monthDate.getMonth() + 1];
   };
 
   const mockDay = 3;
   return (
-    <StyledHeaderDiv>
-      <CalendarDrillout />
-      <StyledHeaderGrid>
-        <MainMonth nDaysInMonth={getDaysInMonth(mainMonth)}>
-          {getMonthName(mainMonth)}
-        </MainMonth>
-        <SecondaryMonth nDaysInPreviousMonth={getDaysInMonth(mainMonth)}>
-          {getNextMonthName(mainMonth)}
-        </SecondaryMonth>
-        <DayColumns mainMonth={mainMonth} />
-      </StyledHeaderGrid>
-    </StyledHeaderDiv>
+    <>
+      <DrilloutContainer>
+        <CalendarDrillout />
+      </DrilloutContainer>
+      <StyledHeaderDiv>
+        <StyledHeaderGrid>
+          <MainMonth nDaysInMonth={getDaysInMonth(mainMonth)}>
+            {getMonthName(mainMonth)}
+          </MainMonth>
+          <SecondaryMonth nDaysInPreviousMonth={getDaysInMonth(mainMonth)}>
+            {getNextMonthName(mainMonth)}
+          </SecondaryMonth>
+          <DayColumns mainMonth={mainMonth} />
+        </StyledHeaderGrid>
+      </StyledHeaderDiv>
+    </>
   );
 };
 
-const headerHeight = "60px";
+const headerHeight = '60px';
 
 const StyledHeaderGrid = styled.div`
   margin-left: 15px;
@@ -168,7 +177,6 @@ const StyledHeaderGrid = styled.div`
   gap: 5px;
   grid-template-columns: repeat(${nDaysInHeader}, 1fr);
   height: ${headerHeight};
-  width: 860px;
 `;
 
 const HeaderCard = styled(Card)`
@@ -181,24 +189,32 @@ const HeaderCard = styled(Card)`
 `;
 
 const Day = styled(HeaderCard)`
-  grid-column: ${(props) => props.day + 1};
+  grid-column: ${props => props.day + 1};
   grid-row: 2;
 `;
 
 const MainMonth = styled(HeaderCard)`
-  grid-column: 1 / ${(props) => props.nDaysInMonth + 1};
+  grid-column: 1 / ${props => props.nDaysInMonth + 1};
   grid-row: 1;
   margin-bottom: 2px;
 `;
 
 const SecondaryMonth = styled(HeaderCard)`
-  grid-column: ${(props) => props.nDaysInPreviousMonth + 1} /
-    ${nDaysInHeader + 1};
+  grid-column: ${props => props.nDaysInPreviousMonth + 1} / ${nDaysInHeader + 1};
   grid-row: 1;
   margin-bottom: 2px;
 `;
 
 const StyledHeaderDiv = styled.div`
+  display: flex;
+  justify-content: right;
+  grid-template-columns: 1/5;
+  width: 100%;
+`;
+
+const DrilloutContainer = styled.div`
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   justify-content: right;
 `;
@@ -232,14 +248,21 @@ const StyledImage = styled.img`
 
 const StyledFriendsElement = styled.div`
   display: flex;
+  width: 100%;
 `;
 
 const StyledCalendarSummaryBody = styled(CardBody)`
   padding: 5px;
 `;
 
-const StyledCard = styled(Card)`
-  margin: 0px 5px 0px;
+const SummaryGrid = styled.div`
+  display: flex;
+  justify-content: space-between;
+  grid-column: 2;
+  grid-row: 1;
+`;
+
+const StyledSummaryCard = styled(Card)`
   text-align: center;
   height: 120px;
   background-color: ${calendarSelectionBackgroundColor};
@@ -248,4 +271,10 @@ const StyledCard = styled(Card)`
   &:hover {
     border: 1px solid;
   }
+`;
+
+const StyledPlanWithFriendsGrid = styled.div`
+  display: grid;
+  gap: 5px;
+  grid-template-columns: 1fr 4fr;
 `;

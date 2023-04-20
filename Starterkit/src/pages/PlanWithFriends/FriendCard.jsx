@@ -1,7 +1,7 @@
-import { Card, CardBody } from "reactstrap";
-import styled from "styled-components";
-import { lightBlue } from "../../styles/constants";
-import pierreProfilePic from "../../assets/images/pierre.png";
+import { Card, CardBody } from 'reactstrap';
+import styled from 'styled-components';
+import { lightBlue } from '../../styles/constants';
+import pierreProfilePic from '../../assets/images/pierre.png';
 
 export const FriendCard = ({ name }) => {
   // TODO: integrate with back-end and S3 to pull info
@@ -9,7 +9,7 @@ export const FriendCard = ({ name }) => {
   return (
     <StyledCard>
       <StyledCardBody>
-        {" "}
+        {' '}
         <StyledImage src={profilePic} alt="" />
         {name}
       </StyledCardBody>
@@ -34,6 +34,6 @@ const StyledCard = styled(Card)`
   text-align: left;
   margin: 15px 15px 0px;
   height: 40px;
+  width: 100%;
   background-color: ${lightBlue};
-  width: 200px;
 `;
