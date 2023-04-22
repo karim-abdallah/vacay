@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-!k=3@7#76*x6kj9#7^k=ne3%iuc!20qvdawyu(zk5+p$g^_io!
 DEBUG = True
 
 # ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -81,14 +81,14 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 DATABASES = {
     'default': {
-         'ENGINE': 'django.db.backends.sqlite3',
-         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'postgres',
-        # 'USER': 'vacay',
-        # 'PASSWORD': 'Vacaydbadmin2023!',
-        # 'HOST': 'vacay-db.cwx5iz62mons.us-east-1.rds.amazonaws.com',
-        # 'PORT': '5433',
+        #  'ENGINE': 'django.db.backends.sqlite3',
+        #  'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'vacay',
+        'PASSWORD': 'Vacaydbadmin2023!',
+        'HOST': 'vacay-db.cwx5iz62mons.us-east-1.rds.amazonaws.com',
+        'PORT': '5433',
     }
 }
 
@@ -139,14 +139,6 @@ AUTH_USER_MODEL = 'myapp.User'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'murtaza.zoaib21@gmail.com'
-EMAIL_HOST_PASSWORD = 'Murtaza123'
 
 SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = True
