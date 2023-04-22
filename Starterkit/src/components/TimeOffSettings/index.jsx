@@ -10,6 +10,9 @@ import { minSettingsValueDays, maxSettingsValueDays } from "../../constants";
 import { TimeOffSettingsInstructions } from "./instructionText";
 import minimize from "../../assets/images/minimize.png";
 import settings from "../../assets/images/settings.png";
+import logout from "../../assets/images/logout.png";
+import { Link } from "react-router-dom";
+
 
 function HolidayCheckbox(props) {
   return (
@@ -115,12 +118,27 @@ const TimeOffSettings = () => {
     setExpandedSettings(!expandedSettings);
   };
 
+
+
   return (
     <>
       {!expandedSettings ? (
-        <TimeOffSettingsButton onClick={handleExpandSettings}>
-          Time Off Settings <SmallTimeOffSettingsIcon src={settings} />
-        </TimeOffSettingsButton>
+        <div>
+
+          <Link to="/logout" className="mx-2">
+            {" "}     <LogOutButton >
+
+              <LogoutIcon src={logout} />
+            </LogOutButton>
+          </Link>{" "}
+
+
+
+          <TimeOffSettingsButton onClick={handleExpandSettings}>
+            Time Off Settings <SmallTimeOffSettingsIcon src={settings} />
+          </TimeOffSettingsButton>
+
+        </div>
       ) : (
         <Card>
           <ExpandedTimeOffSettingsCard>
@@ -155,6 +173,10 @@ const ExpandedTimeOffSettingsCard = styled(CardBody)`
 const SmallTimeOffSettingsIcon = styled.img`
   height: 20px;
   padding-left: 10px;
+`;
+
+const LogoutIcon = styled.img`
+  height: 17px;
 `;
 
 const StyledMinimizeIcon = styled.img`
@@ -208,6 +230,22 @@ const TimeOffSettingsButton = styled.button`
   background-color: #ffffff;
   height: 40px;
   width: 180px;
+  border-width: 0px;
+  border-radius: 13px;
+  position: relative;
+  bottom: 8px;
+  &:hover {
+    background-color: ${props => !props.showPointer && cardHoverColor};
+  }
+`;
+
+const LogOutButton = styled.button`
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  float: right;
+  background-color: #ffffff;
+  height: 40px;
+  width: 40px;
+  margin-left:5px;
   border-width: 0px;
   border-radius: 13px;
   position: relative;

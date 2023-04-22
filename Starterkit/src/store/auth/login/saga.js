@@ -6,23 +6,15 @@ import { apiError, loginUserSuccessful, logoutUserSuccess } from './actions';
 
 // AUTH related methods
 import { postLogin } from '../../../helpers/fackBackend_Helper';
-import { getFirebaseBackend } from '../../../helpers/firebase_helper';
 
-//Initilize firebase
-const fireBaseBackend = getFirebaseBackend();
 
 //If user is login then dispatch redux action's are directly from here.
 function* loginUser({ payload: { user, history } }) {
     try {
-        if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-            const response = yield call(fireBaseBackend.loginUser, user.username, user.password);
-            yield put(loginUserSuccessful(response));
-        }
-        else {
-            const response = yield call(postLogin, 'http://44.213.127.97/api/login', { email: user.email, password: user.password });
-            localStorage.setItem("authUser", JSON.stringify(response));
-            yield put(loginUserSuccessful(response));
-        }
+        console.log(user)
+        const response = yield call(postLogin, '/login', user);
+        localStorage.setItem("authUser", JSON.stringify(response));
+        yield put(loginUserSuccessful(response));
         history.push('/dashboard');
     } catch (error) {
         yield put(apiError(error));
@@ -33,11 +25,8 @@ function* logoutUser({ payload: { history } }) {
     try {
         localStorage.removeItem("authUser");
 
-        if (process.env.REACT_APP_DEFAULTAUTH === 'firebase') {
-            const response = yield call(fireBaseBackend.logout);
-            yield put(logoutUserSuccess(response));
-        }
-
+        const response = yield call(postLogin, '/logout');
+        yield put(logoutUserSuccess(response));
         history.push('/login');
     } catch (error) {
         yield put(apiError(error));

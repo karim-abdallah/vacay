@@ -6,22 +6,13 @@ import { registerUserSuccessful, registerUserFailed } from './actions';
 
 //AUTH related methods
 import { postRegister } from '../../../helpers/fackBackend_Helper';
-import { getFirebaseBackend } from '../../../helpers/firebase_helper';
 
-// initialize firebase Auth
-const fireBaseBackend = getFirebaseBackend();
 
 // Is user register successfull then direct plot user in redux.
 function* registerUser({ payload: { user, history } }) {
     try {
-        if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-            const response = yield call(fireBaseBackend.registerUser, user.email, user.password);
-            yield put(registerUserSuccessful(response));
-        }
-        else {
-            const response = yield call(postRegister, 'http://44.213.127.97/api/register', user);
-            yield put(registerUserSuccessful(response));
-        }
+        const response = yield call(postRegister, '/register', user);
+        yield put(registerUserSuccessful(response));
         history.push('/login');
     } catch (error) {
         yield put(registerUserFailed(error));

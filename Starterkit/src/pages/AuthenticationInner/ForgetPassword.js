@@ -31,7 +31,7 @@ class ForgetPasswordPage extends Component {
                                                             <Link to="/" className="logo"><img src={logodark} height="20" alt="logo" /></Link>
                                                         </div>
 
-                                                        <h4 className="font-size-18 mt-4">Reset Password</h4>
+                                                        <h4 className="font-size-18 mt-4">aassword</h4>
                                                         <p className="text-muted">Reset your password to Nazox.</p>
                                                     </div>
 

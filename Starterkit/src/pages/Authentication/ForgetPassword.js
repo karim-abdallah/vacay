@@ -1,105 +1,126 @@
-
 import React, { Component } from "react";
-import { Row, Col, Alert, Button, Container, Label } from "reactstrap";
+import { Row, Col } from "reactstrap";
 
 // Redux
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 
-// availity-reactstrap-validation
-import { AvForm, AvField } from "availity-reactstrap-validation";
-
 // action
-import { forgetUser } from '../../store/actions';
+import { forgetUser } from "../../store/actions";
 
-// import images
-import logodark from "../../assets/images/logo-dark.png";
+
+import umrallah from "../../assets/images/umrallah.svg";
+import side from "../../assets/images/side-img.svg";
 
 class ForgetPasswordPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-
-        // handleValidSubmit
-        this.handleValidSubmit = this.handleValidSubmit.bind(this);
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+    };
 
     // handleValidSubmit
-    handleValidSubmit(event, values) {
-        this.props.forgetUser(values, this.props.history);
+    this.handleValidSubmit = this.handleValidSubmit.bind(this);
+  }
+
+  // handleValidSubmit
+  handleValidSubmit(event) {
+    event.preventDefault();
+    let obj = {
+      email: this.state.email
     }
+    this.props.forgetUser(obj, this.props.history);
+  }
 
-    render() {
-        return (
-            <React.Fragment>
-                <div>
-                    <Container fluid className="p-0">
-                        <Row className="g-0">
-                            <Col lg={4}>
-                                <div className="authentication-page-content p-4 d-flex align-items-center min-vh-100">
-                                    <div className="w-100">
-                                        <Row className="justify-content-center">
-                                            <Col lg={9}>
-                                                <div>
-                                                    <div className="text-center">
-                                                        <div>
-                                                            <Link to="/" className="logo"><img src={logodark} height="20" alt="logo" /></Link>
-                                                        </div>
+  //
+  handleEmailChange = (e) => {
+    this.setState({
+      email: e.target.value,
+    });
+  };
 
-                                                        <h4 className="font-size-18 mt-4">Reset Password</h4>
-                                                        <p className="text-muted">Reset your password to Nazox.</p>
-                                                    </div>
-
-                                                    <div className="p-2 mt-5">
-                                                        {this.props.forgetError && this.props.forgetError ?
-                                                            <Alert color="danger" className="mb-4">{this.props.forgetError}</Alert> : null}
-                                                        {
-                                                            this.props.message ?
-                                                                <Alert color="success" className="mb-4">{this.props.message}</Alert> : null
-                                                        }
-                                                        <AvForm className="form-horizontal" onValidSubmit={this.handleValidSubmit}>
-
-                                                            <div className="auth-form-group-custom mb-4">
-                                                                <i className="ri-mail-line auti-custom-input-icon"></i>
-                                                                <Label htmlFor="useremail">Email</Label>
-                                                                <AvField name="useremail" value={this.state.username} type="email" validate={{ email: true, required: true }} className="form-control" id="useremail" placeholder="Enter email" />
-                                                            </div>
-
-                                                            <div className="mt-4 text-center">
-                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit">{this.props.loading ? "Loading..." : "Reset"}</Button>
-                                                            </div>
-                                                        </AvForm>
-                                                    </div>
-
-                                                    <div className="mt-5 text-center">
-                                                        <p>Don't have an account ? <Link to="/login" className="fw-medium text-primary"> Log in </Link> </p>
-                                                        <p>© 2021 Nazox. Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesdesign</p>
-                                                    </div>
-                                                </div>
-
-                                            </Col>
-                                        </Row>
-                                    </div>
-                                </div>
-                            </Col>
-                            <Col lg={8}>
-                                <div className="authentication-bg">
-                                    <div className="bg-overlay"></div>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Container>
+  render() {
+    return (
+      <React.Fragment>
+        <div className="d-flex justify-content-between flex-column min-vh-100">
+          <div className="Login-form">
+            <div className="container-fluid m-0">
+              <div className="row">
+                <div className="col-lg-4 col-md-5 vh-100 align-items-center p-0 d-none d-md-block">
+                  <div className="div">
+                    <div className="content-section mt-5 pt-5">
+                      <div className="d-flex gap-2 flex-wrap align-items-center">
+                        <h2>VACAY</h2>
+                        <img src={umrallah} className="img-fluid" alt="" />
+                      </div>
+                      <p>Optimize your time off</p>
+                    </div>
+                    <img src={side} className="img-fluid" alt="" />
+                  </div>
                 </div>
-            </React.Fragment>
-        );
-    }
+                <div className="col-lg-8  col-md-7 p-0">
+                  <div className="form-card d-flex align-items-center px-0 px-lg-5">
+                    <div>
+                      <div className="container md:px-3 px-md-5">
+                        <p>
+                          Enter the email address associated with your account
+                          and we'll send you a link to reset your password
+                        </p>
+                        <form onSubmit={this.handleValidSubmit}>
+                          <Row className="my-5">
+                            <div>
+                              {this.props.forgetError ? this.props.forgetError : null}
+                              {this.props.message ? this.props.message : null}
+                              <p className="custom-link mt-3">Email Address:</p>
+                              <Col className="my-4">
+                                <input
+                                  value={this.state.email}
+                                  onChange={this.handleEmailChange}
+                                  id="standard-email-input"
+                                  label="Email Address"
+                                  type="email"
+                                  autoComplete="current-email"
+                                  variant="standard"
+                                  className="py-2 w-100"
+                                  style={{ borderRadius: "4px" }}
+                                />
+                              </Col>
+                            </div>
+
+                            <div>
+                              <button
+                                type="submit"
+
+                                className="btn btn-submit w-100 mt-5">
+                                Continue
+                              </button>
+                              <p className="custom-link mt-3">
+                                <Link to="/register" className="mx-2">
+                                  {" "}
+                                  Sign up
+                                </Link>{" "}
+                              </p>
+                            </div>
+                          </Row>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </React.Fragment>
+    );
+  }
 }
 
-const mapStatetoProps = state => {
-    const { message, forgetError, loading } = state.Forget;
-    return { message, forgetError, loading };
-}
+const mapStatetoProps = (state) => {
+  const { message, forgetError, loading } = state.Forget;
+  return { message, forgetError, loading };
+};
 
 export default withRouter(
-    connect(mapStatetoProps, { forgetUser })(ForgetPasswordPage)
+  connect(mapStatetoProps, { forgetUser })(ForgetPasswordPage)
 );

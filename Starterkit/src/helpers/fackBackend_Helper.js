@@ -2,6 +2,11 @@ import axios from 'axios';
 import { del, get, post, put } from "./api_helper";
 import * as url from "./url_helper"
 
+axios.defaults.withCredentials = true
+axios.defaults.baseURL = 'http://localhost:8000/api';
+
+
+
 // Gets the logged in user data from local session 
 const getLoggedInUser = () => {
     const user = localStorage.getItem('authUser');
@@ -51,9 +56,27 @@ const postForgetPwd = (url, data) => {
             throw response.data;
         return response.data;
     }).catch(err => {
-        throw err[1];
+        if (err.response)
+            throw err.message;
+        else
+            throw err.message
     });
 }
+
+// postResetPwd 
+const postResetPwd = (url, data) => {
+    return axios.post(url, data).then(response => {
+        if (response.status === 400 || response.status === 500)
+            throw response.data;
+        return response.data;
+    }).catch(err => {
+        if (err.response)
+            throw err.message;
+        else
+            throw err.message
+    });
+}
+
 // get Events
 export const getEvents = () =>
     get(url.GET_EVENTS)
@@ -116,4 +139,4 @@ export const getMessages = (roomId = "") =>
 // post messages
 export const addMessage = message => post(url.ADD_MESSAGE, message)
 
-export { getLoggedInUser, isUserAuthenticated, postRegister, postLogin, postForgetPwd }
+export { getLoggedInUser, isUserAuthenticated, postRegister, postLogin, postForgetPwd, postResetPwd }

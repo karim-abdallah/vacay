@@ -8,6 +8,7 @@ import Account from "./auth/register/reducer";
 import Login from "./auth/login/reducer";
 import Forget from "./auth/forgetpwd/reducer";
 import Dashboard from "./dashboard/reducer";
+import ResetPwd from './auth/resetpwd/reducer'
 
 const rootReducer = combineReducers({
   // public
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   Account,
   Login,
   Forget,
+  ResetPwd,
   // Dashboard
   Dashboard,
 });

@@ -22,6 +22,7 @@ class Register extends Component {
             firstName: "",
             lastName: "",
             username: "",
+            email: "",
             password: "",
             showPassword: false
         }
@@ -32,8 +33,10 @@ class Register extends Component {
         event.preventDefault();
 
         let obj = {
-            name: this.state.firstName + " " + this.state.lastName,
-            email: this.state.username,
+            first_name: this.state.firstName,
+            last_name: this.state.lastName,
+            username: this.state.username,
+            email: this.state.email,
             password: this.state.password
         }
         this.props.registerUser(obj, this.props.history)
@@ -54,16 +57,22 @@ class Register extends Component {
 
     handleEmailChange = (e) => {
         this.setState({
+            email: e.target.value
+        })
+    };
+
+    handleUsernameChange = (e) => {
+        this.setState({
             username: e.target.value
         })
     };
+
 
     handlePasswordChange = (e) => {
         this.setState({
             password: e.target.value
         })
     };
-
 
     handleFirstNameChange = (e) => {
         this.setState({
@@ -134,6 +143,7 @@ class Register extends Component {
                                             <form onSubmit={this.handleSubmit}>
                                                 {this.props.registrationError ? this.props.registrationError : null}
                                                 <Row className="my-5">
+
                                                     <Col>
                                                         <input
                                                             value={this.state.firstName}
@@ -159,22 +169,37 @@ class Register extends Component {
                                                             className="py-2 w-100 border-bottom border-0"
                                                         />
                                                     </Col>
-                                                    <div>
-                                                        <Col className="my-4">
-                                                            <input
-                                                                value={this.state.username}
-                                                                onChange={this.handleEmailChange}
-                                                                placeholder="Email Address"
-                                                                id="standard-email-input"
-                                                                label="Eamil Address"
-                                                                type="email"
-                                                                autoComplete="current-email"
-                                                                variant="standard"
-                                                                className="py-2 w-100 border-bottom border-0"
-                                                            />
-                                                        </Col>
-                                                    </div>
-                                                    <div>
+                                                </Row>
+                                                <Row className="my-5">
+                                                    <Col>
+                                                        <input
+                                                            value={this.state.email}
+                                                            onChange={this.handleEmailChange}
+                                                            placeholder="Email Address"
+                                                            id="standard-email-input"
+                                                            label="Eamil Address"
+                                                            type="email"
+                                                            autoComplete="current-email"
+                                                            variant="standard"
+                                                            className="py-2 w-100 border-bottom border-0"
+                                                        />
+                                                    </Col>
+
+                                                    <Col>
+                                                        <input
+                                                            value={this.state.username}
+                                                            onChange={this.handleUsernameChange}
+                                                            placeholder="Username"
+                                                            id="standard-username-input"
+                                                            label="Username"
+                                                            type="text"
+                                                            autoComplete="current-username"
+                                                            variant="standard"
+                                                            className="py-2 w-100 border-bottom border-0"
+                                                        />
+                                                    </Col>
+
+                                                    <Row className="my-5">
                                                         <Col>
                                                             <div
                                                                 className="w-100 d-flex justify-content-between custom-textfield mt-3"
@@ -220,7 +245,7 @@ class Register extends Component {
                                                                 </div>
                                                             </div>
                                                         </Col>
-                                                    </div>
+                                                    </Row>
                                                     <div>
                                                         <button
                                                             type="submit"

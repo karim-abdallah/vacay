@@ -1,0 +1,69 @@
+FORGET_PASSWORD_TEMPLATE = '''
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>VACAY</title>
+    </head>
+
+    <body>
+
+        <h4>Click on this <a href="reset_password_link">link</a> to reset your password </h4>
+
+    </body>
+
+    </html>
+'''
+
+
+REGISTER_USER_TEMPLATE = '''
+   <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VACAY</title>
+</head>
+
+<body>
+
+    <h3>Hi first_name!</h3>
+    <p>
+
+        We're thrilled to welcome you to Vacay, the ultimate platform for optimizing your time off! With our
+        user-friendly
+        interface and forward-looking balances, we're dedicated to helping you make the most out of your vacation time.
+        <br>
+        <br>
+        <br>
+
+        At Vacay, we understand the importance of taking time off to rest, recharge, and explore the world. We also know
+        that planning a vacation can be stressful and time-consuming. That's why we've created a platform that makes
+        time off planning easy, convenient, on your own or with your friends, so you can plan the perfect vacation
+        together.
+
+        <br>
+        <br>
+        <br>
+        If you have any questions, please don't hesitate to reach out to our customer support team at
+        <a href="mailto:info@vacay.live">info@vacay.live</a> ,
+        we're always here to help!
+
+        <br><br>
+        <br>
+
+        Best regards,
+        <br>
+        The Vacay Team
+
+    </p>
+
+</body>
+
+</html>
+'''

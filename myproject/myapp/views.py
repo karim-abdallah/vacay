@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from .serializers import UserSerializer
 from rest_framework.response import Response
@@ -5,13 +6,18 @@ from rest_framework.exceptions import AuthenticationFailed
 from .models import User
 import jwt
 import datetime
+from .utils import send_forget_password_email, send_register_user_email
 
 
 class RegisterView(APIView):
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        data = request.data
+        serializer = UserSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
+        send_register_user_email(data['email'], data['first_name'])
+
         return Response({'data': serializer.data})
 
 
@@ -35,17 +41,15 @@ class LoginView(APIView):
             'iat': datetime.datetime.utcnow()  # iat stands for issued at time
         }
 
-        token = jwt.encode(payload, 'secret', algorithm='HS256').decode(
-            'utf-8')  # HS256 is the algorithm used to encode the token
+        # HS256 is the algorithm used to encode the token
+        token = jwt.encode(payload, 'secret', algorithm='HS256')
 
         response = Response()
 
         # httponly is used to prevent javascript from accessing the cookie
         response.set_cookie(key='jwt', value=token, httponly=True)
 
-        response.data = {
-            'jwt': token
-        }
+        response.data = token
 
         return response
 
@@ -58,7 +62,8 @@ class UserView(APIView):
             raise AuthenticationFailed('Unauthenticated!')
 
         try:
-            payload = jwt.decode(token, 'secret', algorithms=['HS256']) # decode the token
+            payload = jwt.decode(token, 'secret', algorithms=[
+                                 'HS256'])  # decode the token
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed('Unauthenticated!')
 
@@ -73,8 +78,68 @@ class LogoutView(APIView):
     def post(self, request):
         response = Response()
         response.delete_cookie('jwt')
+
         response.data = {
             'message': 'success'
         }
 
         return response
+
+
+class ForgotPasswordView(APIView):
+    def post(self, request):
+
+        email = request.data['email']
+        user = User.objects.filter(email=email).first()
+
+        if user is None:
+            raise AuthenticationFailed('User not found')
+
+        # Create a JWT token with an expiry time of 60 minutes
+        payload = {
+            'user_id': user.id,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=15),
+            'iat': datetime.datetime.utcnow(),
+            'type': 'reset_password'
+        }
+
+        token = jwt.encode(payload, 'secret', algorithm='HS256')
+
+        # Create password reset URL
+        reset_password_link = f'http://localhost:3000/reset-password/{token}'
+
+        send_forget_password_email(email, reset_password_link)
+
+        return Response({'data': 'A password reset link has been sent to your email address'})
+
+
+class ResetPasswordView(APIView):
+    def post(self, request):
+
+        # token = request.COOKIES.get('jwt')
+        token = request.data['token']
+        password = request.data['password']
+
+        # decode the JWT token and validate its contents
+        try:
+
+            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+
+            if payload['type'] != 'reset_password':
+                raise AuthenticationFailed('Invalid token type')
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('Token has expired')
+        except jwt.InvalidTokenError:
+            raise AuthenticationFailed('Invalid token')
+
+        # get the user object
+        # get_object_or_404 is used to get the object from the database if the object is not found it will return 404 error
+        user = get_object_or_404(User, id=payload['user_id'])
+
+        user.set_password(password)
+        user.save()
+
+        response = Response()
+        response.delete_cookie('jwt')
+
+        return Response({'detail': 'Password reset successfully'})
