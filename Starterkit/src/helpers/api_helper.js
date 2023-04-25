@@ -3,7 +3,7 @@ import { createBrowserHistory } from 'history';
 
 const history = createBrowserHistory();
 const ENV = process.env.NODE_ENV
-let API_URL = ''
+let API_URL = 'http://localhost:8000/api';
 
 if (ENV == 'development') {
   API_URL = 'http://localhost:8000/api';
