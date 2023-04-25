@@ -6,7 +6,18 @@ from rest_framework.exceptions import AuthenticationFailed
 from .models import User
 import jwt
 import datetime
-from .utils import send_forget_password_email, send_register_user_email
+from .utils import send_forget_password_email, send_register_user_email, generate_presigned_url
+
+
+# COMMON CODE FOR AUTHENTICATION
+'''
+201: Login Success
+401: No Token
+402: Invalid Token
+403: Expired Token
+404: Wrong Password
+405: Wrong Credentials
+'''
 
 
 class RegisterView(APIView):
@@ -59,15 +70,16 @@ class UserView(APIView):
         token = request.COOKIES.get('jwt')  # get the token from the cookie
 
         if not token:
-            raise AuthenticationFailed('Unauthenticated!')
+            raise AuthenticationFailed('Unauthenticated')
 
         try:
-            payload = jwt.decode(token, 'secret', algorithms=[
-                                 'HS256'])  # decode the token
+            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+
         except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated!')
+            raise AuthenticationFailed('Unauthenticated')
 
         # get the user from the payload
+
         user = User.objects.filter(id=payload['id']).first()
         serializer = UserSerializer(user)
 
@@ -80,9 +92,9 @@ class LogoutView(APIView):
         response.delete_cookie('jwt')
 
         response.data = {
-            'message': 'success'
+            'detail': 'logout'
         }
-
+    
         return response
 
 
@@ -127,8 +139,10 @@ class ResetPasswordView(APIView):
 
             if payload['type'] != 'reset_password':
                 raise AuthenticationFailed('Invalid token type')
+            
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed('Token has expired')
+        
         except jwt.InvalidTokenError:
             raise AuthenticationFailed('Invalid token')
 
@@ -139,7 +153,112 @@ class ResetPasswordView(APIView):
         user.set_password(password)
         user.save()
 
-        response = Response()
-        response.delete_cookie('jwt')
-
         return Response({'detail': 'Password reset successfully'})
+
+
+class ChangePasswordView(APIView):
+    def post(self, request):
+
+        token = request.COOKIES.get('jwt')
+
+        old_password = request.data['old_password']
+        new_password = request.data['new_password']
+
+        if not token:
+            raise AuthenticationFailed('Unauthenticated')
+
+        try:
+            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('Unauthenticated')
+
+        # get_object_or_404 is used to get the object from the database if the object is not found it will return 404 error
+        user = get_object_or_404(User, id=payload['id'])
+
+        is_correct = user.check_password(old_password)
+
+        if not is_correct:
+            raise AuthenticationFailed(detail='incorrect password', code=404)
+
+        user.set_password(new_password)
+        user.save()
+
+        return Response({'detail': 'Password updated successfully'})
+
+
+class UpdateProfileView(APIView):
+    def post(self, request):
+
+        token = request.COOKIES.get('jwt')
+
+        if not token:
+            raise AuthenticationFailed('Unauthenticated')
+
+        try:
+            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('Unauthenticated')
+
+        data = request.data
+
+        # get_object_or_404 is used to get the object from the database if the object is not found it will return 404 error
+        user = get_object_or_404(User, id=payload['id'])
+
+        user.first_name = data['first_name']
+        user.last_name = data['last_name']
+        user.save()
+
+        return Response({'detail': 'Profile updated successfully'})
+
+
+class UpdateProfilePictureView(APIView):
+    def post(self, request):
+
+        token = request.COOKIES.get('jwt')
+
+        if not token:
+            raise AuthenticationFailed('Unauthenticated')
+
+        try:
+            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('Unauthenticated')
+
+        data = request.data
+        file_name = data['file_name']
+
+        # get_object_or_404 is used to get the object from the database if the object is not found it will return 404 error
+        user = get_object_or_404(User, id=payload['id'])
+
+        link = f'https://vacay-assets.s3.amazonaws.com/users/{user.username}/profile/{file_name}'
+
+        user.profile_pic = link
+        user.save()
+
+        return Response({'detail': 'Profile picture updated successfully'})
+
+
+class GeneratePresignedUrl(APIView):
+    def post(self, request):
+
+        token = request.COOKIES.get('jwt')
+
+        if not token:
+            raise AuthenticationFailed('Unauthenticated')
+
+        try:
+            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('Unauthenticated')
+
+        data = request.data
+
+        user = get_object_or_404(User, id=payload['id'])
+
+        link = generate_presigned_url(user.username, data['file_name'], data['file_type'])
+
+        return Response({'detail': link})

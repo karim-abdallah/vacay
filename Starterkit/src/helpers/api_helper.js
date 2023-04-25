@@ -1,21 +1,32 @@
 import axios from "axios"
-import accessToken from "./jwt-token-access/accessToken"
+import { createBrowserHistory } from 'history';
 
-//pass new generated access token here
-const token = accessToken
+const history = createBrowserHistory();
+const ENV = process.env.NODE_ENV
+let API_URL = ''
 
-//apply base url for axios
-const API_URL = ""
+if (ENV == 'development') {
+  API_URL = 'http://localhost:8000/api';
+}
+
 
 const axiosApi = axios.create({
   baseURL: API_URL,
+  withCredentials: true,
+  headers: { 'Authorization': 'Bearer tokennofount' }
 })
 
-axiosApi.defaults.headers.common["Authorization"] = token
 
 axiosApi.interceptors.response.use(
   response => response,
-  error => Promise.reject(error)
+  error => {
+    if (error.response.data && error.response.data.detail === 'Unauthenticated') {
+      history.push("/logout");
+    } else {
+      throw error.response
+      // Promise.reject(error.response)
+    }
+  }
 )
 
 export async function get(url, config = {}) {
@@ -38,4 +49,20 @@ export async function del(url, config = {}) {
   return await axiosApi
     .delete(url, { ...config })
     .then(response => response.data)
+}
+
+
+export async function s3Post(url, image) {
+
+  let config = {
+    method: "put",
+    url: url,
+    data: image,
+    withCredentials: false,
+    headers: {
+      "Content-Type": image.type,
+    },
+  };
+
+  return axios(config)
 }

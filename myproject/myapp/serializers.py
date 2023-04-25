@@ -5,9 +5,8 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name',
-                  'email', 'password', 'username']
-        # fields=['id','name','email','password']
+        fields = ['id', 'first_name', 'last_name', 'email', 'password', 'username', 'profile_pic']
+
         # this is used to hide the password when we get the data from the database
         extra_kwargs = {'password': {'write_only': True}}
 

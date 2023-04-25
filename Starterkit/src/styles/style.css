@@ -1,51 +1,51 @@
 :root {
-    --vacay-font-color: #2B3674;
-    --vacay-font-color-light: #daddf1;
-    --bookedDaysColor: #6A48FF;
-    --holidaysColor: #FF77B3;
-    --selectedDatesColor: #8B77FF;
-    --datesToUnbookColor: #6D7994;
+  --vacay-font-color: #2B3674;
+  --vacay-font-color-light: #daddf1;
+  --bookedDaysColor: #6A48FF;
+  --holidaysColor: #FF77B3;
+  --selectedDatesColor: #8B77FF;
+  --datesToUnbookColor: #6D7994;
 }
 
 .ant-tooltip-inner {
-    white-space: nowrap;
-    inline-size: min-content;
+  white-space: nowrap;
+  inline-size: min-content;
 }
 
 .pastDates {
-    background: none;
-    color: var(--vacay-font-color-light);
-    border: 0;
+  background: none;
+  color: var(--vacay-font-color-light);
+  border: 0;
 }
 
 .bookedDays {
-    background: var(--bookedDaysColor);
-    color: white;
-    border: 0;
+  background: var(--bookedDaysColor);
+  color: white;
+  border: 0;
 }
 
 .inactiveDays {
-    background: none;
-    border: 0;
+  background: none;
+  border: 0;
 }
 
-.holidays{
-    background: white;
-    border: 2px solid;
-    border-color: var(--bookedDaysColor);
+.holidays {
+  background: white;
+  border: 2px solid;
+  border-color: var(--bookedDaysColor);
 }
 
 .selectedDates {
-    border-radius: 50%;
-    background: #8B77FF;
-    color: white;
-    border: 0;
+  border-radius: 50%;
+  background: #8B77FF;
+  color: white;
+  border: 0;
 }
 
 .datesToUnbook {
-    background: var(--datesToUnbookColor);
-    color: white;
-    border: 0;
+  background: var(--datesToUnbookColor);
+  color: white;
+  border: 0;
 }
 
 .react-calendar {
@@ -60,14 +60,17 @@
 .react-calendar--doubleView {
   width: 700px;
 }
+
 .react-calendar--doubleView .react-calendar__viewContainer {
   display: flex;
   margin: -0.5em;
 }
-.react-calendar--doubleView .react-calendar__viewContainer > * {
+
+.react-calendar--doubleView .react-calendar__viewContainer>* {
   width: 50%;
   margin: 0.5em;
 }
+
 .react-calendar,
 .react-calendar *,
 .react-calendar *:before,
@@ -81,20 +84,25 @@
   margin: 0;
   outline: none;
 }
+
 .react-calendar button:enabled:hover {
   cursor: pointer;
 }
+
 .react-calendar__navigation {
   display: flex;
   height: 44px;
 }
+
 .react-calendar__navigation button {
   min-width: 44px;
   background: none;
 }
+
 .react-calendar__navigation button:disabled {
   background-color: #f0f0f0;
 }
+
 /* .react-calendar__navigation button:enabled:hover, */
 /* .react-calendar__navigation button:enabled:focus { */
 /*   background-color: #e6e6e6; */
@@ -105,9 +113,11 @@
   font-weight: bold;
   font-size: 0.6em;
 }
+
 .react-calendar__month-view__weekdays__weekday {
-    padding: 0.5em;
+  padding: 0.5em;
 }
+
 .react-calendar__month-view__weekNumbers .react-calendar__tile {
   display: flex;
   align-items: center;
@@ -117,16 +127,19 @@
 }
 
 .react-calendar__month-view__days__day--weekend {
-    font-weight: lighter;
+  font-weight: lighter;
 }
+
 .react-calendar__month-view__days__day--neighboringMonth {
   color: #757575;
 }
+
 .react-calendar__year-view .react-calendar__tile,
 .react-calendar__decade-view .react-calendar__tile,
 .react-calendar__century-view .react-calendar__tile {
   padding: 2em 0.5em;
 }
+
 .react-calendar__tile {
   padding: 10px 6.6667px;
   text-align: center;
@@ -134,86 +147,122 @@
   border-radius: 50%;
   font-size: 0.9em;
 }
+
 .react-calendar__tile:disabled {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
+
 .react-calendar__tile:enabled:hover {
-    background-color: var(--selectedDatesColor);
+  background-color: var(--selectedDatesColor);
 }
+
 .react-calendar__tile--hasActive {
   background: #76baff;
 }
+
 .react-calendar__tile--hasActive:enabled:hover,
 .react-calendar__tile--hasActive:enabled:focus {
   background: #a9d4ff;
 }
+
 .react-calendar__tile--active {
   background: #8B77FF;
   color: white;
 }
+
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
   background: #8B77FF;
 }
+
 .react-calendar--selectRange .react-calendar__tile--hover {
-    background-color: #F4F7FE;
-    color: var(--vacay-font-color);
+  background-color: #F4F7FE;
+  color: var(--vacay-font-color);
 }
-.custom-card{
+
+.custom-card {
   width: 80%;
 }
-.border{
+
+.border {
   border: 4px solid #000000;
 
 }
-.pagecontent{
-  
-  margin-top: 40px ; 
+
+.pagecontent {
+
+  margin-top: 40px;
   margin-left: 10%;
 }
-.banner-image{
+
+.banner-image {
   width: 100%;
 }
+
 .profile-image-container {
   display: flex;
   justify-content: center;
- 
 }
-.profile-image{
+
+.image-upload>input {
+  display: none;
+}
+
+.profile-image {
   position: relative;
   bottom: 50px;
   border-radius: 50%;
+  width: 95px;
+  height: 95px;
 }
-.general-info{
+
+.general-info {
   color: #757CA4;
   font-size: 18px;
 }
-.form-control{
-border: 1px solid rgba(43, 54, 116, 0.33) !important;
-border-radius: 16px !important;
-color: #2B3674 !important;
+
+.form-control {
+  border: 1px solid rgba(43, 54, 116, 0.33) !important;
+  border-radius: 16px !important;
+  color: #2B3674 !important;
 }
-.save-profile{
+
+.save-profile {
   width: 250px;
-height: 46.29px;
-background: #384077;
-border-radius: 21px;
-color: white;
-font-style: normal;
-font-weight: 700;
-font-size: 20px;
+  height: 46.29px;
+  background: #384077;
+  border-radius: 21px;
+  color: white;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
 }
-.change-password-content{
+
+.change-password-content {
   margin: 10px;
   display: flex;
   justify-content: center;
 }
-.input-forms{
+
+.input-forms {
   width: 50%;
 }
-.toggle{
+
+.toggle {
   cursor: pointer;
 }
-.input-group{
+
+.input-group {
   margin: 30px 0px;
+}
+
+.upload-btn{
+  width: 75px;
+  height: 30px;
+  background: #384077;
+  border-radius: 15px;
+  color: white;
+  font-weight: 500;
+  font-size: 12px;
+  margin-top: 40px;
 }

@@ -89,7 +89,7 @@ class SidebarContent extends Component {
             <li>
               {
                 <Link to="/dashboard" className="waves-effect">
-                  <i className="ri-dashboard-line"></i>
+                  <i className="ri-home-4-fill side-icon"></i>
                   <span className="ms-1">{this.props.t("Dashboard")}</span>
                 </Link>
               }
@@ -97,7 +97,7 @@ class SidebarContent extends Component {
             <li>
               {
                 <Link to="/profile" className="waves-effect">
-                  <i className="ri-dashboard-line"></i>
+                  <i className="ri-user-3-fill side-icon"></i>
                   <span className="ms-1">{this.props.t("Profile")}</span>
                 </Link>
               }
@@ -105,7 +105,7 @@ class SidebarContent extends Component {
             <li>
               {
                 <Link to="/dashboard" className="waves-effect">
-                  <i className="ri-dashboard-line"></i>
+                  <i className="ri-links-fill side-icon"></i>
                   <span className="ms-1">{this.props.t("Plan With Friends")}</span>
                 </Link>
               }
@@ -113,7 +113,7 @@ class SidebarContent extends Component {
             <li>
               {
                 <Link to="/dashboard" className="waves-effect">
-                  <i className="ri-dashboard-line"></i>
+                  <i className="ri-plane-line side-icon"></i>
                   <span className="ms-1">{this.props.t("Deals - coming soon")}</span>
                 </Link>
               }

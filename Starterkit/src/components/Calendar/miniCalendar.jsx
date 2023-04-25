@@ -345,7 +345,7 @@ function MiniCalendar(props) {
   return (
     <CalendarContainer
       onClick={!showCalendar ? handleShowCalendar : null}
-      showPointer={showCalendar}
+      showpointer={showCalendar.toString()}
     >
       {showConfirmationBox ? (
         <ConfirmationBox />
@@ -461,9 +461,9 @@ const CalendarContainer = styled(Card)`
   display: flex;
   flex-direction: column;
   min-height: 120px;
-  cursor: ${props => (props.showPointer ? "auto" : "pointer")};
+  cursor: ${props => (props.showpointer ? "auto" : "pointer")};
   &:hover {
-    background-color: ${props => !props.showPointer && cardHoverColor};
+    background-color: ${props => !props.showpointer && cardHoverColor};
   }
 `;
 

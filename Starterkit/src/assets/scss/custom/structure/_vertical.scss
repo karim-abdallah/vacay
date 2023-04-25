@@ -8,8 +8,19 @@
     li {
         display: block;
         width: 100%;
+        padding: 8px;
+        border-radius: 10px;
+        font-family: 'DM Sans';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 30px;
+        color: #2B3674;
     }
-
+    li:hover{
+        color: #2B3674;
+        background-color: #ffffff;
+    }
     .mm-collapse {
         display: none;
 

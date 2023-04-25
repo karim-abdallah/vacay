@@ -4,21 +4,21 @@ from .templates import FORGET_PASSWORD_TEMPLATE, REGISTER_USER_TEMPLATE
 ACCESS_KEY = 'AKIAVH77JYOVXV547FMB'
 SECRET_ACCESS_KEY = '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'
 
-client = boto3.client(
+ses_client = boto3.client(
     'ses',
     region_name='us-east-1',
     aws_access_key_id=ACCESS_KEY,
     aws_secret_access_key=SECRET_ACCESS_KEY
 )
 
-session = boto3.Session(
+s3_client = boto3.client(
+    's3',
+    region_name='us-east-1',
     aws_access_key_id=ACCESS_KEY,
-    aws_secret_access_key=SECRET_ACCESS_KEY,
+    aws_secret_access_key=SECRET_ACCESS_KEY
 )
 
-s3 = session.resource('s3')
-
-bucket = s3.Bucket('vacay-production')
+S3_BUCKET = 'vacay-assets'
 
 
 def send_forget_password_email(recepient, link):
@@ -34,11 +34,11 @@ def send_register_user_email(recepient, first_name):
     template = REGISTER_USER_TEMPLATE
     content = template.replace('first_name', first_name)
 
-    send_email(recepient, content, 'Welcome to VACAY')
+    send_email(recepient, content, 'Welcome to Vacay!')
 
 
 def send_email(receipient, content, subject):
-    response = client.send_email(
+    response = ses_client.send_email(
         Destination={
             'ToAddresses': ['aliasghernooruddin@gmail.com', 'info@vacay.live'],
         },
@@ -58,3 +58,16 @@ def send_email(receipient, content, subject):
     )
 
     return response
+
+
+def generate_presigned_url(username, file_name, file_type):
+    path = f'users/{username}/profile/{file_name}'
+
+    url = s3_client.generate_presigned_url('put_object',
+                                           Params={
+                                               'Bucket': S3_BUCKET,
+                                               'Key': path,
+                                               'ContentType': file_type,
+                                           },
+                                           ExpiresIn=360)
+    return url

@@ -85,7 +85,7 @@ const OptionPaneWithForm = () => {
         Your settings{" "}
         <StyledInfoTooltip
           title={TimeOffSettingsInstructions()}
-          arrowPointAtCenter
+          arrow
           placement="bottomLeft"
           trigger="click"
           color={tooltipBackground}
@@ -235,7 +235,7 @@ const TimeOffSettingsButton = styled.button`
   position: relative;
   bottom: 8px;
   &:hover {
-    background-color: ${props => !props.showPointer && cardHoverColor};
+    background-color: ${props => !props.showpointer && cardHoverColor};
   }
 `;
 
@@ -251,7 +251,7 @@ const LogOutButton = styled.button`
   position: relative;
   bottom: 8px;
   &:hover {
-    background-color: ${props => !props.showPointer && cardHoverColor};
+    background-color: ${props => !props.showpointer && cardHoverColor};
   }
 `;
 

@@ -12,7 +12,7 @@ import { postResetPwd } from "../../../helpers/fackBackend_Helper";
 function* resetUser({ payload: { obj, history } }) {
 
   try {
-    console.log(obj)
+
     const response = yield call(postResetPwd, "/reset-password", obj);
     yield put(resetUserSuccessful(response));
     history.push('/login');

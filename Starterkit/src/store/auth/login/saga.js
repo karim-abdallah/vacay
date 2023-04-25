@@ -11,7 +11,7 @@ import { postLogin } from '../../../helpers/fackBackend_Helper';
 //If user is login then dispatch redux action's are directly from here.
 function* loginUser({ payload: { user, history } }) {
     try {
-        console.log(user)
+ 
         const response = yield call(postLogin, '/login', user);
         localStorage.setItem("authUser", JSON.stringify(response));
         yield put(loginUserSuccessful(response));

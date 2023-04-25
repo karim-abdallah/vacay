@@ -6,7 +6,6 @@ axios.defaults.withCredentials = true
 axios.defaults.baseURL = 'http://localhost:8000/api';
 
 
-
 // Gets the logged in user data from local session 
 const getLoggedInUser = () => {
     const user = localStorage.getItem('authUser');
@@ -19,6 +18,22 @@ const getLoggedInUser = () => {
 const isUserAuthenticated = () => {
     return getLoggedInUser() !== null;
 }
+
+// Register Method
+const postMethod = (url, data) => {
+    return axios.post(url, data).then(response => {
+        if (response.status >= 200 || response.status <= 299)
+            return response.data;
+        throw response.data;
+    }).catch(err => {
+        if (err.response)
+            throw err.message;
+        else
+            throw err.message
+    });
+}
+
+
 
 // Register Method
 const postRegister = (url, data) => {
@@ -52,9 +67,9 @@ const postLogin = (url, data) => {
 // postForgetPwd 
 const postForgetPwd = (url, data) => {
     return axios.post(url, data).then(response => {
-        if (response.status === 400 || response.status === 500)
-            throw response.data;
-        return response.data;
+        if (response.status >= 200 || response.status <= 299)
+            return response.data;
+        throw response.data;
     }).catch(err => {
         if (err.response)
             throw err.message;
@@ -66,9 +81,9 @@ const postForgetPwd = (url, data) => {
 // postResetPwd 
 const postResetPwd = (url, data) => {
     return axios.post(url, data).then(response => {
-        if (response.status === 400 || response.status === 500)
-            throw response.data;
-        return response.data;
+        if (response.status >= 200 || response.status <= 299)
+            return response.data;
+        throw response.data;
     }).catch(err => {
         if (err.response)
             throw err.message;
@@ -139,4 +154,4 @@ export const getMessages = (roomId = "") =>
 // post messages
 export const addMessage = message => post(url.ADD_MESSAGE, message)
 
-export { getLoggedInUser, isUserAuthenticated, postRegister, postLogin, postForgetPwd, postResetPwd }
+export { getLoggedInUser, isUserAuthenticated, postRegister, postLogin, postForgetPwd, postResetPwd, postMethod }
