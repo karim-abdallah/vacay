@@ -58,7 +58,7 @@ class LoginView(APIView):
         response = Response()
 
         # httponly is used to prevent javascript from accessing the cookie
-        response.set_cookie(key='jwt', value=token, httponly=True)
+        response.set_cookie(key='jwt', value=token, httponly=True, samesite='none', secure=False)
 
         response.data = token
 

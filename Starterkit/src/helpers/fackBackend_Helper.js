@@ -3,7 +3,7 @@ import { del, get, post, put } from "./api_helper";
 import * as url from "./url_helper"
 
 axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'http://localhost:8000/api';
+axios.defaults.baseURL = 'http://44.213.127.97/api';
 
 
 // Gets the logged in user data from local session 

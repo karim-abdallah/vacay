@@ -256,7 +256,7 @@
   margin: 30px 0px;
 }
 
-.upload-btn{
+.upload-btn {
   width: 75px;
   height: 30px;
   background: #384077;
@@ -266,3 +266,514 @@
   font-size: 12px;
   margin-top: 40px;
 }
+
+
+
+/* Home Page CSS Starts */
+:root {
+  --vacay-font-color: #2B3674;
+  --vacay-font-color-light: #daddf1;
+  --bookedDaysColor: #6A48FF;
+  --holidaysColor: #FF77B3;
+  --selectedDatesColor: #8B77FF;
+  --datesToUnbookColor: #6D7994;
+}
+
+.ant-tooltip-inner {
+  white-space: nowrap;
+  inline-size: min-content;
+}
+
+.pastDates {
+  background: none;
+  color: var(--vacay-font-color-light);
+  border: 0;
+}
+
+.bookedDays {
+  background: var(--bookedDaysColor);
+  color: white;
+  border: 0;
+}
+
+.inactiveDays {
+  background: none;
+  border: 0;
+}
+
+.holidays {
+  background: white;
+  border: 2px solid;
+  border-color: var(--bookedDaysColor);
+}
+
+.selectedDates {
+  border-radius: 50%;
+  background: #8B77FF;
+  color: white;
+  border: 0;
+}
+
+.datesToUnbook {
+  background: var(--datesToUnbookColor);
+  color: white;
+  border: 0;
+}
+
+.react-calendar {
+  width: 100%;
+  max-width: 100%;
+  background: white;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.125em;
+  border-radius: 13px;
+}
+
+.react-calendar--doubleView {
+  width: 700px;
+}
+
+.react-calendar--doubleView .react-calendar__viewContainer {
+  display: flex;
+  margin: -0.5em;
+}
+
+.react-calendar--doubleView .react-calendar__viewContainer>* {
+  width: 50%;
+  margin: 0.5em;
+}
+
+.react-calendar,
+.react-calendar *,
+.react-calendar *:before,
+.react-calendar *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.react-calendar button {
+  margin: 0;
+  outline: none;
+}
+
+.react-calendar button:enabled:hover {
+  cursor: pointer;
+}
+
+.react-calendar__navigation {
+  display: flex;
+  height: 44px;
+}
+
+.react-calendar__navigation button {
+  min-width: 44px;
+  background: none;
+}
+
+.react-calendar__navigation button:disabled {
+  background-color: #f0f0f0;
+}
+
+/* .react-calendar__navigation button:enabled:hover, */
+/* .react-calendar__navigation button:enabled:focus { */
+/*   background-color: #e6e6e6; */
+/* } */
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.6em;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  padding: 0.5em;
+}
+
+.react-calendar__month-view__weekNumbers .react-calendar__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  font-weight: lighter;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: #757575;
+}
+
+.react-calendar__year-view .react-calendar__tile,
+.react-calendar__decade-view .react-calendar__tile,
+.react-calendar__century-view .react-calendar__tile {
+  padding: 2em 0.5em;
+}
+
+.react-calendar__tile {
+  padding: 10px 6.6667px;
+  text-align: center;
+  line-height: 16px;
+  border-radius: 50%;
+  font-size: 0.9em;
+}
+
+.react-calendar__tile:disabled {
+  background-color: #f0f0f0;
+}
+
+.react-calendar__tile:enabled:hover {
+  background-color: var(--selectedDatesColor);
+}
+
+.react-calendar__tile--hasActive {
+  background: #76baff;
+}
+
+.react-calendar__tile--hasActive:enabled:hover,
+.react-calendar__tile--hasActive:enabled:focus {
+  background: #a9d4ff;
+}
+
+.react-calendar__tile--active {
+  background: #8B77FF;
+  color: white;
+}
+
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #8B77FF;
+}
+
+.react-calendar--selectRange .react-calendar__tile--hover {
+  background-color: #F4F7FE;
+  color: var(--vacay-font-color);
+}
+
+.custom-card {
+  width: 80%;
+}
+
+.border {
+  border: 4px solid #000000;
+
+}
+
+.pagecontent {
+
+  margin-top: 40px;
+  margin-left: 10%;
+}
+
+.banner-image {
+  width: 100%;
+}
+
+.profile-image-container {
+  display: flex;
+  justify-content: center;
+
+}
+
+.profile-image {
+  position: relative;
+  bottom: 50px;
+  border-radius: 50%;
+}
+
+.general-info {
+  color: #757CA4;
+  font-size: 18px;
+}
+
+.form-control {
+  border: 1px solid rgba(43, 54, 116, 0.33) !important;
+  border-radius: 16px !important;
+  color: #2B3674 !important;
+}
+
+.save-profile {
+  width: 250px;
+  height: 46.29px;
+  background: #384077;
+  border-radius: 21px;
+  color: white;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.change-password-content {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.input-forms {
+  width: 50%;
+}
+
+.toggle {
+  cursor: pointer;
+}
+
+.input-group {
+  margin: 30px 0px;
+}
+
+
+
+/* --------------------Landing Container------------------------ */
+
+/* --------------------Landing Header Section------------------------ */
+
+.hr-for-header {
+  color: rgba(244, 247, 254, 0.3);
+}
+
+/* --------------------Landing Banner Section------------------------ */
+.signup-btn {
+  min-width: 170px;
+  /* min-width: 100px; */
+  padding: 0px 20px;
+  height: 52px;
+  background: #F4F7FE;
+  border-radius: 50px;
+  font-family: 'Poppins';
+  font-weight: 700;
+  font-size: 18px;
+}
+
+@media screen and (max-width: 768px) {
+  .signup-btn {
+    min-width: 140px;
+    font-size: 15px;
+  }
+
+  .landing-container {
+    padding: 30px;
+    background-color: #384077;
+  }
+}
+
+.login-btn {
+  font-family: 'Poppins';
+  height: 52px;
+  width: 100px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  color: #F4F7FE;
+  background: transparent;
+  border: none;
+}
+
+.main-heading {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 60px;
+  line-height: 80px;
+  background: linear-gradient(90deg, #F4F7FE 1.98%, rgba(244, 247, 254, 0.25) 109.04%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sub-heading {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.04em;
+  margin: 35px 0px;
+  color: #F4F7FE;
+}
+
+.landing-container {
+  padding-top: 30px;
+  background-color: #384077;
+}
+
+.side-img {
+  width: 100%;
+}
+
+.banner-content {
+  margin: 90px 0px;
+
+}
+
+.side-img-container {
+  min-width: 400px !important;
+  max-width: 450px !important;
+}
+
+.headings-container {
+  min-width: 400px !important;
+}
+
+.get-start-btn {
+  text-align: center;
+
+}
+
+/* --------------------Planner Section------------------------ */
+.planner-heading {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 50px;
+  line-height: 70px;
+  background: radial-gradient(circle at center, rgba(244, 247, 254, 0.50) 0%, #F4F7FE 60%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin-bottom: 6%;
+}
+
+.planner-content-row {
+  width: 100%;
+  margin: 50px 0px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.screens {
+
+  border-radius: 30px;
+  min-width: 250px !important;
+  max-width: 350px !important;
+  height: 700px;
+  padding: 50px 30px !important;
+
+}
+
+.sc-1 {
+  background-color: #F9E5A1;
+  margin-right: 10px;
+  margin-bottom: 10px;
+
+}
+
+.sc-2 {
+  background-color: #FFC7C6;
+  margin-bottom: 10px;
+}
+
+.sc-3 {
+  background-color: #C1F3F0;
+  margin-left: 10px;
+}
+
+.planner-sc-heading {
+  font-weight: bold;
+  line-height: 40px;
+}
+
+.planner-img {
+  width: 100%;
+  position: relative;
+  left: 35px;
+}
+
+.signup-btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+.planner-sc3-image {
+  width: 100%;
+  position: relative;
+  top: 98px;
+}
+
+/* --------------------Footer Section------------------------ */
+.footer-container {
+  margin-top: 10%;
+  padding-bottom: 10%;
+}
+
+.footer-input {
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-btn {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, #F3B0AE 100%);
+  border-radius: 10px;
+  width: 150px;
+  font-family: 'Poppins';
+  margin-left: 20px;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 0px 20px;
+}
+
+.footer-section {
+  margin-top: 20px;
+  display: flex;
+}
+
+.input-field {
+
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  color: #daddf1 !important;
+}
+
+/* -----------------------Get Started---------------------- */
+.getstart-container {}
+
+.getstart-btn {
+  margin: 30px;
+  text-align: center;
+}
+
+.getstart-heading {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 35px;
+  justify-content: center;
+  letter-spacing: 0.02em;
+  color: #FFFFFF;
+  margin-top: 15% !important;
+
+}
+
+.side-img-container2 {
+  min-width: 350px !important;
+  max-width: 450px !important;
+}
+
+/* -------------------------------------------------- */
+.remindme-label {
+  font-family: 'DM Sans';
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 20px;
+  margin-top: 10%;
+}
+
+.remindme-input {
+  width: 100% !important;
+  margin-bottom: 15%;
+}
+
+.thank-screen {
+  margin: 25% 0px;
+  text-align: center;
+}
+
+/* Home Page CSS Ends */

@@ -13,7 +13,7 @@ function* loginUser({ payload: { user, history } }) {
     try {
  
         const response = yield call(postLogin, '/login', user);
-        localStorage.setItem("authUser", JSON.stringify(response));
+        localStorage.setItem("authUser", response);
         yield put(loginUserSuccessful(response));
         history.push('/dashboard');
     } catch (error) {

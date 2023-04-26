@@ -3,17 +3,17 @@ import { createBrowserHistory } from 'history';
 
 const history = createBrowserHistory();
 const ENV = process.env.NODE_ENV
-let API_URL = 'http://localhost:8000/api';
+let API_URL = 'http://44.213.127.97/api';
 
 if (ENV == 'development') {
-  API_URL = 'http://localhost:8000/api';
+  API_URL = 'http://44.213.127.97/api';
 }
 
+axios.defaults.withCredentials = true
 
 const axiosApi = axios.create({
   baseURL: API_URL,
-  withCredentials: true,
-  headers: { 'Authorization': 'Bearer tokennofount' }
+  withCredentials: true
 })
 
 

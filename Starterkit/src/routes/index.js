@@ -1,6 +1,9 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 
+
+import Home from "../pages/Authentication/Home";
+
 // Authentication related pages
 import Login from "../pages/Authentication/Login";
 import Logout from "../pages/Authentication/Logout";
@@ -43,6 +46,8 @@ const publicRoutes = [
 	{ path: "/auth-register", component: Register1 },
 	{ path: "/auth-recoverpw", component: ForgetPwd1 },
 
+
+	{ path: "/home", component: Home },
 ];
 
 export { authProtectedRoutes, publicRoutes };
