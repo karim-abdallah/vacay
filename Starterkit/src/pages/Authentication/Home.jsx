@@ -7,7 +7,9 @@ import Cal02 from "../../assets/images/cal02.png";
 import Calender3 from "../../assets/images/calender3.png";
 import SmallEarnings from "../../assets/images/Small_Earnings.png";
 import { useState, useEffect } from "react";
-
+// Redux
+import { Link } from 'react-router-dom';
+// import { useMediaQuery } from 'react-responsive';
 
 const Header = ({ onGetStartedClick }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -38,10 +40,11 @@ const Header = ({ onGetStartedClick }) => {
         ) : (
           <>
             <div className="col-1">
-              <button className="login-btn">Log in</button>
+              <button className="login-btn"><Link to="/login" className="routeme"> Log in </Link></button>
             </div>
             <div className="col-2">
-              <button className="signup-btn">Sign Up</button>
+              <button className="signup-btn"><Link to="/register"> Sign Up </Link></button>
+
             </div>
           </>
         )}
@@ -121,9 +124,8 @@ const GetStarted = () => {
     </div>
   );
 };
-
 const Banner = () => {
-  
+
   return (
     <div className="container banner-content">
       <div className="row ">
@@ -137,7 +139,7 @@ const Banner = () => {
             vacation together.
           </p>
           <div className="get-start-btn">
-            <button className="signup-btn">Get Started &gt;</button>
+            <button className="signup-btn"><Link to="/register">Get Started &gt;</Link></button>
           </div>
         </div>
         <div className="col-6 side-img-container">
@@ -147,7 +149,6 @@ const Banner = () => {
     </div>
   );
 };
-
 const Planner = () => {
   return (
     <div>
@@ -196,13 +197,12 @@ const Planner = () => {
           </div>
         </div>
         <div className="signup-btn-container">
-          <button className="signup-btn">Sign Up</button>
+          <button className="signup-btn"><Link to="/register"> Sign Up</Link></button>
         </div>
       </div>
     </div>
   );
 };
-
 const Footer = () => {
   const [email, setEmail] = useState("");
   const handleFormSubmit = (event) => {
@@ -226,16 +226,15 @@ const Footer = () => {
               className="form-control input-field"
               onChange={handleEmailChange}
             />
-            
-              <button className="footer-btn" type="Submit">Subscribe</button>
-            
-            </div>
+
+            <button className="footer-btn" type="Submit">Subscribe</button>
+
+          </div>
         </form>
       </div>
     </div>
   );
 };
-
 const Landing = () => {
   const [showGetStarted, setShowGetStarted] = useState(false);
   const [showContent, setShowContent] = useState(true);

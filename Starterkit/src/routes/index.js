@@ -30,7 +30,7 @@ const authProtectedRoutes = [
 	{ path: "/profile", component: Profile },
 
 	// this route should be at the end of all other routes
-	{ path: "/", exact: true, component: () => <Redirect to="/dashboard" /> }
+	// { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> }
 ];
 
 const publicRoutes = [
@@ -47,7 +47,7 @@ const publicRoutes = [
 	{ path: "/auth-recoverpw", component: ForgetPwd1 },
 
 
-	{ path: "/home", component: Home },
+	{ path: "/", component: Home },
 ];
 
 export { authProtectedRoutes, publicRoutes };

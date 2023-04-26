@@ -256,7 +256,7 @@ class Register extends Component {
 
                                                         <p className="custom-link mt-3">
                                                             Already have an account?{" "}
-                                                            <Link to="/signin" className="mx-2">
+                                                            <Link to="/login" className="mx-2">
                                                                 {" "}
                                                                 Log in
                                                             </Link>{" "}
