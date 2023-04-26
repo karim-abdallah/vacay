@@ -17,6 +17,23 @@ const axiosApi = axios.create({
 })
 
 
+axiosApi.interceptors.request.use(
+  (config) => {
+    let access_token = localStorage.getItem("authUser");
+
+    if (access_token != undefined) {
+      config.headers.Authorization = "Bearer " + access_token;
+    } else {
+      history.push("/logout");
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 axiosApi.interceptors.response.use(
   response => response,
   error => {

@@ -67,7 +67,7 @@ class LoginView(APIView):
 
 class UserView(APIView):
     def get(self, request):
-        token = request.COOKIES.get('jwt')  # get the token from the cookie
+        token = request.headers['Authorization'].split('Bearer ')[1]  # get the token from the cookie
 
         if not token:
             raise AuthenticationFailed('Unauthenticated')
@@ -128,7 +128,6 @@ class ForgotPasswordView(APIView):
 class ResetPasswordView(APIView):
     def post(self, request):
 
-        # token = request.COOKIES.get('jwt')
         token = request.data['token']
         password = request.data['password']
 
@@ -159,7 +158,8 @@ class ResetPasswordView(APIView):
 class ChangePasswordView(APIView):
     def post(self, request):
 
-        token = request.COOKIES.get('jwt')
+        # token = request.COOKIES.get('jwt')
+        token = request.headers['Authorization'].split('Bearer ')[1]
 
         old_password = request.data['old_password']
         new_password = request.data['new_password']
@@ -190,7 +190,8 @@ class ChangePasswordView(APIView):
 class UpdateProfileView(APIView):
     def post(self, request):
 
-        token = request.COOKIES.get('jwt')
+        # token = request.COOKIES.get('jwt')
+        token = request.headers['Authorization'].split('Bearer ')[1]
 
         if not token:
             raise AuthenticationFailed('Unauthenticated')
@@ -216,7 +217,8 @@ class UpdateProfileView(APIView):
 class UpdateProfilePictureView(APIView):
     def post(self, request):
 
-        token = request.COOKIES.get('jwt')
+        # token = request.COOKIES.get('jwt')
+        token = request.headers['Authorization'].split('Bearer ')[1]
 
         if not token:
             raise AuthenticationFailed('Unauthenticated')
@@ -244,7 +246,8 @@ class UpdateProfilePictureView(APIView):
 class GeneratePresignedUrl(APIView):
     def post(self, request):
 
-        token = request.COOKIES.get('jwt')
+        # token = request.COOKIES.get('jwt')
+        token = request.headers['Authorization'].split('Bearer ')[1]
 
         if not token:
             raise AuthenticationFailed('Unauthenticated')
