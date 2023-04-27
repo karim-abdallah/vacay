@@ -8,7 +8,7 @@ import Calender3 from "../../assets/images/calender3.png";
 import SmallEarnings from "../../assets/images/Small_Earnings.png";
 import { useState, useEffect } from "react";
 // Redux
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 // import { useMediaQuery } from 'react-responsive';
 
 const Header = ({ onGetStartedClick }) => {
@@ -39,12 +39,18 @@ const Header = ({ onGetStartedClick }) => {
           </div>
         ) : (
           <>
-            <div className="col-1">
-              <button className="login-btn"><Link to="/login" className="routeme"> Log in </Link></button>
+            <div className="col-2 text-end ">
+              <button className="login-btn">
+                <Link to="/login" className="routeme">
+                  {" "}
+                  Log in{" "}
+                </Link>
+              </button>
             </div>
-            <div className="col-2">
-              <button className="signup-btn"><Link to="/register"> Sign Up </Link></button>
-
+            <div className="col-2 text-end">
+              <button className="signup-btn">
+                <Link to="/register"> Sign Up </Link>
+              </button>
             </div>
           </>
         )}
@@ -58,6 +64,7 @@ const GetStarted = () => {
   const [isRemindMe, setRemindMe] = useState(true);
   const [isSubmit, setSubmit] = useState(false);
   const [email, setEmail] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const handleRemindMeScreen = () => {
     setRemindMe(false);
   };
@@ -67,8 +74,14 @@ const GetStarted = () => {
   };
 
   const handleFormSubmit = (event) => {
-    handleThankYouScreen();
     event.preventDefault();
+    if (!email) {
+      setErrorMessage("Please enter your email address");
+    } else {
+      handleThankYouScreen();
+      setEmail("");
+    setErrorMessage("");
+    }
   };
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -79,57 +92,62 @@ const GetStarted = () => {
       <hr className="hr-for-header" />
 
       {isSubmit ? (
-        <div className="thank-screen">
+        <div className="col-md-7 thank-screen">
           <p className="getstart-heading">
             Thank you for subscribing and stay tuned for updates!
           </p>
         </div>
       ) : isRemindMe ? (
         <>
-          <p className="getstart-heading">
-            We’re desktop-only for now, but we've got your back! Click to get a
-            reminder and come back later.
-          </p>
-          <div className="getstart-btn">
-            <button className="signup-btn" onClick={handleRemindMeScreen}>
-              Remind Me
-            </button>
+          <div className="col-md-7 ">
+            <p className="getstart-heading">
+              We’re desktop-only for now, but we've got your back! Click to get
+              a reminder and come back later.
+            </p>
+            <div className="get-start-btn">
+              <button className="signup-btn" onClick={handleRemindMeScreen}>
+                Remind Me
+              </button>
+            </div>
           </div>
         </>
       ) : (
         <>
-          <form onSubmit={handleFormSubmit}>
-            <div className="form-group">
-              <label className="remindme-label">Email</label>
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="form-control remindme-input input-field"
-                onChange={handleEmailChange}
-                value={email}
-              />
-            </div>
-            <div className="getstart-btn">
-              {/* <button className="signup-btn" type="Submit"onClick={handleThankYouScreen}> */}
-              <button className="signup-btn" type="Submit">
-                Submit
-              </button>
-            </div>
-          </form>
+          <div className="col-md-7">
+            <form onSubmit={handleFormSubmit}>
+              <div className="form-group">
+                <label className="remindme-label">Email</label>
+                <input
+                  type="email"
+                  placeholder="Your email address"
+                  className="form-control remindme-input input-field"
+                  onChange={handleEmailChange}
+                  value={email}
+                />
+              </div>
+              <div className="getstart-btn">
+                <button className="signup-btn" type="Submit">
+                  Submit
+                </button>
+                  </div>
+                  {errorMessage && (
+          <div className="alert alert-danger">{errorMessage}</div>
+        )}
+            </form>
+          </div>
         </>
       )}
-      <div className="col-6 side-img-container2">
-        <img src={SideImg2} alt="side-img" className="side-img" />
+      <div className="col-md-5 col-12 ">
+        <img src={SideImg2} alt="side-img" className="side-img mb-screen" />
       </div>
     </div>
   );
 };
 const Banner = () => {
-
   return (
     <div className="container banner-content">
-      <div className="row ">
-        <div className="col-6 headings-container">
+      <div className="row">
+        <div className="col-md-7">
           <h1 className="main-heading">
             Make booking time off a task to look forward to
           </h1>
@@ -139,10 +157,12 @@ const Banner = () => {
             vacation together.
           </p>
           <div className="get-start-btn">
-            <button className="signup-btn"><Link to="/register">Get Started &gt;</Link></button>
+            <button className="signup-btn">
+              <Link to="/register">Get Started &gt;</Link>
+            </button>
           </div>
         </div>
-        <div className="col-6 side-img-container">
+        <div className="col-md-5 col-12 ">
           <img src={SideImg2} alt="side-img" className="side-img" />
         </div>
       </div>
@@ -155,9 +175,9 @@ const Planner = () => {
       <div className="planner-heading">
         <p>Your personal time off planner</p>
       </div>
-      <div className="planner-content">
-        <div className="row planner-content-row">
-          <div className="col-4 screens sc-1">
+      <div className="container">
+        <div className="row my-5 justify-content-between">
+          <div className=" col-md-3 mb-4  screens sc-1">
             <h4 className="planner-sc-heading">
               Easily book and store your days off
             </h4>
@@ -169,7 +189,7 @@ const Planner = () => {
             <img src={Calendar1} className="planner-img" alt="calender1" />
             <img src={Cal02} className="planner-img" alt="calender2" />
           </div>
-          <div className="col-4 screens sc-2">
+          <div className=" col-md-3 offset-md-1 mb-4  screens sc-2">
             <h4 className="planner-sc-heading">
               Visualize and forecast your PTO
             </h4>
@@ -181,7 +201,7 @@ const Planner = () => {
             <br></br>
             <img src={Calender3} className="planner-img" alt="calender1" />
           </div>
-          <div className="col-4 screens sc-3">
+          <div className="col-md-3 offset-md-1 mb-4 screens sc-3">
             <h4 className="planner-sc-heading">
               Plan with friends & family, seamlessly
             </h4>
@@ -196,17 +216,26 @@ const Planner = () => {
             />
           </div>
         </div>
-        <div className="signup-btn-container">
-          <button className="signup-btn"><Link to="/register"> Sign Up</Link></button>
-        </div>
+      </div>
+      <div className="signup-btn-container">
+        <button className="signup-btn">
+          <Link to="/register"> Sign Up</Link>
+        </button>
       </div>
     </div>
   );
 };
 const Footer = () => {
   const [email, setEmail] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const handleFormSubmit = (event) => {
     event.preventDefault();
+    if (!email) {
+      setErrorMessage("Please enter your email address");
+    } else {
+      setEmail("");
+    setErrorMessage("");
+    }
   };
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -227,9 +256,13 @@ const Footer = () => {
               onChange={handleEmailChange}
             />
 
-            <button className="footer-btn" type="Submit">Subscribe</button>
-
+            <button className="footer-btn" type="Submit">
+              Subscribe
+            </button>
           </div>
+          {errorMessage && (
+          <div className="alert alert-danger">{errorMessage}</div>
+        )}
         </form>
       </div>
     </div>

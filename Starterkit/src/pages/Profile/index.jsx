@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Container, Card, CardBody } from "reactstrap";
 import Background from "../../assets/images/Background_Image.png";
-import Picture from "../../assets/images/profile_1.png";
+import Picture from "../../assets/images/profile.png";
 import { get, post, s3Post } from '../../helpers/api_helper'
 
 

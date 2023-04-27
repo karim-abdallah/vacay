@@ -19,21 +19,6 @@ const isUserAuthenticated = () => {
     return getLoggedInUser() !== null;
 }
 
-// Register Method
-const postMethod = (url, data) => {
-    return axios.post(url, data).then(response => {
-        if (response.status >= 200 || response.status <= 299)
-            return response.data;
-        throw response.data;
-    }).catch(err => {
-        if (err.response)
-            throw err.message;
-        else
-            throw err.message
-    });
-}
-
-
 
 // Register Method
 const postRegister = (url, data) => {
@@ -154,4 +139,4 @@ export const getMessages = (roomId = "") =>
 // post messages
 export const addMessage = message => post(url.ADD_MESSAGE, message)
 
-export { getLoggedInUser, isUserAuthenticated, postRegister, postLogin, postForgetPwd, postResetPwd, postMethod }
+export { getLoggedInUser, isUserAuthenticated, postRegister, postLogin, postForgetPwd, postResetPwd }
