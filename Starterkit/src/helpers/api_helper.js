@@ -3,10 +3,10 @@ import { createBrowserHistory } from 'history';
 
 const history = createBrowserHistory();
 const ENV = process.env.NODE_ENV
-let API_URL = 'https://44.213.127.97/api';
+let API_URL = 'https://backend.vacay.live/api';
 
 if (ENV == 'development') {
-  API_URL = 'https://44.213.127.97/api';
+  API_URL = 'https://backend.vacay.live/api';
 }
 
 axios.defaults.withCredentials = true
