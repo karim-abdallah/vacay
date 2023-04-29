@@ -1,10 +1,9 @@
 import { FORGET_USER, FORGET_USER_SUCCESSFUL, FORGET_PASSWORD_API_FAILED } from './actionTypes';
 
-export const forgetUser = (user, history) => {
-  
+export const forgetUser = (email, history) => {
     return {
         type: FORGET_USER,
-        payload: { user, history }
+        payload: { email, history }
     }
 }
 

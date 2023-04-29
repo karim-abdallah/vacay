@@ -1,15 +1,16 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
 // Front
-import Layout from "./layout/reducer";
+import Layout from './layout/reducer';
 
 // Authentication Module
-import Account from "./auth/register/reducer";
-import Login from "./auth/login/reducer";
-import Forget from "./auth/forgetpwd/reducer";
-import Dashboard from "./dashboard/reducer";
-import PlanWithFriends from "./planWithFriends/reducer";
-import Profile from "./profile/reducer";
+import Account from './auth/register/reducer';
+import Login from './auth/login/reducer';
+import Forget from './auth/forgetpwd/reducer';
+import Dashboard from './dashboard/reducer';
+import PlanWithFriends from './planWithFriends/reducer';
+import Profile from './profile/reducer';
+import ResetPwd from './auth/resetpwd/reducer';
 
 const rootReducer = combineReducers({
   // public
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   Account,
   Login,
   Forget,
+  ResetPwd,
   // Dashboard
   Dashboard,
 

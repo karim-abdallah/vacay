@@ -1,23 +1,23 @@
-import React, { Component } from "react";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import styled from 'styled-components';
 
 // MetisMenu
-import MetisMenu from "metismenujs";
-import { withRouter } from "react-router-dom";
-import { Link } from "react-router-dom";
+import MetisMenu from 'metismenujs';
+import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 //i18n
-import { withNamespaces } from "react-i18next";
+import { withNamespaces } from 'react-i18next';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import {
   changeLayout,
   changeLayoutWidth,
   changeSidebarTheme,
   changeSidebarType,
-  changePreloader
-} from "../../store/actions";
-import logo from "../../assets/images/logo.png";
+  changePreloader,
+} from '../../store/actions';
+import logo from '../../assets/images/logo.png';
 
 class SidebarContent extends Component {
   componentDidMount() {
@@ -33,11 +33,11 @@ class SidebarContent extends Component {
   }
 
   initMenu() {
-    new MetisMenu("#side-menu");
+    new MetisMenu('#side-menu');
 
     var matchingMenuItem = null;
-    var ul = document.getElementById("side-menu");
-    var items = ul.getElementsByTagName("a");
+    var ul = document.getElementById('side-menu');
+    var items = ul.getElementsByTagName('a');
     for (var i = 0; i < items.length; ++i) {
       if (this.props.location.pathname === items[i].pathname) {
         matchingMenuItem = items[i];
@@ -50,24 +50,24 @@ class SidebarContent extends Component {
   }
 
   activateParentDropdown = item => {
-    item.classList.add("active");
+    item.classList.add('active');
     const parent = item.parentElement;
 
     if (parent) {
-      parent.classList.add("mm-active");
+      parent.classList.add('mm-active');
       const parent2 = parent.parentElement;
 
       if (parent2) {
-        parent2.classList.add("mm-show");
+        parent2.classList.add('mm-show');
 
         const parent3 = parent2.parentElement;
 
         if (parent3) {
-          parent3.classList.add("mm-active"); // li
-          parent3.childNodes[0].classList.add("mm-active"); //a
+          parent3.classList.add('mm-active'); // li
+          parent3.childNodes[0].classList.add('mm-active'); //a
           const parent4 = parent3.parentElement;
           if (parent4) {
-            parent4.classList.add("mm-active");
+            parent4.classList.add('mm-active');
           }
         }
       }
@@ -89,17 +89,35 @@ class SidebarContent extends Component {
             <li>
               {
                 <Link to="/dashboard" className="waves-effect">
-                  <i className="ri-dashboard-line"></i>
-                  <span className="ms-1">{this.props.t("Dashboard")}</span>
+                  <i className="ri-home-4-fill side-icon"></i>
+                  <span className="ms-1">{this.props.t('Dashboard')}</span>
+                </Link>
+              }
+            </li>
+            <li>
+              {
+                <Link to="/profile" className="waves-effect">
+                  <i className="ri-user-3-fill side-icon"></i>
+                  <span className="ms-1">{this.props.t('Profile')}</span>
                 </Link>
               }
             </li>
             <li>
               {
                 <Link to="/planWithFriends" className="waves-effect">
-                  <i className="ri-dashboard-line"></i>
+                  <i className="ri-links-fill side-icon"></i>
                   <span className="ms-1">
-                    {this.props.t("Plan With Friends")}
+                    {this.props.t('Plan With Friends')}
+                  </span>
+                </Link>
+              }
+            </li>
+            <li>
+              {
+                <Link to="/dashboard" className="waves-effect">
+                  <i className="ri-plane-line side-icon"></i>
+                  <span className="ms-1">
+                    {this.props.t('Deals - coming soon')}
                   </span>
                 </Link>
               }
@@ -130,6 +148,6 @@ export default withRouter(
     changeSidebarTheme,
     changeSidebarType,
     changeLayoutWidth,
-    changePreloader
+    changePreloader,
   })(withNamespaces()(SidebarContent))
 );

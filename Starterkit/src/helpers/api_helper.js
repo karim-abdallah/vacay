@@ -1,21 +1,49 @@
 import axios from "axios"
-import accessToken from "./jwt-token-access/accessToken"
+import { createBrowserHistory } from 'history';
 
-//pass new generated access token here
-const token = accessToken
+const history = createBrowserHistory();
+const ENV = process.env.NODE_ENV
+let API_URL = 'https://backend.vacay.live/api';
 
-//apply base url for axios
-const API_URL = ""
+if (ENV == 'development') {
+  API_URL = 'https://backend.vacay.live/api';
+}
+
+axios.defaults.withCredentials = true
 
 const axiosApi = axios.create({
   baseURL: API_URL,
+  withCredentials: true
 })
 
-axiosApi.defaults.headers.common["Authorization"] = token
+
+axiosApi.interceptors.request.use(
+  (config) => {
+    let access_token = localStorage.getItem("authUser");
+
+    if (access_token != undefined) {
+      config.headers.Authorization = "Bearer " + access_token;
+    } else {
+      history.push("/logout");
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 axiosApi.interceptors.response.use(
   response => response,
-  error => Promise.reject(error)
+  error => {
+    if (error.response.data && error.response.data.detail === 'Unauthenticated') {
+      history.push("/logout");
+    } else {
+      throw error.response
+      // Promise.reject(error.response)
+    }
+  }
 )
 
 export async function get(url, config = {}) {
@@ -38,4 +66,20 @@ export async function del(url, config = {}) {
   return await axiosApi
     .delete(url, { ...config })
     .then(response => response.data)
+}
+
+
+export async function s3Post(url, image) {
+
+  let config = {
+    method: "put",
+    url: url,
+    data: image,
+    withCredentials: false,
+    headers: {
+      "Content-Type": image.type,
+    },
+  };
+
+  return axios(config)
 }

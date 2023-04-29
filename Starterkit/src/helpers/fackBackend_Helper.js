@@ -2,6 +2,10 @@ import axios from 'axios';
 import { del, get, post, put } from "./api_helper";
 import * as url from "./url_helper"
 
+axios.defaults.withCredentials = true
+axios.defaults.baseURL = 'https://backend.vacay.live/api';
+
+
 // Gets the logged in user data from local session 
 const getLoggedInUser = () => {
     const user = localStorage.getItem('authUser');
@@ -15,6 +19,7 @@ const isUserAuthenticated = () => {
     return getLoggedInUser() !== null;
 }
 
+
 // Register Method
 const postRegister = (url, data) => {
     return axios.post(url, data).then(response => {
@@ -22,16 +27,10 @@ const postRegister = (url, data) => {
             return response.data;
         throw response.data;
     }).catch(err => {
-        var message;
-        if (err.response && err.response.status) {
-            switch (err.response.status) {
-                case 404: message = "Sorry! the page you are looking for could not be found"; break;
-                case 500: message = "Sorry! something went wrong, please contact our support team"; break;
-                case 401: message = "Invalid credentials"; break;
-                default: message = err[1]; break;
-            }
-        }
-        throw message;
+        if (err.response)
+            throw err.message;
+        else
+            throw err.message
     });
 
 }
@@ -39,24 +38,45 @@ const postRegister = (url, data) => {
 // Login Method
 const postLogin = (url, data) => {
     return axios.post(url, data).then(response => {
-        if (response.status === 400 || response.status === 500)
-            throw response.data;
-        return response.data;
+        if (response.status >= 200 || response.status <= 299)
+            return response.data;
+        throw response.data;
     }).catch(err => {
-        throw err[1];
+        if (err.response)
+            throw err.response.data.detail;
+        else
+            throw err.message
     });
 }
 
 // postForgetPwd 
 const postForgetPwd = (url, data) => {
     return axios.post(url, data).then(response => {
-        if (response.status === 400 || response.status === 500)
-            throw response.data;
-        return response.data;
+        if (response.status >= 200 || response.status <= 299)
+            return response.data;
+        throw response.data;
     }).catch(err => {
-        throw err[1];
+        if (err.response)
+            throw err.message;
+        else
+            throw err.message
     });
 }
+
+// postResetPwd 
+const postResetPwd = (url, data) => {
+    return axios.post(url, data).then(response => {
+        if (response.status >= 200 || response.status <= 299)
+            return response.data;
+        throw response.data;
+    }).catch(err => {
+        if (err.response)
+            throw err.message;
+        else
+            throw err.message
+    });
+}
+
 // get Events
 export const getEvents = () =>
     get(url.GET_EVENTS)
@@ -79,7 +99,7 @@ export const getProducts = () => get(url.GET_PRODUCTS)
 
 // get Product detail
 export const getProductDetail = id =>
-  get(`${url.GET_PRODUCTS_DETAIL}/${id}`, { params: { id } })
+    get(`${url.GET_PRODUCTS_DETAIL}/${id}`, { params: { id } })
 
 // get orders
 export const getOrders = () => get(url.GET_ORDERS)
@@ -92,7 +112,7 @@ export const updateOrder = order => put(url.UPDATE_ORDER, order)
 
 // delete order
 export const deleteOrder = order =>
-  del(url.DELETE_ORDER, { headers: { order } })
+    del(url.DELETE_ORDER, { headers: { order } })
 
 // get cart data
 export const getCartData = () => get(url.GET_CART_DATA)
@@ -114,9 +134,9 @@ export const getContacts = () => get(url.GET_CONTACTS)
 
 // get messages
 export const getMessages = (roomId = "") =>
-  get(`${url.GET_MESSAGES}/${roomId}`, { params: { roomId } })
+    get(`${url.GET_MESSAGES}/${roomId}`, { params: { roomId } })
 
 // post messages
 export const addMessage = message => post(url.ADD_MESSAGE, message)
 
-export { getLoggedInUser, isUserAuthenticated, postRegister, postLogin, postForgetPwd }
+export { getLoggedInUser, isUserAuthenticated, postRegister, postLogin, postForgetPwd, postResetPwd }

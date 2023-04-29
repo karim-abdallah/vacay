@@ -7,24 +7,24 @@ const AppRoute = ({
 	isAuthProtected,
 	...rest
 }) => (
-		<Route
-			{...rest}
-			render={props => {
+	<Route
+		{...rest}
+		render={props => {
 
-				if (isAuthProtected && !localStorage.getItem("authUser")) {
-					return (
-						<Redirect to={{ pathname: "/login", state: { from: props.location } }} />
-					);
-				}
-
+			if (isAuthProtected && !localStorage.getItem("authUser")) {
 				return (
-					<Layout>
-						<Component {...props} />
-					</Layout>
+					<Redirect to={{ pathname: "/home", state: { from: props.location } }} />
 				);
-			}}
-		/>
-	);
+			}
+
+			return (
+				<Layout>
+					<Component {...props} />
+				</Layout>
+			);
+		}}
+	/>
+);
 
 export default AppRoute;
 

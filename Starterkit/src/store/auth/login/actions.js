@@ -1,4 +1,4 @@
-import { CHECK_LOGIN, LOGIN_USER_SUCCESSFUL, API_ERROR,LOGOUT_USER, LOGOUT_USER_SUCCESS } from './actionTypes';
+import { CHECK_LOGIN, LOGIN_USER_SUCCESSFUL, API_ERROR, LOGOUT_USER, LOGOUT_USER_SUCCESS } from './actionTypes';
 
 export const checkLogin = (user, history) => {
     return {

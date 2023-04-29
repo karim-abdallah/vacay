@@ -5,6 +5,7 @@
   position: fixed;
   width: 0;
 }
+
 .radio-toolbar label {
   display: inline-block;
   background-color: $gray-300;
@@ -13,7 +14,8 @@
   font-size: 14px;
   border-radius: 4px;
 }
-.radio-toolbar input[type="radio"]:checked + label {
+
+.radio-toolbar input[type="radio"]:checked+label {
   background-color: $primary;
   border: none;
   color: $white;
