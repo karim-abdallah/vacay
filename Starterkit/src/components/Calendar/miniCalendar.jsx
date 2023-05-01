@@ -342,12 +342,10 @@ function MiniCalendar(props) {
     handleShowConfirmation();
   };
 
-  console.log(showCalendar.toString());
-
   return (
     <CalendarContainer
       onClick={!showCalendar ? handleShowCalendar : null}
-      showpointer={showCalendar.toString()}
+      showpointer={showCalendar}
     >
       {showConfirmationBox ? (
         <ConfirmationBox />
