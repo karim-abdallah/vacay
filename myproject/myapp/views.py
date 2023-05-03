@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-from .serializers import UserSerializer
+from .serializers import TimeOffSettingSerializer, UserSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
-from .models import User
+from .models import TimeOffSetting, User
 import jwt
 import datetime
 from .utils import (
@@ -275,3 +275,25 @@ class GeneratePresignedUrl(APIView):
         )
 
         return Response({"detail": link})
+
+
+class TimeOffSettingDetail(APIView):
+    """
+    Retrive and update an individual time off settings entry
+    """
+
+    def get(self, request, id):
+        token = request.headers["Authorization"].split("Bearer ")[1]
+
+        if not token:
+            raise AuthenticationFailed("Unauthenticated")
+
+        try:
+            payload = jwt.decode(token, "secret", algorithms=["HS256"])
+
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed("Unauthenticated")
+
+        time_off_setting = get_object_or_404(TimeOffSetting, id=id)
+
+        return Response(TimeOffSettingSerializer(time_off_setting).data)
