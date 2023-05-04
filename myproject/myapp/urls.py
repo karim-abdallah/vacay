@@ -14,4 +14,5 @@ urlpatterns = [
     path('change-password', ChangePasswordView.as_view()),
     path('generate-presigned-url', GeneratePresignedUrl.as_view()),
     path('update-profile-picture', UpdateProfilePictureView.as_view()),
+    path('subscribe', SubscribeView.as_view()),
 ]

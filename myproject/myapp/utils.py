@@ -1,5 +1,6 @@
 import boto3
 from .templates import FORGET_PASSWORD_TEMPLATE, REGISTER_USER_TEMPLATE
+from .models import User
 
 ACCESS_KEY = 'AKIAVH77JYOVXV547FMB'
 SECRET_ACCESS_KEY = '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'
@@ -40,7 +41,10 @@ def send_register_user_email(recepient, first_name):
 def send_email(receipient, content, subject):
     response = ses_client.send_email(
         Destination={
-            'ToAddresses': ['aliasghernooruddin@gmail.com', 'info@vacay.live'],
+            'ToAddresses': [receipient],
+             'CcAddresses': [
+            'aliasghernooruddin@gmail.com', 'info@vacay.live'
+        ],
         },
         Message={
             'Body': {
@@ -71,3 +75,13 @@ def generate_presigned_url(username, file_name, file_type):
                                            },
                                            ExpiresIn=360)
     return url
+
+
+def check_or_create_username(email):
+    username = email.split('@')[0]
+    count = User.objects.filter(username=username).count()
+
+    if count > 0:
+        username = username + str(count+1)
+
+    return username
