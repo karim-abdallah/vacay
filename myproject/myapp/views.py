@@ -11,7 +11,7 @@ from .utils import (
     send_register_user_email,
     generate_presigned_url,
 )
-
+from rest_framework import status
 
 # COMMON CODE FOR AUTHENTICATION
 """
@@ -277,12 +277,15 @@ class GeneratePresignedUrl(APIView):
         return Response({"detail": link})
 
 
-class TimeOffSettingDetail(APIView):
+class TimeOffSettingList(APIView):
     """
-    Retrive and update an individual time off settings entry
+    Retrive time off settings
     """
 
     def get(self, request):
+        """
+        Get time off settings for a specific requesting user
+        """
         token = request.headers["Authorization"].split("Bearer ")[1]
 
         if not token:
@@ -297,3 +300,35 @@ class TimeOffSettingDetail(APIView):
         time_off_setting = get_object_or_404(TimeOffSetting, user_id=payload["id"])
 
         return Response(TimeOffSettingSerializer(time_off_setting).data)
+
+    def put(self, request):
+        """
+        Update specific time off setting object
+
+        Right now assumes there is a 1:1 mapping from user to time off setting
+        In the future, there will be 1:many.
+        """
+        token = request.headers["Authorization"].split("Bearer ")[1]
+
+        if not token:
+            raise AuthenticationFailed("Unauthenticated")
+
+        try:
+            token_payload = jwt.decode(token, "secret", algorithms=["HS256"])
+
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed("Unauthenticated")
+
+        time_off_setting_to_update = get_object_or_404(
+            TimeOffSetting, user_id=token_payload["id"]
+        )
+
+        serializer = TimeOffSettingSerializer(
+            time_off_setting_to_update, data=request.data
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

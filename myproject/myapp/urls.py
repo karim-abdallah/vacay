@@ -15,7 +15,7 @@ urlpatterns = [
     path("update-profile-picture", UpdateProfilePictureView.as_view()),
     path(
         "time-off-settings",
-        TimeOffSettingDetail.as_view(),
+        TimeOffSettingList.as_view(),
         name="time-off-setting-detail",
     ),
 ]

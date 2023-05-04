@@ -31,9 +31,6 @@ const Dashboard = () => {
       ptoBalance: data.current_balance_days,
     };
 
-    console.log(PTOSettings);
-    console.log(`data = ${data}`);
-
     dispatch({ type: 'settings/update', payload: PTOSettings });
   };
 
