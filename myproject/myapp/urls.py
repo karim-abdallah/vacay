@@ -14,7 +14,7 @@ urlpatterns = [
     path("generate-presigned-url", GeneratePresignedUrl.as_view()),
     path("update-profile-picture", UpdateProfilePictureView.as_view()),
     path(
-        "time-off-settings/<int:id>/",
+        "time-off-settings",
         TimeOffSettingDetail.as_view(),
         name="time-off-setting-detail",
     ),

@@ -29,7 +29,7 @@ class TimeOffSetting(models.Model):
         LUMP_SUM = "lump_sump", ""
         UNLIMITED = "unlimited", ""
 
-    user_id = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     time_off_type = models.CharField(
         max_length=100, choices=TimeOffType.choices, default=TimeOffType.PTO
     )

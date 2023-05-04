@@ -282,7 +282,7 @@ class TimeOffSettingDetail(APIView):
     Retrive and update an individual time off settings entry
     """
 
-    def get(self, request, id):
+    def get(self, request):
         token = request.headers["Authorization"].split("Bearer ")[1]
 
         if not token:
@@ -294,6 +294,6 @@ class TimeOffSettingDetail(APIView):
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed("Unauthenticated")
 
-        time_off_setting = get_object_or_404(TimeOffSetting, id=id)
+        time_off_setting = get_object_or_404(TimeOffSetting, user_id=payload["id"])
 
         return Response(TimeOffSettingSerializer(time_off_setting).data)
