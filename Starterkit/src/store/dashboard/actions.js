@@ -1,8 +1,4 @@
-import {
-  FETCH_TIMEOFF_SETTINGS,
-  FETCH_TIMEOFF_SETTINGS_SUCCEEDED,
-  FETCH_TIMEOFF_SETTINGS_FAILED,
-} from './actionTypes';
+import { FETCH_TIMEOFF_SETTINGS } from './actionTypes';
 
 export const fetchTimeOffSettings = timeOffSettings => {
   return {

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Container, Card, CardBody } from 'reactstrap';
 import { Alert } from 'antd';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   getCurrentMonth,
   getNegativeBalanceMonths,
@@ -20,9 +20,21 @@ import { useEffect } from 'react';
 
 const Dashboard = () => {
   // Fetch time off settings from back-end
+  const dispatch = useDispatch();
   const fetchTimeOffSettings = async () => {
     let data = await get('/time-off-settings');
-    console.log(data);
+    // TODO: expand logic for dispatching based on specific settings type
+
+    const PTOSettings = {
+      ptoAllowance: data.annual_allowance_days,
+      ptoCap: data.accrual_cap_days,
+      ptoBalance: data.current_balance_days,
+    };
+
+    console.log(PTOSettings);
+    console.log(`data = ${data}`);
+
+    dispatch({ type: 'settings/update', payload: PTOSettings });
   };
 
   useEffect(() => {
