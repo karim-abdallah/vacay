@@ -168,7 +168,7 @@ const Banner = ({ isMobile, onGetStartedClick }) => {
             background="transparent"
             speed="1"
             loop
-            autoplay            
+            autoplay
           >
           </lottie-player>
         </div>
