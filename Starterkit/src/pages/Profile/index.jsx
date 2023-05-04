@@ -1,48 +1,51 @@
 import React, { useState, useEffect } from "react";
 
 import { Container, Card, CardBody } from "reactstrap";
-import Background from "../../assets/images/Background_Image.png";
+import Background from "../../assets/images/Background_Image.svg";
 import Picture from "../../assets/images/profile.png";
-import { get, post, s3Post } from '../../helpers/api_helper'
+import { get, post, s3Post } from "../../helpers/api_helper";
+import editIcon from "../../assets/images/edit-icon.svg";
+
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 
 const Banner = (props) => {
-
   const [imageUrl, setImageUrl] = useState(null);
-  const [file, setFile] = useState(null);
   const [error, setError] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileSelect = (e) => {
-    setFile(e.target.files[0])
-  }
+    const selectedFile = e.target.files[0];
+    setIsUploading(true);
+    uploadToS3(selectedFile);
+  };
 
-  const uploadToS3 = async () => {
+  const uploadToS3 = async (selectedFile) => {
     let obj = {
-      file_name: file.name,
-      file_type: file.type
-    }
+      file_name: selectedFile.name,
+      file_type: selectedFile.type,
+    };
 
     try {
-      let response = await post('generate-presigned-url', obj)
+      let response = await post("generate-presigned-url", obj);
 
       try {
-        await s3Post(response.detail, file)
-        await post('update-profile-picture', obj)
-        props.fetchData()
-        setFile(null)
+        await s3Post(response.detail, selectedFile);
+        await post("update-profile-picture", obj);
+        props.fetchData();
+        setIsUploading(false);
+      } catch (error) {
+        console.log(error);
       }
-      catch (error) {
-        console.log(error)
-      }
+    } catch (error) {
+      setError(error.data.detail);
     }
-    catch (error) {
-      setError(error.data.detail)
-    }
-  }
+  };
 
   useEffect(() => {
-    setImageUrl(props.profilePic)
-  }, [props])
+    setImageUrl(props.profilePic);
+  }, [props]);
 
   return (
     <div>
@@ -51,79 +54,90 @@ const Banner = (props) => {
         {error ? error : null}
 
         <div className="image-upload">
-          <label htmlFor="file-input">
-            <img className="profile-image" src={imageUrl ? imageUrl : Picture} alt="Profile" />
+          <label htmlFor="file-input" className="image-label">
+            <img
+              className="profile-image"
+              src={imageUrl ? imageUrl : Picture}
+              alt="Profile"
+            />
+            <img className="edit-icon" src={editIcon} alt="Profile" />
           </label>
-          <input id="file-input" type="file" onChange={handleFileSelect} />
+          <input
+            id="file-input"
+            type="file"
+            onChange={handleFileSelect}
+            disabled={isUploading}
+          />
+          {isUploading && <div className="loading-spinner">Loading...</div>}
         </div>
-
-        {file && (
-          <button className="upload-btn" onClick={uploadToS3}>Upload</button>
-        )}
-
       </div>
     </div>
   );
 };
 
-
 const ChangePassword = ({ toggleComponent }) => {
-
-  const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+  const strongRegex = new RegExp(
+    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+  );
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [retypeNewPassword, setRetypeNewPassword] = useState("");
   const [error, setError] = useState("");
-
+  const [passwordValidation, setPasswordValidation] = useState(true);
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
     if (newPassword !== retypeNewPassword) {
-      setError("Passwords do not match")
+      setError("Passwords do not match");
     } else {
       if (analyze()) {
-        changePassword()
+        changePassword();
       }
     }
   };
 
   const changePassword = async () => {
+    
     let obj = {
       old_password: currentPassword,
-      new_password: newPassword
-    }
+      new_password: newPassword,
+    };
 
     try {
-      let data = await post('/change-password', obj)
-      setError(data.detail)
+      let data = await post("/change-password", obj);
+      setError(data.detail);
+    } catch (error) {
+      setError(error.data.detail);
     }
-    catch (error) {
-      setError(error.data.detail)
-    }
-  }
-
+}
   const analyze = () => {
-
     if (strongRegex.test(newPassword)) {
-      return true
+      return true;
     } else {
-      setError("Password Validation Not Met")
-      return false
+      setError("Password Validation Not Met");
+      return false;
     }
-  }
+  };
 
   const handleCurrentPasswordChange = (event) => {
     setCurrentPassword(event.target.value);
   };
 
   const handleNewPasswordChange = (event) => {
-    setError("")
-    setNewPassword(event.target.value);
+  setNewPassword(event.target.value);
+  if (newPassword.length >= 8 && newPassword.length <= 20) {
+    setPasswordValidation(false);
+    setError("");
+  }
+  else { 
+    setError("Password Validation Not Met");
+    setPasswordValidation(true);
+  } 
   };
 
   const handleRetypeNewPasswordChange = (event) => {
-    setError("")
+    setError("");
     setRetypeNewPassword(event.target.value);
   };
 
@@ -159,15 +173,22 @@ const ChangePassword = ({ toggleComponent }) => {
               onChange={handleNewPasswordChange}
             />
           </div>
-
           <div>
             <ul>
-              <li>Minimum 8 character, maximum 20</li>
-              <li>Must include upper and lower case letters</li>
-              <li>
-                Must include at least one number or one of the following
-                character: !@#$%
-              </li>
+              {!passwordValidation? (
+                <li
+                style={{ listStyleType: "none", fontSize: "12px" }}
+                >
+                  Password should be between 8 and 20 characters
+                </li>
+              ) :  <li style={{
+                color: "red",
+                listStyleType: "none",
+                fontSize: "12px",
+              }} >
+              Password should be between 8 and 20 characters
+            </li>}
+             
             </ul>
           </div>
           <div className="form-group input-group">
@@ -180,8 +201,8 @@ const ChangePassword = ({ toggleComponent }) => {
               onChange={handleRetypeNewPasswordChange}
             />
           </div>
-          <div>
-            <button className="save-profile" type="Submit">
+          <div className="pwd-chng-btn">
+            <button className="save-profile" type="Submit"  disabled={passwordValidation}>
               Save
             </button>
           </div>
@@ -192,7 +213,6 @@ const ChangePassword = ({ toggleComponent }) => {
 };
 
 const GeneralInformation = ({ toggleComponent }) => {
-
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userName, setUserName] = useState("");
@@ -203,24 +223,22 @@ const GeneralInformation = ({ toggleComponent }) => {
   const handleFormSubmit = (event) => {
     let obj = {
       first_name: firstName,
-      last_name: lastName
-    }
+      last_name: lastName,
+    };
 
     event.preventDefault();
 
-    updateProfile(obj)
+    updateProfile(obj);
   };
 
   const updateProfile = async (obj) => {
     try {
-      let data = await post('/update-user', obj)
-      setError(data.detail)
-
+      let data = await post("/update-user", obj);
+      setError(data.detail);
     } catch (error) {
-      setError(error.data.detail)
+      setError(error.data.detail);
     }
-
-  }
+  };
 
   const handleFirstNameChange = (event) => {
     setFirstName(event.target.value);
@@ -230,25 +248,24 @@ const GeneralInformation = ({ toggleComponent }) => {
     setLastName(event.target.value);
   };
 
-
   const fetchData = async () => {
-    let data = await get('/user')
-    setUserName(data['username'])
-    setEmail(data['email'])
-    setFirstName(data['first_name'])
-    setLastName(data['last_name'])
-    setProfilePic(data['profile_pic'])
+    let data = await get("/user");
+    setUserName(data["username"]);
+    setEmail(data["email"]);
+    setFirstName(data["first_name"]);
+    setLastName(data["last_name"]);
+    setProfilePic(data["profile_pic"]);
   };
 
   useEffect(() => {
-    fetchData()
-  }, [])
-
-
+    fetchData();
+  }, []);
 
   return (
     <div>
+      
       <h2>General Information</h2>
+
       <Banner profilePic={proflePic} fetchData={fetchData} />
 
       {error ? error : null}
@@ -256,7 +273,6 @@ const GeneralInformation = ({ toggleComponent }) => {
       <br />
       <form onSubmit={handleFormSubmit}>
         <div className="container">
-
           <div className="row justify-content-center g-5 general-info">
             <div className="col-md-6">
               <div className="form-group">
@@ -271,20 +287,7 @@ const GeneralInformation = ({ toggleComponent }) => {
                 />
               </div>
 
-              <div className="form-group mt-3">
-                <label htmlFor="lastName">Last Name</label>
-                <input
-                  type="text"
-                  id="lastName"
-                  className="form-control"
-                  value={lastName}
-                  onChange={handleLastNameChange}
-                />
-              </div>
-            </div>
-
-            <div className="col-md-6">
-              <div className="form-group">
+              <div className="form-group  mt-3">
                 <label htmlFor="userName">User Name</label>
                 <input
                   type="text"
@@ -294,7 +297,19 @@ const GeneralInformation = ({ toggleComponent }) => {
                   disabled
                 />
               </div>
+            </div>
 
+            <div className="col-md-6">
+              <div className="form-group">
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  className="form-control"
+                  value={lastName}
+                  onChange={handleLastNameChange}
+                />
+              </div>
               <div className="form-group mt-3">
                 <label htmlFor="email">Email</label>
                 <input
@@ -308,7 +323,7 @@ const GeneralInformation = ({ toggleComponent }) => {
             </div>
           </div>
           <div className="mt-3">
-            <a className="toggle" onClick={toggleComponent} >
+            <a className="toggle" onClick={toggleComponent}>
               Change Password
             </a>
           </div>

@@ -11,9 +11,8 @@ import { checkLogin, apiError } from "../../store/actions";
 
 import fb from "../../assets/images/fb-btn.svg";
 import google from "../../assets/images/google-btn.svg";
-import umrallah from "../../assets/images/umrallah.svg";
-import side from "../../assets/images/side-img.svg";
-
+import side from "../../assets/images/side-img2.svg";
+import Logo from "../../assets/images/logo-vaccay.png";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -68,8 +67,14 @@ class Login extends Component {
                   <div className="div">
                     <div className="content-section mt-5 pt-5">
                       <div className="d-flex gap-2 flex-wrap align-items-center">
-                        <h2>VACAY</h2>
-                        <img src={umrallah} className="img-fluid" alt="" />
+                      <Link to="/home" className="mx-2">
+                      <img
+                          src={Logo}
+                          className="img-fluid"
+                          alt="vaccay-logo"
+                        />
+                      </Link>
+                        
                       </div>
                       <p>Optimize your time off</p>
                     </div>
@@ -81,7 +86,7 @@ class Login extends Component {
                     <div>
                       <div className="container md:px-3 px-md-5">
                         <h3 className="mb-4">Welcome back!</h3>
-                        <div className="row">
+                        {/* <div className="row">
                           <div className="col-lg-6 col-12">
                             <Link
                               to="/"
@@ -110,11 +115,13 @@ class Login extends Component {
                               <p>Sign up with Facebook </p>
                             </Link>
                           </div>
-                        </div>
+                        </div> */}
                         <form onSubmit={this.handleSubmit}>
                           <Row className="my-5">
                             <div>
-                              {this.props.loginError ? this.props.loginError : null}
+                              {this.props.loginError
+                                ? this.props.loginError
+                                : null}
                               <Col className="my-4">
                                 <input
                                   value={this.state.email}
@@ -185,20 +192,20 @@ class Login extends Component {
                                 type="submit"
                                 className=" btn btn-submit w-100 mt-5"
                               >
-                                Login
+                                Log in
                               </button>
 
                               <p className=" mt-3 forget">
-                                <Link to="/forgot-password" className="mx-2">
+                                <Link to="/forgot-password" className=" forget">
                                   {" "}
                                   Forgot my Password
                                 </Link>{" "}
                               </p>
-                              <p className="custom-link mt-3">
+                              <p className="custom-link  mt-3">
                                 Don’t have an account?{" "}
-                                <Link to="/register" className="mx-2">
+                                <Link to="/register" className="mx-2 forget">
                                   {" "}
-                                  Sign up
+                                  <p className="forget">Sign up</p>
                                 </Link>{" "}
                               </p>
                             </div>

@@ -3,14 +3,14 @@ import { Row, Col } from "reactstrap";
 
 // Redux
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter,Link } from "react-router-dom";
 
 // action
 import { resetUser, userResetPasswordError } from "../../store/actions";
 
 
-import umrallah from "../../assets/images/umrallah.svg";
-import side from "../../assets/images/side-img.svg";
+import side from "../../assets/images/side-img2.svg";
+import Logo from "../../assets/images/logo-vaccay.png";
 
 class ResetPwd extends Component {
   constructor(props) {
@@ -75,8 +75,13 @@ class ResetPwd extends Component {
                   <div className="div">
                     <div className="content-section mt-5 pt-5">
                       <div className="d-flex gap-2 flex-wrap align-items-center">
-                        <h2>VACAY</h2>
-                        <img src={umrallah} className="img-fluid" alt="" />
+                      <Link to="/home" className="mx-2">
+                      <img
+                          src={Logo}
+                          className="img-fluid"
+                          alt="vaccay-logo"
+                        />
+                                </Link>
                       </div>
                       <p>Optimize your time off</p>
                     </div>

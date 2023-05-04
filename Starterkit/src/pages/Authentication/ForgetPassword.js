@@ -9,8 +9,8 @@ import { withRouter, Link } from "react-router-dom";
 import { forgetUser } from "../../store/actions";
 
 
-import umrallah from "../../assets/images/umrallah.svg";
-import side from "../../assets/images/side-img.svg";
+import Logo from "../../assets/images/logo-vaccay.png";
+import side from "../../assets/images/side-img2.svg";
 
 class ForgetPasswordPage extends Component {
   constructor(props) {
@@ -50,8 +50,7 @@ class ForgetPasswordPage extends Component {
                   <div className="div">
                     <div className="content-section mt-5 pt-5">
                       <div className="d-flex gap-2 flex-wrap align-items-center">
-                        <h2>VACAY</h2>
-                        <img src={umrallah} className="img-fluid" alt="" />
+                      <img src={Logo} className="img-fluid" alt="vaccay-logo" />
                       </div>
                       <p>Optimize your time off</p>
                     </div>
@@ -81,8 +80,8 @@ class ForgetPasswordPage extends Component {
                                   type="email"
                                   autoComplete="current-email"
                                   variant="standard"
-                                  className="py-2 w-100"
-                                  style={{ borderRadius: "4px" }}
+                                  className="py-2 px-2 w-100"
+                                  style={{ borderRadius: "4px", border:"1px solid #2b3674ab"  }}
                                 />
                               </Col>
                             </div>
@@ -95,9 +94,10 @@ class ForgetPasswordPage extends Component {
                                 Continue
                               </button>
                               <p className="custom-link mt-3">
+                                Don’t have an account?
                                 <Link to="/register" className="mx-2">
                                   {" "}
-                                  Sign up
+                                  <p className="forget">Sign up</p>
                                 </Link>{" "}
                               </p>
                             </div>

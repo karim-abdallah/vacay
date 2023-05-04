@@ -18,6 +18,10 @@ import {
   changePreloader,
 } from "../../store/actions";
 import logo from "../../assets/images/logo.png";
+import homeIcon from "../../assets/images/home.svg";
+import profileIcon from "../../assets/images/profile.svg";
+import linkIcon from "../../assets/images/link.svg";
+import planeIcon from "../../assets/images/plane.svg";
 
 class SidebarContent extends Component {
   componentDidMount() {
@@ -89,15 +93,16 @@ class SidebarContent extends Component {
             <li>
               {
                 <Link to="/dashboard" className="waves-effect">
-                  <i className="ri-home-4-fill side-icon"></i>
-                  <span className="ms-1">{this.props.t("Dashboard")}</span>
+                  
+                  <img src={homeIcon} alt="" height="18" className="side-icon"/>
+                  <span className="">{this.props.t("Home")}</span>
                 </Link>
               }
             </li>
             <li>
               {
                 <Link to="/profile" className="waves-effect">
-                  <i className="ri-user-3-fill side-icon"></i>
+                  <img src={profileIcon} alt="" height="18" className="side-icon" />
                   <span className="ms-1">{this.props.t("Profile")}</span>
                 </Link>
               }
@@ -105,7 +110,7 @@ class SidebarContent extends Component {
             <li>
               {
                 <Link to="/dashboard" className="waves-effect">
-                  <i className="ri-links-fill side-icon"></i>
+                 <img src={linkIcon} alt="" height="18"  className="side-icon"/>
                   <span className="ms-1">{this.props.t("Plan With Friends")}</span>
                 </Link>
               }
@@ -113,7 +118,7 @@ class SidebarContent extends Component {
             <li>
               {
                 <Link to="/dashboard" className="waves-effect">
-                  <i className="ri-plane-line side-icon"></i>
+                  <img src={planeIcon} alt="" height="18" className="side-icon"/>
                   <span className="ms-1">{this.props.t("Deals - coming soon")}</span>
                 </Link>
               }

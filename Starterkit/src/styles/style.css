@@ -227,7 +227,10 @@
   border-radius: 16px !important;
   color: #2B3674 !important;
 }
-
+.pwd-chng-btn{
+  display: flex;
+  justify-content: center;
+}
 .save-profile {
   width: 250px;
   height: 46.29px;
@@ -258,7 +261,19 @@
   margin: 30px 0px;
 }
 
-
+.image-label:hover .edit-icon {
+  display: block;
+}
+.image-label{
+  height: 10px;
+}
+.edit-icon {
+  transition: opacity 0.2s ease-in-out;
+  display: none;
+  position: relative; 
+  bottom:85px !important;
+  left: 75px !important; 
+}
 
 /* --------------------Landing Container------------------------ */
 
@@ -269,32 +284,46 @@
 }
 
 /* --------------------Landing Banner Section------------------------ */
+
 .signup-btn {
-  /* min-width: 100px; */
-  /* max-width: 170px; */
-  width: 170px;
+  max-width: 170px;
+  min-width: 150px;
   padding: 0px 20px;
   height: 52px;
+  color:  #384077;
+  border: none;
   background: #F4F7FE;
   border-radius: 50px;
   font-family: 'Poppins';
   font-weight: 700;
   font-size: 18px;
 }
-
 @media screen and (max-width: 768px) {
-  .signup-btn {
-    width: 115px;
-    font-size: 10px;
-  }
-
   .landing-container {
-    padding: 0px;
+    padding: 0px 10px;
     align-items: center;
     background-color: #384077;
   }
   .main-heading{
     font-size: 40px;
+  }
+  .side-img {
+    width: 100%;
+    position: relative;
+    bottom: 0px !important;
+  }
+  .footer-input {
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    width: 350px !important;
+  }
+  .planner-heading{
+    font-size: 42px !important;
+    text-align: left!important;
+  }
+  .planner-boxes{
+    padding: 20px;
   }
 }
 
@@ -328,7 +357,7 @@
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
-  line-height: 20px;
+  line-height: 30px;
   display: flex;
   align-items: center;
   letter-spacing: 0.04em;
@@ -343,7 +372,8 @@
 
 .side-img {
   width: 100%;
-  /* height: 85% !important;  */
+  position: relative;
+  bottom: 40px;
 }
 
 .banner-content {
@@ -365,26 +395,27 @@
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 600;
-  font-size: 50px;
-  line-height: 70px;
-  background: radial-gradient(circle at center, rgba(244, 247, 254, 0.50) 0%, #F4F7FE 60%);
+  font-size: 60px;
+  line-height: 80px;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
   text-align: center;
   margin-bottom: 6%;
+  color: #F4F7FE;
+}
+.planner-heading-color{
+  color:#969bba;
 }
 
-
 .screens {
-
+  margin:12px;
   border-radius: 30px;
   padding: 50px 30px !important;
-
 }
 
 .sc-1 {
   background-color: #F9E5A1;
+  
 }
 
 .sc-2 {
@@ -393,13 +424,18 @@
 
 .sc-3 {
   background-color: #C1F3F0;
+  padding-bottom: 0px !important;
 }
 
-.planner-sc-heading {
+.box-heading {
+  font-size: 22px;
   font-weight: bold;
   line-height: 30px;
 }
-
+.box-sub-heading {
+  line-height: 30px;
+  font-size: 20px;
+}
 .planner-img {
   width: 100%;
   position: relative;
@@ -413,8 +449,10 @@
 
 .planner-sc3-image {
   width: 100%;
+  margin-top: 115px;
   position: relative;
-  top: 98px;
+  top: 45px;
+
 }
 
 /* --------------------Footer Section------------------------ */
@@ -427,10 +465,11 @@
   margin-right: 10px;
   display: flex;
   justify-content: center;
+  width: 500px;
 }
 
 .footer-btn {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, #F3B0AE 100%);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, #F3B0AE 100%);
   border-radius: 10px;
   width: 150px;
   font-family: 'Poppins';
@@ -438,6 +477,7 @@
   font-weight: 700;
   font-size: 18px;
   padding: 0px 20px;
+  border: none;
 }
 
 .footer-section {
