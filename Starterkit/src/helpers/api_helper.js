@@ -9,7 +9,7 @@ if (ENV == 'development') {
   API_URL = 'https://backend.vacay.live/api';
 }
 
-API_URL = 'http://localhost:8000/api'
+// API_URL = 'http://localhost:8000/api'
 
 axios.defaults.withCredentials = true
 
