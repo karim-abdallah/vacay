@@ -4,7 +4,6 @@ import * as url from "./url_helper"
 
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = 'https://backend.vacay.live/api';
-// axios.defaults.baseURL = 'http://localhost:8000/api';
 
 // Gets the logged in user data from local session 
 const getLoggedInUser = () => {

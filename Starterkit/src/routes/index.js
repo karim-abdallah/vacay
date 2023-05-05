@@ -29,12 +29,15 @@ const authProtectedRoutes = [
 	{ path: "/dashboard", component: Dashboard },
 	{ path: "/profile", component: Profile },
 
+	{ path: "/logout", component: Logout },
+	
 	// this route should be at the end of all other routes
-	{ path: "/", exact: true, component: () => <Redirect to="/dashboard" /> }
+	{ path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
+
 ];
 
 const publicRoutes = [
-	{ path: "/logout", component: Logout },
+	
 	{ path: "/login", component: Login },
 	{ path: "/reset-password/:token", component: ResetPwd },
 	{ path: "/forgot-password", component: ForgetPwd },

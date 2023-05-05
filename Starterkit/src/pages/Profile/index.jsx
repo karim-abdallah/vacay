@@ -131,7 +131,6 @@ const ChangePassword = ({ toggleComponent }) => {
     setError("");
   }
   else { 
-    setError("Password Validation Not Met");
     setPasswordValidation(true);
   } 
   };

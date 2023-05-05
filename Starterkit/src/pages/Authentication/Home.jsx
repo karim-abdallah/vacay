@@ -8,24 +8,31 @@ import Calender3 from "../../assets/images/calender3.svg";
 import SmallEarnings from "../../assets/images/Small_Earnings.svg";
 import { useState, useEffect } from "react";
 // Redux
-import { Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { post } from "../../helpers/api_helper";
 
 const Header = ({ isMobile, onGetStartedClick }) => {
   return (
     <div className="container">
       <div className="row justify-content-between">
-        <div className="col-3 ">
-          <img src={Logo} alt="vacay" />
-        </div>
         {isMobile ? (
-          <div className="col-5 offset-md-4">
-            <button className="signup-btn" onClick={onGetStartedClick}>
-              Get Started
-            </button>
-          </div>
+          <>
+            <div className="col-3 ">
+              <img src={Logo} alt="vacay" />
+            </div>
+            <div className="col-5 offset-md-4">
+              <button className="signup-btn" onClick={onGetStartedClick}>
+                Get Started
+              </button>
+            </div>
+          </>
         ) : (
           <>
+            <div className="col-3 ">
+              <Link to="/home" className="mx-2">
+                <img src={Logo} alt="vacay" />
+              </Link>
+            </div>
             <div className="col-2 offset-md-5 text-end ">
               <button className="login-btn">
                 <Link to="/login" className="routeme">
@@ -52,6 +59,7 @@ const GetStarted = () => {
   const [isSubmit, setSubmit] = useState(false);
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  // const [isSubscribed, setIsSubscribed] = useState(false);
   const handleRemindMeScreen = () => {
     setRemindMe(false);
   };
@@ -60,19 +68,28 @@ const GetStarted = () => {
     setSubmit(true);
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (!email) {
       setErrorMessage("Please enter your email address");
     } else {
-      handleThankYouScreen();
-      setEmail("");
-      setErrorMessage("");
+      try {
+        let obj = { email: email };
+        await post("/subscribe", obj);
+        // setIsSubscribed(true);
+        setEmail("");
+        handleThankYouScreen();
+      } catch (error) {
+        setErrorMessage(error.data.detail);
+      }
     }
   };
+
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
+    setErrorMessage("");
   };
+
   return (
     <div className="getstart-container">
       <img src={Logo} alt="vacay" />
@@ -125,7 +142,15 @@ const GetStarted = () => {
         </>
       )}
       <div className="col-md-5 col-12 ">
-        <img src={SideImg2} alt="side-img" className="side-img mb-screen" />
+        {/* <img src={SideImg2} alt="side-img" className="side-img mb-screen" /> */}
+        <lottie-player
+            className="side-img"
+            src="https://lottie.host/063c8109-dcfe-4653-af8d-4a660ab64413/md0nTOGoY3.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
       </div>
     </div>
   );
@@ -161,23 +186,21 @@ const Banner = ({ isMobile, onGetStartedClick }) => {
           </div>
         </div>
         <div className="col-md-5 col-12 ">
-          {/* <img src={SideImg2} alt="side-img" className="side-img" /> */}
           <lottie-player
-            className="side-img lottie-player"
-            src="https://assets5.lottiefiles.com/packages/lf20_vezxxffq.json"
+            className="side-img"
+            src="https://lottie.host/063c8109-dcfe-4653-af8d-4a660ab64413/md0nTOGoY3.json"
             background="transparent"
             speed="1"
             loop
             autoplay
-          >
-          </lottie-player>
+          ></lottie-player>
         </div>
       </div>
     </div>
   );
 };
 
-const Planner = () => {
+const Planner = ({ isMobile, onGetStartedClick }) => {
   return (
     <div>
       <div className="planner-heading">
@@ -198,11 +221,7 @@ const Planner = () => {
                 in one place.
               </h5>
               <br></br>
-              <img
-                src={Calendar1}
-                className="planner-img"
-                alt="calender1"
-              />
+              <img src={Calendar1} className="planner-img" alt="calender1" />
               <br />
               <br />
               <img src={Cal02} className="planner-img" alt="calender2" />
@@ -241,9 +260,15 @@ const Planner = () => {
         </div>
       </div>
       <div className="signup-btn-container">
-        <Link to="/register">
-          <button className="signup-btn">Sign Up</button>
-        </Link>
+        {isMobile ? (
+          <button className="signup-btn" onClick={onGetStartedClick}>
+           Sign Up
+          </button>
+        ) : (
+          <Link to="/register">
+            <button className="signup-btn">Sign Up</button>
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -351,7 +376,10 @@ const Landing = () => {
                 isMobile={isMobile}
                 onGetStartedClick={handleGetStartedClick}
               />
-              <Planner />
+              <Planner
+                isMobile={isMobile}
+                onGetStartedClick={handleGetStartedClick}
+              />
               <Footer />
             </>
           )}

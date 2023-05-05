@@ -12,11 +12,7 @@ import {
 
 // Redux
 import { connect } from "react-redux";
-
-import fb from "../../assets/images/fb-btn.svg";
-import google from "../../assets/images/google-btn.svg";
-import side from "../../assets/images/side-img2.svg";
-import Logo from "../../assets/images/logo-vaccay.png";
+import Logo from "../../assets/images/logo-vaccay.svg";
 
 class Register extends Component {
   constructor(props) {
@@ -63,7 +59,6 @@ class Register extends Component {
     });
   };
 
-
   handlePasswordChange = (e) => {
     if (e.target.value.length >= 8 && e.target.value.length <= 20) {
       this.setState({
@@ -103,17 +98,24 @@ class Register extends Component {
                 <div className="div">
                   <div className="content-section mt-5 pt-5">
                     <div className="d-flex gap-2 flex-wrap align-items-center">
-                    <Link to="/home" className="mx-2">
-                      <img
+                      <Link to="/home" className="mx-2">
+                        <img
                           src={Logo}
                           className="img-fluid"
                           alt="vaccay-logo"
                         />
-                                </Link>
+                      </Link>
                     </div>
                     <p>Optimize your time off</p>
                   </div>
-                  <img src={side} className="img-fluid" alt="" />
+                  <lottie-player
+                    className="side-img"
+                    src="https://lottie.host/063c8109-dcfe-4653-af8d-4a660ab64413/md0nTOGoY3.json"
+                    background="transparent"
+                    speed="1"
+                    loop
+                    autoplay
+                  ></lottie-player>
                 </div>
               </div>
               <div className="col-lg-8 col-md-7 p-0">
@@ -126,7 +128,7 @@ class Register extends Component {
                           ? this.props.registrationError
                           : null}
                         <Row className="my-5">
-                          <Col >
+                          <Col>
                             <input
                               value={this.state.firstName}
                               onChange={this.handleFirstNameChange}
@@ -235,13 +237,12 @@ class Register extends Component {
                                     </svg>
                                   )}
                                 </div>
+                              </div>
+                              {this.state.passwordError && (
+                                <div className="invalid-password pt-2">
+                                  {this.state.passwordError}
                                 </div>
-                                {this.state.passwordError && (
-                                  <div className="invalid-password pt-2">
-                                    {this.state.passwordError}
-                                  </div>
-                                )}
-                             
+                              )}
                             </Col>
                           </Row>
                           <div>
@@ -253,7 +254,7 @@ class Register extends Component {
                               Create Account
                             </button>
 
-                            <p className= "custom-link mt-3">
+                            <p className="custom-link mt-3">
                               Already have an account?{" "}
                               <Link to="/login" className="mx-2">
                                 {" "}

@@ -8,11 +8,7 @@ import { withRouter, Link } from "react-router-dom";
 
 // actions
 import { checkLogin, apiError } from "../../store/actions";
-
-import fb from "../../assets/images/fb-btn.svg";
-import google from "../../assets/images/google-btn.svg";
-import side from "../../assets/images/side-img2.svg";
-import Logo from "../../assets/images/logo-vaccay.png";
+import Logo from "../../assets/images/logo-vaccay.svg";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -67,18 +63,24 @@ class Login extends Component {
                   <div className="div">
                     <div className="content-section mt-5 pt-5">
                       <div className="d-flex gap-2 flex-wrap align-items-center">
-                      <Link to="/home" className="mx-2">
-                      <img
-                          src={Logo}
-                          className="img-fluid"
-                          alt="vaccay-logo"
-                        />
-                      </Link>
-                        
+                        <Link to="/home" className="mx-2">
+                          <img
+                            src={Logo}
+                            className="img-fluid"
+                            alt="vaccay-logo"
+                          />
+                        </Link>
                       </div>
                       <p>Optimize your time off</p>
                     </div>
-                    <img src={side} className="img-fluid" alt="" />
+                    <lottie-player
+                      className="side-img"
+                      src="https://lottie.host/063c8109-dcfe-4653-af8d-4a660ab64413/md0nTOGoY3.json"
+                      background="transparent"
+                      speed="1"
+                      loop
+                      autoplay
+                    ></lottie-player>
                   </div>
                 </div>
                 <div className="col-lg-8  col-md-7 p-0">
