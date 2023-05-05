@@ -574,4 +574,8 @@
   .mobile-logo {
     padding-top: 20px;
   }
+
+  .landing-container {
+    min-height: 56rem;
+  }
 }
