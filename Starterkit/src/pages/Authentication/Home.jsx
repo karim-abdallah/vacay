@@ -1,14 +1,13 @@
 import React from "react";
 import { Container } from "reactstrap";
 import Logo from "../../assets/images/logo-vaccay.svg";
-import SideImg2 from "../../assets/images/side-img2.svg";
-import Calendar1 from "../../assets/images/calendar_vac1.png";
-import Cal02 from "../../assets/images/cal02.png";
+import Calendar1 from "../../assets/images/calendar_vac1.svg";
+import Cal02 from "../../assets/images/cal02.svg";
 import Calender3 from "../../assets/images/calender3.svg";
 import SmallEarnings from "../../assets/images/Small_Earnings.svg";
 import { useState, useEffect } from "react";
 // Redux
-import { withRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { post } from "../../helpers/api_helper";
 
 const Header = ({ isMobile, onGetStartedClick }) => {
@@ -18,7 +17,9 @@ const Header = ({ isMobile, onGetStartedClick }) => {
         {isMobile ? (
           <>
             <div className="col-3 ">
-              <img src={Logo} alt="vacay" />
+              <Link to="/home" className="mx-2">
+                <img src={Logo} alt="vacay" className="logo" />
+              </Link>
             </div>
             <div className="col-5 offset-md-4">
               <button className="signup-btn" onClick={onGetStartedClick}>
@@ -59,7 +60,7 @@ const GetStarted = () => {
   const [isSubmit, setSubmit] = useState(false);
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  // const [isSubscribed, setIsSubscribed] = useState(false);
+
   const handleRemindMeScreen = () => {
     setRemindMe(false);
   };
@@ -92,7 +93,9 @@ const GetStarted = () => {
 
   return (
     <div className="getstart-container">
-      <img src={Logo} alt="vacay" />
+      <Link to="/homes" className="mx-2">
+        <img src={Logo} alt="vacay" className="logo" />
+      </Link>
       <hr className="hr-for-header" />
 
       {isSubmit ? (
@@ -142,15 +145,14 @@ const GetStarted = () => {
         </>
       )}
       <div className="col-md-5 col-12 ">
-        {/* <img src={SideImg2} alt="side-img" className="side-img mb-screen" /> */}
         <lottie-player
-            className="side-img"
-            src="https://lottie.host/063c8109-dcfe-4653-af8d-4a660ab64413/md0nTOGoY3.json"
-            background="transparent"
-            speed="1"
-            loop
-            autoplay
-          ></lottie-player>
+          className="side-img"
+          src="https://lottie.host/063c8109-dcfe-4653-af8d-4a660ab64413/md0nTOGoY3.json"
+          background="transparent"
+          speed="1"
+          loop
+          autoplay
+        ></lottie-player>
       </div>
     </div>
   );
@@ -262,7 +264,7 @@ const Planner = ({ isMobile, onGetStartedClick }) => {
       <div className="signup-btn-container">
         {isMobile ? (
           <button className="signup-btn" onClick={onGetStartedClick}>
-           Sign Up
+            Sign Up
           </button>
         ) : (
           <Link to="/register">
@@ -311,7 +313,9 @@ const Footer = () => {
     <div className="footer-container">
       <hr className="hr-for-header" />
 
-      <img src={Logo} alt="vacay" />
+      <Link to="/homes" className="mx-2">
+        <img src={Logo} alt="vacay" className="logo" />
+      </Link>
       <div className="footer-section">
         <form onSubmit={handleFormSubmit}>
           <div className="form-group footer-input">

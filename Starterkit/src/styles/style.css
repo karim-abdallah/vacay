@@ -227,10 +227,12 @@
   border-radius: 16px !important;
   color: #2B3674 !important;
 }
-.pwd-chng-btn{
+
+.pwd-chng-btn {
   display: flex;
   justify-content: center;
 }
+
 .save-profile {
   width: 250px;
   height: 46.29px;
@@ -264,15 +266,17 @@
 .image-label:hover .edit-icon {
   display: block;
 }
-.image-label{
+
+.image-label {
   height: 10px;
 }
+
 .edit-icon {
   transition: opacity 0.2s ease-in-out;
   display: none;
-  position: relative; 
-  bottom:85px !important;
-  left: 75px !important; 
+  position: relative;
+  bottom: 85px !important;
+  left: 75px !important;
 }
 
 /* --------------------Landing Container------------------------ */
@@ -290,41 +294,13 @@
   min-width: 150px;
   padding: 0px 20px;
   height: 52px;
-  color:  #384077;
+  color: #384077;
   border: none;
   background: #F4F7FE;
   border-radius: 50px;
   font-family: 'Poppins';
   font-weight: 700;
   font-size: 18px;
-}
-@media screen and (max-width: 768px) {
-  .landing-container {
-    padding: 0px 10px;
-    align-items: center;
-    background-color: #384077;
-  }
-  .main-heading{
-    font-size: 40px;
-  }
-  .side-img {
-    width: 100%;
-    position: relative;
-    bottom: 0px !important;
-  }
-  .footer-input {
-    margin-right: 10px;
-    display: flex;
-    justify-content: center;
-    width: 350px !important;
-  }
-  .planner-heading{
-    font-size: 42px !important;
-    text-align: left!important;
-  }
-  .planner-boxes{
-    padding: 20px;
-  }
 }
 
 .login-btn {
@@ -378,16 +354,16 @@
 
 .banner-content {
   margin: 90px 0px;
-
 }
 
 
 .get-start-btn {
   text-align: center;
 }
+
 .get-start-btn2 {
- margin: 20% 0%;
- text-align: center;
+  margin: 20% 0%;
+  text-align: center;
 }
 
 /* --------------------Planner Section------------------------ */
@@ -403,19 +379,20 @@
   margin-bottom: 6%;
   color: #F4F7FE;
 }
-.planner-heading-color{
-  color:#969bba;
+
+.planner-heading-color {
+  color: #969bba;
 }
 
 .screens {
-  margin:12px;
+  margin: 12px;
   border-radius: 30px;
   padding: 50px 30px !important;
 }
 
 .sc-1 {
   background-color: #F9E5A1;
-  
+
 }
 
 .sc-2 {
@@ -433,10 +410,12 @@
   font-weight: bold;
   line-height: 30px;
 }
+
 .box-sub-heading {
   line-height: 30px;
   font-size: 20px;
 }
+
 .planner-img {
   width: 100%;
   position: relative;
@@ -453,7 +432,6 @@
   margin-top: 115px;
   position: relative;
   top: 59px;
-
 }
 
 /* --------------------Footer Section------------------------ */
@@ -508,10 +486,11 @@
   justify-content: center;
   letter-spacing: 0.02em;
   color: #FFFFFF;
-  margin: 15% 0%!important;
+  margin: 15% 0% !important;
 
 }
-.mb-screen{
+
+.mb-screen {
   margin-bottom: 30%;
 }
 
@@ -536,4 +515,59 @@
 
 .routeme {
   color: white;
+}
+
+@media screen and (max-width: 768px) {
+  .landing-container {
+    padding: 0px 10px;
+    align-items: center;
+    background-color: #384077;
+  }
+
+  .main-heading {
+    font-size: 40px;
+  }
+
+  .side-img {
+    width: 100%;
+    position: relative;
+    bottom: 0px !important;
+  }
+
+  .footer-input {
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    width: 350px !important;
+  }
+
+  .planner-heading {
+    font-size: 42px !important;
+    text-align: left !important;
+  }
+
+  .planner-boxes {
+    padding: 20px;
+  }
+
+  .planner-sc3-image {
+    top: 37px !important;
+  }
+
+  .signup-btn {
+    max-width: 143px;
+    min-width: 122px;
+    padding: 0px 25px;
+    height: 50px;
+    font-size: 14px;
+  }
+
+  .logo {
+    width: 200px;
+  }
+
+  .main-heading {
+    font-size: 40px !important;
+    line-height: 55px;
+  }
 }
