@@ -570,4 +570,8 @@
     font-size: 40px !important;
     line-height: 55px;
   }
+
+  .mobile-logo {
+    padding-top: 20px;
+  }
 }

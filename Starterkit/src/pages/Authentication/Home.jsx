@@ -12,8 +12,8 @@ import { post } from "../../helpers/api_helper";
 
 const Header = ({ isMobile, onGetStartedClick }) => {
   return (
-    <div className="container">
-      <div className="row justify-content-between">
+    <section>
+      <div className="row justify-content-between mobile-logo">
         {isMobile ? (
           <>
             <div className="col-3 ">
@@ -51,7 +51,7 @@ const Header = ({ isMobile, onGetStartedClick }) => {
         )}
       </div>
       <hr className="hr-for-header" />
-    </div>
+    </section>
   );
 };
 
