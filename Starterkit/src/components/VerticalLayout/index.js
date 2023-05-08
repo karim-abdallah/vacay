@@ -11,6 +11,10 @@ import {
   changeLayoutWidth,
 } from "../../store/actions";
 import { pageTitle } from "../../constants";
+import logout from "../../assets/images/logout.png";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { cardHoverColor } from "../../styles/constants";
 
 // Layout Related Components
 import Sidebar from "./Sidebar";
@@ -105,6 +109,15 @@ class Layout extends Component {
             isMobile={this.state.isMobile}
           />
           <div className="main-content">
+           
+
+            <Link to="/logout">
+            {" "}     <LogOutButton >
+
+              <LogoutIcon src={logout} />
+            </LogOutButton>
+            </Link>{" "}
+            
             {this.props.children}
             <Footer />
           </div>
@@ -127,3 +140,25 @@ export default connect(mapStatetoProps, {
   changeTopbarTheme,
   changeLayoutWidth,
 })(withRouter(Layout));
+
+const LogoutIcon = styled.img`
+  height: 17px;
+`;
+
+const LogOutButton = styled.button`
+  margin-top: 20px;
+  margin-right: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  float: right;
+  background-color: #ffffff;
+  height: 40px;
+  width: 40px;
+  margin-left:5px;
+  border-width: 0px;
+  border-radius: 13px;
+  position: relative;
+  bottom: 8px;
+  &:hover {
+    background-color: ${props => !props.showpointer && cardHoverColor};
+  }
+`;

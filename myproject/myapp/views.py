@@ -1,15 +1,20 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-from .serializers import TimeOffSettingSerializer, UserSerializer
+from .serializers import (
+    SubscriptionsSerializer,
+    UserSerializer,
+    TimeOffSettingSerializer,
+)
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
-from .models import TimeOffSetting, User
+from .models import *
 import jwt
 import datetime
 from .utils import (
     send_forget_password_email,
     send_register_user_email,
     generate_presigned_url,
+    check_or_create_username,
 )
 from rest_framework import status
 
@@ -26,7 +31,11 @@ from rest_framework import status
 
 class RegisterView(APIView):
     def post(self, request):
+
         data = request.data
+        username = check_or_create_username(data["email"])
+        data["username"] = username
+
         serializer = UserSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -124,7 +133,7 @@ class ForgotPasswordView(APIView):
         token = jwt.encode(payload, "secret", algorithm="HS256")
 
         # Create password reset URL
-        reset_password_link = f"http://localhost:3000/reset-password/{token}"
+        reset_password_link = f"https://vacay.live/reset-password/{token}"
 
         send_forget_password_email(email, reset_password_link)
 
@@ -332,3 +341,16 @@ class TimeOffSettingList(APIView):
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SubscribeView(APIView):
+    def post(self, request):
+        data = request.data
+        email = data["email"]
+        Subscriptions.objects.create(email=email)
+        return Response({"detail": "Subscribed successfully"})
+
+    def get(self, request):
+        subscriptions = Subscriptions.objects.all()
+        serializer = SubscriptionsSerializer(subscriptions, many=True)
+        return Response(serializer.data)

@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 class User(AbstractUser):
@@ -16,6 +18,12 @@ class User(AbstractUser):
         "last_name",
         "username",
     ]  # this is used to make the username field as the required field
+
+class Subscriptions(models.Model):      
+    email = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.email
 
 
 class TimeOffSetting(models.Model):

@@ -17,7 +17,13 @@ import {
   changeSidebarType,
   changePreloader,
 } from "../../store/actions";
-import logo from "../../assets/images/logo.png";
+// import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/logo_homepage.svg";
+import homeIcon from "../../assets/images/home.svg";
+import profileIcon from "../../assets/images/profile.svg";
+import highFiveIcon from "../../assets/images/high_five.svg";
+import planeIcon from "../../assets/images/plane.svg";
+
 
 class SidebarContent extends Component {
   componentDidMount() {
@@ -88,33 +94,34 @@ class SidebarContent extends Component {
             </Link>
             <li>
               {
-                <Link to="/dashboard" className="waves-effect">
-                  <i className="ri-home-4-fill side-icon"></i>
-                  <span className="ms-1">{this.props.t("Dashboard")}</span>
+                <Link to="/dashboard">
+                  
+                  <img src={homeIcon} alt="" height="16" className="side-icon"/>
+                  <span className="sidebar-label" >{this.props.t(" Home")}</span>
                 </Link>
               }
             </li>
             <li>
               {
-                <Link to="/profile" className="waves-effect">
-                  <i className="ri-user-3-fill side-icon"></i>
-                  <span className="ms-1">{this.props.t("Profile")}</span>
+                <Link to="/profile">
+                  <img src={profileIcon} alt="" height="16" className="side-icon" />
+                  <span className="sidebar-label">{this.props.t(" Profile")}</span>
                 </Link>
               }
             </li>
             <li>
               {
-                <Link to="/dashboard" className="waves-effect">
-                  <i className="ri-links-fill side-icon"></i>
-                  <span className="ms-1">{this.props.t("Plan With Friends")}</span>
+                <Link to="/dashboard">
+                 <img src={highFiveIcon} alt="" height="18"  className="side-icon"/>
+                  <span className="sidebar-label">{this.props.t("Plan With Friends")}</span>
                 </Link>
               }
             </li>
             <li>
               {
-                <Link to="/dashboard" className="waves-effect">
-                  <i className="ri-plane-line side-icon"></i>
-                  <span className="ms-1">{this.props.t("Deals - coming soon")}</span>
+                <Link to="/dashboard">
+                  <img src={planeIcon} alt="" height="18" className="side-icon"/>
+                  <span className="sidebar-label" >{this.props.t(" Deals - coming soon")}</span>
                 </Link>
               }
             </li>

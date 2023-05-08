@@ -131,12 +131,6 @@ const TimeOffSettings = () => {
     <>
       {!expandedSettings ? (
         <div>
-          <Link to="/logout" className="mx-2">
-            {' '}
-            <LogOutButton>
-              <LogoutIcon src={logout} />
-            </LogOutButton>
-          </Link>{' '}
           <TimeOffSettingsButton onClick={handleExpandSettings}>
             Time Off Settings <SmallTimeOffSettingsIcon src={settings} />
           </TimeOffSettingsButton>
@@ -232,22 +226,6 @@ const TimeOffSettingsButton = styled.button`
   background-color: #ffffff;
   height: 40px;
   width: 180px;
-  border-width: 0px;
-  border-radius: 13px;
-  position: relative;
-  bottom: 8px;
-  &:hover {
-    background-color: ${props => !props.showpointer && cardHoverColor};
-  }
-`;
-
-const LogOutButton = styled.button`
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  float: right;
-  background-color: #ffffff;
-  height: 40px;
-  width: 40px;
-  margin-left: 5px;
   border-width: 0px;
   border-radius: 13px;
   position: relative;

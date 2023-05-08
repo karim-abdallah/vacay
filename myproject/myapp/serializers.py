@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import TimeOffSetting, User
+from .models import TimeOffSetting, User, Subscriptions
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -66,3 +66,9 @@ class TimeOffSettingSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class SubscriptionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscriptions
+        fields = "__all__"

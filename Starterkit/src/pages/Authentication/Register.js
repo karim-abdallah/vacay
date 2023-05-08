@@ -17,6 +17,7 @@ import fb from '../../assets/images/fb-btn.svg';
 import google from '../../assets/images/google-btn.svg';
 import umrallah from '../../assets/images/umrallah.svg';
 import side from '../../assets/images/side-img.svg';
+import Logo from '../../assets/images/logo-vaccay.svg';
 
 class Register extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class Register extends Component {
     let obj = {
       first_name: this.state.firstName,
       last_name: this.state.lastName,
-      username: this.state.username,
+      username: 'user',
       email: this.state.email,
       password: this.state.password,
     };
@@ -63,16 +64,21 @@ class Register extends Component {
     });
   };
 
-  handleUsernameChange = e => {
-    this.setState({
-      username: e.target.value,
-    });
-  };
-
   handlePasswordChange = e => {
-    this.setState({
-      password: e.target.value,
-    });
+    if (e.target.value.length >= 8 && e.target.value.length <= 20) {
+      this.setState({
+        password: e.target.value,
+        passwordError: null,
+        isPasswordValid: true,
+      });
+    } else {
+      this.setState({
+        password: e.target.value,
+        passwordError:
+          'Password must be between 8 and 20 characters. Please choose another',
+        isPasswordValid: false,
+      });
+    }
   };
 
   handleFirstNameChange = e => {
@@ -97,12 +103,24 @@ class Register extends Component {
                 <div className="div">
                   <div className="content-section mt-5 pt-5">
                     <div className="d-flex gap-2 flex-wrap align-items-center">
-                      <h2>VACAY</h2>
-                      <img src={umrallah} className="img-fluid" alt="" />
+                      <Link to="/home" className="mx-2">
+                        <img
+                          src={Logo}
+                          className="img-fluid"
+                          alt="vaccay-logo"
+                        />
+                      </Link>
                     </div>
                     <p>Optimize your time off</p>
                   </div>
-                  <img src={side} className="img-fluid" alt="" />
+                  <lottie-player
+                    className="side-img"
+                    src="https://lottie.host/063c8109-dcfe-4653-af8d-4a660ab64413/md0nTOGoY3.json"
+                    background="transparent"
+                    speed="1"
+                    loop
+                    autoplay
+                  ></lottie-player>
                 </div>
               </div>
               <div className="col-lg-8 col-md-7 p-0">
@@ -110,36 +128,6 @@ class Register extends Component {
                   <div>
                     <div className="container md:px-3 px-md-5">
                       <h3 className="mb-4">Create Account</h3>
-                      <div className="row">
-                        <div className="col-lg-6 col-12">
-                          <Link
-                            to="/"
-                            className="text-decoration-none social-btn px-2 mt-2 px-md-3 py-2 d-flex gap-3 flex-wrap align-items-center"
-                          >
-                            <img
-                              src={google}
-                              width={30}
-                              className="img-fluid"
-                              alt=""
-                            />
-                            <p>Sign up with Google</p>
-                          </Link>
-                        </div>
-                        <div className="col-lg-6 col-12 lg:my-0 my-2">
-                          <Link
-                            to="/"
-                            className="text-decoration-none social-btn px-2 px-md-3 -mt-4 py-2 d-flex gap-3 flex-wrap align-items-center"
-                          >
-                            <img
-                              src={fb}
-                              width={30}
-                              className="img-fluid"
-                              alt=""
-                            />
-                            <p>Sign up with Facebook </p>
-                          </Link>
-                        </div>
-                      </div>
                       <form onSubmit={this.handleSubmit}>
                         {this.props.registrationError
                           ? this.props.registrationError
@@ -154,7 +142,7 @@ class Register extends Component {
                               type="text"
                               autoComplete="current-lastName"
                               variant="standard"
-                              className="py-2 w-100 border-bottom border-0"
+                              className=" w-100 py-2 handle-border"
                             />
                           </Col>
                           <Col>
@@ -167,7 +155,7 @@ class Register extends Component {
                               type="text"
                               autoComplete="current-firstName"
                               variant="standard"
-                              className="py-2 w-100 border-bottom border-0"
+                              className="py-2 w-100 handle-border"
                             />
                           </Col>
                         </Row>
@@ -182,11 +170,11 @@ class Register extends Component {
                               type="email"
                               autoComplete="current-email"
                               variant="standard"
-                              className="py-2 w-100 border-bottom border-0"
+                              className="py-2 w-100 handle-border"
                             />
                           </Col>
 
-                          <Col>
+                          {/* <Col>
                             <input
                               value={this.state.username}
                               onChange={this.handleUsernameChange}
@@ -196,9 +184,9 @@ class Register extends Component {
                               type="text"
                               autoComplete="current-username"
                               variant="standard"
-                              className="py-2 w-100 border-bottom border-0"
+                              className="py-2 w-100 handle-border"
                             />
-                          </Col>
+                          </Col> */}
 
                           <Row className="my-5">
                             <Col>
@@ -214,10 +202,16 @@ class Register extends Component {
                                   }
                                   value={this.state.password}
                                   onChange={this.handlePasswordChange}
-                                  className=" w-100 border-bottom border-0"
+                                  className={
+                                    'w-100 handle-border ' +
+                                    (this.state.passwordError
+                                      ? 'is-invalid'
+                                      : '')
+                                  }
                                   id="standard-adornment-password1"
                                   placeholder="Password"
                                 />
+
                                 <div onClick={this.handleShowPasswordToggle}>
                                   {this.state.showPassword ? (
                                     <div>
@@ -249,12 +243,18 @@ class Register extends Component {
                                   )}
                                 </div>
                               </div>
+                              {this.state.passwordError && (
+                                <div className="invalid-password pt-2">
+                                  {this.state.passwordError}
+                                </div>
+                              )}
                             </Col>
                           </Row>
                           <div>
                             <button
                               type="submit"
                               className=" btn btn-submit w-100 mt-5"
+                              disabled={!this.state.isPasswordValid}
                             >
                               Create Account
                             </button>
@@ -263,7 +263,7 @@ class Register extends Component {
                               Already have an account?{' '}
                               <Link to="/login" className="mx-2">
                                 {' '}
-                                Log in
+                                <p className="forget">Log in</p>
                               </Link>{' '}
                             </p>
                           </div>

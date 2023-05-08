@@ -9,6 +9,8 @@ if (ENV === 'development') {
   API_URL = 'http://localhost:8000/api';
 }
 
+// API_URL = 'http://localhost:8000/api'
+
 axios.defaults.withCredentials = true;
 
 const axiosApi = axios.create({

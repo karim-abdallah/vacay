@@ -3,25 +3,22 @@ import { Row, Col } from "reactstrap";
 
 // Redux
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 // action
 import { resetUser, userResetPasswordError } from "../../store/actions";
 
-
-import umrallah from "../../assets/images/umrallah.svg";
-import side from "../../assets/images/side-img.svg";
+import Logo from "../../assets/images/logo-vaccay.svg";
 
 class ResetPwd extends Component {
   constructor(props) {
-
     super(props);
     this.state = {
       token: props.match.params.token,
-      password: '',
-      confirmPassword: '',
+      password: "",
+      confirmPassword: "",
       showPassword: false,
-      showConfirmPassword: false
+      showConfirmPassword: false,
     };
 
     // handleValidSubmit
@@ -56,11 +53,10 @@ class ResetPwd extends Component {
   handleValidSubmit(event, values) {
     event.preventDefault();
     if (this.state.password === this.state.confirmPassword) {
-      let obj = { token: this.state.token, password: this.state.password }
+      let obj = { token: this.state.token, password: this.state.password };
       this.props.resetUser(obj, this.props.history);
-    }
-    else {
-      this.props.userResetPasswordError('Password is not match')
+    } else {
+      this.props.userResetPasswordError("Password is not match");
     }
   }
 
@@ -75,12 +71,24 @@ class ResetPwd extends Component {
                   <div className="div">
                     <div className="content-section mt-5 pt-5">
                       <div className="d-flex gap-2 flex-wrap align-items-center">
-                        <h2>VACAY</h2>
-                        <img src={umrallah} className="img-fluid" alt="" />
+                        <Link to="/home" className="mx-2">
+                          <img
+                            src={Logo}
+                            className="img-fluid"
+                            alt="vaccay-logo"
+                          />
+                        </Link>
                       </div>
                       <p>Optimize your time off</p>
                     </div>
-                    <img src={side} className="img-fluid" alt="" />
+                    <lottie-player
+                      className="side-img"
+                      src="https://lottie.host/063c8109-dcfe-4653-af8d-4a660ab64413/md0nTOGoY3.json"
+                      background="transparent"
+                      speed="1"
+                      loop
+                      autoplay
+                    ></lottie-player>
                   </div>
                 </div>
                 <div className="col-lg-8  col-md-7 p-0">
@@ -88,7 +96,8 @@ class ResetPwd extends Component {
                     <div>
                       <div className="container md:px-3 px-md-5">
                         <p>
-                          Enter new password and confirm password to reset your password and login
+                          Enter new password and confirm password to reset your
+                          password and login
                         </p>
                         <form onSubmit={this.handleValidSubmit}>
                           <Row className="my-5">
@@ -121,7 +130,14 @@ class ResetPwd extends Component {
                                     variant="standard"
                                     style={{ borderRadius: "4px" }}
                                   />
-                                  <div onClick={this.handleShowPasswordToggle} style={{ position: "relative", right: 30, top: 10 }}>
+                                  <div
+                                    onClick={this.handleShowPasswordToggle}
+                                    style={{
+                                      position: "relative",
+                                      right: 30,
+                                      top: 10,
+                                    }}
+                                  >
                                     {this.state.showPassword ? (
                                       <div>
                                         <svg
@@ -169,14 +185,21 @@ class ResetPwd extends Component {
                                     }
                                     value={this.state.confirmPasswor}
                                     onChange={this.handleConfirmPasswordChange}
-
                                     className=" w-100 py-2"
                                     id="standard-adornment-password1"
                                     variant="standard"
-
                                     style={{ borderRadius: "4px" }}
                                   />
-                                  <div onClick={this.handleShowConfirmPasswordToggle} style={{ position: "relative", right: 30, top: 10 }}>
+                                  <div
+                                    onClick={
+                                      this.handleShowConfirmPasswordToggle
+                                    }
+                                    style={{
+                                      position: "relative",
+                                      right: 30,
+                                      top: 10,
+                                    }}
+                                  >
                                     {this.state.showConfirmPassword ? (
                                       <div>
                                         <svg
@@ -208,7 +231,6 @@ class ResetPwd extends Component {
                                   </div>
                                 </div>
                               </Col>
-
                             </div>
 
                             <div>

@@ -10,9 +10,6 @@ if (process.env.NODE_ENV === 'development') {
   axios.defaults.baseURL = 'https://backend.vacay.live/api';
 }
 
-console.log(process.env);
-console.log(axios.defaults.baseURL);
-
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
   const user = localStorage.getItem('authUser');
