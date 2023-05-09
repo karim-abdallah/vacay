@@ -1,18 +1,18 @@
-import { Card, CardBody } from "reactstrap";
-import { useDispatch } from "react-redux";
-import { Form, InputNumber, Checkbox, Tooltip } from "antd";
-import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { useState } from "react";
-import { getPTOSettings, getHolidays } from "../../store/dashboard/selector";
-import { tooltipBackground, cardHoverColor } from "../../styles/constants";
-import { minSettingsValueDays, maxSettingsValueDays } from "../../constants";
-import { TimeOffSettingsInstructions } from "./instructionText";
-import minimize from "../../assets/images/minimize.png";
-import settings from "../../assets/images/settings.png";
-import logout from "../../assets/images/logout.png";
-import { Link } from "react-router-dom";
-
+import { Card, CardBody } from 'reactstrap';
+import { useDispatch } from 'react-redux';
+import { Form, InputNumber, Checkbox, Tooltip } from 'antd';
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { getPTOSettings, getHolidays } from '../../store/dashboard/selector';
+import { tooltipBackground, cardHoverColor } from '../../styles/constants';
+import { minSettingsValueDays, maxSettingsValueDays } from '../../constants';
+import { TimeOffSettingsInstructions } from './instructionText';
+import minimize from '../../assets/images/minimize.png';
+import settings from '../../assets/images/settings.png';
+import logout from '../../assets/images/logout.png';
+import { Link } from 'react-router-dom';
+import { put } from '../../helpers/api_helper';
 
 function HolidayCheckbox(props) {
   return (
@@ -38,7 +38,7 @@ const HolidaysPane = () => {
   });
 
   const checkboxHandler = checkedValues => {
-    dispatch({ type: "holidays/update", payload: checkedValues });
+    dispatch({ type: 'holidays/update', payload: checkedValues });
   };
 
   return (
@@ -71,18 +71,27 @@ const OptionPaneWithForm = () => {
   const settings = useSelector(getPTOSettings);
 
   const fields = [
-    { name: "ptoAllowance", value: settings.PTOSettings.annualAllowanceDays },
-    { name: "ptoBalance", value: settings.PTOSettings.currentBalanceDays }
+    { name: 'ptoAllowance', value: settings.PTOSettings.annualAllowanceDays },
+    { name: 'ptoBalance', value: settings.PTOSettings.currentBalanceDays },
   ];
 
+  const updateSettings = async allValues => {
+    const payload = {
+      annual_allowance_days: allValues.ptoAllowance,
+      current_balance_days: allValues.ptoBalance,
+    };
+    let data = await put('/time-off-settings', payload);
+  };
+
   const updateSettingsHandler = (_, allValues) => {
-    dispatch({ type: "settings/update", payload: allValues });
+    updateSettings(allValues);
+    dispatch({ type: 'settings/update', payload: allValues });
   };
 
   return (
     <OptionsPaneContainer>
       <SettingsSubheader>
-        Your settings{" "}
+        Your settings{' '}
         <StyledInfoTooltip
           title={TimeOffSettingsInstructions()}
           arrow
@@ -118,12 +127,10 @@ const TimeOffSettings = () => {
     setExpandedSettings(!expandedSettings);
   };
 
-  
-
   return (
-    <> 
+    <>
       {!expandedSettings ? (
-        <div>        
+        <div>
           <TimeOffSettingsButton onClick={handleExpandSettings}>
             <SmallTimeOffSettingsIcon src={settings} />
           </TimeOffSettingsButton>
@@ -138,7 +145,7 @@ const TimeOffSettings = () => {
                   <SmallTimeOffSettingsIcon src={settings} />
                 </TimeOffSettingsHeader>
                 <MinimizeButton onClick={handleExpandSettings}>
-                  Minimize{" "}
+                  Minimize{' '}
                   <StyledMinimizeIcon src={minimize} alt="x" height="15" />
                 </MinimizeButton>
               </div>
@@ -227,8 +234,6 @@ const TimeOffSettingsButton = styled.button`
     background-color: ${props => !props.showpointer && cardHoverColor};
   }
 `;
-
-
 
 const MinimizeButton = styled.button`
   float: right;

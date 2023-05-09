@@ -1,28 +1,24 @@
-import { mockApiResponse } from "../../mocks/dashboardSummary.mock";
-import { isSameDay } from "../../helpers/vacay_helpers";
+import { mockApiResponse } from '../../mocks/dashboardSummary.mock';
+import { isSameDay } from '../../helpers/vacay_helpers';
 
 const INIT_STATE = {
   currentMonth: mockApiResponse.currentMonth,
   bookedPTO: mockApiResponse.bookedPTO,
   holidays: mockApiResponse.holidays,
-  PTOSettings: {
-    annualAllowanceDays: mockApiResponse.PTOSettings.annualAllowanceDays,
-    accrualCapDays: mockApiResponse.PTOSettings.accrualCapDays,
-    currentBalanceDays: mockApiResponse.PTOSettings.currentBalanceDays
-  },
+  PTOSettings: {},
   selectedDates: [],
   datesToUnbook: [],
-  negativeBalanceMonths: []
+  negativeBalanceMonths: [],
 };
 
 const Dashboard = (state = INIT_STATE, action) => {
   switch (action.type) {
-    case "currentMonth/update":
+    case 'currentMonth/update':
       return {
         ...state,
-        currentMonth: action.payload
+        currentMonth: action.payload,
       };
-    case "bookedPTO/add":
+    case 'bookedPTO/add':
       // de-dupe additions
       const dedupedDates = action.payload.filter(
         x =>
@@ -34,53 +30,53 @@ const Dashboard = (state = INIT_STATE, action) => {
       return {
         ...state,
         bookedPTO: {
-          dates: state.bookedPTO.dates.concat(dedupedDates)
-        }
+          dates: state.bookedPTO.dates.concat(dedupedDates),
+        },
       };
-    case "bookedPTO/delete":
+    case 'bookedPTO/delete':
       return {
         ...state,
         bookedPTO: {
           dates: state.bookedPTO.dates.filter(
             x => !isSameDay(x, action.payload)
-          )
-        }
+          ),
+        },
       };
-    case "selectedDates/add":
+    case 'selectedDates/add':
       return {
         ...state,
-        selectedDates: [...state.selectedDates, action.payload]
+        selectedDates: [...state.selectedDates, action.payload],
       };
-    case "selectedDates/delete":
+    case 'selectedDates/delete':
       return {
         ...state,
         selectedDates: state.selectedDates.filter(
           x => !isSameDay(x, action.payload)
-        )
+        ),
       };
-    case "datesToUnbook/add":
+    case 'datesToUnbook/add':
       return {
         ...state,
-        datesToUnbook: [...state.datesToUnbook, action.payload]
+        datesToUnbook: [...state.datesToUnbook, action.payload],
       };
 
-    case "datesToUnbook/delete":
+    case 'datesToUnbook/delete':
       return {
         ...state,
         datesToUnbook: state.datesToUnbook.filter(
           x => !isSameDay(x, action.payload)
-        )
+        ),
       };
-    case "settings/update":
+    case 'settings/update':
       return {
         ...state,
         PTOSettings: {
           annualAllowanceDays: action.payload.ptoAllowance,
           accrualCapDays: action.payload.ptoCap,
-          currentBalanceDays: action.payload.ptoBalance
-        }
+          currentBalanceDays: action.payload.ptoBalance,
+        },
       };
-    case "holidays/update":
+    case 'holidays/update':
       // Takes in list of active holidays by name. Ex:
       // ['Labor Day', 'New Year's Day']
 
@@ -93,13 +89,13 @@ const Dashboard = (state = INIT_STATE, action) => {
             x.active = false;
           }
           return x;
-        })
+        }),
       };
 
-    case "negativeBalanceMonths/update":
+    case 'negativeBalanceMonths/update':
       return {
         ...state,
-        negativeBalanceMonths: [...action.payload]
+        negativeBalanceMonths: [...action.payload],
       };
 
     default:
