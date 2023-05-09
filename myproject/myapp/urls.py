@@ -18,5 +18,5 @@ urlpatterns = [
         "time-off-settings",
         TimeOffSettingList.as_view(),
         name="time-off-setting-detail",
-    ),
+    )
 ]

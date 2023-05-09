@@ -21,8 +21,9 @@ const VaccyOnBoarding = ({ moveToNextStep }) => {
     </div>
   );
 };
-const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy}) => {
-  const [policyType, setPolicyType] = useState("Accrual");
+const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy }) => {
+  
+  const [policyType, setPolicyType] = useState();
   
   const handleAccrual = () => {
     setPolicyType("Accrual");
@@ -32,12 +33,12 @@ const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy}) => {
     setPolicyType("Unlimited");
     setTimeOffPolicy("Unlimited");
   };
+
   const getBorderStyle = (cardType) => {
-    
     if (cardType === policyType) {
-      return { border: "1px solid #384077",cursor: "pointer" };
+      return "card-active";
     } else {
-      return {cursor: "pointer"};
+      return "card-inactive";
     }
   };
   return (
@@ -46,7 +47,7 @@ const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy}) => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-sm-4" style={{ padding: "20px" }}>
-            <Card onClick={handleAccrual} style={getBorderStyle("Accrual")}>
+            <Card onClick={handleAccrual} className={getBorderStyle("Accrual")}>
               <CardBody>
                 <h5 className="onboarding-card-title">Accrual</h5>
                 <p className="onboarding-card-text">
@@ -60,7 +61,10 @@ const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy}) => {
             </Card>
           </div>
           <div className="col-sm-4" style={{ padding: "25px" }}>
-            <Card onClick={handleUnlimited} style={getBorderStyle("Unlimited")}>
+            <Card
+              onClick={handleUnlimited}
+              className={getBorderStyle("Unlimited")}
+            >
               <CardBody>
                 <h5 className="onboarding-card-title">Unlimited</h5>
                 <p className="onboarding-card-text">
@@ -82,6 +86,19 @@ const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy}) => {
   );
 };
 const TimeOffFigure = ({ moveToNextStep }) => {
+  const [annualAllowance, setAnnualAllowance] = useState(15);
+  const [annualCap, setAnnualCap] = useState(24);
+  const [currentBalance, setCurrentBalance] = useState(7);
+
+  const handleAnnualAllowance = (e) => {
+    setAnnualAllowance(e.target.value);
+  };
+  const handleAnnualCap = (e) => {
+    setAnnualCap(e.target.value);
+  };
+  const handleCurrentBalance = (e) => {
+    setCurrentBalance(e.target.value);
+  };
   const timeOffFigureStyle = {
     "card-input": {
       width: "50%",
@@ -97,13 +114,13 @@ const TimeOffFigure = ({ moveToNextStep }) => {
   return (
     <div>
       <h1 className="onboarding-heading">Input your time off figures</h1>
-      <h5>
+      <h5 className="onboarding-subheading">
         You can change your time off settings at anytime through the top menu.
       </h5>
       <div className="container">
         <div className="row">
           <div className="col-sm-4" style={{ padding: "20px" }}>
-            <Card className="ml-4 text-center">
+            <Card className="ml-4 text-center onboarding-cards">
               <CardBody>
                 <h5 className="onboarding-card-title">Annual Allowance</h5>
                 <p className="onboarding-card-text">
@@ -114,15 +131,17 @@ const TimeOffFigure = ({ moveToNextStep }) => {
                     style={timeOffFigureStyle["card-input"]}
                     type="number"
                     name="number"
-                    id="exampleNumber"
+                    id="annualAllowance"
                     placeholder="15 days"
+                    value={annualAllowance}
+                    onChange={handleAnnualAllowance}
                   />
                 </div>
               </CardBody>
             </Card>
           </div>
           <div className="col-sm-4" style={{ padding: "20px" }}>
-            <Card>
+            <Card className="onboarding-cards">
               <CardBody>
                 <h5 className="onboarding-card-title">Annual Cap</h5>
                 <p className="onboarding-card-text">
@@ -134,15 +153,17 @@ const TimeOffFigure = ({ moveToNextStep }) => {
                     style={timeOffFigureStyle["card-input"]}
                     type="number"
                     name="number"
-                    id="exampleNumber"
+                    id="annualCap"
                     placeholder="24 days"
+                    value={annualCap}
+                    onChange={handleAnnualCap}
                   />
                 </div>
               </CardBody>
             </Card>
           </div>
           <div className="col-sm-4" style={{ padding: "25px" }}>
-            <Card>
+            <Card className="onboarding-cards">
               <CardBody>
                 <h5 className="onboarding-card-title">Current Balance</h5>
                 <p className="onboarding-card-text">
@@ -153,8 +174,10 @@ const TimeOffFigure = ({ moveToNextStep }) => {
                     style={timeOffFigureStyle["card-input"]}
                     type="number"
                     name="number"
-                    id="exampleNumber"
+                    id="currentBalance"
                     placeholder="7 days"
+                    value={currentBalance}
+                    onChange={handleCurrentBalance}
                   />
                 </div>
               </CardBody>
@@ -169,17 +192,34 @@ const TimeOffFigure = ({ moveToNextStep }) => {
   );
 };
 const CountryOfResidence = ({ moveToNextStep }) => {
+  const [country, setCountry] = useState("US");
+  const handleUS = () => {
+    setCountry("US");
+  };
+  const handleFrance = () => {
+    setCountry("France");
+  };
+  const handleOther = () => {
+    setCountry("Other");
+  };
+  const getBorderStyle = (cardType) => {
+    if (cardType === country) {
+      return "card-active";
+    } else {
+      return "card-inactive";
+    }
+  };
   return (
     <div>
       <h1 className="onboarding-heading">Select your country of residence</h1>
-      <h5>
+      <h5 className="onboarding-subheading">
         We will pre-populate public holidays for you, you can later add or
         remove dates.
       </h5>
       <div className="container">
         <div className="row mt-5">
           <div className="col-md-4 offset-md-4">
-            <Card className="ml-4">
+            <Card className={"ml-4 " + getBorderStyle("US")} onClick={handleUS}>
               <CardBody className="p-3 pb-2">
                 <h5 className="onboarding-card-title">Unites States</h5>
               </CardBody>
@@ -188,7 +228,10 @@ const CountryOfResidence = ({ moveToNextStep }) => {
         </div>
         <div className="row mt-3">
           <div className="col-md-4 offset-md-4">
-            <Card className="ml-4">
+            <Card
+              className={"ml-4 " + getBorderStyle("France")}
+              onClick={handleFrance}
+            >
               <CardBody className="p-3 pb-2">
                 <h5 className="onboarding-card-title">France</h5>
               </CardBody>
@@ -197,7 +240,10 @@ const CountryOfResidence = ({ moveToNextStep }) => {
         </div>
         <div className="row mt-3">
           <div className="col-md-4 offset-md-4">
-            <Card className="ml-4">
+            <Card
+              className={"ml-4 " + getBorderStyle("Other")}
+              onClick={handleOther}
+            >
               <CardBody className="p-3 pb-2">
                 <h5 className="onboarding-card-title">Other</h5>
               </CardBody>
@@ -213,17 +259,23 @@ const CountryOfResidence = ({ moveToNextStep }) => {
   );
 };
 const Invitation = ({ moveToNextStep }) => {
+  const [email, setEmail] = useState("");
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  };
   return (
     <div>
       <h1 className="onboarding-heading">
         Invite your friends and family members
       </h1>
-      <h5>To sync your calendars and plan vacations together.</h5>
+      <h5 className="onboarding-subheading">To sync your calendars and plan vacations together.</h5>
       <div className="textarea-container">
         <Input
+          value={email}
+          onChange={handleEmail}
           type="textarea"
           name="text"
-          id="exampleText"
+          id="email"
           className="onboarding-textarea"
           placeholder="email@example.com, email2@example.com.."
         />
@@ -246,7 +298,7 @@ const StartBooking = () => {
   return (
     <div>
       <h1 className="onboarding-heading">You're good to go!</h1>
-      <h5>
+      <h5 className="onboarding-subheading">
         Next, start booking time-off in your calendar and enjoy our features:
       </h5>
       <div className="container">
@@ -257,12 +309,14 @@ const StartBooking = () => {
                 <h5 className="onboarding-card-title">
                   Easily book and store your days off
                 </h5>
+                <br />
                 <CardImg
                   top
                   width="100%"
                   src={Calendar1}
                   alt="Card image cap"
                 />
+                <br />
                 <CardImg top width="100%" src={Cal02} alt="Card image cap" />
               </CardBody>
             </Card>
@@ -273,6 +327,7 @@ const StartBooking = () => {
                 <h5 className="onboarding-card-title">
                   Visualize and forecast your PTO
                 </h5>
+                <br />
                 <CardImg
                   top
                   width="100%"
@@ -288,6 +343,7 @@ const StartBooking = () => {
                 <h5 className="onboarding-card-title">
                   Plan with friends & family, seamlessly
                 </h5>
+                <br />
                 <CardImg
                   top
                   width="100%"
@@ -303,11 +359,10 @@ const StartBooking = () => {
     </div>
   );
 };
-const Dots = ({ currentStep,timeOffPolicy }) => {
-  const dots = [1, 2, 3, 4, 5];
-  // if (timeOffPolicy === "Unlimited") {
-  //   dots.splice(2, 1);
-  // }
+const Dots = ({ currentStep, setCurrentStep, dots }) => {
+  const handleDotsClick = (step) => {
+    setCurrentStep(step);
+  };
   return (
     <>
       {currentStep == 0 ? (
@@ -318,6 +373,7 @@ const Dots = ({ currentStep,timeOffPolicy }) => {
             <div
               className={`dot-${dot === currentStep ? "active" : "inactive"}`}
               key={dot}
+              onClick={() => handleDotsClick(dot)}
             ></div>
           ))}
         </div>
@@ -327,29 +383,34 @@ const Dots = ({ currentStep,timeOffPolicy }) => {
 };
 const OnBoarding = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [timeOffPolicy, setTimeOffPolicy] = useState("Accrual");
+  const [timeOffPolicy, setTimeOffPolicy] = useState("");
   const handleTimeOffPolicy = (policyType) => {
     setTimeOffPolicy(policyType);
   };
+  console.log(timeOffPolicy);
+  const dots = timeOffPolicy === "Unlimited" ? [1, 2, 3, 4] : [1, 2, 3, 4, 5];
   const steps = [
     <VaccyOnBoarding moveToNextStep={() => setCurrentStep(1)} />,
-    <TimeOffPolicy moveToNextStep={() => setCurrentStep(2)} setTimeOffPolicy={handleTimeOffPolicy} />,
-    <TimeOffFigure moveToNextStep={() => setCurrentStep(3)} />,
+    <TimeOffPolicy
+      moveToNextStep={() => setCurrentStep(2)}
+      setTimeOffPolicy={handleTimeOffPolicy}
+    />,
+    timeOffPolicy !== "Unlimited" && (
+      <TimeOffFigure moveToNextStep={() => setCurrentStep(3)} />
+    ),
     <CountryOfResidence moveToNextStep={() => setCurrentStep(4)} />,
     <Invitation moveToNextStep={() => setCurrentStep(5)} />,
     <StartBooking />,
-  ];
-  // console.log(steps);
-  // if (timeOffPolicy === "Unlimited") {
-  //   steps.splice(2, 1);
-  // }
-  // else {
-  //   steps.splice(2, 0, <TimeOffFigure moveToNextStep={() => setCurrentStep(3)} />);
-  // }
+  ].filter(Boolean); //filter boolean removes the undefined values from the array
+
   return (
     <div className="onboarding-container">
       <div className="text-center">{steps[currentStep]}</div>
-      <Dots currentStep={currentStep} timeOffPolicy={timeOffPolicy}/>
+      <Dots
+        currentStep={currentStep}
+        setCurrentStep={setCurrentStep}
+        dots={dots}
+      />
     </div>
   );
 };
