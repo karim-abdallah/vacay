@@ -118,18 +118,15 @@ const TimeOffSettings = () => {
     setExpandedSettings(!expandedSettings);
   };
 
-
+  
 
   return (
     <> 
       {!expandedSettings ? (
-        <div>
-
-
+        <div>        
           <TimeOffSettingsButton onClick={handleExpandSettings}>
-            Time Off Settings <SmallTimeOffSettingsIcon src={settings} />
+            <SmallTimeOffSettingsIcon src={settings} />
           </TimeOffSettingsButton>
-
         </div>
       ) : (
         <Card>
@@ -164,7 +161,6 @@ const ExpandedTimeOffSettingsCard = styled(CardBody)`
 
 const SmallTimeOffSettingsIcon = styled.img`
   height: 20px;
-  padding-left: 10px;
 `;
 
 const LogoutIcon = styled.img`
@@ -221,7 +217,8 @@ const TimeOffSettingsButton = styled.button`
   float: right;
   background-color: #ffffff;
   height: 40px;
-  width: 180px;
+  width: 40px;
+  text-align: center;
   border-width: 0px;
   border-radius: 13px;
   position: relative;
