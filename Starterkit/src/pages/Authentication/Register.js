@@ -1,28 +1,33 @@
-import React, { Component } from "react";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import { Link } from 'react-router-dom';
 
 // action
 import {
   registerUser,
   registerUserFailed,
   apiError,
-} from "../../store/actions";
+} from '../../store/actions';
 
 // Redux
-import { connect } from "react-redux";
-import Logo from "../../assets/images/logo-vaccay.svg";
+import { connect } from 'react-redux';
+
+import fb from '../../assets/images/fb-btn.svg';
+import google from '../../assets/images/google-btn.svg';
+import umrallah from '../../assets/images/umrallah.svg';
+import side from '../../assets/images/side-img.svg';
+import Logo from '../../assets/images/logo-vaccay.svg';
 
 class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: "",
-      lastName: "",
-      username: "",
-      email: "",
-      password: "",
+      firstName: '',
+      lastName: '',
+      username: '',
+      email: '',
+      password: '',
       showPassword: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,7 +39,7 @@ class Register extends Component {
     let obj = {
       first_name: this.state.firstName,
       last_name: this.state.lastName,
-      username: "user",
+      username: 'user',
       email: this.state.email,
       password: this.state.password,
     };
@@ -48,18 +53,18 @@ class Register extends Component {
   };
 
   componentDidMount() {
-    this.props.registerUserFailed("");
-    this.props.apiError("");
-    document.body.classList.add("auth-body-bg");
+    this.props.registerUserFailed('');
+    this.props.apiError('');
+    document.body.classList.add('auth-body-bg');
   }
 
-  handleEmailChange = (e) => {
+  handleEmailChange = e => {
     this.setState({
       email: e.target.value,
     });
   };
 
-  handlePasswordChange = (e) => {
+  handlePasswordChange = e => {
     if (e.target.value.length >= 8 && e.target.value.length <= 20) {
       this.setState({
         password: e.target.value,
@@ -70,19 +75,19 @@ class Register extends Component {
       this.setState({
         password: e.target.value,
         passwordError:
-          "Password must be between 8 and 20 characters. Please choose another",
+          'Password must be between 8 and 20 characters. Please choose another',
         isPasswordValid: false,
       });
     }
   };
 
-  handleFirstNameChange = (e) => {
+  handleFirstNameChange = e => {
     this.setState({
       firstName: e.target.value,
     });
   };
 
-  handleLastNameChange = (e) => {
+  handleLastNameChange = e => {
     this.setState({
       lastName: e.target.value,
     });
@@ -192,16 +197,16 @@ class Register extends Component {
                                 <input
                                   type={
                                     this.state.showPassword
-                                      ? "text"
-                                      : "password"
+                                      ? 'text'
+                                      : 'password'
                                   }
                                   value={this.state.password}
                                   onChange={this.handlePasswordChange}
                                   className={
-                                    "w-100 handle-border " +
+                                    'w-100 handle-border ' +
                                     (this.state.passwordError
-                                      ? "is-invalid"
-                                      : "")
+                                      ? 'is-invalid'
+                                      : '')
                                   }
                                   id="standard-adornment-password1"
                                   placeholder="Password"
@@ -255,11 +260,11 @@ class Register extends Component {
                             </button>
 
                             <p className="custom-link mt-3">
-                              Already have an account?{" "}
+                              Already have an account?{' '}
                               <Link to="/login" className="mx-2">
-                                {" "}
+                                {' '}
                                 <p className="forget">Log in</p>
-                              </Link>{" "}
+                              </Link>{' '}
                             </p>
                           </div>
                         </Row>
@@ -276,7 +281,7 @@ class Register extends Component {
   }
 }
 
-const mapStatetoProps = (state) => {
+const mapStatetoProps = state => {
   const { user, registrationError, loading } = state.Account;
   return { user, registrationError, loading };
 };

@@ -5,8 +5,8 @@ const history = createBrowserHistory();
 const ENV = process.env.NODE_ENV;
 let API_URL = 'https://backend.vacay.live/api';
 
-if (ENV == 'development') {
-  API_URL = 'https://backend.vacay.live/api';
+if (ENV === 'development') {
+  API_URL = 'http://localhost:8000/api';
 }
 
 // API_URL = 'http://localhost:8000/api'
