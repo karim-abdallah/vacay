@@ -5,7 +5,7 @@ const INIT_STATE = {
   currentMonth: mockApiResponse.currentMonth,
   bookedPTO: mockApiResponse.bookedPTO,
   holidays: mockApiResponse.holidays,
-  PTOSettings: {},
+  PTOSettings: mockApiResponse.PTOSettings,
   selectedDates: [],
   datesToUnbook: [],
   negativeBalanceMonths: [],
@@ -71,6 +71,7 @@ const Dashboard = (state = INIT_STATE, action) => {
       return {
         ...state,
         PTOSettings: {
+          ...state.PTOSettings,
           annualAllowanceDays: action.payload.ptoAllowance,
           accrualCapDays: action.payload.ptoCap,
           currentBalanceDays: action.payload.ptoBalance,

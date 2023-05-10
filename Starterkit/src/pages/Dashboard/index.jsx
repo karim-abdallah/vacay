@@ -26,6 +26,7 @@ const Dashboard = () => {
     // TODO: expand logic for dispatching based on specific settings type
 
     const PTOSettings = {
+      policyType: data.policy_type,
       ptoAllowance: data.annual_allowance_days,
       ptoCap: data.accrual_cap_days,
       ptoBalance: data.current_balance_days,
