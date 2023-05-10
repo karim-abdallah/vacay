@@ -61,6 +61,78 @@ const computeMonthlyBalance = (
   });
 };
 
+const generateDashboardDataUnlimitedPTO = (
+  currentMonth,
+  bookedPTO,
+  selectedDates,
+  datesToUnbook
+) => {
+  // for unlimited pto, it should only generate selected days, unbook, days booked, public holidays
+  const monthLabels = computeNextTwelveMonths(currentMonth);
+  const PTOPerMonth = {};
+  const selectedDatesPerMonth = {};
+  const datesToUnbookPerMonth = {};
+
+  monthLabels.forEach((element, index) => {
+    PTOPerMonth[element] = 0;
+    selectedDatesPerMonth[element] = 0;
+    datesToUnbookPerMonth[element] = 0;
+  });
+
+  bookedPTO.dates.forEach((element, index) => {
+    const monthLabel = monthYearFormatter(element);
+    // if currentDate not a week-end, increment, otherwise skip
+    if (!weekendDayIndex.includes(element.getDay())) {
+      PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] + 1;
+    }
+  });
+
+  selectedDates.forEach((element, index) => {
+    const monthLabel = monthYearFormatter(element);
+    // add to booked pto the selection. This will get cleared if we don't book them,
+    // but it needs to appear on the chart
+    // if currentDate not a week-end, increment, otherwise skip
+    if (!weekendDayIndex.includes(element.getDay())) {
+      selectedDatesPerMonth[monthLabel] = selectedDatesPerMonth[monthLabel] + 1;
+    }
+  });
+
+  datesToUnbook.forEach((element, index) => {
+    const monthLabel = monthYearFormatter(element);
+    // substract from PTO selection.
+    if (!weekendDayIndex.includes(element.getDay())) {
+      datesToUnbookPerMonth[monthLabel] = datesToUnbookPerMonth[monthLabel] + 1;
+      PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] - 1;
+    }
+  });
+
+  const chartData = {
+    labels: monthLabels,
+    datasets: [
+      {
+        label: 'Selected Days',
+        backgroundColor: selectionColor,
+        data: monthLabels.map(x => selectedDatesPerMonth[x]),
+        stack: 'PTOStack',
+      },
+      {
+        label: 'Unbook',
+        backgroundColor: unbookColor,
+        data: monthLabels.map(x => datesToUnbookPerMonth[x]),
+        stack: 'PTOStack',
+      },
+      {
+        label: 'Days Booked',
+        backgroundColor: bookedPtoColor,
+        data: monthLabels.map(x => PTOPerMonth[x]),
+        stack: 'PTOStack',
+      },
+    ],
+  };
+
+  return chartData;
+};
+
 const generateDashboardData = (
   currentMonth,
   currentBalanceDays,
@@ -85,7 +157,6 @@ const generateDashboardData = (
     PTOPerMonth[element] = 0;
     holidaysPerMonth[element] = 0;
     balance[element] = 0;
-    // These will actually be used on the chart if we can do stacked bars
     selectedDatesPerMonth[element] = 0;
     datesToUnbookPerMonth[element] = 0;
   });
@@ -189,18 +260,6 @@ const BarChart = () => {
 
   let [data, negativeBalanceMonths] = [{}, []];
 
-  /*   const [data, negativeBalanceMonths] = generateDashboardData(
-    dashboardData.currentMonth,
-    dashboardData.currentBalanceDays,
-    dashboardData.bookedPTO,
-    dashboardData.holidays,
-    dashboardData.accrualRate,
-    dashboardData.accrualCap,
-    selectedDates,
-    datesToUnbook
-  );
- */
-
   switch (dashboardData.policyType) {
     case PolicyTypes.accural:
       [data, negativeBalanceMonths] = generateDashboardData(
@@ -214,22 +273,28 @@ const BarChart = () => {
         datesToUnbook
       );
       break;
+    case PolicyTypes.unlimited:
+      data = generateDashboardDataUnlimitedPTO(
+        dashboardData.currentMonth,
+        dashboardData.bookedPTO,
+        selectedDates,
+        datesToUnbook
+      );
+
     default:
       [data, negativeBalanceMonths] = [{}, []];
   }
 
-  /*   console.log(data);
-  console.log(negativeBalanceMonths);
- */ const currentNegativeBalanceMonths = useSelector(getNegativeBalanceMonths);
-  const yAxisMax =
-    dashboardData.currentBalanceDays + 12 * dashboardData.accrualRate;
-
+  const currentNegativeBalanceMonths = useSelector(getNegativeBalanceMonths);
   if (!arraysEqual(currentNegativeBalanceMonths, negativeBalanceMonths)) {
     dispatch({
       type: 'negativeBalanceMonths/update',
       payload: [...negativeBalanceMonths],
     });
   }
+  const yAxisMax =
+    dashboardData.currentBalanceDays + 12 * dashboardData.accrualRate;
+
   const options = {
     borderRadius: barChartBorderRadius,
     borderSkipped: 'middle',
