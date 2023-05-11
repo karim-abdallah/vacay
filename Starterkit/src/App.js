@@ -63,15 +63,30 @@ class App extends Component {
               />
             ))}
 
-            {authProtectedRoutes.map((route, idx) => (
-              <AppRoute
-                path={route.path}
-                layout={Layout}
-                component={route.component}
-                key={idx}
-                isAuthProtected={true}
-              />
-            ))}
+            {authProtectedRoutes.map((route, idx) => {
+              if (route.path !== "/onboarding") {
+                return (
+                  <AppRoute
+                    path={route.path}
+                    layout={Layout}
+                    component={route.component}
+                    key={idx}
+                    isAuthProtected={true}
+                  />
+                );
+              }
+              else {
+                return (
+                  <AppRoute
+                    path={route.path}
+                    layout={NonAuthLayout}
+                    component={route.component}
+                    key={idx}
+                    isAuthProtected={true}
+                  />
+                );
+              }
+            })}
           </Switch>
         </Router>
       </React.Fragment>
@@ -79,9 +94,9 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    layout: state.Layout
+    layout: state.Layout,
   };
 };
 

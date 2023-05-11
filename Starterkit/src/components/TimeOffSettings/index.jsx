@@ -1,19 +1,18 @@
-import { Card, CardBody } from 'reactstrap';
-import { useDispatch } from 'react-redux';
-import { Form, InputNumber, Checkbox, Tooltip } from 'antd';
-import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import { getPTOSettings, getHolidays } from '../../store/dashboard/selector';
-import { tooltipBackground, cardHoverColor } from '../../styles/constants';
-import { minSettingsValueDays, maxSettingsValueDays } from '../../constants';
-import { TimeOffSettingsInstructions } from './instructionText';
-import minimize from '../../assets/images/minimize.png';
-import settings from '../../assets/images/settings.png';
-import logout from '../../assets/images/logout.png';
-import { Link } from 'react-router-dom';
-import { put } from '../../helpers/api_helper';
-
+import { Card, CardBody } from "reactstrap";
+import { useDispatch } from "react-redux";
+import { Form, InputNumber, Checkbox, Tooltip } from "antd";
+import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { getPTOSettings, getHolidays } from "../../store/dashboard/selector";
+import { tooltipBackground, cardHoverColor } from "../../styles/constants";
+import { minSettingsValueDays, maxSettingsValueDays } from "../../constants";
+import { TimeOffSettingsInstructions } from "./instructionText";
+import minimize from "../../assets/images/minimize.png";
+import settings from "../../assets/images/settings.png";
+import logout from "../../assets/images/logout.png";
+import { Link } from "react-router-dom";
+import { get,put } from "../../helpers/api_helper";
 function HolidayCheckbox(props) {
   return (
     <CheckboxLabel value={props.holiday.name}>
@@ -37,15 +36,20 @@ const HolidaysPane = () => {
     return <HolidayCheckbox holiday={item} />;
   });
 
-  const checkboxHandler = checkedValues => {
-    dispatch({ type: 'holidays/update', payload: checkedValues });
+  const checkboxHandler = (checkedValues) => {
+    dispatch({ type: "holidays/update", payload: checkedValues });
   };
 
   return (
     <HolidayPaneContainer>
-      <SettingsSubheader>Public holidays</SettingsSubheader>
+      <SettingsSubheader>
+      <div style={{display:"flex",justifyContent:"space-between"}}>
+          <span>Public holidays{" "} </span>
+          <span>United States</span>
+      </div>
+      </SettingsSubheader>
       <HolidaysContainer
-        defaultValue={sortedHolidays.filter(x => x.active).map(x => x.name)}
+        defaultValue={sortedHolidays.filter((x) => x.active).map((x) => x.name)}
         onChange={checkboxHandler}
       >
         {holidayCheckboxes}
@@ -56,11 +60,12 @@ const HolidaysPane = () => {
 
 function NumberOptionDays(props) {
   return (
-    <StyledFormItem name={props.name}>
+    <StyledFormItem name={props.name} className="text-end">
       <InputNumber
         size="small"
         min={minSettingsValueDays}
         max={maxSettingsValueDays}
+        placeholder={`${props.name} days`}
       />
     </StyledFormItem>
   );
@@ -71,27 +76,30 @@ const OptionPaneWithForm = () => {
   const settings = useSelector(getPTOSettings);
 
   const fields = [
-    { name: 'ptoAllowance', value: settings.PTOSettings.annualAllowanceDays },
-    { name: 'ptoBalance', value: settings.PTOSettings.currentBalanceDays },
+    { name: "ptoAllowance", value: settings.PTOSettings.annualAllowanceDays },
+    { name: "ptoCap", value: settings.PTOSettings.accrualCapDays },
+    { name: "ptoBalance", value: settings.PTOSettings.currentBalanceDays },
   ];
 
-  const updateSettings = async allValues => {
+  const updateSettings = async (allValues) => {
     const payload = {
       annual_allowance_days: allValues.ptoAllowance,
       current_balance_days: allValues.ptoBalance,
     };
-    let data = await put('/time-off-settings', payload);
+    let data = await put("/time-off-settings", payload);
   };
 
   const updateSettingsHandler = (_, allValues) => {
     updateSettings(allValues);
-    dispatch({ type: 'settings/update', payload: allValues });
+    dispatch({ type: "settings/update", payload: allValues });
   };
 
   return (
     <OptionsPaneContainer>
       <SettingsSubheader>
-        Your settings{' '}
+       <div style={{display:"flex",justifyContent:"space-between"}}>
+        <span>Time Off Policy{" "} 
+        
         <StyledInfoTooltip
           title={TimeOffSettingsInstructions()}
           arrow
@@ -99,8 +107,11 @@ const OptionPaneWithForm = () => {
           trigger="click"
           color={tooltipBackground}
         >
-          ?
-        </StyledInfoTooltip>
+          i
+          </StyledInfoTooltip>
+          </span>
+          <span>Accrual</span>
+          </div>
       </SettingsSubheader>
       <Form
         name="PTO Settings"
@@ -108,11 +119,11 @@ const OptionPaneWithForm = () => {
         onValuesChange={updateSettingsHandler}
       >
         <OptionsContainer>
-          <div></div>
-          <div>Time off (Days)</div>
           <div>Annual allowance</div>
           <NumberOptionDays name="ptoAllowance" />
-          <div>Your current balance</div>
+          <div>Annual Cap</div>
+          <NumberOptionDays name="ptoCap" />
+          <div>Current Balance</div>
           <NumberOptionDays name="ptoBalance" />
         </OptionsContainer>
       </Form>
@@ -121,6 +132,7 @@ const OptionPaneWithForm = () => {
 };
 
 const TimeOffSettings = () => {
+  // await get("/time-off-settings");
   const [expandedSettings, setExpandedSettings] = useState(true);
 
   const handleExpandSettings = () => {
@@ -145,7 +157,7 @@ const TimeOffSettings = () => {
                   <SmallTimeOffSettingsIcon src={settings} />
                 </TimeOffSettingsHeader>
                 <MinimizeButton onClick={handleExpandSettings}>
-                  Minimize{' '}
+                  Minimize{" "}
                   <StyledMinimizeIcon src={minimize} alt="x" height="15" />
                 </MinimizeButton>
               </div>
@@ -231,7 +243,7 @@ const TimeOffSettingsButton = styled.button`
   position: relative;
   bottom: 8px;
   &:hover {
-    background-color: ${props => !props.showpointer && cardHoverColor};
+    background-color: ${(props) => !props.showpointer && cardHoverColor};
   }
 `;
 

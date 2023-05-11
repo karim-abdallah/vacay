@@ -6,7 +6,9 @@ import sys
 
 def main():
     """Run administrative tasks."""
+    
     print(f"Running server with parameter {os.environ.get('VACAY_BACKEND_ENV')}")
+
     if os.environ.get("VACAY_BACKEND_ENV") == "local":
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myproject.local")
     else:
