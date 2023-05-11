@@ -27,6 +27,6 @@ export const barChartBorderRadius = 10;
 export const barChartBarPercentage = 0.2;
 
 export const PolicyTypes = {
-  accural: 'accrual',
+  accrual: 'accrual',
   unlimited: 'unlimited',
 };

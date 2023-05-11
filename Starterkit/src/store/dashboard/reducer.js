@@ -68,10 +68,14 @@ const Dashboard = (state = INIT_STATE, action) => {
         ),
       };
     case 'settings/update':
+      const policyType = action.payload.policyType
+        ? action.payload.policyType
+        : state.PTOSettings.policyType;
       return {
         ...state,
         PTOSettings: {
           ...state.PTOSettings,
+          policyType: policyType,
           annualAllowanceDays: action.payload.ptoAllowance,
           accrualCapDays: action.payload.ptoCap,
           currentBalanceDays: action.payload.ptoBalance,
