@@ -280,7 +280,7 @@ const BarChart = () => {
         selectedDates,
         datesToUnbook
       );
-
+      break;
     default:
       [data, negativeBalanceMonths] = [{}, []];
   }
@@ -292,6 +292,8 @@ const BarChart = () => {
       payload: [...negativeBalanceMonths],
     });
   }
+
+  // figure out yaxis max for ulimited pto.
   const yAxisMax =
     dashboardData.currentBalanceDays + 12 * dashboardData.accrualRate;
 
