@@ -12,6 +12,9 @@ import ForgetPwd from "../pages/Authentication/ForgetPassword";
 import AuthLockScreen from "../pages/Authentication/AuthLockScreen";
 import ResetPwd from "../pages/Authentication/ResetPassword";
 
+//Onboarding
+import OnBoarding from "../pages/OnBoarding/onboarding";
+
 // Dashboard
 import Dashboard from "../pages/Dashboard/index";
 
@@ -26,9 +29,9 @@ import ForgetPwd1 from "../pages/AuthenticationInner/ForgetPassword";
 
 const authProtectedRoutes = [
 
+	{ path: "/onboarding", component: OnBoarding },
 	{ path: "/dashboard", component: Dashboard },
 	{ path: "/profile", component: Profile },
-
 	{ path: "/logout", component: Logout },
 	
 	// this route should be at the end of all other routes
@@ -49,7 +52,7 @@ const publicRoutes = [
 	{ path: "/auth-register", component: Register1 },
 	{ path: "/auth-recoverpw", component: ForgetPwd1 },
 
-
+	
 	{ path: "/home", component: Home },
 ];
 

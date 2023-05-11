@@ -34,13 +34,20 @@ class RegisterView(APIView):
 
         data = request.data
         username = check_or_create_username(data["email"])
+
         data["username"] = username
 
         serializer = UserSerializer(data=data)
         serializer.is_valid(raise_exception=True)
+        
         serializer.save()
 
-        send_register_user_email(data["email"], data["first_name"])
+
+        TimeOffSetting.objects.create(user_id=serializer.data["id"], time_off_type="pto", accrual_type="accrual", annual_allowance_days=15, accrual_cap_days=24, current_balance_days=7)
+        
+
+
+        # send_register_user_email(data["email"], data["first_name"])
 
         return Response({"data": serializer.data})
 
@@ -51,7 +58,7 @@ class LoginView(APIView):
         password = request.data["password"]
 
         user = User.objects.filter(email=email).first()
-
+        
         if user is None:
             raise AuthenticationFailed("User not found!")
 
@@ -67,17 +74,19 @@ class LoginView(APIView):
 
         # HS256 is the algorithm used to encode the token
         token = jwt.encode(payload, "secret", algorithm="HS256")
-
+     
         response = Response()
-
+        
+        
         # httponly is used to prevent javascript from accessing the cookie
         response.set_cookie(
             key="jwt", value=token, httponly=True, samesite="none", secure=False
         )
-
-        response.data = token
+        
+        response.data = {"token":token,"is_logged_in":user.is_logged_in}
 
         return response
+
 
 
 class UserView(APIView):
@@ -98,16 +107,36 @@ class UserView(APIView):
         # get the user from the payload
 
         user = User.objects.filter(id=payload["id"]).first()
+        
         serializer = UserSerializer(user)
 
         return Response(serializer.data)
 
+    def put(self,request):
+        token = request.headers["Authorization"].split("Bearer ")[
+            1
+        ]
+        if not token:
+            raise AuthenticationFailed("Unauthenticated")
+
+        try:
+            payload = jwt.decode(token, "secret", algorithms=["HS256"])
+
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed("Unauthenticated")
+
+        user = User.objects.filter(id=payload["id"]).first()
+        user.is_logged_in = True
+        user.save()
+
+        return Response({"data":"User Successfully Updated"})
+
 
 class LogoutView(APIView):
     def post(self, request):
+
         response = Response()
         response.delete_cookie("jwt")
-
         response.data = {"detail": "logout"}
 
         return response
@@ -328,10 +357,14 @@ class TimeOffSettingList(APIView):
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed("Unauthenticated")
 
+        user = get_object_or_404(User, id= token_payload["id"])
+        user.country=request.data["country"]
+        user.save()
+
         time_off_setting_to_update = get_object_or_404(
             TimeOffSetting, user_id=token_payload["id"]
         )
-
+        print(time_off_setting_to_update)
         serializer = TimeOffSettingSerializer(
             time_off_setting_to_update, data=request.data
         )
@@ -354,3 +387,6 @@ class SubscribeView(APIView):
         subscriptions = Subscriptions.objects.all()
         serializer = SubscriptionsSerializer(subscriptions, many=True)
         return Response(serializer.data)
+     
+    
+

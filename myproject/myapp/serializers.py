@@ -13,6 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
             "password",
             "username",
             "profile_pic",
+            "last_login"
         ]
 
         # this is used to hide the password when we get the data from the database
