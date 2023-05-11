@@ -13,7 +13,7 @@ import AuthLockScreen from "../pages/Authentication/AuthLockScreen";
 import ResetPwd from "../pages/Authentication/ResetPassword";
 
 //Onboarding
-import OnBoarding from "../pages/OnBoarding/onboarding";
+import OnBoarding from "../pages/OnBoarding";
 
 // Dashboard
 import Dashboard from "../pages/Dashboard/index";
