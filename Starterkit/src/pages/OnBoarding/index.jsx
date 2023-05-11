@@ -7,7 +7,7 @@ import Cal02 from "../../assets/images/cal03.svg";
 import Calender3 from "../../assets/images/calender31.svg";
 import SmallEarnings from "../../assets/images/Small_Earnings1.svg";
 import { Link } from "react-router-dom";
-import { get, post,put, s3Post } from "../../helpers/api_helper";
+import { put } from "../../helpers/api_helper";
 
 function OnboardingCard({ onClick, className, title, text }) {
   return (
@@ -399,7 +399,7 @@ const Dots = ({ currentStep, setCurrentStep, dots }) => {
   };
   return (
     <>
-      {currentStep == 0 ? (
+      {currentStep === 0 ? (
         ""
       ) : (
         <div className="dots-container">
@@ -434,7 +434,7 @@ const OnBoarding = () => {
   };
 
 
-  const OpenVacay = async () => { 
+  const OpenVacay = async () => {
     let obj = {
       time_off_type: "pto",
       accrual_type: timeOffPolicy,
@@ -443,8 +443,9 @@ const OnBoarding = () => {
       current_balance_days: timeOffFigure.currentBalance,
       country: countryOffResidence,
     };
-    let data = await put("/user");
-    let timeOffSetting = await put("/time-off-settings", obj);
+
+    await put("/user");
+    await put("/time-off-settings", obj);
 
   }
 
@@ -485,7 +486,7 @@ const OnBoarding = () => {
   return (
     <div className="onboarding-container">
       <div className="text-center">{steps[currentStep]}</div>
-      {currentStep + 1 == steps.length ? (
+      {currentStep + 1 === steps.length ? (
         <div className="text-center">
           <Link to="/dashboard">
             <button className="onboarding-button" onClick={OpenVacay}>Open Vacay</button>

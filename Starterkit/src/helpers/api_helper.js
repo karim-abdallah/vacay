@@ -22,7 +22,7 @@ axiosApi.interceptors.request.use(
   config => {
     let access_token = localStorage.getItem('authUser');
 
-    if (access_token != undefined) {
+    if (access_token !== undefined) {
       config.headers.Authorization = 'Bearer ' + access_token;
     } else {
       history.push('/logout');

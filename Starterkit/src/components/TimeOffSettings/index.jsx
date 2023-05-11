@@ -10,9 +10,8 @@ import { minSettingsValueDays, maxSettingsValueDays } from "../../constants";
 import { TimeOffSettingsInstructions } from "./instructionText";
 import minimize from "../../assets/images/minimize.png";
 import settings from "../../assets/images/settings.png";
-import logout from "../../assets/images/logout.png";
-import { Link } from "react-router-dom";
-import { get,put } from "../../helpers/api_helper";
+import { put } from "../../helpers/api_helper";
+
 function HolidayCheckbox(props) {
   return (
     <CheckboxLabel value={props.holiday.name}>
@@ -86,7 +85,7 @@ const OptionPaneWithForm = () => {
       annual_allowance_days: allValues.ptoAllowance,
       current_balance_days: allValues.ptoBalance,
     };
-    let data = await put("/time-off-settings", payload);
+    await put("/time-off-settings", payload);
   };
 
   const updateSettingsHandler = (_, allValues) => {
@@ -182,9 +181,6 @@ const SmallTimeOffSettingsIcon = styled.img`
   height: 20px;
 `;
 
-const LogoutIcon = styled.img`
-  height: 17px;
-`;
 
 const StyledMinimizeIcon = styled.img`
   height: 12px;

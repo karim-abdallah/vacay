@@ -13,10 +13,6 @@ import {
 // Redux
 import { connect } from 'react-redux';
 
-import fb from '../../assets/images/fb-btn.svg';
-import google from '../../assets/images/google-btn.svg';
-import umrallah from '../../assets/images/umrallah.svg';
-import side from '../../assets/images/side-img.svg';
 import Logo from '../../assets/images/logo-vaccay.svg';
 
 class Register extends Component {
