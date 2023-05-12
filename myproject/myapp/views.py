@@ -45,7 +45,7 @@ class RegisterView(APIView):
 
         TimeOffSetting.objects.create(user_id=serializer.data["id"])
         
-        # send_register_user_email(data["email"], data["first_name"])
+        send_register_user_email(data["email"], data["first_name"])
 
         return Response({"data": serializer.data})
 

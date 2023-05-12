@@ -1,5 +1,5 @@
 import boto3
-from .templates import FORGET_PASSWORD_TEMPLATE, REGISTER_USER_TEMPLATE
+from .templates import FORGET_PASSWORD_TEMPLATE, REGISTER_USER_TEMPLATE, SEND_INVITE_TEMPLATE
 from .models import User
 
 
@@ -19,24 +19,33 @@ S3_BUCKET = 'vacay-assets'
 def send_forget_password_email(recepient, link):
 
     template = FORGET_PASSWORD_TEMPLATE
-    content = template.replace('reset_password_link', link)
+    template = template.replace('reset_password_link', link)
+    recepients = ['info@vacay.live']
 
-    send_email(recepient, content, 'Forget Password Link')
+    send_email(recepient, recepients, template, 'Forget Password Link')
 
 
 def send_register_user_email(recepient, first_name):
 
     template = REGISTER_USER_TEMPLATE
-    content = template.replace('first_name', first_name)
+    template = template.replace('first_name', first_name)
+    recepients = ['info@vacay.live']
 
-    send_email(recepient, content, 'Welcome to Vacay!')
+    send_email(recepient, recepients, template, 'Welcome to Vacay!')
 
 
-def send_email(receipient, content, subject):
+def send_invite_email(receipents):
+    template = SEND_INVITE_TEMPLATE
+    receipient = 'info@vacay.live'
+
+    send_email(receipient, receipents, template, 'You have been invited')
+
+
+def send_email(to_address, cc_addresses, content, subject):
     response = ses_client.send_email(
         Destination={
-            'ToAddresses': [receipient],
-            'CcAddresses': ['info@vacay.live'],
+            'ToAddresses': [to_address],
+            'CcAddresses': cc_addresses,
         },
         Message={
             'Body': {
