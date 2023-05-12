@@ -1,7 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 
-
 import Home from "../pages/Authentication/Home";
 
 // Authentication related pages
@@ -52,7 +51,6 @@ const publicRoutes = [
 	{ path: "/auth-register", component: Register1 },
 	{ path: "/auth-recoverpw", component: ForgetPwd1 },
 
-	
 	{ path: "/home", component: Home },
 ];
 

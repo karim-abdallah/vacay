@@ -42,12 +42,9 @@ class RegisterView(APIView):
         
         serializer.save()
 
-
-        TimeOffSetting.objects.create(user_id=serializer.data["id"], time_off_type="pto", accrual_type="accrual", annual_allowance_days=15, accrual_cap_days=24, current_balance_days=7)
+        TimeOffSetting.objects.create(user_id=serializer.data["id"])
         
-
-
-        # send_register_user_email(data["email"], data["first_name"])
+        send_register_user_email(data["email"], data["first_name"])
 
         return Response({"data": serializer.data})
 
@@ -347,6 +344,7 @@ class TimeOffSettingList(APIView):
         In the future, there will be 1:many.
         """
         token = request.headers["Authorization"].split("Bearer ")[1]
+        data = request.data
 
         if not token:
             raise AuthenticationFailed("Unauthenticated")
@@ -358,16 +356,14 @@ class TimeOffSettingList(APIView):
             raise AuthenticationFailed("Unauthenticated")
 
         user = get_object_or_404(User, id= token_payload["id"])
-        user.country=request.data["country"]
+        user.country= data["country"]
         user.save()
 
         time_off_setting_to_update = get_object_or_404(
             TimeOffSetting, user_id=token_payload["id"]
         )
-        print(time_off_setting_to_update)
-        serializer = TimeOffSettingSerializer(
-            time_off_setting_to_update, data=request.data
-        )
+
+        serializer = TimeOffSettingSerializer( time_off_setting_to_update, data=data )
 
         if serializer.is_valid():
             serializer.save()

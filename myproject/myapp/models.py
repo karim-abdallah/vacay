@@ -1,7 +1,5 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from rest_framework.views import APIView
-from rest_framework.response import Response
 
 
 class User(AbstractUser):
@@ -21,7 +19,8 @@ class User(AbstractUser):
         "username",
     ]  # this is used to make the username field as the required field
 
-class Subscriptions(models.Model):      
+
+class Subscriptions(models.Model):
     email = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
@@ -46,8 +45,8 @@ class TimeOffSetting(models.Model):
     accrual_type = models.CharField(
         max_length=100, choices=AccrualType.choices, default=AccrualType.ACCRUAL
     )
-    annual_allowance_days = models.IntegerField(null=True)
-    accrual_cap_days = models.IntegerField(null=True)
-    current_balance_days = models.IntegerField(null=True)
+    annual_allowance_days = models.IntegerField(default=15)
+    accrual_cap_days = models.IntegerField(default=24)
+    current_balance_days = models.IntegerField(default=7)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

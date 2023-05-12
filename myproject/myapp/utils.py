@@ -2,21 +2,15 @@ import boto3
 from .templates import FORGET_PASSWORD_TEMPLATE, REGISTER_USER_TEMPLATE
 from .models import User
 
-ACCESS_KEY = 'AKIAVH77JYOVXV547FMB'
-SECRET_ACCESS_KEY = '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'
 
 ses_client = boto3.client(
     'ses',
-    region_name='us-east-1',
-    aws_access_key_id=ACCESS_KEY,
-    aws_secret_access_key=SECRET_ACCESS_KEY
+    region_name='us-east-1'
 )
 
 s3_client = boto3.client(
     's3',
-    region_name='us-east-1',
-    aws_access_key_id=ACCESS_KEY,
-    aws_secret_access_key=SECRET_ACCESS_KEY
+    region_name='us-east-1'
 )
 
 S3_BUCKET = 'vacay-assets'
@@ -42,9 +36,7 @@ def send_email(receipient, content, subject):
     response = ses_client.send_email(
         Destination={
             'ToAddresses': [receipient],
-             'CcAddresses': [
-            'aliasghernooruddin@gmail.com', 'info@vacay.live'
-        ],
+            'CcAddresses': ['info@vacay.live'],
         },
         Message={
             'Body': {
