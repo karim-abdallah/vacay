@@ -79,7 +79,7 @@ const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy, timeOffPolicy }) => {
             <OnboardingCard
               onClick={() => handleCardClick("unlimited")}
               className={getBorderStyle("unlimited")}
-              title="Unlimited"
+              title="unlimited"
               text={
                 <>
                   Where there is no specific time off limit.
@@ -448,10 +448,10 @@ const OnBoarding = () => {
 
   }
 
-  const dots = timeOffPolicy === "Unlimited" ? [1, 3, 4, 5] : [1, 2, 3, 4, 5];
+  const dots = timeOffPolicy === "unlimited" ? [1, 3, 4, 5] : [1, 2, 3, 4, 5];
   const steps = [
     <VaccyOnBoarding moveToNextStep={() => setCurrentStep(1)} />,
-    timeOffPolicy !== "Unlimited" ? (
+    timeOffPolicy !== "unlimited" ? (
       <TimeOffPolicy
         moveToNextStep={() => setCurrentStep(2)}
         setTimeOffPolicy={setTimeOffPolicy}

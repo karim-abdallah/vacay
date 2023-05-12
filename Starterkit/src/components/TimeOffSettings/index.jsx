@@ -93,7 +93,7 @@ const OptionPaneWithForm = () => {
     updateSettings(allValues);
     dispatch({ type: "settings/update", payload: allValues });
   };
-
+  console.log("fields",fields)
   return (
     <OptionsPaneContainer>
       <SettingsSubheader>
