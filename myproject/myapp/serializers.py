@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import TimeOffSetting, User, Subscriptions
+from .models import TimeOffSetting, User, Subscriptions, HolidaySetting
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -52,9 +52,9 @@ class TimeOffSettingSerializer(serializers.ModelSerializer):
         instance.time_off_type = validated_data.get(
             "time_off_type", instance.time_off_type
         )
-        instance.accrual_type = validated_data.get(
-            "accrual_type", instance.accrual_type
-        )
+        # instance.accrual_type = validated_data.get(
+        #     "accrual_type", instance.accrual_type
+        # )
         instance.annual_allowance_days = validated_data.get(
             "annual_allowance_days", instance.annual_allowance_days
         )
@@ -72,4 +72,9 @@ class TimeOffSettingSerializer(serializers.ModelSerializer):
 class SubscriptionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscriptions
+        fields = "__all__"
+
+class HolidaySettingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HolidaySetting
         fields = "__all__"

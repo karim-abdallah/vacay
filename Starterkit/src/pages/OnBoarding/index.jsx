@@ -79,7 +79,7 @@ const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy, timeOffPolicy }) => {
             <OnboardingCard
               onClick={() => handleCardClick("unlimited")}
               className={getBorderStyle("unlimited")}
-              title="unlimited"
+              title="Unlimited"
               text={
                 <>
                   Where there is no specific time off limit.
@@ -443,10 +443,7 @@ const OnBoarding = () => {
       current_balance_days: timeOffFigure.currentBalance,
       country: countryOffResidence,
     };
-
-    await put("/user");
     await put("/time-off-settings", obj);
-
   }
 
   const dots = timeOffPolicy === "unlimited" ? [1, 3, 4, 5] : [1, 2, 3, 4, 5];

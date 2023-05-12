@@ -4,6 +4,7 @@ from .serializers import (
     SubscriptionsSerializer,
     UserSerializer,
     TimeOffSettingSerializer,
+    HolidaySettingSerializer,
 )
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
@@ -44,7 +45,7 @@ class RegisterView(APIView):
 
         TimeOffSetting.objects.create(user_id=serializer.data["id"])
         
-        send_register_user_email(data["email"], data["first_name"])
+        # send_register_user_email(data["email"], data["first_name"])
 
         return Response({"data": serializer.data})
 
@@ -383,6 +384,92 @@ class SubscribeView(APIView):
         subscriptions = Subscriptions.objects.all()
         serializer = SubscriptionsSerializer(subscriptions, many=True)
         return Response(serializer.data)
-     
+
+
+class HolidaySettingView(APIView):
+    def get(self, request):
+
+        token = request.headers["Authorization"].split("Bearer ")[1]
+        data = request.data
+
+        if not token:
+            raise AuthenticationFailed("Unauthenticated")
+
+        try:
+            token_payload = jwt.decode(token, "secret", algorithms=["HS256"])
+
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed("Unauthenticated")
+        
+        country=User.objects.get(id=token_payload["id"]).country
+
+        # Add static holiday data to the list of holidays
+        holidays = [
+            {
+              "country": "France",
+              "name": "New Year's Day France",
+              "date": "January 1st, 2023",
+              "active": False,
+            },
+            # // TODO: Add more static holiday data
+            {
+              "country": "US",
+              "name": "New Year's Day US",
+              "date": "January 2nd, 2023",
+              "active": True,
+            },
+             # // TODO: Add more static holiday data
+             {
+              "country": "Other",
+              "name": "New Year's Day Other",
+              "date": "January 1st, 2023",
+              "active": True,
+            },
+             # // TODO: Add more static holiday data
+        ]
+        
+        # Retrieve all holiday data from the database and append to the list of holidays
+        holidays_from_db = HolidaySetting.objects.all()
+        for holiday in holidays_from_db:
+            holidays.append({
+                "country": holiday.country,
+                "name": holiday.name,
+                "date": holiday.date,
+                "active": holiday.active,
+            })
+        selected_country = []
+        for holiday in holidays:
+            if holiday["country"] == country:
+                selected_country.append(holiday)
+        serializer = HolidaySettingSerializer(selected_country, many=True)
+        return Response(serializer.data)
+
     
+    
+    def post(self, request):
+        data = request.data
+       
+
+        token = request.headers["Authorization"].split("Bearer ")[1]
+        data = request.data
+
+        if not token:
+            raise AuthenticationFailed("Unauthenticated")
+
+        try:
+            token_payload = jwt.decode(token, "secret", algorithms=["HS256"])
+
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed("Unauthenticated")
+        
+
+        data.country=User.objects.get(id=token_payload["id"]).country
+        
+        serializer = HolidaySettingSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
