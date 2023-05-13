@@ -25,11 +25,11 @@ const Banner = (props) => {
     };
 
     try {
-      let response = await post("generate-presigned-url", obj);
+      let response = await post("/dashboard/generate-presigned-url", obj);
 
       try {
         await s3Post(response.detail, selectedFile);
-        await post("update-profile-picture", obj);
+        await post("/dashboard/update-profile-picture", obj);
         props.fetchData();
         setIsUploading(false);
       } catch (error) {
@@ -102,7 +102,7 @@ const ChangePassword = ({ toggleComponent }) => {
     };
 
     try {
-      let data = await post("/change-password", obj);
+      let data = await post("/auth/change-password", obj);
       setError(data.detail);
     } catch (error) {
       setError(error.data.detail);
@@ -229,7 +229,7 @@ const GeneralInformation = ({ toggleComponent }) => {
 
   const updateProfile = async (obj) => {
     try {
-      let data = await post("/update-user", obj);
+      let data = await post("/dashboard/update-user", obj);
       setError(data.detail);
     } catch (error) {
       setError(error.data.detail);
@@ -245,7 +245,7 @@ const GeneralInformation = ({ toggleComponent }) => {
   };
 
   const fetchData = async () => {
-    let data = await get("/user");
+    let data = await get("/dashboard/user");
     setUserName(data["username"]);
     setEmail(data["email"]);
     setFirstName(data["first_name"]);

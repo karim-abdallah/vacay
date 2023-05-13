@@ -27,8 +27,8 @@ function HolidayCheckbox(props) {
 
 const HolidaysPane = () => {
   const fetchHoliday = async () => {
-    let data = await get("/holidays");
-    console.log("data", data);
+    let data = await get("/dashboard/holidays");
+
   };
   useEffect(() => {
     setTimeout(() => {
@@ -109,7 +109,7 @@ const OptionPaneWithForm = () => {
       annual_allowance_days: allValues.ptoAllowance,
       current_balance_days: allValues.ptoBalance,
     };
-    await put("/time-off-settings", payload);
+    await put("/dashboard/time-off-settings", payload);
   };
 
   const updateSettingsHandler = (_, allValues) => {

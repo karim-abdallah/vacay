@@ -76,8 +76,7 @@ const GetStarted = () => {
     } else {
       try {
         let obj = { email: email };
-        await post("/subscribe", obj);
-        // setIsSubscribed(true);
+        await post("/auth/subscribe", obj);
         setEmail("");
         handleThankYouScreen();
       } catch (error) {
@@ -288,7 +287,7 @@ const Footer = () => {
     } else {
       try {
         let obj = { email: email };
-        await post("/subscribe", obj);
+        await post("/auth/subscribe", obj);
         setIsSubscribed(true);
         setEmail("");
       } catch (error) {

@@ -443,7 +443,7 @@ const OnBoarding = () => {
       current_balance_days: timeOffFigure.currentBalance,
       country: countryOffResidence,
     };
-    await put("/time-off-settings", obj);
+    await put("/dashboard/time-off-settings", obj);
   }
 
   const dots = timeOffPolicy === "unlimited" ? [1, 3, 4, 5] : [1, 2, 3, 4, 5];

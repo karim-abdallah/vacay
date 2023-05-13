@@ -1,18 +1,12 @@
 import boto3
 from .templates import FORGET_PASSWORD_TEMPLATE, REGISTER_USER_TEMPLATE, SEND_INVITE_TEMPLATE
 from .models import User
+from decouple import config
 
 ses_client = boto3.client(
     "ses",
     region_name="us-east-1",
 )
-
-s3_client = boto3.client(
-    "s3",
-    region_name="us-east-1",
-)
-
-S3_BUCKET = "vacay-assets"
 
 
 def send_forget_password_email(recepient, link):
@@ -41,6 +35,10 @@ def send_invite_email(receipents):
 
 
 def send_email(to_address, cc_addresses, content, subject):
+    
+    if config("VACAY_BACKEND_ENV") == "local":
+        return True
+    
     response = ses_client.send_email(
         Destination={
             'ToAddresses': [to_address],
@@ -62,21 +60,6 @@ def send_email(to_address, cc_addresses, content, subject):
     )
 
     return response
-
-
-def generate_presigned_url(username, file_name, file_type):
-    path = f"users/{username}/profile/{file_name}"
-
-    url = s3_client.generate_presigned_url(
-        "put_object",
-        Params={
-            "Bucket": S3_BUCKET,
-            "Key": path,
-            "ContentType": file_type,
-        },
-        ExpiresIn=360,
-    )
-    return url
 
 
 def check_or_create_username(email):

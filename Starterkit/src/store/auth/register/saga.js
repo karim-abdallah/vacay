@@ -10,7 +10,7 @@ import { postRegister } from '../../../helpers/fackBackend_Helper';
 // Is user register successfull then direct plot user in redux.
 function* registerUser({ payload: { user, history } }) {
   try {
-    const response = yield call(postRegister, '/register', user);
+    const response = yield call(postRegister, '/auth/register', user);
     yield put(registerUserSuccessful(response));
     history.push('/login');
   } catch (error) {

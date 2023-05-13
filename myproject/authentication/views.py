@@ -1,23 +1,18 @@
-from django.shortcuts import get_object_or_404
-from rest_framework.views import APIView
-from .serializers import (
-    SubscriptionsSerializer,
-    UserSerializer,
-    TimeOffSettingSerializer,
-    HolidaySettingSerializer,
-)
-from rest_framework.response import Response
-from rest_framework.exceptions import AuthenticationFailed
-from .models import *
-import jwt
 import datetime
-from .utils import (
-    send_forget_password_email,
-    send_register_user_email,
-    generate_presigned_url,
-    check_or_create_username,
-)
-from rest_framework import status
+
+import jwt
+from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenViewBase
+
+from .models import *
+from .serializers import (SubscriptionsSerializer,
+                          TokenObtainLifetimeSerializer, UserSerializer)
+from .utils import (check_or_create_username, send_forget_password_email,
+                    send_register_user_email)
 
 # COMMON CODE FOR AUTHENTICATION
 """
@@ -30,6 +25,13 @@ from rest_framework import status
 """
 
 
+class TokenObtainPairView(TokenViewBase):
+    """
+        Return JWT tokens (access and refresh) for specific user based on username and password.
+    """
+    serializer_class = TokenObtainLifetimeSerializer
+
+
 class RegisterView(APIView):
     def post(self, request):
 
@@ -40,99 +42,22 @@ class RegisterView(APIView):
 
         serializer = UserSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        
+
         serializer.save()
 
         TimeOffSetting.objects.create(user_id=serializer.data["id"])
-        
+
         send_register_user_email(data["email"], data["first_name"])
 
         return Response({"data": serializer.data})
 
-
-class LoginView(APIView):
-    def post(self, request):
-        email = request.data["email"]
-        password = request.data["password"]
-
-        user = User.objects.filter(email=email).first()
-        
-        if user is None:
-            raise AuthenticationFailed("User not found!")
-
-        if not user.check_password(password):
-            raise AuthenticationFailed("Incorrect password!")
-
-        payload = {
-            "id": user.id,
-            # exp stands for expiration time
-            "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
-            "iat": datetime.datetime.utcnow(),  # iat stands for issued at time
-        }
-
-        # HS256 is the algorithm used to encode the token
-        token = jwt.encode(payload, "secret", algorithm="HS256")
-     
-        response = Response()
-        
-        
-        # httponly is used to prevent javascript from accessing the cookie
-        response.set_cookie(
-            key="jwt", value=token, httponly=True, samesite="none", secure=False
-        )
-        
-        response.data = {"token":token,"is_logged_in":user.is_logged_in}
-
-        return response
-
-
-class UserView(APIView):
-    def get(self, request):
-
-        token = request.headers["Authorization"].split("Bearer ")[1] 
-
-        if not token:
-            raise AuthenticationFailed("Unauthenticated")
-
-        try:
-            payload = jwt.decode(token, "secret", algorithms=["HS256"])
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Unauthenticated")
-
-        # get the user from the payload
-
-        user = User.objects.filter(id=payload["id"]).first()
-        
-        serializer = UserSerializer(user)
-
-        return Response(serializer.data)
-
-    def put(self,request):
-        
-        token = request.headers["Authorization"].split("Bearer ")[1]
-
-        if not token:
-            raise AuthenticationFailed("Unauthenticated")
-
-        try:
-            payload = jwt.decode(token, "secret", algorithms=["HS256"])
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Unauthenticated")
-
-        user = User.objects.filter(id=payload["id"]).first()
-        user.is_logged_in = True
-        user.save()
-
-        return Response({"data":"User Successfully Updated"})
 
 
 class LogoutView(APIView):
     def post(self, request):
 
         response = Response()
-        response.delete_cookie("jwt")
+        # response.delete_cookie("jwt")
         response.data = {"detail": "logout"}
 
         return response
@@ -198,24 +123,15 @@ class ResetPasswordView(APIView):
 
 
 class ChangePasswordView(APIView):
-    def post(self, request):
+    permission_classes = [IsAuthenticated]
 
-        token = request.headers["Authorization"].split("Bearer ")[1]
+    def post(self, request):
 
         old_password = request.data["old_password"]
         new_password = request.data["new_password"]
 
-        if not token:
-            raise AuthenticationFailed("Unauthenticated")
-
-        try:
-            payload = jwt.decode(token, "secret", algorithms=["HS256"])
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Unauthenticated")
-
         # get_object_or_404 is used to get the object from the database if the object is not found it will return 404 error
-        user = get_object_or_404(User, id=payload["id"])
+        user = get_object_or_404(User, id=request.user.id)
 
         is_correct = user.check_password(old_password)
 
@@ -226,146 +142,6 @@ class ChangePasswordView(APIView):
         user.save()
 
         return Response({"detail": "Password updated successfully"})
-
-
-class UpdateProfileView(APIView):
-    def post(self, request):
-
-        token = request.headers["Authorization"].split("Bearer ")[1]
-
-        if not token:
-            raise AuthenticationFailed("Unauthenticated")
-
-        try:
-            payload = jwt.decode(token, "secret", algorithms=["HS256"])
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Unauthenticated")
-
-        data = request.data
-
-        # get_object_or_404 is used to get the object from the database if the object is not found it will return 404 error
-        user = get_object_or_404(User, id=payload["id"])
-
-        user.first_name = data["first_name"]
-        user.last_name = data["last_name"]
-        user.save()
-
-        return Response({"detail": "Profile updated successfully"})
-
-
-class UpdateProfilePictureView(APIView):
-    def post(self, request):
-
-        token = request.headers["Authorization"].split("Bearer ")[1]
-
-        if not token:
-            raise AuthenticationFailed("Unauthenticated")
-
-        try:
-            payload = jwt.decode(token, "secret", algorithms=["HS256"])
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Unauthenticated")
-
-        data = request.data
-        file_name = data["file_name"]
-
-        # get_object_or_404 is used to get the object from the database if the object is not found it will return 404 error
-        user = get_object_or_404(User, id=payload["id"])
-
-        link = f"https://vacay-assets.s3.amazonaws.com/users/{user.username}/profile/{file_name}"
-
-        user.profile_pic = link
-        user.save()
-
-        return Response({"detail": "Profile picture updated successfully"})
-
-
-class GeneratePresignedUrl(APIView):
-    def post(self, request):
-
-        # token = request.COOKIES.get('jwt')
-        token = request.headers["Authorization"].split("Bearer ")[1]
-
-        if not token:
-            raise AuthenticationFailed("Unauthenticated")
-
-        try:
-            payload = jwt.decode(token, "secret", algorithms=["HS256"])
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Unauthenticated")
-
-        data = request.data
-
-        user = get_object_or_404(User, id=payload["id"])
-
-        link = generate_presigned_url(
-            user.username, data["file_name"], data["file_type"]
-        )
-
-        return Response({"detail": link})
-
-
-class TimeOffSettingList(APIView):
-    """
-    Retrive time off settings
-    """
-
-    def get(self, request):
-        """
-        Get time off settings for a specific requesting user
-        """
-        token = request.headers["Authorization"].split("Bearer ")[1]
-
-        if not token:
-            raise AuthenticationFailed("Unauthenticated")
-
-        try:
-            payload = jwt.decode(token, "secret", algorithms=["HS256"])
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Unauthenticated")
-
-        time_off_setting = get_object_or_404(TimeOffSetting, user_id=payload["id"])
-
-        return Response(TimeOffSettingSerializer(time_off_setting).data)
-
-    def put(self, request):
-        """
-        Update specific time off setting object
-
-        Right now assumes there is a 1:1 mapping from user to time off setting
-        In the future, there will be 1:many.
-        """
-        token = request.headers["Authorization"].split("Bearer ")[1]
-        data = request.data
-
-        if not token:
-            raise AuthenticationFailed("Unauthenticated")
-
-        try:
-            token_payload = jwt.decode(token, "secret", algorithms=["HS256"])
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Unauthenticated")
-
-        user = get_object_or_404(User, id= token_payload["id"])
-        user.country= data["country"]
-        user.save()
-
-        time_off_setting_to_update = get_object_or_404(
-            TimeOffSetting, user_id=token_payload["id"]
-        )
-
-        serializer = TimeOffSettingSerializer( time_off_setting_to_update, data=data )
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class SubscribeView(APIView):
@@ -379,92 +155,3 @@ class SubscribeView(APIView):
         subscriptions = Subscriptions.objects.all()
         serializer = SubscriptionsSerializer(subscriptions, many=True)
         return Response(serializer.data)
-
-
-class HolidaySettingView(APIView):
-    def get(self, request):
-
-        token = request.headers["Authorization"].split("Bearer ")[1]
-        data = request.data
-
-        if not token:
-            raise AuthenticationFailed("Unauthenticated")
-
-        try:
-            token_payload = jwt.decode(token, "secret", algorithms=["HS256"])
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Unauthenticated")
-        
-        country=User.objects.get(id=token_payload["id"]).country
-
-        # Add static holiday data to the list of holidays
-        holidays = [
-            {
-              "country": "France",
-              "name": "New Year's Day France",
-              "date": "January 1st, 2023",
-              "active": False,
-            },
-            # // TODO: Add more static holiday data
-            {
-              "country": "US",
-              "name": "New Year's Day US",
-              "date": "January 2nd, 2023",
-              "active": True,
-            },
-             # // TODO: Add more static holiday data
-             {
-              "country": "Other",
-              "name": "New Year's Day Other",
-              "date": "January 1st, 2023",
-              "active": True,
-            },
-             # // TODO: Add more static holiday data
-        ]
-        
-        # Retrieve all holiday data from the database and append to the list of holidays
-        holidays_from_db = HolidaySetting.objects.all()
-        for holiday in holidays_from_db:
-            holidays.append({
-                "country": holiday.country,
-                "name": holiday.name,
-                "date": holiday.date,
-                "active": holiday.active,
-            })
-        selected_country = []
-        for holiday in holidays:
-            if holiday["country"] == country:
-                selected_country.append(holiday)
-        serializer = HolidaySettingSerializer(selected_country, many=True)
-        return Response(serializer.data)
-
-    
-    
-    def post(self, request):
-        data = request.data
-       
-
-        token = request.headers["Authorization"].split("Bearer ")[1]
-        data = request.data
-
-        if not token:
-            raise AuthenticationFailed("Unauthenticated")
-
-        try:
-            token_payload = jwt.decode(token, "secret", algorithms=["HS256"])
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Unauthenticated")
-        
-
-        data.country=User.objects.get(id=token_payload["id"]).country
-        
-        serializer = HolidaySettingSerializer(data=data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-

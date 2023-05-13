@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
-  const user = localStorage.getItem('authUser');
+  const user = localStorage.getItem('access_token');
   if (user) return JSON.parse(user);
   return null;
 };

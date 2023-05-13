@@ -22,9 +22,9 @@ const Dashboard = () => {
   // Fetch time off settings from back-end
   const dispatch = useDispatch();
   const fetchTimeOffSettings = async () => {
-    let data = await get('/time-off-settings');
+    let data = await get('/dashboard/time-off-settings');
     // TODO: expand logic for dispatching based on specific settings type
-    console.log("data",data.accrual_type);
+  
     const PTOSettings = {
       ptoAccrualType: data.accrual_type,
       ptoAllowance: data.annual_allowance_days,

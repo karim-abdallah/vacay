@@ -20,12 +20,13 @@ const axiosApi = axios.create({
 
 axiosApi.interceptors.request.use(
   config => {
-    let access_token = localStorage.getItem('authUser');
+    let access_token = localStorage.getItem('access_token');
 
     if (access_token !== undefined) {
       config.headers.Authorization = 'Bearer ' + access_token;
     } else {
-      history.push('/logout');
+      return history.push('/logout');
+      return window.location.href = '/login'
     }
 
     return config;
@@ -40,7 +41,7 @@ axiosApi.interceptors.response.use(
   error => {
     if (
       error.response.data &&
-      error.response.data.detail === 'Unauthenticated'
+      error.response.data.code === 'token_not_valid'
     ) {
       history.push('/logout');
     } else {
