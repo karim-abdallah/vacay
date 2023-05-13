@@ -11,6 +11,7 @@ from .utils import generate_presigned_url
 
 # Create your views here.
 
+
 class UserView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -109,7 +110,7 @@ class TimeOffSettingList(APIView):
         data = request.data
 
         user = get_object_or_404(User, id=id)
-        user.country = data["country"]
+        user.country = data.get("country", user.country)
         user.is_logged_in = True
         user.save()
 
@@ -131,7 +132,6 @@ class HolidaySettingView(APIView):
 
         id = request.user.id
         data = request.data
-
 
         country = User.objects.get(id=id).country
 
