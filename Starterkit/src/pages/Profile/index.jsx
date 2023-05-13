@@ -6,9 +6,6 @@ import Picture from "../../assets/images/profile.png";
 import { get, post, s3Post } from "../../helpers/api_helper";
 import editIcon from "../../assets/images/edit-icon.svg";
 
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-
 
 const Banner = (props) => {
   const [imageUrl, setImageUrl] = useState(null);
@@ -28,11 +25,11 @@ const Banner = (props) => {
     };
 
     try {
-      let response = await post("generate-presigned-url", obj);
+      let response = await post("/dashboard/generate-presigned-url", obj);
 
       try {
         await s3Post(response.detail, selectedFile);
-        await post("update-profile-picture", obj);
+        await post("/dashboard/update-profile-picture", obj);
         props.fetchData();
         setIsUploading(false);
       } catch (error) {
@@ -98,19 +95,19 @@ const ChangePassword = ({ toggleComponent }) => {
   };
 
   const changePassword = async () => {
-    
+
     let obj = {
       old_password: currentPassword,
       new_password: newPassword,
     };
 
     try {
-      let data = await post("/change-password", obj);
+      let data = await post("/auth/change-password", obj);
       setError(data.detail);
     } catch (error) {
       setError(error.data.detail);
     }
-}
+  }
   const analyze = () => {
     if (strongRegex.test(newPassword)) {
       return true;
@@ -125,14 +122,14 @@ const ChangePassword = ({ toggleComponent }) => {
   };
 
   const handleNewPasswordChange = (event) => {
-  setNewPassword(event.target.value);
-  if (newPassword.length >= 8 && newPassword.length <= 20) {
-    setPasswordValidation(false);
-    setError("");
-  }
-  else { 
-    setPasswordValidation(true);
-  } 
+    setNewPassword(event.target.value);
+    if (newPassword.length >= 8 && newPassword.length <= 20) {
+      setPasswordValidation(false);
+      setError("");
+    }
+    else {
+      setPasswordValidation(true);
+    }
   };
 
   const handleRetypeNewPasswordChange = (event) => {
@@ -174,20 +171,20 @@ const ChangePassword = ({ toggleComponent }) => {
           </div>
           <div>
             <ul>
-              {!passwordValidation? (
+              {!passwordValidation ? (
                 <li
-                style={{ listStyleType: "none", fontSize: "12px" }}
+                  style={{ listStyleType: "none", fontSize: "12px" }}
                 >
                   Password should be between 8 and 20 characters
                 </li>
-              ) :  <li style={{
+              ) : <li style={{
                 color: "red",
                 listStyleType: "none",
                 fontSize: "12px",
               }} >
-              Password should be between 8 and 20 characters
-            </li>}
-             
+                Password should be between 8 and 20 characters
+              </li>}
+
             </ul>
           </div>
           <div className="form-group input-group">
@@ -201,7 +198,7 @@ const ChangePassword = ({ toggleComponent }) => {
             />
           </div>
           <div className="pwd-chng-btn">
-            <button className="save-profile" type="Submit"  disabled={passwordValidation}>
+            <button className="save-profile" type="Submit" disabled={passwordValidation}>
               Save
             </button>
           </div>
@@ -232,7 +229,7 @@ const GeneralInformation = ({ toggleComponent }) => {
 
   const updateProfile = async (obj) => {
     try {
-      let data = await post("/update-user", obj);
+      let data = await post("/dashboard/update-user", obj);
       setError(data.detail);
     } catch (error) {
       setError(error.data.detail);
@@ -248,7 +245,7 @@ const GeneralInformation = ({ toggleComponent }) => {
   };
 
   const fetchData = async () => {
-    let data = await get("/user");
+    let data = await get("/dashboard/user");
     setUserName(data["username"]);
     setEmail(data["email"]);
     setFirstName(data["first_name"]);
@@ -262,7 +259,7 @@ const GeneralInformation = ({ toggleComponent }) => {
 
   return (
     <div>
-      
+
       <h2>General Information</h2>
 
       <Banner profilePic={proflePic} fetchData={fetchData} />
@@ -322,7 +319,7 @@ const GeneralInformation = ({ toggleComponent }) => {
             </div>
           </div>
           <div className="mt-3">
-            <a className="toggle" onClick={toggleComponent}>
+            <a className="toggle" onClick={toggleComponent} href="#">
               Change Password
             </a>
           </div>

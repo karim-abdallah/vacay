@@ -13,7 +13,7 @@ function* forgetUser({ payload: { email, history } }) {
 
   try {
 
-    yield call(postForgetPwd, "/forgot-password", email);
+    yield call(postForgetPwd, "/auth/forgot-password", email);
 
     yield put(
       forgetUserSuccessful(

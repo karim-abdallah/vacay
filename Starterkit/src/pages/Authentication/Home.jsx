@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import Logo from "../../assets/images/logo-vaccay.svg";
 import Calendar1 from "../../assets/images/calendar_vac1.svg";
 import Cal02 from "../../assets/images/cal02.svg";
@@ -76,8 +76,7 @@ const GetStarted = () => {
     } else {
       try {
         let obj = { email: email };
-        await post("/subscribe", obj);
-        // setIsSubscribed(true);
+        await post("/auth/subscribe", obj);
         setEmail("");
         handleThankYouScreen();
       } catch (error) {
@@ -288,7 +287,7 @@ const Footer = () => {
     } else {
       try {
         let obj = { email: email };
-        await post("/subscribe", obj);
+        await post("/auth/subscribe", obj);
         setIsSubscribed(true);
         setEmail("");
       } catch (error) {
@@ -308,7 +307,15 @@ const Footer = () => {
     marginTop: "11px",
     marginLeft: "7px",
   };
-
+  const blogStyle = {
+    cursor: "pointer",
+    color: "white",
+    marginTop: "11px",
+    fontFamily: "Poppins",
+    fontStyle: "normal",
+    fontWeight: "500",
+    fontSize: "20px",
+  };
   return (
     <div className="footer-container">
       <hr className="hr-for-header" />
@@ -316,35 +323,51 @@ const Footer = () => {
       <Link to="/homes" className="mx-2">
         <img src={Logo} alt="vacay" className="logo" />
       </Link>
-      <div className="footer-section">
-        <form onSubmit={handleFormSubmit}>
-          <div className="form-group footer-input">
-            <input
-              value={email}
-              type="email"
-              placeholder="Your email address"
-              className="form-control input-field"
-              onChange={handleEmailChange}
-            />
 
-            {isSubscribed ? (
-              <h5 style={subscribedStyle}>Subscribed</h5>
-            ) : (
-              <button className="footer-btn" type="Submit">
-                {" "}
-                Subscribe{" "}
-              </button>
-            )}
-          </div>
-          {errorMessage && (
-            <div className="alert alert-danger">{errorMessage}</div>
-          )}
-        </form>
+      <div className="footer-section">
+        <Container>
+          <Row>
+            <Col sm={10}>
+              <form onSubmit={handleFormSubmit}>
+                <div className="form-group footer-input">
+                  <input
+                    value={email}
+                    type="email"
+                    placeholder="Your email address"
+                    className="form-control input-field"
+                    onChange={handleEmailChange}
+                  />
+
+                  {isSubscribed ? (
+                    <h5 style={subscribedStyle}>Subscribed</h5>
+                  ) : (
+                    <button className="footer-btn" type="Submit">
+                      {" "}
+                      Subscribe{" "}
+                    </button>
+                  )}
+                </div>
+                {errorMessage && (
+                  <div className="alert alert-danger">{errorMessage}</div>
+                )}
+              </form>
+            </Col>
+            <Col sm={2} className="text-end">
+              <p style={blogStyle} onClick={goToFeedback}>
+                Blog
+              </p>
+            </Col>
+          </Row>
+        </Container>
       </div>
     </div>
   );
 };
-
+const goToFeedback = () => {
+  window.open(
+    "https://docs.google.com/forms/d/e/1FAIpQLSewOeenbHvlcb2GK1uOXSvZ05iW8EATairwJbXPNHIk4lzDow/viewform"
+  );
+};
 const Landing = () => {
   const [showGetStarted, setShowGetStarted] = useState(false);
   const [showContent, setShowContent] = useState(true);

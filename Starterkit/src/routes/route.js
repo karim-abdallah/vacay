@@ -10,13 +10,13 @@ const AppRoute = ({
   <Route
     {...rest}
     render={(props) => {
-      if (isAuthProtected && !localStorage.getItem("authUser")) {
+      if (isAuthProtected && !localStorage.getItem("access_token")) {
         return (
           <Redirect
             to={{ pathname: "/home", state: { from: props.location } }}
           />
         );
-      } else if (!isAuthProtected && localStorage.getItem("authUser")) {
+      } else if (!isAuthProtected && localStorage.getItem("access_token")) {
         return (
           <Redirect
             to={{ pathname: "/dashboard", state: { from: props.location } }}

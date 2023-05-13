@@ -1,31 +1,5 @@
+from authentication.models import HolidaySetting, TimeOffSetting
 from rest_framework import serializers
-from .models import TimeOffSetting, User, Subscriptions
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = [
-            "id",
-            "first_name",
-            "last_name",
-            "email",
-            "password",
-            "username",
-            "profile_pic",
-        ]
-
-        # this is used to hide the password when we get the data from the database
-        extra_kwargs = {"password": {"write_only": True}}
-
-    def create(self, validated_data):
-        password = validated_data.pop("password", None)
-        # this is used to create a new user
-        instance = self.Meta.model(**validated_data)
-        if password is not None:
-            instance.set_password(password)
-        instance.save()
-        return instance
 
 
 class TimeOffSettingSerializer(serializers.ModelSerializer):
@@ -51,9 +25,9 @@ class TimeOffSettingSerializer(serializers.ModelSerializer):
         instance.time_off_type = validated_data.get(
             "time_off_type", instance.time_off_type
         )
-        instance.accrual_type = validated_data.get(
-            "accrual_type", instance.accrual_type
-        )
+        # instance.accrual_type = validated_data.get(
+        #     "accrual_type", instance.accrual_type
+        # )
         instance.annual_allowance_days = validated_data.get(
             "annual_allowance_days", instance.annual_allowance_days
         )
@@ -68,7 +42,8 @@ class TimeOffSettingSerializer(serializers.ModelSerializer):
         return instance
 
 
-class SubscriptionsSerializer(serializers.ModelSerializer):
+
+class HolidaySettingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Subscriptions
+        model = HolidaySetting
         fields = "__all__"

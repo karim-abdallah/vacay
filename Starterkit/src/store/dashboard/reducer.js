@@ -71,10 +71,12 @@ const Dashboard = (state = INIT_STATE, action) => {
       return {
         ...state,
         PTOSettings: {
+          accrualType: action.payload.ptoAccrualType,
           annualAllowanceDays: action.payload.ptoAllowance,
           accrualCapDays: action.payload.ptoCap,
           currentBalanceDays: action.payload.ptoBalance,
         },
+        
       };
     case 'holidays/update':
       // Takes in list of active holidays by name. Ex:

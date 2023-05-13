@@ -1,9 +1,6 @@
+from authentication.models import TimeOffSetting, User
+from django.test import TestCase
 from django.urls import reverse
-from django.test import RequestFactory, TestCase
-
-from .views import TimeOffSettingDetail
-
-from .models import TimeOffSetting, User
 
 
 # Create your tests here.
@@ -28,7 +25,8 @@ class TestTimeOffSettingsDetail(TestCase):
 
     def test_get(self) -> None:
         # Arrange
-        self.client.login(username=self.user.username, password=self.user.password)
+        self.client.login(username=self.user.username,
+                          password=self.user.password)
         url = reverse("time-off-setting-detail", kwargs={"id": self.user.id})
 
         # Act
