@@ -6,8 +6,8 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('myapp', '0004_subscriptions'),
-        ('myapp', '0006_auto_20230504_1457'),
+        ('authentication', '0004_subscriptions'),
+        ('authentication', '0006_auto_20230504_1457'),
     ]
 
     operations = [

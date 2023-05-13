@@ -8,7 +8,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('myapp', '0003_user_profile_pic'),
+        ('authentication', '0003_user_profile_pic'),
     ]
 
     operations = [

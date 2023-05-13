@@ -86,12 +86,10 @@ class LoginView(APIView):
         return response
 
 
-
 class UserView(APIView):
     def get(self, request):
-        token = request.headers["Authorization"].split("Bearer ")[
-            1
-        ]  # get the token from the cookie
+
+        token = request.headers["Authorization"].split("Bearer ")[1] 
 
         if not token:
             raise AuthenticationFailed("Unauthenticated")
@@ -111,9 +109,9 @@ class UserView(APIView):
         return Response(serializer.data)
 
     def put(self,request):
-        token = request.headers["Authorization"].split("Bearer ")[
-            1
-        ]
+        
+        token = request.headers["Authorization"].split("Bearer ")[1]
+
         if not token:
             raise AuthenticationFailed("Unauthenticated")
 
@@ -202,7 +200,6 @@ class ResetPasswordView(APIView):
 class ChangePasswordView(APIView):
     def post(self, request):
 
-        # token = request.COOKIES.get('jwt')
         token = request.headers["Authorization"].split("Bearer ")[1]
 
         old_password = request.data["old_password"]
@@ -234,7 +231,6 @@ class ChangePasswordView(APIView):
 class UpdateProfileView(APIView):
     def post(self, request):
 
-        # token = request.COOKIES.get('jwt')
         token = request.headers["Authorization"].split("Bearer ")[1]
 
         if not token:
@@ -261,7 +257,6 @@ class UpdateProfileView(APIView):
 class UpdateProfilePictureView(APIView):
     def post(self, request):
 
-        # token = request.COOKIES.get('jwt')
         token = request.headers["Authorization"].split("Bearer ")[1]
 
         if not token:
