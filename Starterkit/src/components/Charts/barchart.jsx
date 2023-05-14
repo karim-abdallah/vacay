@@ -273,7 +273,7 @@ const BarChart = () => {
 
   let [data, negativeBalanceMonths] = [{}, []];
 
-  switch (dashboardData.policyType) {
+  switch (dashboardData.accrualType) {
     case PolicyTypes.accrual:
       [data, negativeBalanceMonths] = generateDashboardData(
         dashboardData.currentMonth,

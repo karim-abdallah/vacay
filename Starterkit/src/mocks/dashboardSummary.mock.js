@@ -185,7 +185,7 @@ export const mockApiResponse = {
   // ],
 
   PTOSettings: {
-    policyType: 'unlimited',
+    accrualType: 'unlimited',
     annualAllowanceDays: 20,
     accrualCapDays: 10,
     currentBalanceDays: 4,
