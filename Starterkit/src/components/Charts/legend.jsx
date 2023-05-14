@@ -1,11 +1,17 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+import { getPTOSettings } from '../../store/dashboard/selector';
+import { PolicyTypes } from '../../constants.js';
+import { useSelector } from 'react-redux';
 import {
   bookedPtoColor,
   selectionColor,
-  balanceColor
-} from "../../styles/constants";
+  balanceColor,
+} from '../../styles/constants';
 
 export const Legend = () => {
+  const ptoSettings = useSelector(getPTOSettings);
+  const policyType = ptoSettings.PTOSettings.policyType;
+
   return (
     <StyledLegend>
       <StyledDaysLegend>Days</StyledDaysLegend>
@@ -18,10 +24,12 @@ export const Legend = () => {
           <Circle />
           Selected Dates
         </FlexDiv>
-        <FlexDiv color={balanceColor}>
-          <Circle />
-          Your Balance
-        </FlexDiv>
+        {policyType === PolicyTypes.accrual && (
+          <FlexDiv color={balanceColor}>
+            <Circle />
+            Your Balance
+          </FlexDiv>
+        )}
         <HolidayFlexDiv>
           <HolidayCircle />
           Holidays

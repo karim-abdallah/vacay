@@ -9,7 +9,7 @@ class TimeOffSettingSerializer(serializers.ModelSerializer):
             "id",
             "user_id",
             "time_off_type",
-            "accrual_type",
+            "policy_type",
             "annual_allowance_days",
             "accrual_cap_days",
             "current_balance_days",
@@ -25,9 +25,9 @@ class TimeOffSettingSerializer(serializers.ModelSerializer):
         instance.time_off_type = validated_data.get(
             "time_off_type", instance.time_off_type
         )
-        # instance.accrual_type = validated_data.get(
-        #     "accrual_type", instance.accrual_type
-        # )
+        instance.accrual_type = validated_data.get(
+            "accrual_type", instance.accrual_type
+        )
         instance.annual_allowance_days = validated_data.get(
             "annual_allowance_days", instance.annual_allowance_days
         )
@@ -40,7 +40,6 @@ class TimeOffSettingSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
-
 
 
 class HolidaySettingSerializer(serializers.ModelSerializer):

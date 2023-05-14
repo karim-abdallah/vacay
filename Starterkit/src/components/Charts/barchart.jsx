@@ -1,13 +1,13 @@
-import React from "react";
-import { Chart as ChartJS } from "chart.js/auto";
-import { Bar } from "react-chartjs-2";
-import { useSelector, useDispatch } from "react-redux";
+import React from 'react';
+import { Chart as ChartJS } from 'chart.js/auto';
+import { Bar } from 'react-chartjs-2';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   selectDashboardData,
   getSelectedDates,
   getDatesToUnbook,
-  getNegativeBalanceMonths
-} from "../../store/dashboard/selector";
+  getNegativeBalanceMonths,
+} from '../../store/dashboard/selector';
 import {
   bookedPtoColor,
   holidayColor,
@@ -15,18 +15,20 @@ import {
   unbookColor,
   balanceColor,
   negativeBalanceColor,
-  axisColor
-} from "../../styles/constants";
+  axisColor,
+} from '../../styles/constants';
 import {
   monthYearFormatter,
   computeNextTwelveMonths,
-  arraysEqual
-} from "../../helpers/vacay_helpers";
+  arraysEqual,
+} from '../../helpers/vacay_helpers';
 import {
   weekendDayIndex,
   barChartBarPercentage,
-  barChartBorderRadius
-} from "../../constants";
+  barChartBorderRadius,
+  PolicyTypes,
+  unlimitedMinAxisDays,
+} from '../../constants';
 
 const computeMonthlyBalance = (
   orderedLabels,
@@ -60,6 +62,78 @@ const computeMonthlyBalance = (
   });
 };
 
+const generateDashboardDataUnlimitedPTO = (
+  currentMonth,
+  bookedPTO,
+  selectedDates,
+  datesToUnbook
+) => {
+  // for unlimited pto, it should only generate selected days, unbook, days booked, public holidays
+  const monthLabels = computeNextTwelveMonths(currentMonth);
+  const PTOPerMonth = {};
+  const selectedDatesPerMonth = {};
+  const datesToUnbookPerMonth = {};
+
+  monthLabels.forEach((element, index) => {
+    PTOPerMonth[element] = 0;
+    selectedDatesPerMonth[element] = 0;
+    datesToUnbookPerMonth[element] = 0;
+  });
+
+  bookedPTO.dates.forEach((element, index) => {
+    const monthLabel = monthYearFormatter(element);
+    // if currentDate not a week-end, increment, otherwise skip
+    if (!weekendDayIndex.includes(element.getDay())) {
+      PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] + 1;
+    }
+  });
+
+  selectedDates.forEach((element, index) => {
+    const monthLabel = monthYearFormatter(element);
+    // add to booked pto the selection. This will get cleared if we don't book them,
+    // but it needs to appear on the chart
+    // if currentDate not a week-end, increment, otherwise skip
+    if (!weekendDayIndex.includes(element.getDay())) {
+      selectedDatesPerMonth[monthLabel] = selectedDatesPerMonth[monthLabel] + 1;
+    }
+  });
+
+  datesToUnbook.forEach((element, index) => {
+    const monthLabel = monthYearFormatter(element);
+    // substract from PTO selection.
+    if (!weekendDayIndex.includes(element.getDay())) {
+      datesToUnbookPerMonth[monthLabel] = datesToUnbookPerMonth[monthLabel] + 1;
+      PTOPerMonth[monthLabel] = PTOPerMonth[monthLabel] - 1;
+    }
+  });
+
+  const chartData = {
+    labels: monthLabels,
+    datasets: [
+      {
+        label: 'Selected Days',
+        backgroundColor: selectionColor,
+        data: monthLabels.map(x => selectedDatesPerMonth[x]),
+        stack: 'PTOStack',
+      },
+      {
+        label: 'Unbook',
+        backgroundColor: unbookColor,
+        data: monthLabels.map(x => datesToUnbookPerMonth[x]),
+        stack: 'PTOStack',
+      },
+      {
+        label: 'Days Booked',
+        backgroundColor: bookedPtoColor,
+        data: monthLabels.map(x => PTOPerMonth[x]),
+        stack: 'PTOStack',
+      },
+    ],
+  };
+
+  return chartData;
+};
+
 const generateDashboardData = (
   currentMonth,
   currentBalanceDays,
@@ -84,7 +158,6 @@ const generateDashboardData = (
     PTOPerMonth[element] = 0;
     holidaysPerMonth[element] = 0;
     balance[element] = 0;
-    // These will actually be used on the chart if we can do stacked bars
     selectedDatesPerMonth[element] = 0;
     datesToUnbookPerMonth[element] = 0;
   });
@@ -139,42 +212,42 @@ const generateDashboardData = (
     labels: monthLabels,
     datasets: [
       {
-        label: "Your Balance",
-        backgroundColor: function(context) {
+        label: 'Your Balance',
+        backgroundColor: function (context) {
           const index = context.dataIndex;
           const value = context.dataset.data[index];
 
           return value < 0 ? negativeBalanceColor : balanceColor;
         },
         data: monthLabels.map(x => balance[x].toFixed(1)),
-        stack: "PTOStack"
+        stack: 'PTOStack',
       },
       {
-        label: "Selected Days",
+        label: 'Selected Days',
         backgroundColor: selectionColor,
         data: monthLabels.map(x => selectedDatesPerMonth[x]),
-        stack: "PTOStack"
+        stack: 'PTOStack',
       },
       {
-        label: "Unbook",
+        label: 'Unbook',
         backgroundColor: unbookColor,
         data: monthLabels.map(x => datesToUnbookPerMonth[x]),
-        stack: "PTOStack"
+        stack: 'PTOStack',
       },
       {
-        label: "Days Booked",
+        label: 'Days Booked',
         backgroundColor: bookedPtoColor,
         data: monthLabels.map(x => PTOPerMonth[x]),
-        stack: "PTOStack"
+        stack: 'PTOStack',
       },
       {
-        label: "Public Holidays",
+        label: 'Public Holidays',
         backgroundColor: holidayColor,
         data: monthLabels.map(x => holidaysPerMonth[x]),
         borderSkipped: false,
-        hidden: true
-      }
-    ]
+        hidden: true,
+      },
+    ],
   };
 
   return [chartData, negativeBalanceMonths];
@@ -185,58 +258,86 @@ const BarChart = () => {
   const dashboardData = useSelector(selectDashboardData);
   const selectedDates = useSelector(getSelectedDates);
   const datesToUnbook = useSelector(getDatesToUnbook);
-  const [data, negativeBalanceMonths] = generateDashboardData(
-    dashboardData.currentMonth,
-    dashboardData.currentBalanceDays,
-    dashboardData.bookedPTO,
-    dashboardData.holidays,
-    dashboardData.accrualRate,
-    dashboardData.accrualCap,
-    selectedDates,
-    datesToUnbook
-  );
-  const currentNegativeBalanceMonths = useSelector(getNegativeBalanceMonths);
-  const yAxisMax =
-    dashboardData.currentBalanceDays + 12 * dashboardData.accrualRate;
 
+  let yAxisConfig = {
+    border: {
+      display: false,
+    },
+    grid: {
+      display: false,
+    },
+    ticks: {
+      color: axisColor,
+    },
+  };
+
+  let [data, negativeBalanceMonths] = [{}, []];
+
+  switch (dashboardData.policyType) {
+    case PolicyTypes.accrual:
+      [data, negativeBalanceMonths] = generateDashboardData(
+        dashboardData.currentMonth,
+        dashboardData.currentBalanceDays,
+        dashboardData.bookedPTO,
+        dashboardData.holidays,
+        dashboardData.accrualRate,
+        dashboardData.accrualCap,
+        selectedDates,
+        datesToUnbook
+      );
+      const yAxisMax =
+        dashboardData.currentBalanceDays + 12 * dashboardData.accrualRate;
+      yAxisConfig = {
+        ...yAxisConfig,
+        max: yAxisMax,
+      };
+      break;
+    case PolicyTypes.unlimited:
+      data = generateDashboardDataUnlimitedPTO(
+        dashboardData.currentMonth,
+        dashboardData.bookedPTO,
+        selectedDates,
+        datesToUnbook
+      );
+      const yAxisMin = unlimitedMinAxisDays;
+      yAxisConfig = {
+        ...yAxisConfig,
+        min: yAxisMin,
+      };
+      break;
+    default:
+      [data, negativeBalanceMonths] = [{}, []];
+  }
+
+  const currentNegativeBalanceMonths = useSelector(getNegativeBalanceMonths);
   if (!arraysEqual(currentNegativeBalanceMonths, negativeBalanceMonths)) {
     dispatch({
-      type: "negativeBalanceMonths/update",
-      payload: [...negativeBalanceMonths]
+      type: 'negativeBalanceMonths/update',
+      payload: [...negativeBalanceMonths],
     });
   }
+
   const options = {
     borderRadius: barChartBorderRadius,
-    borderSkipped: "middle",
+    borderSkipped: 'middle',
     barPercentage: barChartBarPercentage,
     scales: {
-      y: {
-        border: {
-          display: false
-        },
-        grid: {
-          display: false
-        },
-        max: yAxisMax,
-        ticks: {
-          color: axisColor
-        }
-      },
+      y: yAxisConfig,
       x: {
         display: false,
         border: {
-          display: false
+          display: false,
         },
         grid: {
-          display: false
-        }
-      }
+          display: false,
+        },
+      },
     },
     plugins: {
       legend: {
-        display: false
-      }
-    }
+        display: false,
+      },
+    },
   };
 
   return <Bar height={83} width={250} data={data} options={options} />;

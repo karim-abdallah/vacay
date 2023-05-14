@@ -33,7 +33,7 @@ class TimeOffSetting(models.Model):
         HOLIDAYS = "holidays", ""
         SICK_DAYS = "sick_days", ""
 
-    class AccrualType(models.TextChoices):
+    class PolicyType(models.TextChoices):
         ACCRUAL = "accrual", ""
         LUMP_SUM = "lump_sump", ""
         UNLIMITED = "unlimited", ""
@@ -42,8 +42,8 @@ class TimeOffSetting(models.Model):
     time_off_type = models.CharField(
         max_length=100, choices=TimeOffType.choices, default=TimeOffType.PTO
     )
-    accrual_type = models.CharField(
-        max_length=100, choices=AccrualType.choices, default=AccrualType.ACCRUAL
+    policy_type = models.CharField(
+        max_length=100, choices=PolicyType.choices, default=PolicyType.ACCRUAL
     )
     annual_allowance_days = models.IntegerField(default=15)
     accrual_cap_days = models.IntegerField(default=24)

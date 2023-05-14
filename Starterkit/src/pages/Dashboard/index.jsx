@@ -24,21 +24,21 @@ const Dashboard = () => {
   const fetchTimeOffSettings = async () => {
     let data = await get('/dashboard/time-off-settings');
     // TODO: expand logic for dispatching based on specific settings type
-  
+
     const PTOSettings = {
       ptoAccrualType: data.accrual_type,
       ptoAllowance: data.annual_allowance_days,
       ptoCap: data.accrual_cap_days,
       ptoBalance: data.current_balance_days,
     };
- 
+
     dispatch({ type: 'settings/update', payload: PTOSettings });
   };
   useEffect(() => {
-    setTimeout(() => { 
+    setTimeout(() => {
       fetchTimeOffSettings();
-    },500);
-  },[]);
+    }, 500);
+  }, []);
 
   // Fetch dashboard data from back-end
   const currentMonth = useSelector(getCurrentMonth);
