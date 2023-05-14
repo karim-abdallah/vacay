@@ -10,7 +10,7 @@ import {
 
 export const Legend = () => {
   const ptoSettings = useSelector(getPTOSettings);
-  const policyType = ptoSettings.PTOSettings.policyType;
+  const accrualType = ptoSettings.PTOSettings.accrualType;
 
   return (
     <StyledLegend>
@@ -24,7 +24,7 @@ export const Legend = () => {
           <Circle />
           Selected Dates
         </FlexDiv>
-        {policyType === PolicyTypes.accrual && (
+        {accrualType === PolicyTypes.accrual && (
           <FlexDiv color={balanceColor}>
             <Circle />
             Your Balance
