@@ -299,10 +299,10 @@ const BarChart = () => {
         selectedDates,
         datesToUnbook
       );
-      const yAxisMin = unlimitedMinAxisDays;
+      const yAxisDefault = unlimitedMinAxisDays;
       yAxisConfig = {
         ...yAxisConfig,
-        min: yAxisMin,
+        suggestedMax: yAxisDefault,
       };
       break;
     default:
