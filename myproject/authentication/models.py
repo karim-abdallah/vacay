@@ -11,7 +11,7 @@ class User(AbstractUser):
     profile_pic = models.CharField(max_length=100, null=True)
     is_logged_in = models.BooleanField(default=False)
     country = models.CharField(max_length=100, null=True)
-    
+
     USERNAME_FIELD = "email"  # this is used to make the email field as the primary key
     REQUIRED_FIELDS = [
         "first_name",
@@ -33,7 +33,7 @@ class TimeOffSetting(models.Model):
         HOLIDAYS = "holidays", ""
         SICK_DAYS = "sick_days", ""
 
-    class PolicyType(models.TextChoices):
+    class AccrualType(models.TextChoices):
         ACCRUAL = "accrual", ""
         LUMP_SUM = "lump_sump", ""
         UNLIMITED = "unlimited", ""
@@ -42,8 +42,8 @@ class TimeOffSetting(models.Model):
     time_off_type = models.CharField(
         max_length=100, choices=TimeOffType.choices, default=TimeOffType.PTO
     )
-    policy_type = models.CharField(
-        max_length=100, choices=PolicyType.choices, default=PolicyType.ACCRUAL
+    accrual_type = models.CharField(
+        max_length=100, choices=AccrualType.choices, default=AccrualType.ACCRUAL
     )
     annual_allowance_days = models.IntegerField(default=15)
     accrual_cap_days = models.IntegerField(default=24)
@@ -60,4 +60,3 @@ class HolidaySetting(models.Model):
 
     def __str__(self):
         return self.name
-

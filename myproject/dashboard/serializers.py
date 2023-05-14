@@ -9,7 +9,7 @@ class TimeOffSettingSerializer(serializers.ModelSerializer):
             "id",
             "user_id",
             "time_off_type",
-            "policy_type",
+            "accrual_type",
             "annual_allowance_days",
             "accrual_cap_days",
             "current_balance_days",
