@@ -16,9 +16,17 @@ import styled from 'styled-components';
 import MiniCalendar from '../../components/Calendar/miniCalendar';
 import TimeOffSettings from '../../components/TimeOffSettings/index';
 import { get } from '../../helpers/api_helper';
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 
 const Dashboard = () => {
+  const dashboardStyle = {
+    "user-name": {
+      fontFamily: "DM Sans",
+      fontWeight: "bold",
+      FontSize: "40px",
+    },
+  };
+
   // Fetch time off settings from back-end
   const dispatch = useDispatch();
   const fetchTimeOffSettings = async () => {
@@ -37,8 +45,17 @@ const Dashboard = () => {
   useEffect(() => {
     setTimeout(() => { 
       fetchTimeOffSettings();
+      fetchFirstName();
     },500);
   },[]);
+
+
+  const [firstName, setFirstName] = useState("");
+  // Fetch FirstName from back-end
+  const fetchFirstName = async () => { 
+    let data = await get('/dashboard/user');
+    setFirstName(data["first_name"]);
+  }
 
   // Fetch dashboard data from back-end
   const currentMonth = useSelector(getCurrentMonth);
@@ -84,13 +101,16 @@ const Dashboard = () => {
       ''
     );
   };
+
+
+
   return (
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
           {generateWarning(negativeBalanceMonths)}
           <TimeOffSettings />
-          <h2>Dashboard</h2>
+          <h2 style={dashboardStyle["user-name"]}>Hi {firstName}!</h2>
           <Card>
             <CardBody>
               <Legend />

@@ -1,6 +1,6 @@
-import { Button, Card, CardBody, Container } from "reactstrap";
+import { Card, CardBody, Container } from "reactstrap";
 import { useDispatch } from "react-redux";
-import { Form, InputNumber, Checkbox, Tooltip, Input } from "antd";
+import { Form, InputNumber, Checkbox, Tooltip, Input,Button,Image } from "antd";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
@@ -9,6 +9,7 @@ import { tooltipBackground, cardHoverColor } from "../../styles/constants";
 import { minSettingsValueDays, maxSettingsValueDays } from "../../constants";
 import { TimeOffSettingsInstructions } from "./instructionText";
 import minimize from "../../assets/images/minimize.png";
+import plus from "../../assets/images/plus1.svg";
 import settings from "../../assets/images/settings.png";
 import { put, get } from "../../helpers/api_helper";
 
@@ -25,11 +26,22 @@ function HolidayCheckbox(props) {
   );
 }
 
+function AddHolidayButton() {
+  
+  return (
+    <AddHolidayContainer>
+      <CustomAddHolidayImage  src={plus}
+    />
+        <CustomAddHolidayInput placeholder="MM/DD |Holiday Name"/>
+    </AddHolidayContainer>
+  );
+}
+
 const HolidaysPane = () => {
   const fetchHoliday = async () => {
     let data = await get("/dashboard/holidays");
-
   };
+
   useEffect(() => {
     setTimeout(() => {
       fetchHoliday();
@@ -48,14 +60,6 @@ const HolidaysPane = () => {
   const checkboxHandler = (checkedValues) => {
     dispatch({ type: "holidays/update", payload: checkedValues });
   };
-  const timeOffFigureStyle = {
-    "card-input": {
-      width: "50%",
-      textAlign: "center",
-      background: "#F4F7FE",
-      border: "none !important",
-    },
-  };
   return (
     <HolidayPaneContainer>
       <SettingsSubheader>
@@ -69,26 +73,21 @@ const HolidaysPane = () => {
         onChange={checkboxHandler}
       >
         {holidayCheckboxes}
-        {/* <AddHolidayButton>
-        </AddHolidayButton>
-        <Input
-        style={timeOffFigureStyle["card-input"]}
-        type="text"
-      /> */}
+        <AddHolidayButton />
       </HolidaysContainer>
-      
     </HolidayPaneContainer>
   );
 };
 
 function NumberOptionDays(props) {
+
   return (
     <StyledFormItem name={props.name} className="text-end">
       <InputNumber
         size="small"
         min={minSettingsValueDays}
         max={maxSettingsValueDays}
-        // placeholder={`${props.value} days`}
+        onChange={props.onChange}
       />
     </StyledFormItem>
   );
@@ -232,12 +231,10 @@ const CheckboxLabel = styled(Checkbox)`
   font-size: 13px;
   .ant-checkbox-inner {
     background-color: #f4f7fe;
+    border:none;
   }
   .ant-checkbox-checked .ant-checkbox-inner::after {
     border-color: #2b3674;
-  }
-  .ant-checkbox {
-    border: #f4f7fe;
   }
 `;
 
@@ -295,14 +292,33 @@ const SaveChangesButton = styled.button`
   background-color: #f4f7fe;
   color: #2b3674;
 `;
-const AddHolidayButton = styled.button`
+
+const AddHolidayContainer = styled.div`
+display: flex;
 background-color: #f4f7fe;
-width: 50px;
-padding-top: 3px;
-padding-bottom: 3px;
-font-size: 15px;
-border:none;
+border-radius: 15px;
+`;
+
+
+const CustomAddHolidayInput = styled(Input)`
+  border: none;
+  background-color: transparent;
+  border-radius: 15px;
+  .ant-input:hover,
+  .ant-input:focus {
+    border-color:none !important;
+    box-shadow: none !important;
+    border: none !important;
+    box-sizing:unset !important;
+    outline: none !important;
+  }
+`;
+
+const CustomAddHolidayImage = styled.img`
+margin: 0px 13px;
+cursor: pointer;
 `
+
 const MinimizeButton = styled.button`
   float: right;
   font-size: 15px;

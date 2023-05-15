@@ -141,3 +141,4 @@ if config("VACAY_BACKEND_ENV") == "local":
     from .dev import *
 else:
     from .prod import *
+    

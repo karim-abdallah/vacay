@@ -242,6 +242,7 @@ function MiniCalendar(props) {
     return 'inactiveDays';
   };
 
+
   const handleDateSelection = valueRange => {
     // 1. Filter out values
     const dateValues = convertDateRangeToDiscreteDates(valueRange);
@@ -341,7 +342,7 @@ function MiniCalendar(props) {
     setSelectedDatesLocal([]);
     handleShowConfirmation();
   };
-
+  
   return (
     <CalendarContainer
       onClick={!showCalendar ? handleShowCalendar : null}
@@ -364,8 +365,9 @@ function MiniCalendar(props) {
             </CalendarHeaderContainer>
           </div>
           {showCalendar ? (
-            <>
-              <Calendar
+              <>
+                <Calendar
+                
                 activeStartDate={props.startDate}
                 onChange={handleDateSelection}
                 defaultView="month"
@@ -374,7 +376,8 @@ function MiniCalendar(props) {
                 showNavigation={false}
                 selectRange={true}
                 value={mouseSelection}
-              />
+                formatShortWeekday={(locale,value) => ['Su','Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa','Su'][value.getDay()]}
+                /> 
               <BookButtonContainer>{toggleButtons()}</BookButtonContainer>
             </>
           ) : (
@@ -391,6 +394,7 @@ function MiniCalendar(props) {
 export const StyledButtonIcon = styled.img`
   height: 13px;
 `;
+
 
 const CenteredFlexContainer = styled.div`
   display: flex;
@@ -458,9 +462,16 @@ const StyledMonthTitle = styled.b`
 `;
 
 const CalendarContainer = styled(Card)`
+
+abbr[title] {
+  border-bottom: none !important;
+  cursor: inherit !important;
+  text-decoration: none !important;
+}
+
   display: flex;
   flex-direction: column;
-  min-height: 120px;
+  // min-height: 120px;
   cursor: ${props => (props.showpointer === 'true' ? 'auto' : 'pointer')};
   &:hover {
     background-color: ${props =>
@@ -469,3 +480,5 @@ const CalendarContainer = styled(Card)`
 `;
 
 export default MiniCalendar;
+
+
