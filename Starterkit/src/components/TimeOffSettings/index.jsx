@@ -1,6 +1,6 @@
 import { Card, CardBody, Container } from "reactstrap";
 import { useDispatch } from "react-redux";
-import { Form, InputNumber, Checkbox, Tooltip, Input,Button,Image } from "antd";
+import { Form, InputNumber, Checkbox, Tooltip, Input,Button,Image,Typography } from "antd";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
@@ -12,6 +12,7 @@ import minimize from "../../assets/images/minimize.png";
 import plus from "../../assets/images/plus1.svg";
 import settings from "../../assets/images/settings.png";
 import { put, get } from "../../helpers/api_helper";
+import { set } from "react-ga";
 
 function HolidayCheckbox(props) {
   return (
@@ -27,12 +28,17 @@ function HolidayCheckbox(props) {
 }
 
 function AddHolidayButton() {
-  
+  const [openInput, setOpenInput] = useState(false);
+  const handletoggleInput = () => { 
+    setOpenInput(!openInput);
+  }
   return (
     <AddHolidayContainer>
-      <CustomAddHolidayImage  src={plus}
-    />
-        <CustomAddHolidayInput placeholder="MM/DD |Holiday Name"/>
+      <CustomAddHolidayImage  src={plus}  />
+
+      {openInput && <CustomAddHolidayInput onPressEnter={handletoggleInput} placeholder="MM/DD |Holiday Name" />}
+      {!openInput && <CustomAddHolidayButton type="text" onClick={handletoggleInput}>Add Holiday</CustomAddHolidayButton>}
+
     </AddHolidayContainer>
   );
 }
@@ -56,6 +62,7 @@ const HolidaysPane = () => {
   const holidayCheckboxes = sortedHolidays.map((item, index) => {
     return <HolidayCheckbox holiday={item} />;
   });
+
 
   const checkboxHandler = (checkedValues) => {
     dispatch({ type: "holidays/update", payload: checkedValues });
@@ -231,21 +238,25 @@ const CheckboxLabel = styled(Checkbox)`
   font-size: 13px;
   .ant-checkbox-inner {
     background-color: #f4f7fe;
-    border:none;
+    border:none; //it is important to remove border
   }
   .ant-checkbox-checked .ant-checkbox-inner::after {
     border-color: #2b3674;
+    padding:2px !important;
   }
 `;
 
 const HolidaysContainer = styled(Checkbox.Group)`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-auto-rows: 30px;
   align-items: center;
   overflow-y: scroll;
   height: 15vh;
   font-size: 5px !important;
+  .ant-checkbox-wrapper{
+    margin-inline-start: 0px !important;
+  }
 `;
 
 const OptionsContainer = styled.div`
@@ -295,7 +306,6 @@ const SaveChangesButton = styled.button`
 
 const AddHolidayContainer = styled.div`
 display: flex;
-background-color: #f4f7fe;
 border-radius: 15px;
 `;
 
@@ -303,20 +313,28 @@ border-radius: 15px;
 const CustomAddHolidayInput = styled(Input)`
   border: none;
   background-color: transparent;
-  border-radius: 15px;
-  .ant-input:hover,
-  .ant-input:focus {
-    border-color:none !important;
-    box-shadow: none !important;
-    border: none !important;
-    box-sizing:unset !important;
-    outline: none !important;
+  border-radius: 0px 15px 15px 0px;
+  background-color: #f4f7fe;
+  position: relative;
+  right: 10px;
+  &:focus {
+    outline: none; 
+    box-shadow: none; 
+    border:none;
   }
+ 
 `;
-
+const CustomAddHolidayButton = styled( Typography)`
+  align-items: center;
+  padding: 5px 8px;
+  cursor: pointer;
+`
 const CustomAddHolidayImage = styled.img`
-margin: 0px 13px;
+padding: 5px 10px;
 cursor: pointer;
+border-radius: 15px;
+width: 31px;
+background-color: #f4f7fe;
 `
 
 const MinimizeButton = styled.button`

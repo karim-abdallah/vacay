@@ -471,7 +471,7 @@ abbr[title] {
 
   display: flex;
   flex-direction: column;
-  // min-height: 120px;
+  min-height: 120px;
   cursor: ${props => (props.showpointer === 'true' ? 'auto' : 'pointer')};
   &:hover {
     background-color: ${props =>
