@@ -286,7 +286,7 @@ const CountryOfResidence = ({
 };
 const Invitation = ({ moveToNextStep, invitation, setInvitation }) => {
   const [email, setEmail] = useState(invitation || "");
-  console.log(invitation);
+
   useEffect(() => {
     if (invitation) {
       setEmail(invitation);

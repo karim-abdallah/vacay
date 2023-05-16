@@ -21,7 +21,6 @@ class UserView(APIView):
         user = User.objects.filter(id=id).first()
 
         serializer = UserSerializer(user)
-
         return Response(serializer.data)
 
 

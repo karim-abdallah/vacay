@@ -31,9 +31,11 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const fetchTimeOffSettings = async () => {
     let data = await get('/dashboard/time-off-settings');
+    let user = await get('/dashboard/user');
     // TODO: expand logic for dispatching based on specific settings type
   
     const PTOSettings = {
+      ptoCountry:user.country,
       ptoAccrualType: data.accrual_type,
       ptoAllowance: data.annual_allowance_days,
       ptoCap: data.accrual_cap_days,

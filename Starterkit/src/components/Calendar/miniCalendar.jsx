@@ -210,8 +210,7 @@ function MiniCalendar(props) {
 
     // 4. sort using date value
     const sortedArray = combinedArray.sort((a, b) => a.date - b.date);
-   
-    console.log("sortedArray", sortedArray.length);
+  
     if (sortedArray.length <= 5) {
       return sortedArray.map((x, index) => {
    

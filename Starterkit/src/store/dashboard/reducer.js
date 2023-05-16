@@ -71,6 +71,7 @@ const Dashboard = (state = INIT_STATE, action) => {
       return {
         ...state,
         PTOSettings: {
+          country: action.payload.ptoCountry,
           accrualType: action.payload.ptoAccrualType,
           annualAllowanceDays: action.payload.ptoAllowance,
           accrualCapDays: action.payload.ptoCap,

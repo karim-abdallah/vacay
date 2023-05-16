@@ -25,6 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
             "password",
             "username",
             "profile_pic",
+            "country",
             "last_login"
         ]
 
