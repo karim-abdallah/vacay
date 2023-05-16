@@ -1,17 +1,17 @@
-export const pageTitle = "Vacay - Optimize your time off";
+export const pageTitle = 'Vacay - Optimize your time off';
 export const defaultMonths = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 // Index for DateTime.getDay() method corresponding to week-ends
@@ -25,3 +25,10 @@ export const maxSettingsValueDays = 365;
 export const barChartBorderRadius = 10;
 
 export const barChartBarPercentage = 0.2;
+
+export const PolicyTypes = {
+  accrual: 'accrual',
+  unlimited: 'unlimited',
+};
+
+export const unlimitedMinAxisDays = 10;

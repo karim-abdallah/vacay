@@ -5,7 +5,7 @@ const INIT_STATE = {
   currentMonth: mockApiResponse.currentMonth,
   bookedPTO: mockApiResponse.bookedPTO,
   holidays: mockApiResponse.holidays,
-  PTOSettings: {},
+  PTOSettings: mockApiResponse.PTOSettings,
   selectedDates: [],
   datesToUnbook: [],
   negativeBalanceMonths: [],
@@ -68,16 +68,19 @@ const Dashboard = (state = INIT_STATE, action) => {
         ),
       };
     case 'settings/update':
+      const accrualType = action.payload.ptoAccrualType
+        ? action.payload.ptoAccrualType
+        : state.PTOSettings.accrualType;
       return {
         ...state,
         PTOSettings: {
           country: action.payload.ptoCountry,
-          accrualType: action.payload.ptoAccrualType,
+          ...state.PTOSettings,
+          accrualType: accrualType,
           annualAllowanceDays: action.payload.ptoAllowance,
           accrualCapDays: action.payload.ptoCap,
           currentBalanceDays: action.payload.ptoBalance,
         },
-        
       };
     case 'holidays/update':
       // Takes in list of active holidays by name. Ex:

@@ -149,20 +149,30 @@ const OptionPaneWithForm = () => {
           </span>
         </div>
       </SettingsSubheader>
-      <Form
-        name="PTO Settings"
-        fields={fields}
-        onValuesChange={updateSettingsHandler}
-      >
-        <OptionsContainer>
-          <div>Annual allowance</div>
-          <NumberOptionDays name="ptoAllowance" />
-          <div>Annual Cap</div>
-          <NumberOptionDays name="ptoCap" />
-          <div>Current Balance</div>
-          <NumberOptionDays name="ptoBalance" />
-        </OptionsContainer>
-      </Form>
+      {settings.PTOSettings.accrualType == "Unlimitted" ? (
+        <>
+          <UnlimitterContainer>
+            Since you have opted for the Unlimited time off policy, we will hide your balance in the dashboard below.
+          </UnlimitterContainer>
+        </>
+      ) : (
+        <>
+          <Form
+            name="PTO Settings"
+            fields={fields}
+            onValuesChange={updateSettingsHandler}
+          >
+            <OptionsContainer>
+              <div>Annual Allowance</div>
+              <NumberOptionDays name="ptoAllowance" />
+              <div>Annual Cap</div>
+              <NumberOptionDays name="ptoCap" />
+              <div>Current Balance</div>
+              <NumberOptionDays name="ptoBalance" />
+            </OptionsContainer>
+          </Form>
+        </>
+      )}
     </OptionsPaneContainer>
   );
 };
@@ -253,6 +263,7 @@ const CheckboxLabel = styled(Checkbox)`
 `;
 
 const HolidaysContainer = styled(Checkbox.Group)`
+  margin-top: 10px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-auto-rows: 30px;
@@ -270,14 +281,23 @@ const OptionsContainer = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 30px 30px 30px 30px;
   align-items: center;
+  font-family: "DM Sans";
+  font-weight: 500;
+  // font-size: 18px;
+  line-height: 100%;
+  margin-top: 10px;
 `;
 
 const SettingsSubheader = styled.div`
   color: #2b3674;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 18px;
-  border-bottom: solid;
-  
+  border-bottom: 1px solid #2b3674;
+  font-family: "DM Sans";
+`;
+const UnlimitterContainer = styled.div`
+background-color: #f4f7fe;
+padding: 10px;
 `;
 
 const TimeOffSettingsButton = styled.button`
@@ -360,8 +380,6 @@ const TimeOffSettingsContainer = styled.div`
   display: grid;
   padding: 10px 20px;
   font-family: "DM Sans";
-
-  
 `;
 
 const TimeOffSettingsHeader = styled.div`

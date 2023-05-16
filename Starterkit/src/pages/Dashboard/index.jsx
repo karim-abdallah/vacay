@@ -1,22 +1,22 @@
 //import "react-calendar/dist/Calendar.css";
-import React from 'react';
-import { Container, Card, CardBody } from 'reactstrap';
-import { Alert } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import React from "react";
+import { Container, Card, CardBody } from "reactstrap";
+import { Alert } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getCurrentMonth,
   getNegativeBalanceMonths,
-} from '../../store/dashboard/selector';
-import BarChart from '../../components/Charts/barchart';
-import Legend from '../../components/Charts/legend';
-import XAxis from '../../components/Charts/xAxis';
-import '../../styles/style.css';
-import { computeNextTwelveMonths } from '../../helpers/vacay_helpers';
-import styled from 'styled-components';
-import MiniCalendar from '../../components/Calendar/miniCalendar';
-import TimeOffSettings from '../../components/TimeOffSettings/index';
-import { get } from '../../helpers/api_helper';
-import { useEffect,useState } from 'react';
+} from "../../store/dashboard/selector";
+import BarChart from "../../components/Charts/barchart";
+import Legend from "../../components/Charts/legend";
+import XAxis from "../../components/Charts/xAxis";
+import "../../styles/style.css";
+import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
+import styled from "styled-components";
+import MiniCalendar from "../../components/Calendar/miniCalendar";
+import TimeOffSettings from "../../components/TimeOffSettings/index";
+import { get } from "../../helpers/api_helper";
+import { useEffect, useState } from "react";
 
 const Dashboard = () => {
   const dashboardStyle = {
@@ -30,40 +30,39 @@ const Dashboard = () => {
   // Fetch time off settings from back-end
   const dispatch = useDispatch();
   const fetchTimeOffSettings = async () => {
-    let data = await get('/dashboard/time-off-settings');
-    let user = await get('/dashboard/user');
+    let data = await get("/dashboard/time-off-settings");
+    let user = await get("/dashboard/user");
     // TODO: expand logic for dispatching based on specific settings type
-  
+
     const PTOSettings = {
-      ptoCountry:user.country,
+      ptoCountry: user.country,
       ptoAccrualType: data.accrual_type,
       ptoAllowance: data.annual_allowance_days,
       ptoCap: data.accrual_cap_days,
       ptoBalance: data.current_balance_days,
     };
- 
-    dispatch({ type: 'settings/update', payload: PTOSettings });
+
+    dispatch({ type: "settings/update", payload: PTOSettings });
   };
   useEffect(() => {
-    setTimeout(() => { 
+    setTimeout(() => {
       fetchTimeOffSettings();
       fetchFirstName();
-    },500);
-  },[]);
-
+    }, 500);
+  }, []);
 
   const [firstName, setFirstName] = useState("");
   // Fetch FirstName from back-end
-  const fetchFirstName = async () => { 
-    let data = await get('/dashboard/user');
+  const fetchFirstName = async () => {
+    let data = await get("/dashboard/user");
     setFirstName(data["first_name"]);
-  }
+  };
 
   // Fetch dashboard data from back-end
   const currentMonth = useSelector(getCurrentMonth);
   const negativeBalanceMonths = useSelector(getNegativeBalanceMonths);
 
-  const twelveMonths = computeNextTwelveMonths(currentMonth, 'date');
+  const twelveMonths = computeNextTwelveMonths(currentMonth, "date");
   const calendarDiv = () => {
     // Split out the calendar array into 3 sub arrays
     const calendarArray = twelveMonths.map((item, index) => {
@@ -89,22 +88,20 @@ const Dashboard = () => {
     );
   };
 
-  const generateWarning = negativeBalanceMonths => {
+  const generateWarning = (negativeBalanceMonths) => {
     return negativeBalanceMonths.length ? (
       <StyledAlert
         message={`Warning: You have exceeded the maximum number of days selected or booked for ${negativeBalanceMonths.join(
-          ', '
+          ", "
         )}, resulting in a negative balance.`}
         closable={true}
         showIcon={true}
         type="warning"
       />
     ) : (
-      ''
+      ""
     );
   };
-
-
 
   return (
     <React.Fragment>
