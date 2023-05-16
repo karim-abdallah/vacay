@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import { axisColor } from "../styles/constants";
-import { defaultMonths, weekendDayIndex } from "../constants";
-import { differenceInCalendarDays } from "date-fns";
+import styled from 'styled-components';
+import { axisColor } from '../styles/constants';
+import { defaultMonths, weekendDayIndex } from '../constants';
+import { differenceInCalendarDays } from 'date-fns';
 
 export const monthYearFormatter = date => {
   // returns date in format "Month Year"
   // Should be moved to util folder
-  return defaultMonths[date.getMonth()] + " " + date.getFullYear();
+  return defaultMonths[date.getMonth()] + ' ' + date.getFullYear();
 };
 
 export const xAxisMonthYearFormatter = date => {
@@ -21,21 +21,21 @@ export const xAxisMonthYearFormatter = date => {
   };
   switch (date.getMonth()) {
     case 0:
-      return formattedDate("Jan.", date.getFullYear());
+      return formattedDate('Jan.', date.getFullYear());
     case 1:
-      return formattedDate("Feb.", date.getFullYear());
+      return formattedDate('Feb.', date.getFullYear());
     case 2:
-      return formattedDate("Mar.", date.getFullYear());
+      return formattedDate('Mar.', date.getFullYear());
     case 7:
-      return formattedDate("Aug.", date.getFullYear());
+      return formattedDate('Aug.', date.getFullYear());
     case 8:
-      return formattedDate("Sept.", date.getFullYear());
+      return formattedDate('Sept.', date.getFullYear());
     case 9:
-      return formattedDate("Oct.", date.getFullYear());
+      return formattedDate('Oct.', date.getFullYear());
     case 10:
-      return formattedDate("Nov.", date.getFullYear());
+      return formattedDate('Nov.', date.getFullYear());
     case 11:
-      return formattedDate("Dec.", date.getFullYear());
+      return formattedDate('Dec.', date.getFullYear());
     default:
       return formattedDate(defaultMonths[date.getMonth()], date.getFullYear());
   }
@@ -50,7 +50,7 @@ export const monthStartFormatter = date => {
   return null;
 };
 
-export const computeNextTwelveMonths = (startingMonth, format = "string") => {
+export const computeNextTwelveMonths = (startingMonth, format = 'string') => {
   // This is causing a weird exception in the console log. If it's too slow
   // get that to compute in the backend and return nextTwelveMonths in mock API
   // Response
@@ -58,7 +58,7 @@ export const computeNextTwelveMonths = (startingMonth, format = "string") => {
   // Maybe split it off into two different functions
   // Also the math is a bit odd here - +31 could lead to errors. Could use a better method
   const nextTwelveMonths = [];
-  if (format === "string") {
+  if (format === 'string') {
     nextTwelveMonths.push(startingMonth);
   } else {
     nextTwelveMonths.push(new Date(startingMonth));
@@ -67,7 +67,7 @@ export const computeNextTwelveMonths = (startingMonth, format = "string") => {
     const month = new Date(nextTwelveMonths[nextTwelveMonths.length - 1]);
     month.setDate(month.getDate() + 31);
     const formattedMonth =
-      format === "string" ? monthYearFormatter(month) : month;
+      format === 'string' ? monthYearFormatter(month) : month;
     nextTwelveMonths.push(formattedMonth);
   }
   return nextTwelveMonths;
@@ -165,6 +165,9 @@ export const isDayInThePast = date => {
 };
 
 export function arraysEqual(arr1, arr2) {
+  if (!arr1 || !arr2) {
+    return false;
+  }
   if (arr1.length !== arr2.length) {
     return false;
   }
