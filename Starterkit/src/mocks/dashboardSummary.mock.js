@@ -24,19 +24,23 @@ export const mockData = {
       label: "Holidays",
       backgroundColor: "#FF0099",
       borderRadius: 10,
-      data: [1, 0, 1, 2, 2, 0, 0, 1, 1, 0, 1, 0]
+      data: [1, 0, 1, 2, 2, 0, 0, 1, 1, 0, 1, 0], 
+      borderSkipped: false, //added to fix the border radius
     },
     {
       label: "Booked",
       backgroundColor: "#6A48FF",
       borderRadius: 10,
-      data: [3, 0, 1, 6, 0, 1, 0, 0, 3, 0, 2, 1]
+      data: [3, 0, 1, 6, 0, 1, 0, 0, 3, 0, 2, 1], 
+      borderSkipped: false, //added to fix the border radius
     },
     {
       label: "Balance",
       backgroundColor: "#AC9BF2",
       borderRadius: 10,
-      data: [5, 6.5, 7, 2.5, 5, 5.5, 7, 7.5, 6, 7.5, 7, 7.5]
+      data: [5, 6.5, 7, 2.5, 5, 5.5, 7, 7.5, 6, 7.5, 7, 7.5], 
+      borderSkipped: false, //added to fix the border radius
+      
     }
   ]
 };

@@ -147,25 +147,25 @@ const generateDashboardData = (
           return value < 0 ? negativeBalanceColor : balanceColor;
         },
         data: monthLabels.map(x => balance[x].toFixed(1)),
-        stack: "PTOStack"
+        stack: "PTOStack", 
       },
       {
         label: "Selected Days",
         backgroundColor: selectionColor,
         data: monthLabels.map(x => selectedDatesPerMonth[x]),
-        stack: "PTOStack"
+        stack: "PTOStack", 
       },
       {
         label: "Unbook",
         backgroundColor: unbookColor,
         data: monthLabels.map(x => datesToUnbookPerMonth[x]),
-        stack: "PTOStack"
+        stack: "PTOStack", 
       },
       {
         label: "Days Booked",
         backgroundColor: bookedPtoColor,
         data: monthLabels.map(x => PTOPerMonth[x]),
-        stack: "PTOStack"
+        stack: "PTOStack",
       },
       {
         label: "Public Holidays",
@@ -207,7 +207,7 @@ const BarChart = () => {
   }
   const options = {
     borderRadius: barChartBorderRadius,
-    borderSkipped: "none",
+    borderSkipped: false,
     barPercentage: barChartBarPercentage,
     scales: {
       y: {
