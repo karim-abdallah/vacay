@@ -25,7 +25,9 @@ class TimeOffSettingSerializer(serializers.ModelSerializer):
         instance.time_off_type = validated_data.get(
             "time_off_type", instance.time_off_type
         )
-        instance.accrual_type = validated_data.get("accrual_type", instance.accrual_type)
+        instance.accrual_type = validated_data.get(
+            "accrual_type", instance.accrual_type
+        )
         instance.annual_allowance_days = validated_data.get(
             "annual_allowance_days", instance.annual_allowance_days
         )
