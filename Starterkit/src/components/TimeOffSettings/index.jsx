@@ -27,10 +27,13 @@ function HolidayCheckbox(props) {
 }
 
 function AddHolidayButton() {
+
   const [openInput, setOpenInput] = useState(false);
+  
   const handletoggleInput = () => {
     setOpenInput(!openInput);
   };
+
   return (
     <AddHolidayContainer>
       <CustomAddHolidayImage src={plus} />
