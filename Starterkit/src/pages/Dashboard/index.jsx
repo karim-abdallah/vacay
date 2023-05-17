@@ -23,7 +23,8 @@ const Dashboard = () => {
     "user-name": {
       fontFamily: "DM Sans",
       fontWeight: "bold",
-      FontSize: "40px",
+      fontSize: "30px",
+      padding: "5px 0px",
     },
   };
 
@@ -108,7 +109,7 @@ const Dashboard = () => {
       <div className="page-content">
         <Container fluid>
           {generateWarning(negativeBalanceMonths)}
-          <TimeOffSettings />
+          <TimeOffSettings/>
           <h2 style={dashboardStyle["user-name"]}>Hi {firstName}!</h2>
           <Card>
             <CardBody>
@@ -123,6 +124,7 @@ const Dashboard = () => {
     </React.Fragment>
   );
 };
+
 
 const StyledAlert = styled(Alert)`
   margin-bottom: 10px;

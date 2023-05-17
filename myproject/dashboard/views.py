@@ -144,7 +144,7 @@ class HolidaySettingView(APIView):
             },
             # // TODO: Add more static holiday data
             {
-                "country": "US",
+                "country": "United States",
                 "name": "New Year's Day US",
                 "date": "January 2nd, 2023",
                 "active": True,

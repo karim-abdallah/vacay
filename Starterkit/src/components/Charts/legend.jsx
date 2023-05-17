@@ -41,10 +41,12 @@ export const Legend = () => {
 
 const StyledDaysLegend = styled.b`
   color: #a3aed0;
+  flex-grow: 1;
 `;
 
 const FlexContainer = styled.div`
   display: flex;
+  flex-grow: 1;
 `;
 
 const HolidayFlexDiv = styled.div`
@@ -77,7 +79,7 @@ const FlexDiv = styled.div`
 const StyledLegend = styled.div`
   margin-top: 7px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-bottom: 7px;
 `;
 

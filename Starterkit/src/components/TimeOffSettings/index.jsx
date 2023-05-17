@@ -33,16 +33,21 @@ function AddHolidayButton() {
   };
   return (
     <AddHolidayContainer>
-      <CustomAddHolidayImage src={plus} />
+      <CustomAddHolidayImage src={plus} onClick={handletoggleInput} />
 
       {openInput && (
         <CustomAddHolidayInput
+          size="small"
           onPressEnter={handletoggleInput}
           placeholder="MM/DD |Holiday Name"
         />
       )}
       {!openInput && (
-        <CustomAddHolidayButton type="text" onClick={handletoggleInput}>
+        <CustomAddHolidayButton
+          type="text"
+          onClick={handletoggleInput}
+          level={5}
+        >
           Add Holiday
         </CustomAddHolidayButton>
       )}
@@ -78,8 +83,21 @@ const HolidaysPane = () => {
     <HolidayPaneContainer>
       <SettingsSubheader>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <span>Public holidays </span>
-          <span>{settings.PTOSettings.country}</span>
+          <span>
+            Public Holidays{" "}
+            <StyledInfoTooltip
+              title={TimeOffSettingsInstructions()}
+              arrow
+              placement="bottomLeft"
+              trigger="click"
+              color={tooltipBackground}
+            >
+              i
+            </StyledInfoTooltip>
+          </span>
+          <span style={{ fontSize: "16px" }}>
+            {settings.PTOSettings.country}
+          </span>
         </div>
       </SettingsSubheader>
       <HolidaysContainer
@@ -87,26 +105,38 @@ const HolidaysPane = () => {
         onChange={checkboxHandler}
       >
         {holidayCheckboxes}
-        <AddHolidayButton />
+        <div style={{ gridColumn: "span 2" }}>
+          {" "}
+          <AddHolidayButton />
+        </div>
       </HolidaysContainer>
     </HolidayPaneContainer>
   );
 };
 
 function NumberOptionDays(props) {
+ 
+  const handleChange = (value) => {
+    
+    if (value !== null) {
+      console.log("activeme");
+      props.onChangeStatus("active"); // Update status to "active" when input changes
+    }
+  };
   return (
     <StyledFormItem name={props.name} className="text-end">
       <InputNumber
         size="small"
         min={minSettingsValueDays}
         max={maxSettingsValueDays}
-        onChange={props.onChange}
+        // onChange={props.onChange}
+        onChange={handleChange}
       />
     </StyledFormItem>
   );
 }
 
-const OptionPaneWithForm = () => {
+const OptionPaneWithForm = ({ onChangeStatus }) => {
   const dispatch = useDispatch();
 
   const settings = useSelector(getPTOSettings);
@@ -128,6 +158,7 @@ const OptionPaneWithForm = () => {
     updateSettings(allValues);
     dispatch({ type: "settings/update", payload: allValues });
   };
+
   return (
     <OptionsPaneContainer>
       <SettingsSubheader>
@@ -144,16 +175,19 @@ const OptionPaneWithForm = () => {
               i
             </StyledInfoTooltip>
           </span>
-          <span style={{ textTransform: "capitalize" }}>
+          <span style={{ textTransform: "capitalize", fontSize: "16px" }}>
             {settings.PTOSettings.accrualType}
           </span>
         </div>
       </SettingsSubheader>
-      {settings.PTOSettings.accrualType == "Unlimitted" ? (
+      {settings.PTOSettings.accrualType == "unlimited" ? (
         <>
-          <UnlimitterContainer>
-            Since you have opted for the Unlimited time off policy, we will hide your balance in the dashboard below.
-          </UnlimitterContainer>
+          <UnlimitedContainer>
+            <p>
+              Since you have opted for the Unlimited time off policy, we will
+              hide your balance in the dashboard below.
+            </p>
+          </UnlimitedContainer>
         </>
       ) : (
         <>
@@ -164,11 +198,11 @@ const OptionPaneWithForm = () => {
           >
             <OptionsContainer>
               <div>Annual Allowance</div>
-              <NumberOptionDays name="ptoAllowance" />
+              <NumberOptionDays name="ptoAllowance" onChangeStatus={onChangeStatus}/>
               <div>Annual Cap</div>
-              <NumberOptionDays name="ptoCap" />
+              <NumberOptionDays name="ptoCap" onChangeStatus={onChangeStatus}/>
               <div>Current Balance</div>
-              <NumberOptionDays name="ptoBalance" />
+              <NumberOptionDays name="ptoBalance" onChangeStatus={onChangeStatus}/>
             </OptionsContainer>
           </Form>
         </>
@@ -178,11 +212,19 @@ const OptionPaneWithForm = () => {
 };
 
 const TimeOffSettings = () => {
+  const [status, setStatus] = useState("inactive");
   const [expandedSettings, setExpandedSettings] = useState(true);
-
+  
+  const handleSaveChanges = () => {
+    if (status === "active") {
+      setStatus("completed");
+    }
+  };
   const handleExpandSettings = () => {
     setExpandedSettings(!expandedSettings);
   };
+
+  // status = 'inactive|active|completed'
 
   return (
     <>
@@ -205,11 +247,25 @@ const TimeOffSettings = () => {
                   Minimize{" "}
                   <StyledMinimizeIcon src={minimize} alt="x" height="15" />
                 </MinimizeButton>
-                <SaveChangesButton>Save Changes</SaveChangesButton>
+                {status === "active" && (
+                  <SaveChangesActiveButton  onClick={handleSaveChanges}>
+                    Save Changes
+                  </SaveChangesActiveButton>
+                )}
+
+                {status === "inactive" && (
+                  <SaveChangesInactiveButton  onClick={handleSaveChanges}>
+                    Save Changes
+                  </SaveChangesInactiveButton>
+                )}
+
+                {status === "completed" && (
+                  <ChangesSavedText>Changes saved!</ChangesSavedText>
+                )}
               </div>
               <br />
               <SettingsContainer>
-                <OptionPaneWithForm />
+                <OptionPaneWithForm onChangeStatus={setStatus}/>
 
                 <HolidaysPane />
               </SettingsContainer>
@@ -250,7 +306,7 @@ const HolidayPaneContainer = styled.div`
 `;
 
 const CheckboxLabel = styled(Checkbox)`
-  font-weight: normal;
+  font-weight: 400px;
   font-size: 13px;
   .ant-checkbox-inner {
     background-color: #f4f7fe;
@@ -295,9 +351,15 @@ const SettingsSubheader = styled.div`
   border-bottom: 1px solid #2b3674;
   font-family: "DM Sans";
 `;
-const UnlimitterContainer = styled.div`
-background-color: #f4f7fe;
-padding: 10px;
+const UnlimitedContainer = styled.div`
+  padding: 15px 0px;
+  p {
+    background-color: #f4f7fe;
+    padding: 15px 10px;
+    border-radius: 10px;
+    font-family: "DM Sans";
+    font-size: 12px;
+  }
 `;
 
 const TimeOffSettingsButton = styled.button`
@@ -316,7 +378,21 @@ const TimeOffSettingsButton = styled.button`
   }
 `;
 
-const SaveChangesButton = styled.button`
+const SaveChangesActiveButton = styled.button`
+  float: right;
+  font-size: 15px;
+  text-align: right;
+  border-radius: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-right: 15px;
+  margin-right: 5px;
+  padding-left: 15px;
+  border-width: 0px;
+  background-color: rgba(56, 64, 119, 0.6);
+  color: white;
+`;
+const SaveChangesInactiveButton = styled.button`
   float: right;
   font-size: 15px;
   text-align: right;
@@ -330,10 +406,21 @@ const SaveChangesButton = styled.button`
   background-color: #f4f7fe;
   color: #2b3674;
 `;
+const ChangesSavedText = styled.p`
+  float: right;
+  font-size: 15px;
+  text-align: right;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-right: 15px;
+  margin-right: 5px;
+  padding-left: 15px;
+`;
 
 const AddHolidayContainer = styled.div`
   display: flex;
   border-radius: 15px;
+  margin-top: 2px;
 `;
 
 const CustomAddHolidayInput = styled(Input)`
@@ -342,7 +429,7 @@ const CustomAddHolidayInput = styled(Input)`
   border-radius: 0px 15px 15px 0px;
   background-color: #f4f7fe;
   position: relative;
-  right: 10px;
+  right: 6px;
   &:focus {
     outline: none;
     box-shadow: none;
@@ -351,15 +438,19 @@ const CustomAddHolidayInput = styled(Input)`
 `;
 const CustomAddHolidayButton = styled(Typography)`
   align-items: center;
-  padding: 5px 8px;
+  padding: 2px 8px 0px 8px; //trbl
   cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #2b3674;
 `;
 const CustomAddHolidayImage = styled.img`
-  padding: 5px 10px;
+  padding: 5px 6px;
   cursor: pointer;
-  border-radius: 15px;
-  width: 31px;
+  border-radius: 6px;
+  width: 23px;
   background-color: #f4f7fe;
+  z-index: 1;
 `;
 
 const MinimizeButton = styled.button`
@@ -386,7 +477,7 @@ const TimeOffSettingsHeader = styled.div`
   color: #2b3674;
   float: left;
   text-align: left;
-  font-size: 26px;
+  font-size: 23px;
   font-weight: 700;
 `;
 

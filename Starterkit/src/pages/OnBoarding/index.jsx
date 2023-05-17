@@ -213,7 +213,7 @@ const CountryOfResidence = ({
   countryOffResidence,
   setCountryOffResidence,
 }) => {
-  const [country, setCountry] = useState(countryOffResidence || "US");
+  const [country, setCountry] = useState(countryOffResidence || "United States");
 
   useEffect(() => {
     if (countryOffResidence) {
@@ -243,8 +243,8 @@ const CountryOfResidence = ({
         <div className="row mt-5">
           <div className="col-md-4 offset-md-4">
             <Card
-              className={"ml-4 " + getBorderStyle("US")}
-              onClick={() => handleCountryOfResidenceChange("US")}
+              className={"ml-4 " + getBorderStyle("United States")}
+              onClick={() => handleCountryOfResidenceChange("United States")}
             >
               <CardBody className="p-3 pb-2">
                 <h5 className="onboarding-card-title">Unites States</h5>
@@ -417,13 +417,13 @@ const Dots = ({ currentStep, setCurrentStep, dots }) => {
 };
 const OnBoarding = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [timeOffPolicy, setTimeOffPolicy] = useState("");
+  const [timeOffPolicy, setTimeOffPolicy] = useState("accrual");
   const [timeOffFigure, setTimeOffFigure] = useState({
     annualAllowance: 15,
     annualCap: 24,
     currentBalance: 7,
   });
-  const [countryOffResidence, setCountryOffResidence] = useState("");
+  const [countryOffResidence, setCountryOffResidence] = useState("United States");
   const [invitation, setInvitation] = useState("");
 
   const handleTimeOffFigureChange = (newTimeOffFigure) => {

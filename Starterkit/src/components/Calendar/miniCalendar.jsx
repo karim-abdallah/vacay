@@ -210,11 +210,9 @@ function MiniCalendar(props) {
 
     // 4. sort using date value
     const sortedArray = combinedArray.sort((a, b) => a.date - b.date);
-  
+
     if (sortedArray.length <= 5) {
       return sortedArray.map((x, index) => {
-   
-        
         if (x.kind === "PTO") {
           return <BookedPTOBullet>{x.date}</BookedPTOBullet>;
         } else if (x.kind === "Holiday") {
@@ -227,31 +225,29 @@ function MiniCalendar(props) {
           return null;
         }
       });
-    
-    }
-    else { 
+    } else {
       const slicedArray = sortedArray.slice(0, 5);
-      
-      return slicedArray.map((x, index) => {
 
+      return slicedArray.map((x, index) => {
         if (index === 4) {
-          return <BookedPTOBullet>...</BookedPTOBullet>;
+          return (
+            <BookedPTOBullet>
+              <Dots>...</Dots>
+            </BookedPTOBullet>
+          );
         } else if (x.kind === "PTO") {
           return <BookedPTOBullet>{x.date}</BookedPTOBullet>;
         } else if (x.kind === "Holiday") {
           return (
             <Tooltip title={x.name} color={tooltipBackground}>
               <HolidayBullet>{x.date}</HolidayBullet>
-              
-            </Tooltip> 
+            </Tooltip>
           );
         } else {
           return null;
         }
-      
       });
     }
-
   };
 
   const tileFormatting = ({ date, view }) => {
@@ -429,7 +425,11 @@ const CenteredFlexContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
-
+const Dots = styled.div`
+  color: white;
+  position: relative;
+  bottom: 5px;
+`;
 const DateBullet = styled.p`
   text-align: center;
   font-size: 16px;

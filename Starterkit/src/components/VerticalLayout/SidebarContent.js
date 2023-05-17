@@ -125,7 +125,7 @@ class SidebarContent extends Component {
                 </Link>
               }
             </li>
-          </ul>
+          </ul> 
         </StyledSidebar>
       </React.Fragment>
     );
