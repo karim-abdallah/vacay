@@ -45,9 +45,3 @@ class HolidaySettingSerializer(serializers.ModelSerializer):
         model = HolidaySetting
         fields = "__all__"
 
-
-
-background: #F4F7FE;
-    color: #384077;
-    font-size: 12px;
-    font-weight: 700;   

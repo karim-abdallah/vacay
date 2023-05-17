@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .serializers import HolidaySettingSerializer, TimeOffSettingSerializer
-from .utils import generate_presigned_url
+from .utils import generate_presigned_url, holidays
 
 # Create your views here.
 
@@ -95,7 +95,9 @@ class TimeOffSettingList(APIView):
 
         time_off_setting = get_object_or_404(TimeOffSetting, user_id=id)
 
-        return Response(TimeOffSettingSerializer(time_off_setting).data)
+        serialized_data = TimeOffSettingSerializer(time_off_setting)
+
+        return Response(serialized_data.data, status=status.HTTP_200_OK)
 
     def put(self, request):
         """
@@ -127,62 +129,39 @@ class TimeOffSettingList(APIView):
 
 
 class HolidaySettingView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
 
         id = request.user.id
-        data = request.data
+    
+        holidays_from_db = HolidaySetting.objects.filter(user_id=id)
 
-        country = User.objects.get(id=id).country
+        serialized_data = HolidaySettingSerializer(holidays_from_db, many=True)
 
-        # Add static holiday data to the list of holidays
-        holidays = [
-            {
-                "country": "France",
-                "name": "New Year's Day France",
-                "date": "January 1st, 2023",
-                "active": False,
-            },
-            {
-                "country": "United States",
-                "name": "New Year's Day US",
-                "date": "January 2nd, 2023",
-                "active": True,
-            },
-            {
-                "country": "Other",
-                "name": "New Year's Day Other",
-                "date": "January 1st, 2023",
-                "active": True,
-            },
-        ]
-
-        # Retrieve all holiday data from the database and append to the list of holidays
-        holidays_from_db = HolidaySetting.objects.all()
-        for holiday in holidays_from_db:
-            holidays.append({
-                "country": holiday.country,
-                "name": holiday.name,
-                "date": holiday.date,
-                "active": holiday.active,
-            })
-        selected_country = []
-        for holiday in holidays:
-            if holiday["country"] == country:
-                selected_country.append(holiday)
-        serializer = HolidaySettingSerializer(selected_country, many=True)
-        return Response(serializer.data)
+        return Response(serialized_data.data, status=status.HTTP_200_OK)
 
     def post(self, request):
 
-        id = request.user.id
         data = request.data
+        data['user_id'] = request.user.id
 
-        data.country = User.objects.get(id=id).country
+        holidays_by_country = holidays(data['country'])
 
-        serializer = HolidaySettingSerializer(data=data)
+        for i in holidays_by_country:
+            data['name'] = i['name']
+            data['date'] = i['date']
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+            HolidaySetting.objects.create(**data)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'detail':"Records Created Successfully"}, status=status.HTTP_201_CREATED)
+
+
+    def patch(self,request):
+        
+        data = request.data
+        data['user_id'] = self.request.user.id
+
+        HolidaySetting.objects.create(**data)
+
+        return Response({'detail':"Records Created Successfully"}, status=status.HTTP_201_CREATED)

@@ -53,6 +53,7 @@ class TimeOffSetting(models.Model):
 
 
 class HolidaySetting(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
     country = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     date = models.CharField(max_length=100)
@@ -60,3 +61,6 @@ class HolidaySetting(models.Model):
 
     def __str__(self):
         return self.name
+
+
+

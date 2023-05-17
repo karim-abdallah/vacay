@@ -11,15 +11,12 @@ import { TimeOffSettingsInstructions } from "./instructionText";
 import minimize from "../../assets/images/minimize.png";
 import plus from "../../assets/images/plus1.svg";
 import settings from "../../assets/images/settings.png";
-import { put, get } from "../../helpers/api_helper";
+import { put, get,patch } from "../../helpers/api_helper";
 
 function HolidayCheckbox(props) {
   return (
     <CheckboxLabel value={props.holiday.name}>
-      <Tooltip
-        color={tooltipBackground}
-        title={props.holiday.date.toLocaleDateString()}
-      >
+      <Tooltip color={tooltipBackground} title={props.holiday.date}>
         {props.holiday.name}
       </Tooltip>
     </CheckboxLabel>
@@ -27,11 +24,38 @@ function HolidayCheckbox(props) {
 }
 
 function AddHolidayButton() {
+  const [name, setName] = useState("");
+  const pattern = /(\d{4}\/\d{2}\/\d{2})\s(.+)/;
+ 
+  const fetchHoliday = async () => {
+    if (name && pattern.test(name)) {
+      const obj = {
+        date: name.match(pattern)[1],
+        name: name.match(pattern)[2],
+      };
 
+      try {
+        const response = await patch("/dashboard/holidays-settings", obj);
+        console.log("response===>",response);
+        console.log("obj===>",obj,pattern);
+        setName("");
+       
+      } catch (error) {
+        console.log("error===>",error);
+      }
+    }
+  };
   const [openInput, setOpenInput] = useState(false);
-  
+
   const handletoggleInput = () => {
+
     setOpenInput(!openInput);
+    if (name) {
+      fetchHoliday();
+    }
+    else {
+      return null;
+    }
   };
 
   return (
@@ -42,15 +66,12 @@ function AddHolidayButton() {
         <CustomAddHolidayInput
           size="small"
           onPressEnter={handletoggleInput}
-          placeholder="MM/DD |Holiday Name"
+          placeholder="YYYY/MM/DD |Holiday Name"
+          onChange={(e) => setName(e.target.value)}
         />
       )}
       {!openInput && (
-        <CustomAddHolidayButton
-          type="text"
-          onClick={handletoggleInput}
-          level={5}
-        >
+        <CustomAddHolidayButton type="text" onClick={handletoggleInput}>
           Add Holiday
         </CustomAddHolidayButton>
       )}
@@ -59,21 +80,21 @@ function AddHolidayButton() {
 }
 
 const HolidaysPane = () => {
+  const [holidaydata, setHolidaydata] = useState([]);
   const fetchHoliday = async () => {
-    let data = await get("/dashboard/holidays");
+    let data = await get("/dashboard/holidays-settings");
+    setHolidaydata(data);
   };
-
   useEffect(() => {
-    setTimeout(() => {
       fetchHoliday();
-    }, 500);
-  }, []);
+ 
+  }, []); //holidaydata
 
   const settings = useSelector(getPTOSettings);
   const dispatch = useDispatch();
   const holidays = useSelector(getHolidays);
 
-  const sortedHolidays = holidays.sort((a, b) => a.date - b.date);
+  const sortedHolidays = holidaydata.sort((a, b) => a.date - b.date);
 
   const holidayCheckboxes = sortedHolidays.map((item, index) => {
     return <HolidayCheckbox holiday={item} />;
@@ -119,9 +140,7 @@ const HolidaysPane = () => {
 };
 
 function NumberOptionDays(props) {
- 
   const handleChange = (value) => {
-    
     if (value !== null) {
       console.log("activeme");
       props.onChangeStatus("active"); // Update status to "active" when input changes
@@ -202,11 +221,17 @@ const OptionPaneWithForm = ({ onChangeStatus }) => {
           >
             <OptionsContainer>
               <div>Annual Allowance</div>
-              <NumberOptionDays name="ptoAllowance" onChangeStatus={onChangeStatus}/>
+              <NumberOptionDays
+                name="ptoAllowance"
+                onChangeStatus={onChangeStatus}
+              />
               <div>Annual Cap</div>
-              <NumberOptionDays name="ptoCap" onChangeStatus={onChangeStatus}/>
+              <NumberOptionDays name="ptoCap" onChangeStatus={onChangeStatus} />
               <div>Current Balance</div>
-              <NumberOptionDays name="ptoBalance" onChangeStatus={onChangeStatus}/>
+              <NumberOptionDays
+                name="ptoBalance"
+                onChangeStatus={onChangeStatus}
+              />
             </OptionsContainer>
           </Form>
         </>
@@ -218,7 +243,7 @@ const OptionPaneWithForm = ({ onChangeStatus }) => {
 const TimeOffSettings = () => {
   const [status, setStatus] = useState("inactive");
   const [expandedSettings, setExpandedSettings] = useState(true);
-  
+
   const handleSaveChanges = () => {
     if (status === "active") {
       setStatus("completed");
@@ -227,8 +252,6 @@ const TimeOffSettings = () => {
   const handleExpandSettings = () => {
     setExpandedSettings(!expandedSettings);
   };
-
-  // status = 'inactive|active|completed'
 
   return (
     <>
@@ -252,13 +275,13 @@ const TimeOffSettings = () => {
                   <StyledMinimizeIcon src={minimize} alt="x" height="15" />
                 </MinimizeButton>
                 {status === "active" && (
-                  <SaveChangesActiveButton  onClick={handleSaveChanges}>
+                  <SaveChangesActiveButton onClick={handleSaveChanges}>
                     Save Changes
                   </SaveChangesActiveButton>
                 )}
 
                 {status === "inactive" && (
-                  <SaveChangesInactiveButton  onClick={handleSaveChanges}>
+                  <SaveChangesInactiveButton onClick={handleSaveChanges}>
                     Save Changes
                   </SaveChangesInactiveButton>
                 )}
@@ -269,7 +292,7 @@ const TimeOffSettings = () => {
               </div>
               <br />
               <SettingsContainer>
-                <OptionPaneWithForm onChangeStatus={setStatus}/>
+                <OptionPaneWithForm onChangeStatus={setStatus} />
 
                 <HolidaysPane />
               </SettingsContainer>
@@ -297,6 +320,12 @@ const StyledMinimizeIcon = styled.img`
 const StyledFormItem = styled(Form.Item)`
   margin: 0px;
   height: 32px;
+  .ant-input-number-input {
+    background: #f4f7fe;
+    color: #384077 !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+  }
 `;
 
 const OptionsPaneContainer = styled.div`
@@ -325,7 +354,7 @@ const CheckboxLabel = styled(Checkbox)`
 const HolidaysContainer = styled(Checkbox.Group)`
   margin-top: 10px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-auto-rows: 30px;
   align-items: center;
   overflow-y: scroll;
@@ -386,29 +415,31 @@ const SaveChangesActiveButton = styled.button`
   float: right;
   font-size: 15px;
   text-align: right;
-  border-radius: 10px;
   padding-top: 3px;
   padding-bottom: 3px;
   padding-right: 15px;
   margin-right: 5px;
   padding-left: 15px;
   border-width: 0px;
-  background-color: rgba(56, 64, 119, 0.6);
+  background-color: #384077;
+  border-radius: 21px;
   color: white;
+  font-weight: 500;
 `;
 const SaveChangesInactiveButton = styled.button`
   float: right;
   font-size: 15px;
   text-align: right;
-  border-radius: 10px;
   padding-top: 3px;
   padding-bottom: 3px;
   padding-right: 15px;
   margin-right: 5px;
   padding-left: 15px;
   border-width: 0px;
-  background-color: #f4f7fe;
-  color: #2b3674;
+  border-radius: 21px;
+  background-color: #888cad;
+  color: white;
+  font-weight: 500;
 `;
 const ChangesSavedText = styled.p`
   float: right;
@@ -419,6 +450,8 @@ const ChangesSavedText = styled.p`
   padding-right: 15px;
   margin-right: 5px;
   padding-left: 15px;
+  font-weight: 500;
+  color: #2b3674;
 `;
 
 const AddHolidayContainer = styled.div`

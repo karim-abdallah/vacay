@@ -7,7 +7,7 @@ import Cal02 from "../../assets/images/cal03.svg";
 import Calender3 from "../../assets/images/calender31.svg";
 import SmallEarnings from "../../assets/images/Small_Earnings1.svg";
 import { Link } from "react-router-dom";
-import { put } from "../../helpers/api_helper";
+import { put,post } from "../../helpers/api_helper";
 
 function OnboardingCard({ onClick, className, title, text }) {
   return (
@@ -443,7 +443,11 @@ const OnBoarding = () => {
       current_balance_days: timeOffFigure.currentBalance,
       country: countryOffResidence,
     };
+    let obj2 = {
+      country: countryOffResidence
+    }
     await put("/dashboard/time-off-settings", obj);
+    await post("/dashboard/holidays-settings", obj2);
   }
 
   const dots = timeOffPolicy === "unlimited" ? [1, 3, 4, 5] : [1, 2, 3, 4, 5];
