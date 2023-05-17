@@ -60,6 +60,7 @@ const HolidaysPane = () => {
       fetchHoliday();
     }, 500);
   }, []);
+
   const settings = useSelector(getPTOSettings);
   const dispatch = useDispatch();
   const holidays = useSelector(getHolidays);
@@ -128,6 +129,7 @@ const OptionPaneWithForm = () => {
     updateSettings(allValues);
     dispatch({ type: "settings/update", payload: allValues });
   };
+
   return (
     <OptionsPaneContainer>
       <SettingsSubheader>
