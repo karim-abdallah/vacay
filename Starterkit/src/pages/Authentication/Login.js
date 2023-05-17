@@ -75,7 +75,7 @@ class Login extends Component {
                     </div>
                     <lottie-player
                       className="side-img"
-                      src="https://lottie.host/063c8109-dcfe-4653-af8d-4a660ab64413/md0nTOGoY3.json"
+                      src="https://backend.vacay.live/static/lottie.json"
                       background="transparent"
                       speed="1"
                       loop

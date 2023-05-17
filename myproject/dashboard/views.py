@@ -142,21 +142,18 @@ class HolidaySettingView(APIView):
                 "date": "January 1st, 2023",
                 "active": False,
             },
-            # // TODO: Add more static holiday data
             {
                 "country": "United States",
                 "name": "New Year's Day US",
                 "date": "January 2nd, 2023",
                 "active": True,
             },
-            # // TODO: Add more static holiday data
             {
                 "country": "Other",
                 "name": "New Year's Day Other",
                 "date": "January 1st, 2023",
                 "active": True,
             },
-            # // TODO: Add more static holiday data
         ]
 
         # Retrieve all holiday data from the database and append to the list of holidays

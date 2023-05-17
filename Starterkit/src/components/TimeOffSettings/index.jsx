@@ -27,10 +27,13 @@ function HolidayCheckbox(props) {
 }
 
 function AddHolidayButton() {
+
   const [openInput, setOpenInput] = useState(false);
+  
   const handletoggleInput = () => {
     setOpenInput(!openInput);
   };
+
   return (
     <AddHolidayContainer>
       <CustomAddHolidayImage src={plus} onClick={handletoggleInput} />
@@ -65,6 +68,7 @@ const HolidaysPane = () => {
       fetchHoliday();
     }, 500);
   }, []);
+
   const settings = useSelector(getPTOSettings);
   const dispatch = useDispatch();
   const holidays = useSelector(getHolidays);
