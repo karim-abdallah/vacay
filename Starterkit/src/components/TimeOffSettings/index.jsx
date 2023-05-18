@@ -83,6 +83,7 @@ const HolidaysPane = () => {
     let data = await get("/dashboard/holidays-settings");
     setHolidaydata(data);
   };
+
   useEffect(() => {
     fetchHoliday();
   }, []); //holidaydata
@@ -139,7 +140,6 @@ const HolidaysPane = () => {
 function NumberOptionDays(props) {
   const handleChange = (value) => {
     if (value !== null) {
-      console.log("activeme");
       props.onChangeStatus("active"); // Update status to "active" when input changes
     }
   };
