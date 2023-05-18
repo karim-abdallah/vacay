@@ -134,7 +134,7 @@ class HolidaySettingView(APIView):
     def get(self, request):
 
         id = request.user.id
-    
+
         holidays_from_db = HolidaySetting.objects.filter(user_id=id)
 
         serialized_data = HolidaySettingSerializer(holidays_from_db, many=True)
@@ -154,14 +154,27 @@ class HolidaySettingView(APIView):
 
             HolidaySetting.objects.create(**data)
 
-        return Response({'detail':"Records Created Successfully"}, status=status.HTTP_201_CREATED)
+        return Response({'detail': "Records Created Successfully"}, status=status.HTTP_201_CREATED)
 
 
-    def patch(self,request):
-        
+class UpdateHolidayStatus(APIView):
+
+    def post(self, request):
+
         data = request.data
         data['user_id'] = self.request.user.id
+        country = User.objects.get(id=data['user_id']).country
+        data['country'] = country
 
         HolidaySetting.objects.create(**data)
 
-        return Response({'detail':"Records Created Successfully"}, status=status.HTTP_201_CREATED)
+        return Response({'detail': "Records Created Successfully"}, status=status.HTTP_201_CREATED)
+
+    def patch(self, request):
+
+        data = request.data
+        data['user_id'] = self.request.user.id 
+        holiday_settings=HolidaySetting.objects.filter(id=data['id'])
+        holiday_settings.update(**data)
+
+        return Response({'detail': "Records Updated Successfully"}, status=status.HTTP_200_OK)

@@ -11,5 +11,6 @@ urlpatterns = [
         TimeOffSettingList.as_view(),
         name="time-off-setting-detail",
     ),
-    path("holidays-settings", HolidaySettingView.as_view(), name="holiday-detail")
+    path("holidays-settings", HolidaySettingView.as_view(), name="holiday-detail"),
+    path("update-holidays-status", UpdateHolidayStatus.as_view(), name="holiday-detail")
 ]

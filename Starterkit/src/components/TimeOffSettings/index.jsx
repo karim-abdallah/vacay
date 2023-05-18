@@ -11,15 +11,31 @@ import { TimeOffSettingsInstructions } from "./instructionText";
 import minimize from "../../assets/images/minimize.png";
 import plus from "../../assets/images/plus1.svg";
 import settings from "../../assets/images/settings.png";
-import { put, get, patch } from "../../helpers/api_helper";
+import { put, get, patch, post } from "../../helpers/api_helper";
 
 function HolidayCheckbox(props) {
+  const { holiday, onChange } = props;
+
+  const handleCheckboxChange = (event) => {
+    const isChecked = event.target.checked;
+    onChange(holiday.id, isChecked);
+  };
+
   return (
-    <CheckboxLabel value={props.holiday.name}>
-      <Tooltip color={tooltipBackground} title={props.holiday.date}>
-        {props.holiday.name}
-      </Tooltip>
-    </CheckboxLabel>
+    <CheckboxWrapper>
+      <input
+        type="checkbox"
+        value={holiday.name}
+        onChange={handleCheckboxChange}
+        checked={holiday.active}
+      />
+      <label>{holiday.name}</label>
+    </CheckboxWrapper>
+    // <CheckboxLabel value={holiday.name} onChange={handleCheckboxChange} checked={holiday.active}>
+    //   <Tooltip color={tooltipBackground} title={holiday.date}>
+    //     {holiday.name}
+    //   </Tooltip>
+    // </CheckboxLabel>
   );
 }
 
@@ -35,9 +51,7 @@ function AddHolidayButton({ fetchHoliday }) {
       };
 
       try {
-        const response = await patch("/dashboard/holidays-settings", obj);
-        console.log("response===>", response);
-        console.log("obj===>", obj, pattern);
+        const response = await post("/dashboard/update-holidays-status", obj);
         setName("");
         fetchHoliday(); // Call the fetchHoliday function after setting the holiday
       } catch (error) {
@@ -86,21 +100,28 @@ const HolidaysPane = () => {
 
   useEffect(() => {
     fetchHoliday();
-  }, []); //holidaydata
+  }, []);
 
   const settings = useSelector(getPTOSettings);
-  const dispatch = useDispatch();
-  const holidays = useSelector(getHolidays);
-
   const sortedHolidays = holidaydata.sort((a, b) => a.date - b.date);
 
-  const holidayCheckboxes = sortedHolidays.map((item, index) => {
-    return <HolidayCheckbox holiday={item} />;
-  });
-
-  const checkboxHandler = (checkedValues) => {
-    dispatch({ type: "holidays/update", payload: checkedValues });
+  const checkboxHandler = async (checkboxId, isChecked) => {
+    const response = await patch("/dashboard/update-holidays-status", {
+      id: checkboxId,
+      active: isChecked,
+    });
+    fetchHoliday();
   };
+
+  const holidayCheckboxes = sortedHolidays.map((item, index) => {
+    return (
+      <HolidayCheckbox
+        key={item.id}
+        holiday={item}
+        onChange={checkboxHandler}
+      />
+    );
+  });
 
   return (
     <HolidayPaneContainer>
@@ -123,10 +144,7 @@ const HolidaysPane = () => {
           </span>
         </div>
       </SettingsSubheader>
-      <HolidaysContainer
-        defaultValue={sortedHolidays.filter((x) => x.active).map((x) => x.name)}
-        onChange={checkboxHandler}
-      >
+      <HolidaysContainer>
         {holidayCheckboxes}
         <div style={{ gridColumn: "span 2" }}>
           {" "}
@@ -136,7 +154,6 @@ const HolidaysPane = () => {
     </HolidayPaneContainer>
   );
 };
-
 function NumberOptionDays(props) {
   const handleChange = (value) => {
     if (value !== null) {
@@ -149,7 +166,6 @@ function NumberOptionDays(props) {
         size="small"
         min={minSettingsValueDays}
         max={maxSettingsValueDays}
-        // onChange={props.onChange}
         onChange={handleChange}
       />
     </StyledFormItem>
@@ -532,5 +548,22 @@ const StyledInfoTooltip = styled(Tooltip)`
   position: relative;
   bottom: 2px;
 `;
+const CheckboxWrapper = styled.div`
+  font-weight: 400;
+  font-size: 13px;
 
+  input[type="checkbox"] {
+    /* Additional input styles here */
+  }
+
+  .ant-checkbox-inner {
+    background-color: #f4f7fe;
+    border: none;
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner::after {
+    border-color: #2b3674;
+    padding: 2px !important;
+  }
+`;
 export default TimeOffSettings;
