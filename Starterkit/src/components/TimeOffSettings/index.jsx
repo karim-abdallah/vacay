@@ -11,7 +11,7 @@ import { TimeOffSettingsInstructions } from "./instructionText";
 import minimize from "../../assets/images/minimize.png";
 import plus from "../../assets/images/plus1.svg";
 import settings from "../../assets/images/settings.png";
-import { put, get,patch } from "../../helpers/api_helper";
+import { put, get, patch } from "../../helpers/api_helper";
 
 function HolidayCheckbox(props) {
   return (
@@ -23,11 +23,11 @@ function HolidayCheckbox(props) {
   );
 }
 
-function AddHolidayButton() {
+function AddHolidayButton({ fetchHoliday }) {
   const [name, setName] = useState("");
   const pattern = /(\d{4}\/\d{2}\/\d{2})\s(.+)/;
- 
-  const fetchHoliday = async () => {
+
+  const setHoliday = async () => {
     if (name && pattern.test(name)) {
       const obj = {
         date: name.match(pattern)[1],
@@ -36,24 +36,22 @@ function AddHolidayButton() {
 
       try {
         const response = await patch("/dashboard/holidays-settings", obj);
-        console.log("response===>",response);
-        console.log("obj===>",obj,pattern);
+        console.log("response===>", response);
+        console.log("obj===>", obj, pattern);
         setName("");
-       
+        fetchHoliday(); // Call the fetchHoliday function after setting the holiday
       } catch (error) {
-        console.log("error===>",error);
+        console.log("error===>", error);
       }
     }
   };
   const [openInput, setOpenInput] = useState(false);
 
-  const handletoggleInput = () => {
-
+  const handletoggleInput = async () => {
     setOpenInput(!openInput);
     if (name) {
-      fetchHoliday();
-    }
-    else {
+      await setHoliday();
+    } else {
       return null;
     }
   };
@@ -86,8 +84,7 @@ const HolidaysPane = () => {
     setHolidaydata(data);
   };
   useEffect(() => {
-      fetchHoliday();
- 
+    fetchHoliday();
   }, []); //holidaydata
 
   const settings = useSelector(getPTOSettings);
@@ -132,7 +129,7 @@ const HolidaysPane = () => {
         {holidayCheckboxes}
         <div style={{ gridColumn: "span 2" }}>
           {" "}
-          <AddHolidayButton />
+          <AddHolidayButton fetchHoliday={fetchHoliday} />
         </div>
       </HolidaysContainer>
     </HolidayPaneContainer>
