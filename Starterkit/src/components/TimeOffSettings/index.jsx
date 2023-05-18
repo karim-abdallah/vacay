@@ -11,7 +11,7 @@ import { TimeOffSettingsInstructions } from "./instructionText";
 import minimize from "../../assets/images/minimize.png";
 import plus from "../../assets/images/plus1.svg";
 import settings from "../../assets/images/settings.png";
-import { put, get,patch } from "../../helpers/api_helper";
+import { put, get, patch } from "../../helpers/api_helper";
 
 function HolidayCheckbox(props) {
   return (
@@ -26,7 +26,7 @@ function HolidayCheckbox(props) {
 function AddHolidayButton() {
   const [name, setName] = useState("");
   const pattern = /(\d{4}\/\d{2}\/\d{2})\s(.+)/;
- 
+
   const fetchHoliday = async () => {
     if (name && pattern.test(name)) {
       const obj = {
@@ -34,15 +34,8 @@ function AddHolidayButton() {
         name: name.match(pattern)[2],
       };
 
-      try {
-        const response = await patch("/dashboard/holidays-settings", obj);
-        console.log("response===>",response);
-        console.log("obj===>",obj,pattern);
-        setName("");
-       
-      } catch (error) {
-        console.log("error===>",error);
-      }
+      await patch("/dashboard/holidays-settings", obj);
+      setName("");
     }
   };
   const [openInput, setOpenInput] = useState(false);
@@ -85,9 +78,10 @@ const HolidaysPane = () => {
     let data = await get("/dashboard/holidays-settings");
     setHolidaydata(data);
   };
+
   useEffect(() => {
-      fetchHoliday();
- 
+    fetchHoliday();
+
   }, []); //holidaydata
 
   const settings = useSelector(getPTOSettings);
@@ -142,7 +136,6 @@ const HolidaysPane = () => {
 function NumberOptionDays(props) {
   const handleChange = (value) => {
     if (value !== null) {
-      console.log("activeme");
       props.onChangeStatus("active"); // Update status to "active" when input changes
     }
   };
