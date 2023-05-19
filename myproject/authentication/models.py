@@ -48,6 +48,9 @@ class TimeOffSetting(models.Model):
     annual_allowance_days = models.IntegerField(default=15)
     accrual_cap_days = models.IntegerField(default=24)
     current_balance_days = models.IntegerField(default=7)
+    balance_recorded_date = models.DateField(
+        auto_now_add=True,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

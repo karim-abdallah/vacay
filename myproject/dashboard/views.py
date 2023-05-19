@@ -1,3 +1,4 @@
+import datetime
 from authentication.models import HolidaySetting, TimeOffSetting, User
 from authentication.serializers import UserSerializer
 from django.shortcuts import get_object_or_404
@@ -96,6 +97,20 @@ class TimeOffSettingList(APIView):
 
         time_off_setting = get_object_or_404(TimeOffSetting, user_id=id)
 
+        # Update current balance if applicable
+        # 1. calculate difference between today's month and recorded month
+        # 2. if diff > 0 -> set new current balance as current balance + accrual rate * month diff
+        today_month = datetime.date.today().month
+        month_diff = today_month - time_off_setting.balance_recorded_date.month
+
+        time_off_setting.current_balance_days = (
+            time_off_setting.current_balance_days
+            + time_off_setting.annual_allowance_days / 12 * month_diff
+        )
+        time_off_setting.balance_recorded_date = datetime.date.today()
+
+        time_off_setting.save()
+
         return Response(TimeOffSettingSerializer(time_off_setting).data)
 
     def put(self, request):
@@ -114,11 +129,9 @@ class TimeOffSettingList(APIView):
         user.is_logged_in = True
         user.save()
 
-        time_off_setting_to_update = get_object_or_404(
-            TimeOffSetting, user_id=id)
+        time_off_setting_to_update = get_object_or_404(TimeOffSetting, user_id=id)
 
-        serializer = TimeOffSettingSerializer(
-            time_off_setting_to_update, data=data)
+        serializer = TimeOffSettingSerializer(time_off_setting_to_update, data=data)
 
         if serializer.is_valid():
             serializer.save()
@@ -163,12 +176,14 @@ class HolidaySettingView(APIView):
         # Retrieve all holiday data from the database and append to the list of holidays
         holidays_from_db = HolidaySetting.objects.all()
         for holiday in holidays_from_db:
-            holidays.append({
-                "country": holiday.country,
-                "name": holiday.name,
-                "date": holiday.date,
-                "active": holiday.active,
-            })
+            holidays.append(
+                {
+                    "country": holiday.country,
+                    "name": holiday.name,
+                    "date": holiday.date,
+                    "active": holiday.active,
+                }
+            )
         selected_country = []
         for holiday in holidays:
             if holiday["country"] == country:
