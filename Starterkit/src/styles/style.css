@@ -110,9 +110,10 @@
 /* } */
 .react-calendar__month-view__weekdays {
   text-align: center;
-  text-transform: uppercase;
+  text-transform: capitalize;
   font-weight: bold;
-  font-size: 0.6em;
+  font-size: 0.9em;
+  font-family: 'DM Sans';
 }
 
 .react-calendar__month-view__weekdays__weekday {

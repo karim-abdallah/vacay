@@ -319,8 +319,9 @@ const BarChart = () => {
 
   const options = {
     borderRadius: barChartBorderRadius,
-    borderSkipped: false,
+    borderSkipped:  false,
     barPercentage: barChartBarPercentage,
+
     scales: {
       y: yAxisConfig,
       x: {

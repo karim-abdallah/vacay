@@ -55,7 +55,7 @@ function MiniCalendar(props) {
   const [selectedDatesLocal, setSelectedDatesLocal] = useState([]);
   const [showBookButton, setShowBookButton] = useState(false);
   const [showUnbookButton, setShowUnbookButton] = useState(false);
-  const [showCalendar, setShowCalendar] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(props.initialOpen);
   const [showConfirmationBox, setShowConfirmationBox] = useState(false);
   const [mouseSelection, setMouseSelection] = useState();
 
@@ -65,6 +65,7 @@ function MiniCalendar(props) {
   const holidayDates = useSelector(selectHolidaysDates);
   const selectedDates = useSelector(getSelectedDates);
   const datesToUnbook = useSelector(getDatesToUnbook);
+
 
   const dispatch = useDispatch();
 
@@ -399,7 +400,7 @@ function MiniCalendar(props) {
                 selectRange={true}
                 value={mouseSelection}
                 formatShortWeekday={(locale, value) =>
-                  ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"][
+                  ["Su", "Mo", "Tu", "We", "Th", "Fri", "Sa", "Su"][
                     value.getDay()
                   ]
                 }
@@ -465,15 +466,13 @@ const ToggleCalendarButton = styled.button`
   text-align: center;
   margin-right: 15px;
   border-width: 0px;
-  padding-right: 6px;
-  padding-left: 6px;
-  padding-bottom: 2px;
+  padding:4px 8px 4px 8px;
   background-color: ${toggleButtonBackgroundColor};
 `;
 
 const CalendarHeaderContainer = styled.div`
   margin-top: 15px;
-  font-size: 15px;
+
   text-align: center;
   white-space: nowrap;
   margin-bottom: 10px;
@@ -487,10 +486,13 @@ const StyledMonthTitle = styled.b`
   padding-bottom: 3px;
   border-radius: 15px;
   position: relative;
+  font-size:14px;
   left: ${(props) => (props.showCalendar ? "20px" : "0px")};
 `;
 
 const CalendarContainer = styled(Card)`
+font-family: 'DM Sans';
+font-size: 12px;
   abbr[title] {
     border-bottom: none !important;
     cursor: inherit !important;

@@ -1,9 +1,9 @@
 import React from "react";
 import { Row, Col, Container } from "reactstrap";
 
-const goToFeedback = () => {
+const goToBlog = () => {
     window.open(
-      "https://docs.google.com/forms/d/e/1FAIpQLSewOeenbHvlcb2GK1uOXSvZ05iW8EATairwJbXPNHIk4lzDow/viewform"
+      "https://vacay-live.notion.site/Vacay-Blog-8bb71268be634ef2a029403032371605"
     );
   };
 const Footer = () => {
@@ -19,7 +19,7 @@ const Footer = () => {
                             {new Date().getFullYear()} © Vacay. All Rights Reserved. Made with <i className="mdi mdi-heart text-danger"></i>
                         </Col>
                         <Col sm={3} className="text-end">
-                            <p onClick={goToFeedback} style={blogStyle}>Blog</p>
+                            <p onClick={goToBlog} style={blogStyle}>Blog</p>
                             </Col>
                     </Row>
                 </Container>

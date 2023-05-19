@@ -30,6 +30,7 @@ const Dashboard = () => {
 
   // Fetch time off settings from back-end
   const dispatch = useDispatch();
+
   const fetchTimeOffSettings = async () => {
     let data = await get("/dashboard/time-off-settings");
     let user = await get("/dashboard/user");
@@ -58,7 +59,6 @@ const Dashboard = () => {
     let data = await get("/dashboard/user");
     setFirstName(data["first_name"]);
   };
-
   // Fetch dashboard data from back-end
   const currentMonth = useSelector(getCurrentMonth);
   const negativeBalanceMonths = useSelector(getNegativeBalanceMonths);
@@ -67,7 +67,8 @@ const Dashboard = () => {
   const calendarDiv = () => {
     // Split out the calendar array into 3 sub arrays
     const calendarArray = twelveMonths.map((item, index) => {
-      return <MiniCalendar startDate={item} />;
+      const isInitialOpen = index === 0; // Set isInitialOpen to true for the first calendar, false for others
+      return <MiniCalendar startDate={item} initialOpen={isInitialOpen} />;
     });
     const groupedArray = [[], [], [], []];
     var groupIndex = 0;
@@ -109,7 +110,7 @@ const Dashboard = () => {
       <div className="page-content">
         <Container fluid>
           {generateWarning(negativeBalanceMonths)}
-          <TimeOffSettings/>
+          <TimeOffSettings />
           <h2 style={dashboardStyle["user-name"]}>Hi {firstName}!</h2>
           <Card>
             <CardBody>
@@ -124,7 +125,6 @@ const Dashboard = () => {
     </React.Fragment>
   );
 };
-
 
 const StyledAlert = styled(Alert)`
   margin-bottom: 10px;

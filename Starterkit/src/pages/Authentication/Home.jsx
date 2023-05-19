@@ -353,7 +353,7 @@ const Footer = () => {
               </form>
             </Col>
             <Col sm={2} className="text-end">
-              <p style={blogStyle} onClick={goToFeedback}>
+              <p style={blogStyle} onClick={goToBlog}>
                 Blog
               </p>
             </Col>
@@ -363,9 +363,9 @@ const Footer = () => {
     </div>
   );
 };
-const goToFeedback = () => {
+const goToBlog = () => {
   window.open(
-    "https://docs.google.com/forms/d/e/1FAIpQLSewOeenbHvlcb2GK1uOXSvZ05iW8EATairwJbXPNHIk4lzDow/viewform"
+    "https://vacay-live.notion.site/Vacay-Blog-8bb71268be634ef2a029403032371605"
   );
 };
 const Landing = () => {
