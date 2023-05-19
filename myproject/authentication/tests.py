@@ -46,3 +46,23 @@ class TimeOffSettingsTests(TestCase):
         assert (
             response.data["balance_recorded_date"] == datetime.date.today().isoformat()
         )
+
+    def test_current_balance_same(self):
+        """Tests that the current balance doesn't change if the month hasn't changed yet"""
+
+        # Arrange
+        self.time_off_settings.balance_recorded_date = datetime.date.today()
+        self.time_off_settings.save()
+
+        # Act
+        request = self.factory.get("/dashboard/time-off-settings")
+        force_authenticate(request, user=self.user)
+
+        response = self.view(request)
+
+        # Assert
+        assert response
+        assert response.data["current_balance_days"] == self.default_current_balance
+        assert (
+            response.data["balance_recorded_date"] == datetime.date.today().isoformat()
+        )

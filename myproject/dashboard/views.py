@@ -98,8 +98,6 @@ class TimeOffSettingList(APIView):
         time_off_setting = get_object_or_404(TimeOffSetting, user_id=id)
 
         # Update current balance if applicable
-        # 1. calculate difference between today's month and recorded month
-        # 2. if diff > 0 -> set new current balance as current balance + accrual rate * month diff
         today_month = datetime.date.today().month
         month_diff = today_month - time_off_setting.balance_recorded_date.month
 
