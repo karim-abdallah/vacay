@@ -173,8 +173,8 @@ class UpdateHolidayStatus(APIView):
     def patch(self, request):
 
         data = request.data
-        data['user_id'] = self.request.user.id 
-        holiday_settings=HolidaySetting.objects.filter(id=data['id'])
+        data['user_id'] = self.request.user.id
+        holiday_settings = HolidaySetting.objects.filter(id=data['id'])
         holiday_settings.update(**data)
 
         return Response({'detail': "Records Updated Successfully"}, status=status.HTTP_200_OK)
