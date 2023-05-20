@@ -1,3 +1,4 @@
+import datetime
 from authentication.models import HolidaySetting, TimeOffSetting, User
 from authentication.serializers import UserSerializer
 from django.shortcuts import get_object_or_404
@@ -95,9 +96,19 @@ class TimeOffSettingList(APIView):
 
         time_off_setting = get_object_or_404(TimeOffSetting, user_id=id)
 
-        serialized_data = TimeOffSettingSerializer(time_off_setting)
+        # Update current balance if applicable
+        today_month = datetime.date.today().month
+        month_diff = today_month - time_off_setting.balance_recorded_date.month
 
-        return Response(serialized_data.data, status=status.HTTP_200_OK)
+        time_off_setting.current_balance_days = (
+            time_off_setting.current_balance_days
+            + time_off_setting.annual_allowance_days / 12 * month_diff
+        )
+        time_off_setting.balance_recorded_date = datetime.date.today()
+
+        time_off_setting.save()
+
+        return Response(TimeOffSettingSerializer(time_off_setting).data)
 
     def put(self, request):
         """
@@ -137,9 +148,26 @@ class HolidaySettingView(APIView):
 
         holidays_from_db = HolidaySetting.objects.filter(user_id=id)
 
-        serialized_data = HolidaySettingSerializer(holidays_from_db, many=True)
+        country = User.objects.get(id=id).country
+        holidays = []
 
-        return Response(serialized_data.data, status=status.HTTP_200_OK)
+        # Retrieve all holiday data from the database and append to the list of holidays
+        holidays_from_db = HolidaySetting.objects.all()
+        for holiday in holidays_from_db:
+            holidays.append(
+                {
+                    "country": holiday.country,
+                    "name": holiday.name,
+                    "date": holiday.date,
+                    "active": holiday.active,
+                }
+            )
+        selected_country = []
+        for holiday in holidays:
+            if holiday["country"] == country:
+                selected_country.append(holiday)
+        serializer = HolidaySettingSerializer(selected_country, many=True)
+        return Response(serializer.data)
 
     def post(self, request):
 

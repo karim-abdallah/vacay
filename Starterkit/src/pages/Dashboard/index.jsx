@@ -59,7 +59,7 @@ const Dashboard = () => {
       fetchTimeOffSettings();
       fetchFirstName();
     }, 500);
-  }, []);
+  });
 
   const [firstName, setFirstName] = useState("");
   // Fetch FirstName from back-end

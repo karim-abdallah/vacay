@@ -218,7 +218,7 @@ function MiniCalendar(props) {
       }
     }
 
-    const holidaysArray = holidaysWithNames.HOLIDAYSettings.filter((x) => x.active).filter((x) => separateDate(x.date).month == currentMonth+1).map((x) => { 
+    const holidaysArray = holidaysWithNames.HOLIDAYSettings.filter((x) => x.active).filter((x) => separateDate(x.date).month === currentMonth+1).map((x) => { 
       return { date: separateDate(x.date).day, name: x.name, kind: "Holiday" };
     });
 

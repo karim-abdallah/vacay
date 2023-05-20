@@ -13,6 +13,7 @@ class TimeOffSettingSerializer(serializers.ModelSerializer):
             "annual_allowance_days",
             "accrual_cap_days",
             "current_balance_days",
+            "balance_recorded_date",
         ]
 
     def create(self, validated_data):
@@ -36,6 +37,9 @@ class TimeOffSettingSerializer(serializers.ModelSerializer):
         )
         instance.current_balance_days = validated_data.get(
             "current_balance_days", instance.current_balance_days
+        )
+        instance.balance_recorded_date = validated_data.get(
+            "balance_recorded_date", instance.balance_recorded_date
         )
 
         instance.save()

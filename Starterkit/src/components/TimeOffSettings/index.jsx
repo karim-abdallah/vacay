@@ -1,13 +1,13 @@
-import { Card, CardBody, Container } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { Form, InputNumber, Checkbox, Tooltip, Input, Typography } from "antd";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { getPTOSettings, getHolidays } from "../../store/dashboard/selector";
+import { getPTOSettings } from "../../store/dashboard/selector";
 import { tooltipBackground, cardHoverColor } from "../../styles/constants";
 import { minSettingsValueDays, maxSettingsValueDays } from "../../constants";
-import { TimeOffSettingsInstructions } from "./instructionText";
+import { TimeOffSettingsInstructions, PublicHolidaysSettingsInstructions } from "./instructionText";
 import minimize from "../../assets/images/minimize.png";
 import plus from "../../assets/images/plus1.svg";
 import settingsIcon from "../../assets/images/settings.png";
@@ -48,7 +48,7 @@ function AddHolidayButton({ fetchHoliday }) {
       };
 
       try {
-        const response = await post("/dashboard/update-holidays-status", obj);
+        await post("/dashboard/update-holidays-status", obj);
         setName("");
         fetchHoliday(); // Call the fetchHoliday function after setting the holiday
       } catch (error) {
@@ -100,12 +100,12 @@ const HolidaysPane = () => {
       fetchHoliday();
     }, 500);
   }, []);
-  
+
   const settings = useSelector(getPTOSettings);
   const sortedHolidays = holidaydata.sort((a, b) => a.date - b.date);
 
   const checkboxHandler = async (checkboxId, isChecked) => {
-    const response = await patch("/dashboard/update-holidays-status", {
+    await patch("/dashboard/update-holidays-status", {
       id: checkboxId,
       active: isChecked,
     });
@@ -129,7 +129,7 @@ const HolidaysPane = () => {
           <span>
             Public Holidays{" "}
             <StyledInfoTooltip
-              title={TimeOffSettingsInstructions()}
+              title={PublicHolidaysSettingsInstructions()}
               arrow
               placement="bottomLeft"
               trigger="click"
@@ -162,10 +162,12 @@ function NumberOptionDays(props) {
   return (
     <StyledFormItem name={props.name} className="text-end">
       <InputNumber
+        style={{ width: "100px" }}
         size="small"
         min={minSettingsValueDays}
         max={maxSettingsValueDays}
         onChange={handleChange}
+        addonAfter="days"
       />
     </StyledFormItem>
   );
@@ -204,7 +206,7 @@ const OptionPaneWithForm = ({ onChangeStatus }) => {
           </span>
         </div>
       </SettingsSubheader>
-      {settings.PTOSettings.accrualType == "unlimited" ? (
+      {settings.PTOSettings.accrualType === "unlimited" ? (
         <>
           <UnlimitedContainer>
             <p>
@@ -346,19 +348,6 @@ const OptionsPaneContainer = styled.div`
 const HolidayPaneContainer = styled.div`
   display: grid;
   grid-template-rows: 30px;
-`;
-
-const CheckboxLabel = styled(Checkbox)`
-  font-weight: 400px;
-  font-size: 13px;
-  .ant-checkbox-inner {
-    background-color: #f4f7fe;
-    border: none; //it is important to remove border
-  }
-  .ant-checkbox-checked .ant-checkbox-inner::after {
-    border-color: #2b3674;
-    padding: 2px !important;
-  }
 `;
 
 const HolidaysContainer = styled(Checkbox.Group)`

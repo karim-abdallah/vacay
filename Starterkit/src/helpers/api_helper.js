@@ -26,7 +26,6 @@ axiosApi.interceptors.request.use(
       config.headers.Authorization = 'Bearer ' + access_token;
     } else {
       return history.push('/logout');
-      return window.location.href = '/login'
     }
 
     return config;

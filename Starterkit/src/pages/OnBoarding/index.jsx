@@ -7,7 +7,8 @@ import Cal02 from "../../assets/images/cal03.svg";
 import Calender3 from "../../assets/images/calender31.svg";
 import SmallEarnings from "../../assets/images/Small_Earnings1.svg";
 import { Link } from "react-router-dom";
-import { put,post } from "../../helpers/api_helper";
+import { put, post } from "../../helpers/api_helper";
+import { InputNumber } from "antd";
 
 function OnboardingCard({ onClick, className, title, text }) {
   return (
@@ -21,6 +22,7 @@ function OnboardingCard({ onClick, className, title, text }) {
     </div>
   );
 }
+
 const VaccyOnBoarding = ({ moveToNextStep }) => {
   return (
     <div>
@@ -35,6 +37,7 @@ const VaccyOnBoarding = ({ moveToNextStep }) => {
     </div>
   );
 };
+
 const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy, timeOffPolicy }) => {
   const [policyType, setPolicyType] = useState(timeOffPolicy || "accrual");
 
@@ -99,6 +102,7 @@ const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy, timeOffPolicy }) => {
     </div>
   );
 };
+
 const TimeOffFigure = ({
   timeOffFigure,
   moveToNextStep,
@@ -107,16 +111,15 @@ const TimeOffFigure = ({
   const { annualAllowance, annualCap, currentBalance } = timeOffFigure;
 
   const handleAnnualAllowanceChange = (e) => {
-    const newAnnualAllowance = parseInt(e.target.value);
-    onTimeOffFigureChange({ annualAllowance: newAnnualAllowance });
+    onTimeOffFigureChange({ annualAllowance: e });
   };
+
   const handleAnnualCapChange = (e) => {
-    const newAnnualCap = parseInt(e.target.value);
-    onTimeOffFigureChange({ annualCap: newAnnualCap });
+    onTimeOffFigureChange({ annualCap: e });
   };
+
   const handleCurrentBalanceChange = (e) => {
-    const newCurrentBalance = parseInt(e.target.value);
-    onTimeOffFigureChange({ currentBalance: newCurrentBalance });
+    onTimeOffFigureChange({ currentBalance: e });
   };
 
   const timeOffFigureStyle = {
@@ -147,11 +150,9 @@ const TimeOffFigure = ({
                   Indicate the number of days off you are entitled to each year:
                 </p>
                 <div style={timeOffFigureStyle["center-content"]}>
-                  <Input
+                  <InputNumber
                     style={timeOffFigureStyle["card-input"]}
-                    type="number"
-                    name="number"
-                    id="annualAllowance"
+                    addonAfter="days"
                     placeholder={`${annualAllowance} days`}
                     onChange={handleAnnualAllowanceChange}
                   />
@@ -168,11 +169,9 @@ const TimeOffFigure = ({
                   year:
                 </p>
                 <div style={timeOffFigureStyle["center-content"]}>
-                  <Input
+                  <InputNumber
                     style={timeOffFigureStyle["card-input"]}
-                    type="number"
-                    name="number"
-                    id="annualCap"
+                    addonAfter="days"
                     placeholder={`${annualCap} days`}
                     onChange={handleAnnualCapChange}
                   />
@@ -188,11 +187,9 @@ const TimeOffFigure = ({
                   Input the number of days you already accrued as of now:
                 </p>
                 <div style={timeOffFigureStyle["center-content"]}>
-                  <Input
+                  <InputNumber
                     style={timeOffFigureStyle["card-input"]}
-                    type="number"
-                    name="number"
-                    id="currentBalance"
+                    addonAfter="days"
                     placeholder={`${currentBalance} days`}
                     onChange={handleCurrentBalanceChange}
                   />
@@ -208,6 +205,7 @@ const TimeOffFigure = ({
     </div>
   );
 };
+
 const CountryOfResidence = ({
   moveToNextStep,
   countryOffResidence,
@@ -284,6 +282,7 @@ const CountryOfResidence = ({
     </div>
   );
 };
+
 const Invitation = ({ moveToNextStep, invitation, setInvitation }) => {
   const [email, setEmail] = useState(invitation || "");
 
@@ -329,6 +328,7 @@ const Invitation = ({ moveToNextStep, invitation, setInvitation }) => {
     </div>
   );
 };
+
 const StartBooking = () => {
   return (
     <div>
@@ -393,6 +393,7 @@ const StartBooking = () => {
     </div>
   );
 };
+
 const Dots = ({ currentStep, setCurrentStep, dots }) => {
   const handleDotsClick = (step) => {
     setCurrentStep(step);
@@ -415,6 +416,7 @@ const Dots = ({ currentStep, setCurrentStep, dots }) => {
     </>
   );
 };
+
 const OnBoarding = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [timeOffPolicy, setTimeOffPolicy] = useState("accrual");
@@ -493,9 +495,7 @@ const OnBoarding = () => {
             <button className="onboarding-button" onClick={OpenVacay}>Open Vacay</button>
           </Link>
         </div>
-      ) : (
-        console.log(currentStep + 1, steps.length)
-      )}
+      ) : ('')}
       <Dots
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}
