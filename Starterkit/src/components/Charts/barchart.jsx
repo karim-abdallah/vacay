@@ -59,6 +59,12 @@ const computeMonthlyBalance = (
           selectedPerMonth[element] +
           datesToUnbookPerMonth[element]);
     }
+
+    // Implement accrual cap
+    balancePerMonth[element] =
+      balancePerMonth[element] > accrualCap
+        ? accrualCap
+        : balancePerMonth[element];
   });
 };
 
@@ -134,7 +140,7 @@ const generateDashboardDataUnlimitedPTO = (
   return chartData;
 };
 
-const generateDashboardData = (
+const generateDashboardDataAccrual = (
   currentMonth,
   currentBalanceDays,
   bookedPTO,
@@ -275,7 +281,7 @@ const BarChart = () => {
 
   switch (dashboardData.accrualType) {
     case PolicyTypes.accrual:
-      [data, negativeBalanceMonths] = generateDashboardData(
+      [data, negativeBalanceMonths] = generateDashboardDataAccrual(
         dashboardData.currentMonth,
         dashboardData.currentBalanceDays,
         dashboardData.bookedPTO,
