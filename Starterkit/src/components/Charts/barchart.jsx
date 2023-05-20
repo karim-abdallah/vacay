@@ -1,5 +1,4 @@
 import React from "react";
-import { Chart as ChartJS } from "chart.js/auto";
 import { Bar } from "react-chartjs-2";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -325,8 +324,9 @@ const BarChart = () => {
 
   const options = {
     borderRadius: barChartBorderRadius,
-    borderSkipped:  false,
+    borderSkipped: false,
     barPercentage: barChartBarPercentage,
+    cornerRadius: 20,
 
     scales: {
       y: yAxisConfig,
@@ -347,6 +347,7 @@ const BarChart = () => {
     },
   };
 
+  // return null
   return <Bar height={83} width={250} data={data} options={options} />;
 };
 
