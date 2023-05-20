@@ -34,6 +34,7 @@ const Dashboard = () => {
   const fetchTimeOffSettings = async () => {
     let data = await get("/dashboard/time-off-settings");
     let user = await get("/dashboard/user");
+    let holidayData = await get("/dashboard/holidays-settings");
     // TODO: expand logic for dispatching based on specific settings type
 
     const PTOSettings = {
@@ -43,8 +44,15 @@ const Dashboard = () => {
       ptoCap: data.accrual_cap_days,
       ptoBalance: data.current_balance_days,
     };
-
+    const HOLIDAYSettings = {
+      holidayData: holidayData.map((item) => ({
+        name: item.name,
+        date: item.date,
+        active: item.active,
+      })),
+    };
     dispatch({ type: "settings/update", payload: PTOSettings });
+    dispatch({ type: "holidays/update", payload: HOLIDAYSettings });
   };
   useEffect(() => {
     setTimeout(() => {
@@ -64,6 +72,7 @@ const Dashboard = () => {
   const negativeBalanceMonths = useSelector(getNegativeBalanceMonths);
 
   const twelveMonths = computeNextTwelveMonths(currentMonth, "date");
+
   const calendarDiv = () => {
     // Split out the calendar array into 3 sub arrays
     const calendarArray = twelveMonths.map((item, index) => {

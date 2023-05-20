@@ -198,20 +198,37 @@ function MiniCalendar(props) {
       .map((x) => {
         return { date: x.getDate(), kind: "PTO" };
       });
+    
+    // const holidaysArray = holidaysWithNames.holidays
+    //   .filter((x) => x.active).filter((x) => x.date.getMonth() === currentMonth).map((x) => {
+    //     return { date: x.date.getDate(), name: x.name, kind: "Holiday" };
+    //   });
 
-    const holidaysArray = holidaysWithNames
-      .filter((x) => x.active)
-      .filter((x) => x.date.getMonth() === currentMonth)
-      .map((x) => {
-        return { date: x.date.getDate(), name: x.name, kind: "Holiday" };
-      });
 
+    const separateDate = (date) => { 
+      const regex = /^(\d{4})\/(\d{2})\/(\d{2})$/;
+      const match = date.match(regex);
+      if (match) {
+        return {
+          year: match[1],
+          month: match[2],
+          day: match[3],
+        }
+       
+      }
+    }
+
+    const holidaysArray = holidaysWithNames.HOLIDAYSettings.filter((x) => x.active).filter((x) => separateDate(x.date).month == currentMonth+1).map((x) => { 
+      return { date: separateDate(x.date).day, name: x.name, kind: "Holiday" };
+    });
+
+    
     // 3. combine both arrays
     const combinedArray = ptoArray.concat(holidaysArray);
-
+    
     // 4. sort using date value
     const sortedArray = combinedArray.sort((a, b) => a.date - b.date);
-
+  
     if (sortedArray.length <= 5) {
       return sortedArray.map((x, index) => {
         if (x.kind === "PTO") {
@@ -366,7 +383,6 @@ function MiniCalendar(props) {
     setSelectedDatesLocal([]);
     handleShowConfirmation();
   };
-
   return (
     <CalendarContainer
       onClick={!showCalendar ? handleShowCalendar : null}
@@ -388,7 +404,7 @@ function MiniCalendar(props) {
               ) : null}
             </CalendarHeaderContainer>
           </div>
-          {showCalendar ? (
+            {showCalendar ? (
             <>
               <Calendar
                 activeStartDate={props.startDate}

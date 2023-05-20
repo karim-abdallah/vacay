@@ -6,6 +6,7 @@ const INIT_STATE = {
   bookedPTO: mockApiResponse.bookedPTO,
   holidays: mockApiResponse.holidays,
   PTOSettings: mockApiResponse.PTOSettings,
+  HOLIDAYSettings:[],
   selectedDates: [],
   datesToUnbook: [],
   negativeBalanceMonths: [],
@@ -85,17 +86,17 @@ const Dashboard = (state = INIT_STATE, action) => {
     case 'holidays/update':
       // Takes in list of active holidays by name. Ex:
       // ['Labor Day', 'New Year's Day']
-
       return {
         ...state,
-        holidays: state.holidays.map(x => {
-          if (action.payload.find(day => day === x.name)) {
-            x.active = true;
-          } else {
-            x.active = false;
-          }
-          return x;
-        }),
+        HOLIDAYSettings: action.payload.holidayData,
+        // holidays: state.holidays.map(x => {
+        //   if (action.payload.find(day => day === x.name)) {
+        //     x.active = true;
+        //   } else {
+        //     x.active = false;
+        //   }
+        //   return x;
+        // }),
       };
 
     case 'negativeBalanceMonths/update':
