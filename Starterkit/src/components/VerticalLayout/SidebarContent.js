@@ -96,7 +96,7 @@ class SidebarContent extends Component {
               {
                 <Link to="/dashboard">
                   
-                  <img src={homeIcon} alt="" height="16" className="side-icon"/>
+                  <img src={homeIcon} alt="" height="13" className="mb-1 side-icon"/>
                   <span className="sidebar-label" >{this.props.t(" Home")}</span>
                 </Link>
               }
@@ -104,7 +104,7 @@ class SidebarContent extends Component {
             <li>
               {
                 <Link to="/profile">
-                  <img src={profileIcon} alt="" height="16" className="side-icon" />
+                  <img src={profileIcon} alt="" height="13" className="mb-1 side-icon" />
                   <span className="sidebar-label">{this.props.t(" Profile")}</span>
                 </Link>
               }
@@ -112,20 +112,20 @@ class SidebarContent extends Component {
             <li>
               {
                 <Link to="/dashboard">
-                 <img src={highFiveIcon} alt="" height="18"  className="side-icon"/>
-                  <span className="sidebar-label">{this.props.t("Plan With Friends")}</span>
+                 <img src={highFiveIcon} alt="" height="14"  className="mb-1 side-icon"/>
+                  <span className="sidebar-label">{this.props.t("Plan with friends")}</span>
                 </Link>
               }
             </li>
             <li>
               {
                 <Link to="/dashboard">
-                  <img src={planeIcon} alt="" height="18" className="side-icon"/>
+                  <img src={planeIcon} alt="" height="15" className="mb-1 side-icon"/>
                   <span className="sidebar-label" >{this.props.t(" Deals - coming soon")}</span>
                 </Link>
               }
             </li>
-          </ul>
+          </ul> 
         </StyledSidebar>
       </React.Fragment>
     );

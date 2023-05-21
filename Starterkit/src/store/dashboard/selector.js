@@ -7,6 +7,7 @@ export const selectDashboardData = state => {
     accrualRate: state.Dashboard.PTOSettings.annualAllowanceDays / 12,
     currentBalanceDays: state.Dashboard.PTOSettings.currentBalanceDays,
     accrualCap: state.Dashboard.PTOSettings.accrualCapDays,
+
   };
   return adjustedDashboard;
 };
@@ -34,10 +35,15 @@ export const selectHolidaysDates = state => {
 
 export const getHolidays = state => {
   // returns holidays with names
-  return state.Dashboard.holidays;
+  const settings = {
+    holidays: state.Dashboard.holidays,
+    HOLIDAYSettings: state.Dashboard.HOLIDAYSettings,
+  }
+  return settings;
 };
 
 export const getPTOSettings = state => {
+ 
   const settings = {
     currentMonth: state.Dashboard.currentMonth,
     PTOSettings: state.Dashboard.PTOSettings,

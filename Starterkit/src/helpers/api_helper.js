@@ -26,7 +26,6 @@ axiosApi.interceptors.request.use(
       config.headers.Authorization = 'Bearer ' + access_token;
     } else {
       return history.push('/logout');
-      return window.location.href = '/login'
     }
 
     return config;
@@ -64,6 +63,12 @@ export async function post(url, data, config = {}) {
 export async function put(url, data, config = {}) {
   return axiosApi
     .put(url, { ...data }, { ...config })
+    .then(response => response.data);
+}
+
+export async function patch(url, data, config = {}) {
+  return axiosApi
+    .patch(url, { ...data }, { ...config })
     .then(response => response.data);
 }
 

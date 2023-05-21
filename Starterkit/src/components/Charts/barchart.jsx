@@ -1,13 +1,12 @@
-import React from 'react';
-import { Chart as ChartJS } from 'chart.js/auto';
-import { Bar } from 'react-chartjs-2';
-import { useSelector, useDispatch } from 'react-redux';
+import React from "react";
+import { Bar } from "react-chartjs-2";
+import { useSelector, useDispatch } from "react-redux";
 import {
   selectDashboardData,
   getSelectedDates,
   getDatesToUnbook,
   getNegativeBalanceMonths,
-} from '../../store/dashboard/selector';
+} from "../../store/dashboard/selector";
 import {
   bookedPtoColor,
   holidayColor,
@@ -16,19 +15,19 @@ import {
   balanceColor,
   negativeBalanceColor,
   axisColor,
-} from '../../styles/constants';
+} from "../../styles/constants";
 import {
   monthYearFormatter,
   computeNextTwelveMonths,
   arraysEqual,
-} from '../../helpers/vacay_helpers';
+} from "../../helpers/vacay_helpers";
 import {
   weekendDayIndex,
   barChartBarPercentage,
   barChartBorderRadius,
   PolicyTypes,
   unlimitedMinAxisDays,
-} from '../../constants';
+} from "../../constants";
 
 const computeMonthlyBalance = (
   orderedLabels,
@@ -117,22 +116,22 @@ const generateDashboardDataUnlimitedPTO = (
     labels: monthLabels,
     datasets: [
       {
-        label: 'Selected Days',
+        label: "Selected Days",
         backgroundColor: selectionColor,
-        data: monthLabels.map(x => selectedDatesPerMonth[x]),
-        stack: 'PTOStack',
+        data: monthLabels.map((x) => selectedDatesPerMonth[x]),
+        stack: "PTOStack",
       },
       {
-        label: 'Unbook',
+        label: "Unbook",
         backgroundColor: unbookColor,
-        data: monthLabels.map(x => datesToUnbookPerMonth[x]),
-        stack: 'PTOStack',
+        data: monthLabels.map((x) => datesToUnbookPerMonth[x]),
+        stack: "PTOStack",
       },
       {
-        label: 'Days Booked',
+        label: "Days Booked",
         backgroundColor: bookedPtoColor,
-        data: monthLabels.map(x => PTOPerMonth[x]),
-        stack: 'PTOStack',
+        data: monthLabels.map((x) => PTOPerMonth[x]),
+        stack: "PTOStack",
       },
     ],
   };
@@ -211,45 +210,45 @@ const generateDashboardDataAccrual = (
     datesToUnbookPerMonth
   );
 
-  const negativeBalanceMonths = monthLabels.filter(x => balance[x] < 0);
+  const negativeBalanceMonths = monthLabels.filter((x) => balance[x] < 0);
 
   // put together the data object
   const chartData = {
     labels: monthLabels,
     datasets: [
       {
-        label: 'Your Balance',
+        label: "Your Balance",
         backgroundColor: function (context) {
           const index = context.dataIndex;
           const value = context.dataset.data[index];
 
           return value < 0 ? negativeBalanceColor : balanceColor;
         },
-        data: monthLabels.map(x => balance[x].toFixed(1)),
-        stack: 'PTOStack',
+        data: monthLabels.map((x) => balance[x].toFixed(1)),
+        stack: "PTOStack",
       },
       {
-        label: 'Selected Days',
+        label: "Selected Days",
         backgroundColor: selectionColor,
-        data: monthLabels.map(x => selectedDatesPerMonth[x]),
-        stack: 'PTOStack',
+        data: monthLabels.map((x) => selectedDatesPerMonth[x]),
+        stack: "PTOStack",
       },
       {
-        label: 'Unbook',
+        label: "Unbook",
         backgroundColor: unbookColor,
-        data: monthLabels.map(x => datesToUnbookPerMonth[x]),
-        stack: 'PTOStack',
+        data: monthLabels.map((x) => datesToUnbookPerMonth[x]),
+        stack: "PTOStack",
       },
       {
-        label: 'Days Booked',
+        label: "Days Booked",
         backgroundColor: bookedPtoColor,
-        data: monthLabels.map(x => PTOPerMonth[x]),
-        stack: 'PTOStack',
+        data: monthLabels.map((x) => PTOPerMonth[x]),
+        stack: "PTOStack",
       },
       {
-        label: 'Public Holidays',
+        label: "Public Holidays",
         backgroundColor: holidayColor,
-        data: monthLabels.map(x => holidaysPerMonth[x]),
+        data: monthLabels.map((x) => holidaysPerMonth[x]),
         borderSkipped: false,
         hidden: true,
       },
@@ -318,15 +317,17 @@ const BarChart = () => {
   const currentNegativeBalanceMonths = useSelector(getNegativeBalanceMonths);
   if (!arraysEqual(currentNegativeBalanceMonths, negativeBalanceMonths)) {
     dispatch({
-      type: 'negativeBalanceMonths/update',
+      type: "negativeBalanceMonths/update",
       payload: [...negativeBalanceMonths],
     });
   }
 
   const options = {
     borderRadius: barChartBorderRadius,
-    borderSkipped: 'middle',
+    borderSkipped: false,
     barPercentage: barChartBarPercentage,
+    cornerRadius: 20,
+
     scales: {
       y: yAxisConfig,
       x: {
@@ -346,6 +347,7 @@ const BarChart = () => {
     },
   };
 
+  // return null
   return <Bar height={83} width={250} data={data} options={options} />;
 };
 

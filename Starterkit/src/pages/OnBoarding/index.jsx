@@ -7,7 +7,8 @@ import Cal02 from "../../assets/images/cal03.svg";
 import Calender3 from "../../assets/images/calender31.svg";
 import SmallEarnings from "../../assets/images/Small_Earnings1.svg";
 import { Link } from "react-router-dom";
-import { put } from "../../helpers/api_helper";
+import { put, post } from "../../helpers/api_helper";
+import { InputNumber } from "antd";
 
 function OnboardingCard({ onClick, className, title, text }) {
   return (
@@ -21,6 +22,7 @@ function OnboardingCard({ onClick, className, title, text }) {
     </div>
   );
 }
+
 const VaccyOnBoarding = ({ moveToNextStep }) => {
   return (
     <div>
@@ -35,6 +37,7 @@ const VaccyOnBoarding = ({ moveToNextStep }) => {
     </div>
   );
 };
+
 const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy, timeOffPolicy }) => {
   const [policyType, setPolicyType] = useState(timeOffPolicy || "accrual");
 
@@ -99,6 +102,7 @@ const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy, timeOffPolicy }) => {
     </div>
   );
 };
+
 const TimeOffFigure = ({
   timeOffFigure,
   moveToNextStep,
@@ -107,16 +111,15 @@ const TimeOffFigure = ({
   const { annualAllowance, annualCap, currentBalance } = timeOffFigure;
 
   const handleAnnualAllowanceChange = (e) => {
-    const newAnnualAllowance = parseInt(e.target.value);
-    onTimeOffFigureChange({ annualAllowance: newAnnualAllowance });
+    onTimeOffFigureChange({ annualAllowance: e });
   };
+
   const handleAnnualCapChange = (e) => {
-    const newAnnualCap = parseInt(e.target.value);
-    onTimeOffFigureChange({ annualCap: newAnnualCap });
+    onTimeOffFigureChange({ annualCap: e });
   };
+
   const handleCurrentBalanceChange = (e) => {
-    const newCurrentBalance = parseInt(e.target.value);
-    onTimeOffFigureChange({ currentBalance: newCurrentBalance });
+    onTimeOffFigureChange({ currentBalance: e });
   };
 
   const timeOffFigureStyle = {
@@ -147,11 +150,9 @@ const TimeOffFigure = ({
                   Indicate the number of days off you are entitled to each year:
                 </p>
                 <div style={timeOffFigureStyle["center-content"]}>
-                  <Input
+                  <InputNumber
                     style={timeOffFigureStyle["card-input"]}
-                    type="number"
-                    name="number"
-                    id="annualAllowance"
+                    addonAfter="days"
                     placeholder={`${annualAllowance} days`}
                     onChange={handleAnnualAllowanceChange}
                   />
@@ -168,11 +169,9 @@ const TimeOffFigure = ({
                   year:
                 </p>
                 <div style={timeOffFigureStyle["center-content"]}>
-                  <Input
+                  <InputNumber
                     style={timeOffFigureStyle["card-input"]}
-                    type="number"
-                    name="number"
-                    id="annualCap"
+                    addonAfter="days"
                     placeholder={`${annualCap} days`}
                     onChange={handleAnnualCapChange}
                   />
@@ -188,11 +187,9 @@ const TimeOffFigure = ({
                   Input the number of days you already accrued as of now:
                 </p>
                 <div style={timeOffFigureStyle["center-content"]}>
-                  <Input
+                  <InputNumber
                     style={timeOffFigureStyle["card-input"]}
-                    type="number"
-                    name="number"
-                    id="currentBalance"
+                    addonAfter="days"
                     placeholder={`${currentBalance} days`}
                     onChange={handleCurrentBalanceChange}
                   />
@@ -208,12 +205,13 @@ const TimeOffFigure = ({
     </div>
   );
 };
+
 const CountryOfResidence = ({
   moveToNextStep,
   countryOffResidence,
   setCountryOffResidence,
 }) => {
-  const [country, setCountry] = useState(countryOffResidence || "US");
+  const [country, setCountry] = useState(countryOffResidence || "United States");
 
   useEffect(() => {
     if (countryOffResidence) {
@@ -243,8 +241,8 @@ const CountryOfResidence = ({
         <div className="row mt-5">
           <div className="col-md-4 offset-md-4">
             <Card
-              className={"ml-4 " + getBorderStyle("US")}
-              onClick={() => handleCountryOfResidenceChange("US")}
+              className={"ml-4 " + getBorderStyle("United States")}
+              onClick={() => handleCountryOfResidenceChange("United States")}
             >
               <CardBody className="p-3 pb-2">
                 <h5 className="onboarding-card-title">Unites States</h5>
@@ -284,9 +282,10 @@ const CountryOfResidence = ({
     </div>
   );
 };
+
 const Invitation = ({ moveToNextStep, invitation, setInvitation }) => {
   const [email, setEmail] = useState(invitation || "");
-  console.log(invitation);
+
   useEffect(() => {
     if (invitation) {
       setEmail(invitation);
@@ -329,6 +328,7 @@ const Invitation = ({ moveToNextStep, invitation, setInvitation }) => {
     </div>
   );
 };
+
 const StartBooking = () => {
   return (
     <div>
@@ -393,6 +393,7 @@ const StartBooking = () => {
     </div>
   );
 };
+
 const Dots = ({ currentStep, setCurrentStep, dots }) => {
   const handleDotsClick = (step) => {
     setCurrentStep(step);
@@ -415,15 +416,16 @@ const Dots = ({ currentStep, setCurrentStep, dots }) => {
     </>
   );
 };
+
 const OnBoarding = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [timeOffPolicy, setTimeOffPolicy] = useState("");
+  const [timeOffPolicy, setTimeOffPolicy] = useState("accrual");
   const [timeOffFigure, setTimeOffFigure] = useState({
     annualAllowance: 15,
     annualCap: 24,
     currentBalance: 7,
   });
-  const [countryOffResidence, setCountryOffResidence] = useState("");
+  const [countryOffResidence, setCountryOffResidence] = useState("United States");
   const [invitation, setInvitation] = useState("");
 
   const handleTimeOffFigureChange = (newTimeOffFigure) => {
@@ -443,7 +445,11 @@ const OnBoarding = () => {
       current_balance_days: timeOffFigure.currentBalance,
       country: countryOffResidence,
     };
+    let obj2 = {
+      country: countryOffResidence
+    }
     await put("/dashboard/time-off-settings", obj);
+    await post("/dashboard/holidays-settings", obj2);
   }
 
   const dots = timeOffPolicy === "unlimited" ? [1, 3, 4, 5] : [1, 2, 3, 4, 5];
@@ -489,9 +495,7 @@ const OnBoarding = () => {
             <button className="onboarding-button" onClick={OpenVacay}>Open Vacay</button>
           </Link>
         </div>
-      ) : (
-        console.log(currentStep + 1, steps.length)
-      )}
+      ) : ('')}
       <Dots
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}

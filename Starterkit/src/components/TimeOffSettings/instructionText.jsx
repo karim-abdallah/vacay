@@ -1,17 +1,24 @@
 export const TimeOffSettingsInstructions = () => {
   return (
     <>
-      <p>First, choose your time off policy</p>
+      <p>Fine tune your time off settings for the your 3 inputs:</p>
       <ul>
         <li>
-          Lump sum (e.g. you get 20 days off at the beginning of the year)
+          Annual Allowance: The number of days off you are entitled to each year
         </li>
-        <li>Accrual (e.g. you get 1.5 days every month)</li>
-        <li>Unlimited (no specific allowance)</li>
+        <li>Annual Cap: The maximum number of days you can accumulate over a year</li>
+        <li>Current Balance: The number of days you already accrued as of now</li>
       </ul>
-      <p>
-        Then, input your settings in days by type of time-off (vacation & PTO
-        can be different)
+    </>
+  );
+};
+
+
+export const PublicHolidaysSettingsInstructions = () => {
+  return (
+    <>
+      <p>Interact with checkboxes to select or deselect your preferred public holidays <br />
+        and make use of the Add holiday feature to include any missing holidays.
       </p>
     </>
   );

@@ -14,7 +14,6 @@ const StyledMonthBox = styled.div`
   width: calc(100% / 12);
   text-align: center;
   border-right: 1px solid ${axisColor};
-
   &:last-child {
     border-right: none;
   }

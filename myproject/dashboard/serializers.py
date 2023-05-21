@@ -50,3 +50,4 @@ class HolidaySettingSerializer(serializers.ModelSerializer):
     class Meta:
         model = HolidaySetting
         fields = "__all__"
+

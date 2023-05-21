@@ -66,7 +66,7 @@
   margin: -0.5em;
 }
 
-.react-calendar--doubleView .react-calendar__viewContainer > * {
+.react-calendar--doubleView .react-calendar__viewContainer>* {
   width: 50%;
   margin: 0.5em;
 }
@@ -83,6 +83,7 @@
 .react-calendar button {
   margin: 0;
   outline: none;
+  padding: 0px;
 }
 
 .react-calendar button:enabled:hover {
@@ -109,9 +110,10 @@
 /* } */
 .react-calendar__month-view__weekdays {
   text-align: center;
-  text-transform: uppercase;
+  text-transform: capitalize;
   font-weight: bold;
-  font-size: 0.6em;
+  font-size: 0.9em;
+  font-family: 'DM Sans';
 }
 
 .react-calendar__month-view__weekdays__weekday {
@@ -134,16 +136,10 @@
   color: #757575;
 }
 
-.react-calendar__year-view .react-calendar__tile,
-.react-calendar__decade-view .react-calendar__tile,
-.react-calendar__century-view .react-calendar__tile {
-  padding: 2em 0.5em;
-}
+
 
 .react-calendar__tile {
-  padding: 10px 6.6667px;
-  text-align: center;
-  line-height: 16px;
+  height: 36px;
   border-radius: 50%;
   font-size: 0.9em;
 }
@@ -202,7 +198,7 @@
   justify-content: center;
 }
 
-.image-upload > input {
+.image-upload>input {
   display: none;
 }
 
@@ -320,11 +316,9 @@
   font-weight: 600;
   font-size: 60px;
   line-height: 80px;
-  background: linear-gradient(
-    90deg,
-    #f4f7fe 1.98%,
-    rgba(244, 247, 254, 0.25) 109.04%
-  );
+  background: linear-gradient(90deg,
+      #f4f7fe 1.98%,
+      rgba(244, 247, 254, 0.25) 109.04%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -584,6 +578,7 @@
   margin: 150px auto;
   align-items: center;
 }
+
 .onboarding-heading {
   font-family: "Poppins";
   font-style: normal;
@@ -591,9 +586,10 @@
   font-size: 35px;
 }
 
-.onboarding-subheading{
+.onboarding-subheading {
   color: rgba(56, 64, 119, 0.5);
 }
+
 .onboarding-button {
   width: 350px;
   height: 50px;
@@ -608,11 +604,13 @@
   font-size: 20px;
   border: none;
 }
+
 .Subtract-logo {
   width: 5%;
   height: 5%;
   margin: 10px 0px;
 }
+
 .onboarding-card-title {
   font-family: "Poppins";
   font-style: normal;
@@ -620,6 +618,7 @@
   font-size: 20px;
   color: #384077;
 }
+
 .onboarding-card-text {
   font-family: "DM Sans";
   font-style: normal;
@@ -627,12 +626,14 @@
   font-size: 16px;
   color: #384077;
 }
+
 .textarea-container {
   margin-top: 30px;
 
   display: flex;
   justify-content: center;
 }
+
 .onboarding-textarea {
   width: 600px !important;
   height: 180px;
@@ -641,6 +642,7 @@
   font-size: 18px !important;
   box-shadow: 1px 1px 20px #c3c3c34d !important;
 }
+
 .onboarding-send-invites {
   background: #384077b3;
   width: 200px;
@@ -648,23 +650,28 @@
   bottom: 60px !important;
   left: 0px;
 }
+
 .card-bg-col {
   background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
 }
+
 .dot-active {
   background: rgba(56, 64, 119, 0.8);
 }
+
 .dot-inactive {
   background: rgba(56, 64, 119, 0.3);
 }
+
 .dot-active,
 .dot-inactive {
   padding: 4px;
   margin: 10px;
   border-radius: 50% !important;
 }
+
 .dots-container {
   display: flex;
   justify-content: center;
@@ -672,20 +679,24 @@
 }
 
 
-input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   opacity: 1;
 }
 
-.card-active{
+.card-active {
   border: 1px solid #384077 !important;
   box-shadow: 1px 1px 20px #c3c3c34d !important;
 }
-.card-inactive, .onboarding-cards{
+
+.card-inactive,
+.onboarding-cards {
   border: none !important;
   box-shadow: 1px 1px 20px #c3c3c34d !important;
 }
-.card-active:hover, .card-inactive:hover{
+
+.card-active:hover,
+.card-inactive:hover {
   cursor: pointer;
   background-color: rgb(255, 255, 255, 0.3);
 }
