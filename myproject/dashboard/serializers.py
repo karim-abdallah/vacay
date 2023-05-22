@@ -1,4 +1,4 @@
-from authentication.models import HolidaySetting, TimeOffSetting
+from authentication.models import HolidaySetting, TimeOffSetting, BookedDays
 from rest_framework import serializers
 
 
@@ -49,5 +49,11 @@ class TimeOffSettingSerializer(serializers.ModelSerializer):
 class HolidaySettingSerializer(serializers.ModelSerializer):
     class Meta:
         model = HolidaySetting
+        fields = "__all__"
+
+
+class BookedDaysSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookedDays
         fields = "__all__"
 

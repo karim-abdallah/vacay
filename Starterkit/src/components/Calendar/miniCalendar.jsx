@@ -37,6 +37,8 @@ import {
 } from "./buttons.jsx";
 import styled from "styled-components";
 import minimize from "../../assets/images/minimize.png";
+import { get, patch, del } from "../../helpers/api_helper";
+
 
 const StyledBookingConfirmationBox = styled(Card)`
   background-color: rgba(106, 72, 255, 0.05);
@@ -198,14 +200,14 @@ function MiniCalendar(props) {
       .map((x) => {
         return { date: x.getDate(), kind: "PTO" };
       });
-    
+
     // const holidaysArray = holidaysWithNames.holidays
     //   .filter((x) => x.active).filter((x) => x.date.getMonth() === currentMonth).map((x) => {
     //     return { date: x.date.getDate(), name: x.name, kind: "Holiday" };
     //   });
 
 
-    const separateDate = (date) => { 
+    const separateDate = (date) => {
       const regex = /^(\d{4})\/(\d{2})\/(\d{2})$/;
       const match = date.match(regex);
       if (match) {
@@ -214,21 +216,21 @@ function MiniCalendar(props) {
           month: match[2],
           day: match[3],
         }
-       
+
       }
     }
 
-    const holidaysArray = holidaysWithNames.HOLIDAYSettings.filter((x) => x.active).filter((x) => separateDate(x.date).month === currentMonth+1).map((x) => { 
+    const holidaysArray = holidaysWithNames.HOLIDAYSettings.filter((x) => x.active).filter((x) => separateDate(x.date).month === currentMonth + 1).map((x) => {
       return { date: separateDate(x.date).day, name: x.name, kind: "Holiday" };
     });
 
-    
+
     // 3. combine both arrays
     const combinedArray = ptoArray.concat(holidaysArray);
-    
+
     // 4. sort using date value
     const sortedArray = combinedArray.sort((a, b) => a.date - b.date);
-  
+
     if (sortedArray.length <= 5) {
       return sortedArray.map((x, index) => {
         if (x.kind === "PTO") {
@@ -343,7 +345,8 @@ function MiniCalendar(props) {
     setShowConfirmationBox(!showConfirmationBox);
   };
 
-  const handleBookNow = () => {
+  const handleBookNow = async () => {
+    await patch("/dashboard/booked-days", { dates: [...selectedDatesLocal] });
     hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
     selectedDatesLocal.forEach((date) =>
@@ -353,7 +356,8 @@ function MiniCalendar(props) {
     handleShowConfirmation();
   };
 
-  const handleUnbook = () => {
+  const handleUnbook = async () => {
+    await del("/dashboard/booked-days", { dates: [...selectedDatesLocal] });
     hideButtons();
     selectedDatesLocal.forEach((date) => {
       dispatch({ type: "datesToUnbook/delete", payload: date });
@@ -383,6 +387,7 @@ function MiniCalendar(props) {
     setSelectedDatesLocal([]);
     handleShowConfirmation();
   };
+
   return (
     <CalendarContainer
       onClick={!showCalendar ? handleShowCalendar : null}
@@ -404,7 +409,7 @@ function MiniCalendar(props) {
               ) : null}
             </CalendarHeaderContainer>
           </div>
-            {showCalendar ? (
+          {showCalendar ? (
             <>
               <Calendar
                 activeStartDate={props.startDate}
@@ -417,7 +422,7 @@ function MiniCalendar(props) {
                 value={mouseSelection}
                 formatShortWeekday={(locale, value) =>
                   ["Su", "Mo", "Tu", "We", "Th", "Fri", "Sa", "Su"][
-                    value.getDay()
+                  value.getDay()
                   ]
                 }
               />
@@ -521,7 +526,7 @@ font-size: 12px;
   cursor: ${(props) => (props.showpointer === "true" ? "auto" : "pointer")};
   &:hover {
     background-color: ${(props) =>
-      props.showpointer !== "true" && cardHoverColor};
+    props.showpointer !== "true" && cardHoverColor};
   }
 `;
 

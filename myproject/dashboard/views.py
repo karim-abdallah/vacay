@@ -1,5 +1,5 @@
 import datetime
-from authentication.models import HolidaySetting, TimeOffSetting, User
+from authentication.models import HolidaySetting, TimeOffSetting, User, BookedDays
 from authentication.serializers import UserSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import HolidaySettingSerializer, TimeOffSettingSerializer
+from .serializers import BookedDaysSerializer, HolidaySettingSerializer, TimeOffSettingSerializer
 from .utils import generate_presigned_url, holidays
 
 # Create your views here.
@@ -146,27 +146,9 @@ class HolidaySettingView(APIView):
 
         id = request.user.id
 
-        holidays_from_db = HolidaySetting.objects.filter(user_id=id)
+        holidays_from_db = HolidaySetting.objects.filter(user_id=id).all()
 
-        country = User.objects.get(id=id).country
-        holidays = []
-
-        # Retrieve all holiday data from the database and append to the list of holidays
-        holidays_from_db = HolidaySetting.objects.all()
-        for holiday in holidays_from_db:
-            holidays.append(
-                {
-                    "country": holiday.country,
-                    "name": holiday.name,
-                    "date": holiday.date,
-                    "active": holiday.active,
-                }
-            )
-        selected_country = []
-        for holiday in holidays:
-            if holiday["country"] == country:
-                selected_country.append(holiday)
-        serializer = HolidaySettingSerializer(selected_country, many=True)
+        serializer = HolidaySettingSerializer(holidays_from_db, many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -206,3 +188,22 @@ class UpdateHolidayStatus(APIView):
         holiday_settings.update(**data)
 
         return Response({'detail': "Records Updated Successfully"}, status=status.HTTP_200_OK)
+
+
+class BookedDaysView(APIView):
+    def post(self, request):
+        data = request.data
+        breakpoint()
+        email = data["email"]
+        BookedDays.objects.create(email=email)
+        return Response({"detail": "Subscribed successfully"}, status=status.HTTP_200_OK)
+
+    def get(self, request):
+        subscriptions = BookedDays.objects.all()
+        serializer = BookedDaysSerializer(subscriptions, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request):
+        subscriptions = BookedDays.objects.all()
+        serializer = BookedDaysSerializer(subscriptions, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

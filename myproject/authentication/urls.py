@@ -11,5 +11,5 @@ urlpatterns = [
     path("forgot-password", ForgotPasswordView.as_view()),
     path("reset-password", ResetPasswordView.as_view()),
     path("change-password", ChangePasswordView.as_view()),
-    path("subscribe", SubscribeView.as_view()),
+    path("subscribe", SubscribeView.as_view())
 ]

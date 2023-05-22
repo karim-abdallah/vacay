@@ -145,7 +145,7 @@ const HolidaysPane = () => {
       </SettingsSubheader>
       <HolidaysContainer>
         {holidayCheckboxes}
-        <div style={{ gridColumn: "span 2" }}>
+        <div style={{ gridColumn: "span 1" }}>
           {" "}
           <AddHolidayButton fetchHoliday={fetchHoliday} />
         </div>

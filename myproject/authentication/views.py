@@ -155,3 +155,5 @@ class SubscribeView(APIView):
         subscriptions = Subscriptions.objects.all()
         serializer = SubscriptionsSerializer(subscriptions, many=True)
         return Response(serializer.data)
+
+

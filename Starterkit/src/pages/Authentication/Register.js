@@ -35,7 +35,6 @@ class Register extends Component {
     let obj = {
       first_name: this.state.firstName,
       last_name: this.state.lastName,
-      username: 'user',
       email: this.state.email,
       password: this.state.password,
     };
@@ -278,8 +277,8 @@ class Register extends Component {
 }
 
 const mapStatetoProps = state => {
-  const { user, registrationError, loading } = state.Account;
-  return { user, registrationError, loading };
+  const { registrationError, loading } = state.Account;
+  return {  registrationError, loading };
 };
 
 export default connect(mapStatetoProps, {
