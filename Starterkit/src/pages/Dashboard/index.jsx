@@ -54,11 +54,13 @@ const Dashboard = () => {
         active: item.active,
       })),
     };
+
     let booked_dates = [];
     bookedDays.forEach((days) => {
       let date = new Date(days.date);
       booked_dates.push(date);
     });
+    
     dispatch({ type: "bookedPTO/add", payload: [...booked_dates] });
     dispatch({ type: "settings/update", payload: PTOSettings });
     dispatch({ type: "holidays/update", payload: HOLIDAYSettings });

@@ -2,8 +2,7 @@ import React from "react";
 import Logo from "../../assets/images/Subtract.svg";
 import { useState, useEffect } from "react";
 import { Card, CardBody, Input, CardImg } from "reactstrap";
-import Calendar1 from "../../assets/images/calendar_vac2.svg";
-import Cal02 from "../../assets/images/cal03.svg";
+import Calendar1 from "../../assets/images/calendars_vac3.svg";
 import Calender3 from "../../assets/images/calender31.svg";
 import SmallEarnings from "../../assets/images/Small_Earnings1.svg";
 import { Link } from "react-router-dom";
@@ -28,7 +27,7 @@ const VaccyOnBoarding = ({ moveToNextStep }) => {
     <div>
       <img src={Logo} alt="logo" className="Subtract-logo" />
       <h1 className="onboarding-heading">Welcome to Vacay</h1>
-      <h5>Vacay helps you optimize your time off and vacation planning.</h5>
+      <h5 className="onboarding-light">Vacay helps you optimize your time off and vacation planning.</h5>
       <br />
       <br />
       <button className="onboarding-button" onClick={moveToNextStep}>
@@ -62,6 +61,7 @@ const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy, timeOffPolicy }) => {
   return (
     <div>
       <h1 className="onboarding-heading">Choose your time off policy</h1>
+      <h5 className="onboarding-subheading"> Based on your company internal practices</h5>
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-sm-4" style={{ padding: "10px" }}>
@@ -73,7 +73,7 @@ const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy, timeOffPolicy }) => {
                 <>
                   Where you earn a certain number of days off each month.
                   <br />
-                  <br /> Example: you earn 1.5 days at the end of each month.
+                  <br /> <span className="italic">Example: you earn 1.5 days at the end of each month.</span>
                 </>
               }
             />
@@ -88,8 +88,9 @@ const TimeOffPolicy = ({ moveToNextStep, setTimeOffPolicy, timeOffPolicy }) => {
                   Where there is no specific time off limit.
                   <br />
                   <br />
-                  Example: you are self-employed and don’t have any time off
-                  constraints.
+                  <span className="italic">
+                    Example: you are self-employed and don’t have any time off
+                    constraints.</span>
                 </>
               }
             />
@@ -346,7 +347,7 @@ const Invitation = ({ moveToNextStep }) => {
             ?
             <span className="onboarding-invites-sent">Invites Sent Successfully!</span>
             :
-            <button className="onboarding-button onboarding-send-invites" onClick={sendInvites} > Send invites </button>
+            <button className={`onboarding-button onboarding-send-invites ${email.length > 0 ? 'btn-dark' : ''}`} onClick={sendInvites} > Send invites </button>
         }
       </div>
       <button className="onboarding-button" onClick={moveToNextStep}>
@@ -374,12 +375,10 @@ const StartBooking = () => {
                 <br />
                 <CardImg
                   top
-                  width="100%"
+                  className="height-308"
                   src={Calendar1}
                   alt="Card image cap"
                 />
-                <br />
-                <CardImg top width="100%" src={Cal02} alt="Card image cap" />
               </CardBody>
             </Card>
           </div>
@@ -392,7 +391,6 @@ const StartBooking = () => {
                 <br />
                 <CardImg
                   top
-                  width="100%"
                   src={Calender3}
                   alt="Card image cap"
                 />
@@ -408,7 +406,6 @@ const StartBooking = () => {
                 <br />
                 <CardImg
                   top
-                  width="100%"
                   src={SmallEarnings}
                   alt="Card image cap"
                 />

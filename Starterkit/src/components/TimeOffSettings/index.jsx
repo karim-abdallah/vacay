@@ -4,7 +4,7 @@ import { Form, InputNumber, Checkbox, Tooltip, Input, Typography } from "antd";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { getPTOSettings,getHolidays } from "../../store/dashboard/selector";
+import { getPTOSettings, getHolidays } from "../../store/dashboard/selector";
 import { tooltipBackground, cardHoverColor } from "../../styles/constants";
 import { minSettingsValueDays, maxSettingsValueDays } from "../../constants";
 import { TimeOffSettingsInstructions, PublicHolidaysSettingsInstructions } from "./instructionText";
@@ -89,10 +89,25 @@ function AddHolidayButton({ fetchHoliday }) {
 }
 
 const HolidaysPane = () => {
+    // Fetch time off settings from back-end
+    const dispatch = useDispatch();
   const [holidaydata, setHolidaydata] = useState([]);
+  
   const fetchHoliday = async () => {
     let data = await get("/dashboard/holidays-settings");
     setHolidaydata(data);
+
+    const HOLIDAYSettings = {
+      holidayData: data.map((item) => ({
+        id: item.id,
+        name: item.name,
+        date: new Date(item.date),
+        active: item.active,
+      })),
+    };
+
+    dispatch({ type: "holidays/update", payload: HOLIDAYSettings });
+
   };
 
   useEffect(() => {

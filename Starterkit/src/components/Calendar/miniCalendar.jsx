@@ -37,24 +37,11 @@ import {
 } from "./buttons.jsx";
 import styled from "styled-components";
 import minimize from "../../assets/images/minimize.png";
-import { get, post, del,patch } from "../../helpers/api_helper";
-import { useEffect } from "react";
+import { post, patch } from "../../helpers/api_helper";
 
 
-const StyledBookingConfirmationBox = styled(Card)`
-  background-color: rgba(106, 72, 255, 0.05);
-  margin: 20% 7%;
-  padding: 7%;
-`;
-
-const StyledUnbookConfirmationBox = styled(Card)`
-  background-color: rgba(109, 121, 148, 0.04);
-  margin: 20% 7%;
-  padding: 7%;
-`;
 
 function MiniCalendar(props) {
- 
 
   // Local variables
   const [selectedDatesLocal, setSelectedDatesLocal] = useState([]);
@@ -204,12 +191,7 @@ function MiniCalendar(props) {
         return { date: x.getDate(), kind: "PTO" };
       });
 
-    const holidaysArray = holidaysWithNames.holidays
-      .filter((x) => x.active).filter((x) => x.date.getMonth() === currentMonth).map((x) => {
-        return { date: x.date.getDate(), name: x.name, kind: "Holiday" };
-      });
-
-
+    const holidaysArray = holidaysWithNames.HOLIDAYSettings.filter((x) => x.active).filter((x) => x.date.getMonth() === currentMonth).map((x) => { return { date: x.date.getDate(), name: x.name, kind: "Holiday" }; });
 
     // 3. combine both arrays
     const combinedArray = ptoArray.concat(holidaysArray);
@@ -331,14 +313,14 @@ function MiniCalendar(props) {
     setShowConfirmationBox(!showConfirmationBox);
   };
 
-  
+
 
   const handleBookNow = async () => {
     await post("/dashboard/booked-days", { dates: [...selectedDatesLocal] });
     hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
-    
-    
+
+
     selectedDatesLocal.forEach((date) =>
       dispatch({ type: "selectedDates/delete", payload: date })
     );
@@ -347,7 +329,6 @@ function MiniCalendar(props) {
   };
 
   const handleUnbook = async () => {
-    console.log("selectedDates",[...selectedDatesLocal]);
     await patch("/dashboard/booked-days", { dates: [...selectedDatesLocal] });
     hideButtons();
     selectedDatesLocal.forEach((date) => {
@@ -378,7 +359,7 @@ function MiniCalendar(props) {
     setSelectedDatesLocal([]);
     handleShowConfirmation();
   };
- 
+
 
   return (
     <CalendarContainer
@@ -435,15 +416,30 @@ export const StyledButtonIcon = styled.img`
   height: 13px;
 `;
 
+const StyledBookingConfirmationBox = styled(Card)`
+  background-color: rgba(106, 72, 255, 0.05);
+  margin: 20% 7%;
+  padding: 7%;
+`;
+
+const StyledUnbookConfirmationBox = styled(Card)`
+  background-color: rgba(109, 121, 148, 0.04);
+  margin: 20% 7%;
+  padding: 7%;
+`;
+
+
 const CenteredFlexContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
+
 const Dots = styled.div`
   color: white;
   position: relative;
   bottom: 5px;
 `;
+
 const DateBullet = styled.p`
   text-align: center;
   font-size: 16px;

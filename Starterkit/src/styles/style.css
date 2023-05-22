@@ -584,10 +584,15 @@
   font-style: normal;
   font-weight: 700;
   font-size: 35px;
+  letter-spacing: 0.02em;
 }
 
 .onboarding-subheading {
   color: rgba(56, 64, 119, 0.5);
+}
+
+.onboarding-light {
+  color: rgba(56, 64, 119, 0.8);
 }
 
 .onboarding-button {
@@ -599,8 +604,7 @@
   background: #384077;
   border-radius: 9px;
   font-family: "DM Sans";
-  font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   font-size: 20px;
   border: none;
 }
@@ -652,10 +656,23 @@
 
 .onboarding-send-invites {
   background: #384077b3;
-  width: 200px;
+  width: 150px;
   position: relative;
   bottom: 60px !important;
   left: 0px;
+  height: 45px;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.height-308 {
+  height: 308px !important
+}
+
+.btn-dark {
+  background: #384077;
 }
 
 .card-bg-col {
