@@ -71,7 +71,7 @@ class BookedDays(models.Model):
         PTO = "pto", ""
         HOLIDAYS = "holidays", ""
         SICK_DAYS = "sick_days", ""
-        
+
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     date = models.DateField()
     time_off_type = models.CharField(
