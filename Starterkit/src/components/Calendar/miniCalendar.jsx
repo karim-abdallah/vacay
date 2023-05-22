@@ -37,7 +37,8 @@ import {
 } from "./buttons.jsx";
 import styled from "styled-components";
 import minimize from "../../assets/images/minimize.png";
-import { get, patch, del } from "../../helpers/api_helper";
+import { get, post, del,patch } from "../../helpers/api_helper";
+import { useEffect } from "react";
 
 
 const StyledBookingConfirmationBox = styled(Card)`
@@ -53,6 +54,8 @@ const StyledUnbookConfirmationBox = styled(Card)`
 `;
 
 function MiniCalendar(props) {
+ 
+
   // Local variables
   const [selectedDatesLocal, setSelectedDatesLocal] = useState([]);
   const [showBookButton, setShowBookButton] = useState(false);
@@ -201,28 +204,11 @@ function MiniCalendar(props) {
         return { date: x.getDate(), kind: "PTO" };
       });
 
-    // const holidaysArray = holidaysWithNames.holidays
-    //   .filter((x) => x.active).filter((x) => x.date.getMonth() === currentMonth).map((x) => {
-    //     return { date: x.date.getDate(), name: x.name, kind: "Holiday" };
-    //   });
+    const holidaysArray = holidaysWithNames.holidays
+      .filter((x) => x.active).filter((x) => x.date.getMonth() === currentMonth).map((x) => {
+        return { date: x.date.getDate(), name: x.name, kind: "Holiday" };
+      });
 
-
-    const separateDate = (date) => {
-      const regex = /^(\d{4})\/(\d{2})\/(\d{2})$/;
-      const match = date.match(regex);
-      if (match) {
-        return {
-          year: match[1],
-          month: match[2],
-          day: match[3],
-        }
-
-      }
-    }
-
-    const holidaysArray = holidaysWithNames.HOLIDAYSettings.filter((x) => x.active).filter((x) => separateDate(x.date).month === currentMonth + 1).map((x) => {
-      return { date: separateDate(x.date).day, name: x.name, kind: "Holiday" };
-    });
 
 
     // 3. combine both arrays
@@ -345,10 +331,14 @@ function MiniCalendar(props) {
     setShowConfirmationBox(!showConfirmationBox);
   };
 
+  
+
   const handleBookNow = async () => {
-    await patch("/dashboard/booked-days", { dates: [...selectedDatesLocal] });
+    await post("/dashboard/booked-days", { dates: [...selectedDatesLocal] });
     hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
+    
+    
     selectedDatesLocal.forEach((date) =>
       dispatch({ type: "selectedDates/delete", payload: date })
     );
@@ -357,7 +347,8 @@ function MiniCalendar(props) {
   };
 
   const handleUnbook = async () => {
-    await del("/dashboard/booked-days", { dates: [...selectedDatesLocal] });
+    console.log("selectedDates",[...selectedDatesLocal]);
+    await patch("/dashboard/booked-days", { dates: [...selectedDatesLocal] });
     hideButtons();
     selectedDatesLocal.forEach((date) => {
       dispatch({ type: "datesToUnbook/delete", payload: date });
@@ -387,6 +378,7 @@ function MiniCalendar(props) {
     setSelectedDatesLocal([]);
     handleShowConfirmation();
   };
+ 
 
   return (
     <CalendarContainer

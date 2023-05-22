@@ -90,8 +90,8 @@ const Dashboard = (state = INIT_STATE, action) => {
       return {
         ...state,
         HOLIDAYSettings: action.payload.holidayData,
-        // holidays: state.holidays.map(x => {
-        //   if (action.payload.find(day => day === x.name)) {
+        // holidays: state.HOLIDAYSettings.map(x => {
+        //   if (action.payload.holidayData.find(day => day === x.name)) {
         //     x.active = true;
         //   } else {
         //     x.active = false;

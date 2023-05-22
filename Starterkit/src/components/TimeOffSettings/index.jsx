@@ -4,7 +4,7 @@ import { Form, InputNumber, Checkbox, Tooltip, Input, Typography } from "antd";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { getPTOSettings } from "../../store/dashboard/selector";
+import { getPTOSettings,getHolidays } from "../../store/dashboard/selector";
 import { tooltipBackground, cardHoverColor } from "../../styles/constants";
 import { minSettingsValueDays, maxSettingsValueDays } from "../../constants";
 import { TimeOffSettingsInstructions, PublicHolidaysSettingsInstructions } from "./instructionText";
@@ -95,14 +95,15 @@ const HolidaysPane = () => {
     setHolidaydata(data);
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      fetchHoliday();
-    }, 500);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     fetchHoliday();
+  //   }, 500);
+  // }, []);
 
+  const getholiday = useSelector(getHolidays);
   const settings = useSelector(getPTOSettings);
-  const sortedHolidays = holidaydata.sort((a, b) => a.date - b.date);
+  const sortedHolidays = getholiday.HOLIDAYSettings.sort((a, b) => a.date - b.date);
 
   const checkboxHandler = async (checkboxId, isChecked) => {
     await patch("/dashboard/update-holidays-status", {

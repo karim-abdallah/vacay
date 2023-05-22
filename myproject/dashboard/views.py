@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+import json 
 
 from .serializers import BookedDaysSerializer, HolidaySettingSerializer, TimeOffSettingSerializer
 from .utils import generate_presigned_url, holidays
@@ -181,7 +182,6 @@ class UpdateHolidayStatus(APIView):
         return Response({'detail': "Records Created Successfully"}, status=status.HTTP_201_CREATED)
 
     def patch(self, request):
-
         data = request.data
         data['user_id'] = self.request.user.id
         holiday_settings = HolidaySetting.objects.filter(id=data['id'])
@@ -190,20 +190,42 @@ class UpdateHolidayStatus(APIView):
         return Response({'detail': "Records Updated Successfully"}, status=status.HTTP_200_OK)
 
 
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+
+
 class BookedDaysView(APIView):
     def post(self, request):
+
         data = request.data
-        breakpoint()
-        email = data["email"]
-        BookedDays.objects.create(email=email)
-        return Response({"detail": "Subscribed successfully"}, status=status.HTTP_200_OK)
+        user = self.request.user.id
+       
+        data['dates'] = [i.split('T')[0] for i in data['dates']]
+        dates = data['dates']
 
+        for i in dates:
+            BookedDays.objects.create(user_id=user, date=i)
+
+        return Response({'detail': "Records Created Successfully"}, status=status.HTTP_201_CREATED)
+
+        
     def get(self, request):
-        subscriptions = BookedDays.objects.all()
-        serializer = BookedDaysSerializer(subscriptions, many=True)
+
+        user = self.request.user.id
+        booked_days = BookedDays.objects.filter(user_id=user).all()
+        serializer=BookedDaysSerializer(booked_days, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, request):
-        subscriptions = BookedDays.objects.all()
-        serializer = BookedDaysSerializer(subscriptions, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def patch(self, request):
+        
+        data = request.data
+        user = self.request.user.id
+        data['dates'] = [i.split('T')[0] for i in data['dates']]
+        dates = data['dates']
+    
+        for i in dates:
+            BookedDays.objects.filter(user_id=user, date=i).delete()
+
+        return Response({'detail': "Records Deleted Successfully"}, status=status.HTTP_202_ACCEPTED)
+
