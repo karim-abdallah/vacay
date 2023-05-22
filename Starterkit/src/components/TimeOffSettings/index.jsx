@@ -95,15 +95,15 @@ const HolidaysPane = () => {
     setHolidaydata(data);
   };
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     fetchHoliday();
-  //   }, 500);
-  // }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      fetchHoliday();
+    }, 500);
+  }, []);
 
-  const getholiday = useSelector(getHolidays);
+  // const getholiday = useSelector(getHolidays);
   const settings = useSelector(getPTOSettings);
-  const sortedHolidays = getholiday.HOLIDAYSettings.sort((a, b) => a.date - b.date);
+  const sortedHolidays = holidaydata.sort((a, b) => a.date - b.date);
 
   const checkboxHandler = async (checkboxId, isChecked) => {
     await patch("/dashboard/update-holidays-status", {

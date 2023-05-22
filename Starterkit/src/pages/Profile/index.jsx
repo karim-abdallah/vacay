@@ -74,7 +74,7 @@ const Banner = (props) => {
 
 const ChangePassword = ({ toggleComponent }) => {
   const strongRegex = new RegExp(
-    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+    "^.{8,20}$"
   );
 
   const [currentPassword, setCurrentPassword] = useState("");
@@ -109,6 +109,8 @@ const ChangePassword = ({ toggleComponent }) => {
     }
   }
   const analyze = () => {
+    console.log(strongRegex,newPassword)
+    console.log(strongRegex.test(newPassword));
     if (strongRegex.test(newPassword)) {
       return true;
     } else {

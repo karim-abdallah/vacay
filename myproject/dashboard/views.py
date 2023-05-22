@@ -1,5 +1,7 @@
 import datetime
-from authentication.models import HolidaySetting, TimeOffSetting, User, BookedDays
+
+from authentication.models import (BookedDays, HolidaySetting, TimeOffSetting,
+                                   User)
 from authentication.serializers import UserSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -8,7 +10,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 import json 
 
-from .serializers import BookedDaysSerializer, HolidaySettingSerializer, TimeOffSettingSerializer
+from .serializers import (BookedDaysSerializer, HolidaySettingSerializer,
+                          TimeOffSettingSerializer)
 from .utils import generate_presigned_url, holidays
 
 # Create your views here.
@@ -27,6 +30,7 @@ class UserView(APIView):
 
 
 class UpdateProfileView(APIView):
+    
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -45,6 +49,7 @@ class UpdateProfileView(APIView):
 
 
 class UpdateProfilePictureView(APIView):
+    
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -65,6 +70,7 @@ class UpdateProfilePictureView(APIView):
 
 
 class GeneratePresignedUrl(APIView):
+    
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -85,7 +91,7 @@ class TimeOffSettingList(APIView):
     """
     Retrive time off settings
     """
-
+    
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -141,6 +147,7 @@ class TimeOffSettingList(APIView):
 
 
 class HolidaySettingView(APIView):
+    
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -169,6 +176,8 @@ class HolidaySettingView(APIView):
 
 
 class UpdateHolidayStatus(APIView):
+    
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
 
@@ -196,6 +205,9 @@ class UpdateHolidayStatus(APIView):
 
 
 class BookedDaysView(APIView):
+    
+    permission_classes = [IsAuthenticated]
+    
     def post(self, request):
 
         data = request.data

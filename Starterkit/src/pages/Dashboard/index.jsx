@@ -54,7 +54,6 @@ const Dashboard = () => {
         active: item.active,
       })),
     };
-
     let booked_dates = [];
     bookedDays.forEach((days) => {
       let date = new Date(days.date);

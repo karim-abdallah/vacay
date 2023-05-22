@@ -10,6 +10,7 @@ import {
   apiError,
 } from '../../store/actions';
 
+
 // Redux
 import { connect } from 'react-redux';
 
@@ -36,7 +37,7 @@ class Register extends Component {
       first_name: this.state.firstName,
       last_name: this.state.lastName,
       email: this.state.email,
-      password: this.state.password,
+      password: this.state.password
     };
     this.props.registerUser(obj, this.props.history);
   }
@@ -60,7 +61,7 @@ class Register extends Component {
   };
 
   handlePasswordChange = e => {
-    if (e.target.value.length >= 8 && e.target.value.length <= 20) {
+    if (e.target.value.length > 8 && e.target.value.length <= 20) {
       this.setState({
         password: e.target.value,
         passwordError: null,
@@ -110,7 +111,7 @@ class Register extends Component {
                   </div>
                   <lottie-player
                     className="side-img"
-                    src="https://backend.vacay.live/static/lottie.json"
+                    src="https://vacay-assets.s3.amazonaws.com/lottie.json"
                     background="transparent"
                     speed="1"
                     loop
@@ -278,7 +279,7 @@ class Register extends Component {
 
 const mapStatetoProps = state => {
   const { registrationError, loading } = state.Account;
-  return {  registrationError, loading };
+  return { registrationError, loading };
 };
 
 export default connect(mapStatetoProps, {

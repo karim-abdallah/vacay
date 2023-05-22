@@ -9,8 +9,6 @@ if (ENV === "development") {
   API_URL = "http://localhost:8000/api";
 }
 
-// API_URL = 'http://localhost:8000/api'
-
 axios.defaults.withCredentials = true;
 
 const axiosApi = axios.create({
@@ -22,10 +20,8 @@ axiosApi.interceptors.request.use(
   (config) => {
     let access_token = localStorage.getItem("access_token");
 
-    if (access_token !== undefined) {
-      config.headers.Authorization = "Bearer " + access_token;
-    } else {
-      return history.push("/logout");
+    if (access_token) {
+      config.headers.Authorization = 'Bearer ' + access_token;
     }
 
     return config;

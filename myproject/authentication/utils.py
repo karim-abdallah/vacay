@@ -64,7 +64,7 @@ def send_email(to_address, cc_addresses, content, subject):
 
 def check_or_create_username(email):
     username = email.split("@")[0]
-    count = User.objects.filter(username=username).count()
+    count = User.objects.filter(username__icontains=username).count()
 
     if count > 0:
         username = username + str(count + 1)
