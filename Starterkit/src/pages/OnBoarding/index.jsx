@@ -283,18 +283,43 @@ const CountryOfResidence = ({
   );
 };
 
-const Invitation = ({ moveToNextStep, invitation, setInvitation }) => {
-  const [email, setEmail] = useState(invitation || "");
+const Invitation = ({ moveToNextStep }) => {
+  const [email, setEmail] = useState("");
+  const [isSent, setIsSent] = useState(false)
 
-  useEffect(() => {
-    if (invitation) {
-      setEmail(invitation);
+  const sendInvites = async () => {
+    if (validateEmails()) {
+      let obj = {
+        emails: email
+      }
+      await post('/auth/send-invites', obj)
+      setIsSent(true)
+    } else {
+      alert('Incorrect Email Validations')
     }
-  }, [invitation]);
+
+  }
+
   const handleEmail = (e) => {
     setEmail(e.target.value);
-    setInvitation(e.target.value);
   };
+
+  const validateEmails = () => {
+    let emails = email.split(',')
+    let isValid = true
+
+    emails.forEach(e => {
+
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(e.trim())) {
+        return
+      } else {
+        isValid = false
+      }
+    })
+
+    return isValid
+  }
+
   return (
     <div>
       <h1 className="onboarding-heading">
@@ -314,13 +339,15 @@ const Invitation = ({ moveToNextStep, invitation, setInvitation }) => {
           placeholder="email@example.com, email2@example.com.."
         />
       </div>
-      <div>
-        <button
-          className="onboarding-send-invites onboarding-button"
-          onClick={moveToNextStep}
-        >
-          Send invites
-        </button>
+
+      <div >
+        {
+          isSent
+            ?
+            <span className="onboarding-invites-sent">Invites Sent Successfully!</span>
+            :
+            <button className="onboarding-button onboarding-send-invites" onClick={sendInvites} > Send invites </button>
+        }
       </div>
       <button className="onboarding-button" onClick={moveToNextStep}>
         Continue
@@ -426,7 +453,6 @@ const OnBoarding = () => {
     currentBalance: 7,
   });
   const [countryOffResidence, setCountryOffResidence] = useState("United States");
-  const [invitation, setInvitation] = useState("");
 
   const handleTimeOffFigureChange = (newTimeOffFigure) => {
     setTimeOffFigure((prevTimeOffFigure) => ({
@@ -480,8 +506,6 @@ const OnBoarding = () => {
     />,
     <Invitation
       moveToNextStep={() => setCurrentStep(5)}
-      invitation={invitation}
-      setInvitation={setInvitation}
     />,
     <StartBooking />,
   ].filter(Boolean); //filter boolean removes the undefined values from the array

@@ -146,7 +146,7 @@ const GetStarted = () => {
       <div className="col-md-5 col-12 ">
         <lottie-player
           className="side-img"
-          src="https://backend.vacay.live/static/lottie.json"
+          src="https://vacay-assets.s3.amazonaws.com/lottie.json"
           background="transparent"
           speed="1"
           loop
@@ -189,7 +189,7 @@ const Banner = ({ isMobile, onGetStartedClick }) => {
         <div className="col-md-5 col-12 ">
           <lottie-player
             className="side-img"
-            src="https://backend.vacay.live/static/lottie.json"
+            src="https://vacay-assets.s3.amazonaws.com/lottie.json"
             background="transparent"
             speed="1"
             loop
