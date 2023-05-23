@@ -7,7 +7,10 @@ import { useState, useEffect } from "react";
 import { getPTOSettings, getHolidays } from "../../store/dashboard/selector";
 import { tooltipBackground, cardHoverColor } from "../../styles/constants";
 import { minSettingsValueDays, maxSettingsValueDays } from "../../constants";
-import { TimeOffSettingsInstructions, PublicHolidaysSettingsInstructions } from "./instructionText";
+import {
+  TimeOffSettingsInstructions,
+  PublicHolidaysSettingsInstructions,
+} from "./instructionText";
 import minimize from "../../assets/images/minimize.png";
 import plus from "../../assets/images/plus1.svg";
 import settingsIcon from "../../assets/images/settings.png";
@@ -46,18 +49,16 @@ function AddHolidayButton({ fetchHoliday }) {
         date: name.match(pattern)[1],
         name: name.match(pattern)[2],
       };
-
       try {
         await post("/dashboard/update-holidays-status", obj);
-        setName("");
-        fetchHoliday(); // Call the fetchHoliday function after setting the holiday
+        await setName("");
+        await fetchHoliday(); // Call the fetchHoliday function after setting the holiday
       } catch (error) {
         console.log("error===>", error);
       }
     }
   };
   const [openInput, setOpenInput] = useState(false);
-
   const handletoggleInput = async () => {
     setOpenInput(!openInput);
     if (name) {
@@ -89,10 +90,10 @@ function AddHolidayButton({ fetchHoliday }) {
 }
 
 const HolidaysPane = () => {
-    // Fetch time off settings from back-end
-    const dispatch = useDispatch();
+  // Fetch time off settings from back-end
+  const dispatch = useDispatch();
   const [holidaydata, setHolidaydata] = useState([]);
-  
+
   const fetchHoliday = async () => {
     let data = await get("/dashboard/holidays-settings");
     setHolidaydata(data);
@@ -107,7 +108,6 @@ const HolidaysPane = () => {
     };
 
     dispatch({ type: "holidays/update", payload: HOLIDAYSettings });
-
   };
 
   useEffect(() => {
@@ -116,7 +116,7 @@ const HolidaysPane = () => {
     }, 500);
   }, []);
 
-  // const getholiday = useSelector(getHolidays);
+  const getholiday = useSelector(getHolidays);
   const settings = useSelector(getPTOSettings);
   const sortedHolidays = holidaydata.sort((a, b) => a.date - b.date);
 
@@ -161,10 +161,15 @@ const HolidaysPane = () => {
       </SettingsSubheader>
       <HolidaysContainer>
         {holidayCheckboxes}
-        <div style={{ gridColumn: "span 1" }}>
-          {" "}
-          <AddHolidayButton fetchHoliday={fetchHoliday} />
-        </div>
+        {sortedHolidays.length < 30 ? (
+          <div style={{ gridColumn: "span 1" }}>
+            <AddHolidayButton fetchHoliday={fetchHoliday} />
+          </div>
+        ) : (
+          <Error style={{ gridColumn: "span 2" }}>
+            Holidays reached the maximum limit
+          </Error>
+        )}
       </HolidaysContainer>
     </HolidayPaneContainer>
   );
@@ -299,10 +304,10 @@ const TimeOffSettings = () => {
                 <TimeOffSettingsHeader>
                   Settings <SmallTimeOffSettingsIcon src={settingsIcon} />
                 </TimeOffSettingsHeader>
-
+              
                 <MinimizeButton onClick={handleExpandSettings}>
-                  <StyledMinimizeIcon src={minimize} alt="x" />
-                </MinimizeButton>
+                    <StyledMinimizeIcon src={minimize} alt="x" />
+                  </MinimizeButton>
                 {status === "active" && (
                   <SaveChangesActiveButton onClick={handleSaveChanges}>
                     Save Changes
@@ -550,22 +555,20 @@ const StyledInfoTooltip = styled(Tooltip)`
 const CheckboxWrapper = styled.div`
   font-weight: 500;
   font-size: 13px;
-  
-  input[type=checkbox] {
+
+  input[type="checkbox"] {
     position: relative;
     cursor: pointer;
-   
-}
-input[type=checkbox]:before {
+  }
+  input[type="checkbox"]:before {
     content: "";
     display: block;
     width: 17px;
     height: 17px;
-    
+
     background-color: #f4f7fe;
-    
-}
-input[type=checkbox]:checked:after {
+  }
+  input[type="checkbox"]:checked:after {
     content: "";
     display: block;
     width: 5px;
@@ -578,20 +581,19 @@ input[type=checkbox]:checked:after {
     position: absolute;
     top: 2px;
     left: 6px;
-}
-span{
-  margin-left: 10px;
-  
-}
+  }
+  span {
+    margin-left: 10px;
+  }
 `;
 
-// .ant-checkbox-inner {
-//   background-color: #f4f7fe;
-//   border: none;
-// }
-
-// .ant-checkbox-checked .ant-checkbox-inner::after {
-//   border-color: #2b3674;
-//   padding: 2px !important;
-// }
+const Error = styled.div`
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 5px 10px;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+`;
 export default TimeOffSettings;

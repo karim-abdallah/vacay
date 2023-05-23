@@ -16,6 +16,7 @@
   background: none;
   color: var(--vacay-font-color-light);
   border: 0;
+  border: 1px solid #cfc6f5;
 }
 
 .bookedDays {

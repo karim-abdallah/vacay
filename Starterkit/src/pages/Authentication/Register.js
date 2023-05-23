@@ -61,7 +61,7 @@ class Register extends Component {
   };
 
   handlePasswordChange = e => {
-    if (e.target.value.length > 8 && e.target.value.length <= 20) {
+    if (e.target.value.length >= 8 && e.target.value.length <= 20) {
       this.setState({
         password: e.target.value,
         passwordError: null,
