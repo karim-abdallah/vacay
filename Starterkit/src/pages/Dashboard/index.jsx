@@ -34,9 +34,9 @@ const Dashboard = () => {
   const fetchTimeOffSettings = async () => {
     let data = await get("/dashboard/time-off-settings");
     let user = await get("/dashboard/user");
-    let holidayData = await get("/dashboard/holidays-settings");
-    // TODO: expand logic for dispatching based on specific settings type
+    let bookedDays = await get("/dashboard/booked-days");
 
+    // TODO: expand logic for dispatching based on specific settings type
     const PTOSettings = {
       ptoCountry: user.country,
       ptoAccrualType: data.accrual_type,
@@ -44,15 +44,16 @@ const Dashboard = () => {
       ptoCap: data.accrual_cap_days,
       ptoBalance: data.current_balance_days,
     };
-    const HOLIDAYSettings = {
-      holidayData: holidayData.map((item) => ({
-        name: item.name,
-        date: item.date,
-        active: item.active,
-      })),
-    };
+
+    let booked_dates = [];
+    bookedDays.forEach((days) => {
+      let date = new Date(days.date);
+      booked_dates.push(date);
+    });
+     
+    
+    dispatch({ type: "bookedPTO/add", payload: [...booked_dates] });
     dispatch({ type: "settings/update", payload: PTOSettings });
-    dispatch({ type: "holidays/update", payload: HOLIDAYSettings });
   };
   useEffect(() => {
     setTimeout(() => {

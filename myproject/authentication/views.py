@@ -12,7 +12,7 @@ from .models import *
 from .serializers import (SubscriptionsSerializer,
                           TokenObtainLifetimeSerializer, UserSerializer)
 from .utils import (check_or_create_username, send_forget_password_email,
-                    send_register_user_email)
+                    send_invite_email, send_register_user_email)
 
 # COMMON CODE FOR AUTHENTICATION
 """
@@ -52,8 +52,10 @@ class RegisterView(APIView):
         return Response({"data": serializer.data})
 
 
-
 class LogoutView(APIView):
+    
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
 
         response = Response()
@@ -123,6 +125,7 @@ class ResetPasswordView(APIView):
 
 
 class ChangePasswordView(APIView):
+    
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -155,3 +158,13 @@ class SubscribeView(APIView):
         subscriptions = Subscriptions.objects.all()
         serializer = SubscriptionsSerializer(subscriptions, many=True)
         return Response(serializer.data)
+
+
+class SendInviteView(APIView):
+    
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        data = request.data
+        send_invite_email(data['emails'])
+        return Response({"detail": "Invitations Sent Successfully"})

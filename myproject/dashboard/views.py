@@ -1,13 +1,17 @@
 import datetime
-from authentication.models import HolidaySetting, TimeOffSetting, User
+
+from authentication.models import (BookedDays, HolidaySetting, TimeOffSetting,
+                                   User)
 from authentication.serializers import UserSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+import json 
 
-from .serializers import HolidaySettingSerializer, TimeOffSettingSerializer
+from .serializers import (BookedDaysSerializer, HolidaySettingSerializer,
+                          TimeOffSettingSerializer)
 from .utils import generate_presigned_url, holidays
 
 # Create your views here.
@@ -26,6 +30,7 @@ class UserView(APIView):
 
 
 class UpdateProfileView(APIView):
+    
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -44,6 +49,7 @@ class UpdateProfileView(APIView):
 
 
 class UpdateProfilePictureView(APIView):
+    
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -64,6 +70,7 @@ class UpdateProfilePictureView(APIView):
 
 
 class GeneratePresignedUrl(APIView):
+    
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -84,7 +91,7 @@ class TimeOffSettingList(APIView):
     """
     Retrive time off settings
     """
-
+    
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -140,33 +147,16 @@ class TimeOffSettingList(APIView):
 
 
 class HolidaySettingView(APIView):
+    
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
 
         id = request.user.id
 
-        holidays_from_db = HolidaySetting.objects.filter(user_id=id)
+        holidays_from_db = HolidaySetting.objects.filter(user_id=id).all()
 
-        country = User.objects.get(id=id).country
-        holidays = []
-
-        # Retrieve all holiday data from the database and append to the list of holidays
-        holidays_from_db = HolidaySetting.objects.all()
-        for holiday in holidays_from_db:
-            holidays.append(
-                {
-                    "country": holiday.country,
-                    "name": holiday.name,
-                    "date": holiday.date,
-                    "active": holiday.active,
-                }
-            )
-        selected_country = []
-        for holiday in holidays:
-            if holiday["country"] == country:
-                selected_country.append(holiday)
-        serializer = HolidaySettingSerializer(selected_country, many=True)
+        serializer = HolidaySettingSerializer(holidays_from_db, many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -186,6 +176,8 @@ class HolidaySettingView(APIView):
 
 
 class UpdateHolidayStatus(APIView):
+    
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
 
@@ -199,10 +191,53 @@ class UpdateHolidayStatus(APIView):
         return Response({'detail': "Records Created Successfully"}, status=status.HTTP_201_CREATED)
 
     def patch(self, request):
-
         data = request.data
         data['user_id'] = self.request.user.id
         holiday_settings = HolidaySetting.objects.filter(id=data['id'])
         holiday_settings.update(**data)
 
         return Response({'detail': "Records Updated Successfully"}, status=status.HTTP_200_OK)
+
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+
+
+class BookedDaysView(APIView):
+    
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+
+        data = request.data
+        user = self.request.user.id
+       
+        data['dates'] = [i.split('T')[0] for i in data['dates']]
+        dates = data['dates']
+
+        for i in dates:
+            BookedDays.objects.create(user_id=user, date=i)
+
+        return Response({'detail': "Records Created Successfully"}, status=status.HTTP_201_CREATED)
+
+        
+    def get(self, request):
+
+        user = self.request.user.id
+        booked_days = BookedDays.objects.filter(user_id=user).all()
+        serializer=BookedDaysSerializer(booked_days, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request):
+        
+        data = request.data
+        user = self.request.user.id
+        data['dates'] = [i.split('T')[0] for i in data['dates']]
+        dates = data['dates']
+    
+        for i in dates:
+            BookedDays.objects.filter(user_id=user, date=i).delete()
+
+        return Response({'detail': "Records Deleted Successfully"}, status=status.HTTP_202_ACCEPTED)
+

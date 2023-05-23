@@ -10,6 +10,7 @@ import {
   apiError,
 } from '../../store/actions';
 
+
 // Redux
 import { connect } from 'react-redux';
 
@@ -35,9 +36,8 @@ class Register extends Component {
     let obj = {
       first_name: this.state.firstName,
       last_name: this.state.lastName,
-      username: 'user',
       email: this.state.email,
-      password: this.state.password,
+      password: this.state.password
     };
     this.props.registerUser(obj, this.props.history);
   }
@@ -111,7 +111,7 @@ class Register extends Component {
                   </div>
                   <lottie-player
                     className="side-img"
-                    src="https://backend.vacay.live/static/lottie.json"
+                    src="https://vacay-assets.s3.amazonaws.com/lottie.json"
                     background="transparent"
                     speed="1"
                     loop
@@ -278,8 +278,8 @@ class Register extends Component {
 }
 
 const mapStatetoProps = state => {
-  const { user, registrationError, loading } = state.Account;
-  return { user, registrationError, loading };
+  const { registrationError, loading } = state.Account;
+  return { registrationError, loading };
 };
 
 export default connect(mapStatetoProps, {

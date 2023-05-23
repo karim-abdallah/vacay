@@ -57,7 +57,8 @@
 .main-content {
     margin-left: $sidebar-width;
     overflow: hidden;
-
+    background-color: #F4F7FE;
+    
     .content {
         padding: 0 15px 10px 15px;
         margin-top: $header-height;

@@ -4,7 +4,7 @@ import { isSameDay } from '../../helpers/vacay_helpers';
 const INIT_STATE = {
   currentMonth: mockApiResponse.currentMonth,
   bookedPTO: mockApiResponse.bookedPTO,
-  holidays: mockApiResponse.holidays,
+  holidays: [],
   PTOSettings: mockApiResponse.PTOSettings,
   HOLIDAYSettings:[],
   selectedDates: [],
@@ -13,6 +13,7 @@ const INIT_STATE = {
 };
 
 const Dashboard = (state = INIT_STATE, action) => {
+
   switch (action.type) {
     case 'currentMonth/update':
       return {
@@ -89,8 +90,8 @@ const Dashboard = (state = INIT_STATE, action) => {
       return {
         ...state,
         HOLIDAYSettings: action.payload.holidayData,
-        // holidays: state.holidays.map(x => {
-        //   if (action.payload.find(day => day === x.name)) {
+        // holidays: state.HOLIDAYSettings.map(x => {
+        //   if (action.payload.holidayData.find(day => day === x.name)) {
         //     x.active = true;
         //   } else {
         //     x.active = false;

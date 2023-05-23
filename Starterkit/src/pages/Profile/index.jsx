@@ -74,14 +74,14 @@ const Banner = (props) => {
 
 const ChangePassword = ({ toggleComponent }) => {
   const strongRegex = new RegExp(
-    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+    "^.{7,21}$"
   );
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [retypeNewPassword, setRetypeNewPassword] = useState("");
   const [error, setError] = useState("");
-  const [passwordValidation, setPasswordValidation] = useState(true);
+  const [passwordValidation, setPasswordValidation] = useState(false);
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
@@ -109,6 +109,8 @@ const ChangePassword = ({ toggleComponent }) => {
     }
   }
   const analyze = () => {
+    console.log(strongRegex,newPassword)
+    console.log(strongRegex.test(newPassword));
     if (strongRegex.test(newPassword)) {
       return true;
     } else {
@@ -123,12 +125,12 @@ const ChangePassword = ({ toggleComponent }) => {
 
   const handleNewPasswordChange = (event) => {
     setNewPassword(event.target.value);
-    if (newPassword.length >= 8 && newPassword.length <= 20) {
-      setPasswordValidation(false);
-      setError("");
+    if (event.target.value.length >= 8 && event.target.value.length <= 20) {
+      setPasswordValidation(true);
     }
     else {
-      setPasswordValidation(true);
+      setPasswordValidation(false);
+      // setError("");
     }
   };
 
@@ -171,19 +173,21 @@ const ChangePassword = ({ toggleComponent }) => {
           </div>
           <div>
             <ul>
-              {!passwordValidation ? (
-                <li
-                  style={{ listStyleType: "none", fontSize: "12px" }}
-                >
-                  Password should be between 8 and 20 characters
-                </li>
-              ) : <li style={{
+              {passwordValidation ? (
+                 <li
+                 style={{ listStyleType: "none", fontSize: "12px" }}
+               >
+                 Password should be between 8 and 20 characters
+               </li>
+              ) : 
+              <li style={{
                 color: "red",
                 listStyleType: "none",
                 fontSize: "12px",
               }} >
                 Password should be between 8 and 20 characters
-              </li>}
+              </li>
+              }
 
             </ul>
           </div>
@@ -198,7 +202,7 @@ const ChangePassword = ({ toggleComponent }) => {
             />
           </div>
           <div className="pwd-chng-btn">
-            <button className="save-profile" type="Submit" disabled={passwordValidation}>
+            <button className="save-profile" type="Submit" disabled={!passwordValidation}>
               Save
             </button>
           </div>

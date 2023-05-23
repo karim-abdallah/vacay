@@ -64,3 +64,16 @@ class HolidaySetting(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class BookedDays(models.Model):
+    class TimeOffType(models.TextChoices):
+        PTO = "pto", ""
+        HOLIDAYS = "holidays", ""
+        SICK_DAYS = "sick_days", ""
+
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    date = models.DateField()
+    time_off_type = models.CharField(
+        max_length=20, choices=TimeOffType.choices, default=TimeOffType.PTO
+    )
