@@ -309,6 +309,10 @@ const BarChart = () => {
       yAxisConfig = {
         ...yAxisConfig,
         suggestedMax: yAxisDefault,
+        ticks: {
+          ...yAxisConfig.ticks,
+          stepSize: 2,
+        },
       };
       break;
     default:

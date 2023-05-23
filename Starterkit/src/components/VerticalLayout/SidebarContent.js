@@ -134,7 +134,7 @@ class SidebarContent extends Component {
                 </Link>
               }
             </li>
-            <li>
+            {/* TODO: turn on when available             <li>
               {
                 <Link to="/dashboard">
                   <img
@@ -149,6 +149,7 @@ class SidebarContent extends Component {
                 </Link>
               }
             </li>
+ */}{' '}
           </ul>
         </StyledSidebar>
       </React.Fragment>
