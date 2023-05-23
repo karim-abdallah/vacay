@@ -443,6 +443,7 @@ const DateBullet = styled.p`
   width: 30px;
   height: 30px;
   padding-top: 6px;
+  font-weight: bold;
   margin-right: 5px;
   margin-left: 5px;
   margin-top: 13px;
@@ -454,7 +455,7 @@ const HolidayBullet = styled(DateBullet)`
   background-color: white;
   color: ${bookedPtoColor};
   border: 3px solid;
-  padding-top: 1px;
+  padding-top: 3px;
 `;
 
 const BookedPTOBullet = styled(DateBullet)`

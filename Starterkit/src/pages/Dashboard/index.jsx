@@ -1,40 +1,54 @@
 //import "react-calendar/dist/Calendar.css";
-import React from "react";
-import { Container, Card, CardBody } from "reactstrap";
-import { Alert } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react';
+import { Container, Card, CardBody } from 'reactstrap';
+import { Alert } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   getCurrentMonth,
   getNegativeBalanceMonths,
-} from "../../store/dashboard/selector";
-import BarChart from "../../components/Charts/barchart";
-import Legend from "../../components/Charts/legend";
-import XAxis from "../../components/Charts/xAxis";
-import "../../styles/style.css";
-import { computeNextTwelveMonths } from "../../helpers/vacay_helpers";
-import styled from "styled-components";
-import MiniCalendar from "../../components/Calendar/miniCalendar";
-import TimeOffSettings from "../../components/TimeOffSettings/index";
-import { get } from "../../helpers/api_helper";
-import { useEffect, useState } from "react";
+} from '../../store/dashboard/selector';
+import BarChart from '../../components/Charts/barchart';
+import Legend from '../../components/Charts/legend';
+import XAxis from '../../components/Charts/xAxis';
+import '../../styles/style.css';
+import { computeNextTwelveMonths } from '../../helpers/vacay_helpers';
+import styled from 'styled-components';
+import MiniCalendar from '../../components/Calendar/miniCalendar';
+import TimeOffSettings from '../../components/TimeOffSettings/index';
+import { get } from '../../helpers/api_helper';
+import { useEffect, useState } from 'react';
 
 const Dashboard = () => {
   const dashboardStyle = {
-    "user-name": {
-      fontFamily: "DM Sans",
-      fontWeight: "bold",
-      fontSize: "30px",
-      padding: "5px 0px",
+    'user-name': {
+      fontFamily: 'DM Sans',
+      fontWeight: 'bold',
+      fontSize: '30px',
+      padding: '5px 0px',
     },
   };
 
   // Fetch time off settings from back-end
   const dispatch = useDispatch();
 
+  const fetchHoliday = async () => {
+    let data = await get('/dashboard/holidays-settings');
+    const HOLIDAYSettings = {
+      holidayData: data.map(item => ({
+        id: item.id,
+        name: item.name,
+        date: new Date(item.date),
+        active: item.active,
+      })),
+    };
+
+    dispatch({ type: 'holidays/update', payload: HOLIDAYSettings });
+  };
+
   const fetchTimeOffSettings = async () => {
-    let data = await get("/dashboard/time-off-settings");
-    let user = await get("/dashboard/user");
-    let bookedDays = await get("/dashboard/booked-days");
+    let data = await get('/dashboard/time-off-settings');
+    let user = await get('/dashboard/user');
+    let bookedDays = await get('/dashboard/booked-days');
 
     // TODO: expand logic for dispatching based on specific settings type
     const PTOSettings = {
@@ -46,33 +60,33 @@ const Dashboard = () => {
     };
 
     let booked_dates = [];
-    bookedDays.forEach((days) => {
+    bookedDays.forEach(days => {
       let date = new Date(days.date);
       booked_dates.push(date);
     });
-     
-    
-    dispatch({ type: "bookedPTO/add", payload: [...booked_dates] });
-    dispatch({ type: "settings/update", payload: PTOSettings });
+
+    dispatch({ type: 'bookedPTO/add', payload: [...booked_dates] });
+    dispatch({ type: 'settings/update', payload: PTOSettings });
   };
   useEffect(() => {
     setTimeout(() => {
       fetchTimeOffSettings();
       fetchFirstName();
+      fetchHoliday();
     }, 500);
   });
 
-  const [firstName, setFirstName] = useState("");
+  const [firstName, setFirstName] = useState('');
   // Fetch FirstName from back-end
   const fetchFirstName = async () => {
-    let data = await get("/dashboard/user");
-    setFirstName(data["first_name"]);
+    let data = await get('/dashboard/user');
+    setFirstName(data['first_name']);
   };
   // Fetch dashboard data from back-end
   const currentMonth = useSelector(getCurrentMonth);
   const negativeBalanceMonths = useSelector(getNegativeBalanceMonths);
 
-  const twelveMonths = computeNextTwelveMonths(currentMonth, "date");
+  const twelveMonths = computeNextTwelveMonths(currentMonth, 'date');
 
   const calendarDiv = () => {
     // Split out the calendar array into 3 sub arrays
@@ -100,18 +114,18 @@ const Dashboard = () => {
     );
   };
 
-  const generateWarning = (negativeBalanceMonths) => {
+  const generateWarning = negativeBalanceMonths => {
     return negativeBalanceMonths.length ? (
       <StyledAlert
         message={`Warning: You have exceeded the maximum number of days selected or booked for ${negativeBalanceMonths.join(
-          ", "
+          ', '
         )}, resulting in a negative balance.`}
         closable={true}
         showIcon={true}
         type="warning"
       />
     ) : (
-      ""
+      ''
     );
   };
 
@@ -121,7 +135,7 @@ const Dashboard = () => {
         <Container fluid>
           {generateWarning(negativeBalanceMonths)}
           <TimeOffSettings />
-          <h2 style={dashboardStyle["user-name"]}>Hi {firstName}!</h2>
+          <h2 style={dashboardStyle['user-name']}>Hi {firstName}!</h2>
           <Card>
             <CardBody>
               <Legend />
