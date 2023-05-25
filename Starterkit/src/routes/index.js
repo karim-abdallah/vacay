@@ -11,13 +11,16 @@ import ForgetPwd from '../pages/Authentication/ForgetPassword';
 import AuthLockScreen from '../pages/Authentication/AuthLockScreen';
 import ResetPwd from '../pages/Authentication/ResetPassword';
 
+//Onboarding
+import OnBoarding from '../pages/OnBoarding';
+
 // Dashboard
 import Dashboard from '../pages/Dashboard/index';
 
 // Profile
 import Profile from '../pages/Profile/index';
 
-// PlanWithFriends
+// Plan With Friends
 import PlanWithFriends from '../pages/PlanWithFriends/index';
 
 // Inner Authentication
@@ -26,9 +29,11 @@ import Register1 from '../pages/AuthenticationInner/Register';
 import ForgetPwd1 from '../pages/AuthenticationInner/ForgetPassword';
 
 const authProtectedRoutes = [
+  { path: '/onboarding', component: OnBoarding },
   { path: '/dashboard', component: Dashboard },
   { path: '/profile', component: Profile },
-  { path: '/planWithFriends', component: PlanWithFriends },
+  { path: '/logout', component: Logout },
+  { path: '/plan-with-friends', component: PlanWithFriends },
 
   // this route should be at the end of all other routes
   { path: '/', exact: true, component: () => <Redirect to="/dashboard" /> },

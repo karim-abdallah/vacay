@@ -11,6 +11,11 @@ import {
   changeLayoutWidth,
 } from "../../store/actions";
 import { pageTitle } from "../../constants";
+import logout from "../../assets/images/logout.png";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { cardHoverColor } from "../../styles/constants";
+import feedback from "../../assets/images/feedback.svg";
 
 // Layout Related Components
 import Sidebar from "./Sidebar";
@@ -89,6 +94,11 @@ class Layout extends Component {
   };
 
   render() {
+    const goToFeedback = () => {
+      window.open(
+        "https://docs.google.com/forms/d/e/1FAIpQLSewOeenbHvlcb2GK1uOXSvZ05iW8EATairwJbXPNHIk4lzDow/viewform"
+      );
+    };
     return (
       <React.Fragment>
         <div id="preloader">
@@ -105,6 +115,15 @@ class Layout extends Component {
             isMobile={this.state.isMobile}
           />
           <div className="main-content">
+            <Link to="/logout">
+              {" "}
+              <LogOutButton>
+                <LogoutIcon src={logout} />
+              </LogOutButton>
+            </Link>{" "}
+            <FeedBackButton onClick={goToFeedback}>
+              <FeedBackButtonIcon src={feedback} />
+            </FeedBackButton>
             {this.props.children}
             <Footer />
           </div>
@@ -127,3 +146,47 @@ export default connect(mapStatetoProps, {
   changeTopbarTheme,
   changeLayoutWidth,
 })(withRouter(Layout));
+
+const LogoutIcon = styled.img`
+  height: 17px;
+`;
+
+const LogOutButton = styled.button`
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  margin-right: 5px;
+  float: right;
+  background-color: #ffffff;
+  height: 40px;
+  width: 40px;
+  margin-left: 5px;
+  border-width: 0px;
+  border-radius: 13px;
+  position: relative;
+  bottom: 8px;
+  &:hover {
+    background-color: ${(props) => !props.showpointer && cardHoverColor};
+  }
+`;
+
+const FeedBackButtonIcon = styled.img`
+  height: 18px;
+`;
+
+const FeedBackButton = styled.button`
+  margin-top: 20px;
+  margin-left: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  float: right;
+  background-color: #ffffff;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  border-width: 0px;
+  border-radius: 13px;
+  position: relative;
+  bottom: 8px;
+  &:hover {
+    background-color: ${(props) => !props.showpointer && cardHoverColor};
+  }
+`;

@@ -1,18 +1,17 @@
-import styled from "styled-components";
-import { axisColor } from "../styles/constants";
-import { defaultMonths, weekendDayIndex } from "../constants";
-import { differenceInCalendarDays } from "date-fns";
+import styled from 'styled-components';
+import { axisColor } from '../styles/constants';
+import { defaultMonths, weekendDayIndex } from '../constants';
+import { differenceInCalendarDays } from 'date-fns';
 
 /* Formatting Helpers */
 
-export const monthYearFormatter = (date) => {
+export const monthYearFormatter = date => {
   // returns date in format "Month Year"
   // Should be moved to util folder
-
-  return defaultMonths[date.getMonth()] + " " + date.getFullYear();
+  return defaultMonths[date.getMonth()] + ' ' + date.getFullYear();
 };
 
-export const xAxisMonthYearFormatter = (date) => {
+export const xAxisMonthYearFormatter = date => {
   const formattedDate = (month, year) => {
     return (
       <StyledMonthyearLabel>
@@ -24,21 +23,21 @@ export const xAxisMonthYearFormatter = (date) => {
   };
   switch (date.getMonth()) {
     case 0:
-      return formattedDate("Jan.", date.getFullYear());
+      return formattedDate('Jan.', date.getFullYear());
     case 1:
-      return formattedDate("Feb.", date.getFullYear());
+      return formattedDate('Feb.', date.getFullYear());
     case 2:
-      return formattedDate("Mar.", date.getFullYear());
+      return formattedDate('Mar.', date.getFullYear());
     case 7:
-      return formattedDate("Aug.", date.getFullYear());
+      return formattedDate('Aug.', date.getFullYear());
     case 8:
-      return formattedDate("Sept.", date.getFullYear());
+      return formattedDate('Sept.', date.getFullYear());
     case 9:
-      return formattedDate("Oct.", date.getFullYear());
+      return formattedDate('Oct.', date.getFullYear());
     case 10:
-      return formattedDate("Nov.", date.getFullYear());
+      return formattedDate('Nov.', date.getFullYear());
     case 11:
-      return formattedDate("Dec.", date.getFullYear());
+      return formattedDate('Dec.', date.getFullYear());
     default:
       return formattedDate(defaultMonths[date.getMonth()], date.getFullYear());
   }
@@ -48,7 +47,7 @@ const StyledMonthyearLabel = styled.div`
   color: ${axisColor};
 `;
 
-export const monthStartFormatter = (date) => {
+export const monthStartFormatter = date => {
   // Returns start date of the month for a given date
   return null;
 };
@@ -58,7 +57,7 @@ export const monthStartFormatter = (date) => {
 export function getUniqueDates(arraysOfDates) {
   const uniqueDates = new Set();
 
-  const isDateAlreadyInSet = (dateToCheck) => {
+  const isDateAlreadyInSet = dateToCheck => {
     for (const date of uniqueDates) {
       if (isSameDay(date.getTime(), dateToCheck.getTime())) {
         return true;
@@ -101,7 +100,7 @@ export function generateDayOffset(date, offsetValue) {
 export const computeNextNMonths = (
   startingMonth,
   nMonths,
-  format = "string"
+  format = 'string'
 ) => {
   // Takes in a start month and computes N next ones
   // Returns an array either in Date object format or as string of dates
@@ -110,7 +109,7 @@ export const computeNextNMonths = (
 
   for (let step = 0; step < nMonths; step++) {
     const formattedMonth =
-      format === "string"
+      format === 'string'
         ? monthYearFormatter(currentDate)
         : new Date(currentDate);
     nextNMonths.push(formattedMonth);
@@ -121,7 +120,7 @@ export const computeNextNMonths = (
   return nextNMonths;
 };
 
-export const convertDateRangeToDiscreteDates = (dateRange) => {
+export const convertDateRangeToDiscreteDates = dateRange => {
   // Returns an array of all dates found in between the two-date dateRange
   // dateRange should be [startDate, endDate]
   const dates = [];
@@ -164,7 +163,7 @@ export const filterOutDuplicates = (selectedDates, existingDates) => {
   return dedupedDates;
 };
 
-export const areAllDaysWeekends = (daysArray) => {
+export const areAllDaysWeekends = daysArray => {
   // Takes an array of DateTime objects and returns True
   // if all days in array are week-ends
   for (let n = 0; n < daysArray.length; n++) {
@@ -192,15 +191,15 @@ export const isSelectionAlreadyBooked = (daysArray, bookedPTOArray) => {
   // So essentially, make sure all the dates in the array are
   // in the booked store
   if (
-    daysArray.filter((x) => bookedPTOArray.find((y) => isSameDay(x, y)))
-      .length !== daysArray.length
+    daysArray.filter(x => bookedPTOArray.find(y => isSameDay(x, y))).length !==
+    daysArray.length
   ) {
     return false;
   }
   return true;
 };
 
-export const isDayInThePast = (date) => {
+export const isDayInThePast = date => {
   // Verifies if supplied date is in the past
   // If the date is today, returns false
   const today = new Date();
@@ -215,6 +214,9 @@ export const isDayInThePast = (date) => {
 };
 
 export function arraysEqual(arr1, arr2) {
+  if (!arr1 || !arr2) {
+    return false;
+  }
   if (arr1.length !== arr2.length) {
     return false;
   }
@@ -273,9 +275,9 @@ export const calculateBookedPTOPerMonth = (bookedPTODates, monthLabels) => {
   */
   const PTOPerMonth = {};
 
-  monthLabels.forEach((x) => (PTOPerMonth[x] = 0));
+  monthLabels.forEach(x => (PTOPerMonth[x] = 0));
 
-  bookedPTODates.forEach((x) => {
+  bookedPTODates.forEach(x => {
     const monthLabel = monthYearFormatter(x);
     // if currentDate not a week-end, increment, otherwise skip
     if (!weekendDayIndex.includes(x.getDay())) {

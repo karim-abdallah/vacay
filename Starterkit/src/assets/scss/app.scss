@@ -82,7 +82,7 @@ File: Main Css File
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
 
 .Login-form {
-    background: #2B3674;
+    background: #384077;
 }
 
 .Login-form a {
@@ -160,7 +160,7 @@ File: Main Css File
 
 
 .Login-form .form-card .btn-submit {
-    background: #2B3674;
+    background: #384077;
     border-radius: 9px;
     font-family: 'DM Sans';
     font-style: normal;
@@ -169,7 +169,10 @@ File: Main Css File
     line-height: 39px;
     color: #FFFFFF;
 }
-
+.invalid-password{
+    color: red;
+    font-size: 12px;
+}
 .Login-form .form-card .custom-link {
     font-family: 'DM Sans';
     font-style: normal;
@@ -180,7 +183,12 @@ File: Main Css File
     align-items: center;
     color: rgba(43, 54, 116, 0.67);
 }
+.handle-border{
+    border-bottom: 1px solid rgba(43, 54, 116, 0.33) !important;
+    border: none;
+    font-size: 16px;
 
+}
 ::placeholder {
     /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: rgba(43, 54, 116, 0.67);
@@ -200,7 +208,7 @@ File: Main Css File
 
 input {
     background: transparent;
-    border: 1px solid rgba(43, 54, 116, 0.33) !important;
+    // border: 1px solid rgba(43, 54, 116, 0.33) !important;
 }
 
 input:focus-visible {
@@ -214,6 +222,7 @@ input:focus-visible {
 .forget {
     text-decoration-line: underline;
     cursor: pointer;
+    font-size: 20px !important;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -221,7 +230,10 @@ input:focus-visible {
         padding-left: 30px;
     }
 }
-
+.custom-link {
+    font-size: 19px !important;
+    color: #2b3674ab;
+}
 @media only screen and (max-width: 600px) {
     .form-card {
         height: 100% !important;

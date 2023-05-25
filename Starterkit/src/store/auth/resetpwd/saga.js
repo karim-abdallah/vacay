@@ -13,7 +13,7 @@ function* resetUser({ payload: { obj, history } }) {
 
   try {
 
-    const response = yield call(postResetPwd, "/reset-password", obj);
+    const response = yield call(postResetPwd, "/auth/reset-password", obj);
     yield put(resetUserSuccessful(response));
     history.push('/login');
 

@@ -1,10 +1,10 @@
-import React from "react";
-import { Container, Card, CardBody } from "reactstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { GroupCard } from "../../components/Calendar/planWithFriendsCalendar";
-import { selectDashboardData } from "../../store/dashboard/selector";
-import { selectGroupInfo } from "../../store/planWithFriends/selectors";
-import { selectProfileData } from "../../store/profile/selector";
+import React from 'react';
+import { Container, Card, CardBody } from 'reactstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { GroupCard } from '../../components/Calendar/planWithFriendsCalendar';
+import { selectDashboardData } from '../../store/dashboard/selector';
+import { selectGroupInfo } from '../../store/planWithFriends/selectors';
+import { selectProfileData } from '../../store/profile/selector';
 
 const nMonthsAheadDefault = 6;
 
@@ -18,7 +18,7 @@ const PlanWithFriends = () => {
       <div className="page-content">
         <Container fluid>
           <h2>Plan with friends</h2>
-          {groupData.map((x) => {
+          {groupData.map(x => {
             return (
               <GroupCard
                 myProfile={myProfile}
