@@ -318,21 +318,13 @@ function MiniCalendar(props) {
   };
 
   const handleBookNow = async () => {
-<<<<<<< HEAD
     
-    // selectedDates[
-    //   selectedDatesLocal.length - 1
-    // ]
+
 
     await post("/dashboard/booked-days", { dates: [...selectedDatesLocal] });
     hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
    
-=======
-    await post('/dashboard/booked-days', { dates: [...selectedDatesLocal] });
-    hideButtons();
-    dispatch({ type: 'bookedPTO/add', payload: [...selectedDatesLocal] });
->>>>>>> 547bbc206cb922a92527f85666cd82e5fa947b05
 
     selectedDatesLocal.forEach(date =>
       dispatch({ type: 'selectedDates/delete', payload: date })
