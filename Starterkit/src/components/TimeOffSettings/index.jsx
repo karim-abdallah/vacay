@@ -1,25 +1,25 @@
-import { Card, CardBody } from "reactstrap";
-import { useDispatch } from "react-redux";
-import { Form, InputNumber, Checkbox, Tooltip, Input, Typography } from "antd";
-import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-import { getPTOSettings, getHolidays } from "../../store/dashboard/selector";
-import { tooltipBackground, cardHoverColor } from "../../styles/constants";
-import { minSettingsValueDays, maxSettingsValueDays } from "../../constants";
+import { Card, CardBody } from 'reactstrap';
+import { useDispatch } from 'react-redux';
+import { Form, InputNumber, Checkbox, Tooltip, Input, Typography } from 'antd';
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { getPTOSettings, getHolidays } from '../../store/dashboard/selector';
+import { tooltipBackground, cardHoverColor } from '../../styles/constants';
+import { minSettingsValueDays, maxSettingsValueDays } from '../../constants';
 import {
   TimeOffSettingsInstructions,
   PublicHolidaysSettingsInstructions,
-} from "./instructionText";
-import minimize from "../../assets/images/minimize.png";
-import plus from "../../assets/images/plus1.svg";
-import settingsIcon from "../../assets/images/settings.png";
-import { put, get, patch, post } from "../../helpers/api_helper";
+} from './instructionText';
+import minimize from '../../assets/images/minimize.png';
+import plus from '../../assets/images/plus1.svg';
+import settingsIcon from '../../assets/images/settings.png';
+import { put, get, patch, post } from '../../helpers/api_helper';
 
 function HolidayCheckbox(props) {
   const { holiday, onChange } = props;
 
-  const handleCheckboxChange = (event) => {
+  const handleCheckboxChange = event => {
     const isChecked = event.target.checked;
     onChange(holiday.id, isChecked);
   };
@@ -40,7 +40,7 @@ function HolidayCheckbox(props) {
 }
 
 function AddHolidayButton({ fetchHoliday }) {
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const pattern = /(\d{4}\/\d{2}\/\d{2})\s(.+)/;
 
   const setHoliday = async () => {
@@ -50,11 +50,11 @@ function AddHolidayButton({ fetchHoliday }) {
         name: name.match(pattern)[2],
       };
       try {
-        await post("/dashboard/update-holidays-status", obj);
-        await setName("");
+        await post('/dashboard/update-holidays-status', obj);
+        await setName('');
         await fetchHoliday(); // Call the fetchHoliday function after setting the holiday
       } catch (error) {
-        console.log("error===>", error);
+        console.log('error===>', error);
       }
     }
   };
@@ -77,7 +77,7 @@ function AddHolidayButton({ fetchHoliday }) {
           size="small"
           onPressEnter={handletoggleInput}
           placeholder="YYYY/MM/DD |Holiday Name"
-          onChange={(e) => setName(e.target.value)}
+          onChange={e => setName(e.target.value)}
         />
       )}
       {!openInput && (
@@ -95,11 +95,11 @@ const HolidaysPane = () => {
   const [holidaydata, setHolidaydata] = useState([]);
 
   const fetchHoliday = async () => {
-    let data = await get("/dashboard/holidays-settings");
+    let data = await get('/dashboard/holidays-settings');
     setHolidaydata(data);
 
     const HOLIDAYSettings = {
-      holidayData: data.map((item) => ({
+      holidayData: data.map(item => ({
         id: item.id,
         name: item.name,
         date: new Date(item.date),
@@ -107,7 +107,7 @@ const HolidaysPane = () => {
       })),
     };
 
-    dispatch({ type: "holidays/update", payload: HOLIDAYSettings });
+    dispatch({ type: 'holidays/update', payload: HOLIDAYSettings });
   };
 
   useEffect(() => {
@@ -121,7 +121,7 @@ const HolidaysPane = () => {
   const sortedHolidays = holidaydata.sort((a, b) => a.date - b.date);
 
   const checkboxHandler = async (checkboxId, isChecked) => {
-    await patch("/dashboard/update-holidays-status", {
+    await patch('/dashboard/update-holidays-status', {
       id: checkboxId,
       active: isChecked,
     });
@@ -141,9 +141,9 @@ const HolidaysPane = () => {
   return (
     <HolidayPaneContainer>
       <SettingsSubheader>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <span>
-            Public Holidays{" "}
+            Public Holidays{' '}
             <StyledInfoTooltip
               title={PublicHolidaysSettingsInstructions()}
               arrow
@@ -154,7 +154,7 @@ const HolidaysPane = () => {
               i
             </StyledInfoTooltip>
           </span>
-          <span style={{ fontSize: "16px" }}>
+          <span style={{ fontSize: '16px' }}>
             {settings.PTOSettings.country}
           </span>
         </div>
@@ -162,11 +162,11 @@ const HolidaysPane = () => {
       <HolidaysContainer>
         {holidayCheckboxes}
         {sortedHolidays.length < 30 ? (
-          <div style={{ gridColumn: "span 1" }}>
+          <div style={{ gridColumn: 'span 1' }}>
             <AddHolidayButton fetchHoliday={fetchHoliday} />
           </div>
         ) : (
-          <Error style={{ gridColumn: "span 2" }}>
+          <Error style={{ gridColumn: 'span 2' }}>
             Holidays reached the maximum limit
           </Error>
         )}
@@ -175,15 +175,15 @@ const HolidaysPane = () => {
   );
 };
 function NumberOptionDays(props) {
-  const handleChange = (value) => {
+  const handleChange = value => {
     if (value !== null) {
-      props.onChangeStatus("active"); // Update status to "active" when input changes
+      props.onChangeStatus('active'); // Update status to "active" when input changes
     }
   };
   return (
     <StyledFormItem name={props.name} className="text-end">
       <InputNumber
-        style={{ width: "100px" }}
+        style={{ width: '100px' }}
         size="small"
         min={minSettingsValueDays}
         max={maxSettingsValueDays}
@@ -199,19 +199,19 @@ const OptionPaneWithForm = ({ onChangeStatus }) => {
 
   const settings = useSelector(getPTOSettings);
   const fields = [
-    { name: "ptoAllowance", value: settings.PTOSettings.annualAllowanceDays },
-    { name: "ptoCap", value: settings.PTOSettings.accrualCapDays },
-    { name: "ptoBalance", value: settings.PTOSettings.currentBalanceDays },
+    { name: 'ptoAllowance', value: settings.PTOSettings.annualAllowanceDays },
+    { name: 'ptoCap', value: settings.PTOSettings.accrualCapDays },
+    { name: 'ptoBalance', value: settings.PTOSettings.currentBalanceDays },
   ];
   const updateSettingsHandler = (_, allValues) => {
-    dispatch({ type: "settings/update", payload: allValues });
+    dispatch({ type: 'settings/update', payload: allValues });
   };
   return (
     <OptionsPaneContainer>
       <SettingsSubheader>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <span>
-            Time Off Policy{" "}
+            Time Off Policy{' '}
             <StyledInfoTooltip
               title={TimeOffSettingsInstructions()}
               arrow
@@ -222,12 +222,12 @@ const OptionPaneWithForm = ({ onChangeStatus }) => {
               i
             </StyledInfoTooltip>
           </span>
-          <span style={{ textTransform: "capitalize", fontSize: "16px" }}>
+          <span style={{ textTransform: 'capitalize', fontSize: '16px' }}>
             {settings.PTOSettings.accrualType}
           </span>
         </div>
       </SettingsSubheader>
-      {settings.PTOSettings.accrualType === "unlimited" ? (
+      {settings.PTOSettings.accrualType === 'unlimited' ? (
         <>
           <UnlimitedContainer>
             <p>
@@ -265,7 +265,7 @@ const OptionPaneWithForm = ({ onChangeStatus }) => {
 };
 
 const TimeOffSettings = () => {
-  const [status, setStatus] = useState("inactive");
+  const [status, setStatus] = useState('inactive');
   const [expandedSettings, setExpandedSettings] = useState(false);
   const settings = useSelector(getPTOSettings);
 
@@ -275,13 +275,13 @@ const TimeOffSettings = () => {
       accrual_cap_days: settings.PTOSettings.accrualCapDays,
       current_balance_days: settings.PTOSettings.currentBalanceDays,
     };
-    await put("/dashboard/time-off-settings", payload);
+    await put('/dashboard/time-off-settings', payload);
   };
 
   const handleSaveChanges = () => {
-    if (status === "active") {
+    if (status === 'active') {
       updateSettings();
-      setStatus("completed");
+      setStatus('completed');
     }
   };
   const handleExpandSettings = () => {
@@ -304,23 +304,23 @@ const TimeOffSettings = () => {
                 <TimeOffSettingsHeader>
                   Settings <SmallTimeOffSettingsIcon src={settingsIcon} />
                 </TimeOffSettingsHeader>
-              
+
                 <MinimizeButton onClick={handleExpandSettings}>
-                    <StyledMinimizeIcon src={minimize} alt="x" />
-                  </MinimizeButton>
-                {status === "active" && (
+                  <StyledMinimizeIcon src={minimize} alt="x" />
+                </MinimizeButton>
+                {status === 'active' && (
                   <SaveChangesActiveButton onClick={handleSaveChanges}>
                     Save Changes
                   </SaveChangesActiveButton>
                 )}
 
-                {status === "inactive" && (
+                {status === 'inactive' && (
                   <SaveChangesInactiveButton onClick={handleSaveChanges}>
                     Save Changes
                   </SaveChangesInactiveButton>
                 )}
 
-                {status === "completed" && (
+                {status === 'completed' && (
                   <ChangesSavedText>Changes saved!</ChangesSavedText>
                 )}
               </div>
@@ -390,7 +390,7 @@ const OptionsContainer = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 30px 30px 30px 30px;
   align-items: center;
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
   font-weight: 500;
   // font-size: 18px;
   line-height: 100%;
@@ -402,7 +402,7 @@ const SettingsSubheader = styled.div`
   font-weight: 500;
   font-size: 18px;
   border-bottom: 1px solid #2b3674;
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
 `;
 const UnlimitedContainer = styled.div`
   padding: 15px 0px;
@@ -410,7 +410,7 @@ const UnlimitedContainer = styled.div`
     background-color: #f4f7fe;
     padding: 15px 10px;
     border-radius: 10px;
-    font-family: "DM Sans";
+    font-family: 'DM Sans';
     font-size: 12px;
   }
 `;
@@ -427,7 +427,7 @@ const TimeOffSettingsButton = styled.button`
   position: relative;
   bottom: 8px;
   &:hover {
-    background-color: ${(props) => !props.showpointer && cardHoverColor};
+    background-color: ${props => !props.showpointer && cardHoverColor};
   }
 `;
 
@@ -524,7 +524,7 @@ const MinimizeButton = styled.button`
 const TimeOffSettingsContainer = styled.div`
   display: grid;
   padding: 10px 20px;
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
 `;
 
 const TimeOffSettingsHeader = styled.div`
@@ -556,20 +556,20 @@ const CheckboxWrapper = styled.div`
   font-weight: 500;
   font-size: 13px;
 
-  input[type="checkbox"] {
+  input[type='checkbox'] {
     position: relative;
     cursor: pointer;
   }
-  input[type="checkbox"]:before {
-    content: "";
+  input[type='checkbox']:before {
+    content: '';
     display: block;
     width: 17px;
     height: 17px;
 
     background-color: #f4f7fe;
   }
-  input[type="checkbox"]:checked:after {
-    content: "";
+  input[type='checkbox']:checked:after {
+    content: '';
     display: block;
     width: 5px;
     height: 10px;

@@ -18,11 +18,11 @@ export const Legend = () => {
       <FlexContainer>
         <FlexDiv color={bookedPtoColor}>
           <Circle />
-          Days Booked
+          Booked Days
         </FlexDiv>
         <FlexDiv color={selectionColor}>
           <Circle />
-          Selected Dates
+          Selected Days
         </FlexDiv>
         {accrualType === PolicyTypes.accrual && (
           <FlexDiv color={balanceColor}>
@@ -32,7 +32,7 @@ export const Legend = () => {
         )}
         <HolidayFlexDiv>
           <HolidayCircle />
-          Holidays
+          Public Holidays
         </HolidayFlexDiv>
       </FlexContainer>
     </StyledLegend>
@@ -51,12 +51,14 @@ const FlexContainer = styled.div`
 
 const HolidayFlexDiv = styled.div`
   display: flex;
+  font-size: 14px;
+  font-weight: bold;
   color: ${bookedPtoColor};
 `;
 
 const Circle = styled.div`
-  height: 20px;
-  width: 20px;
+  height: 18px;
+  width: 18px;
   border-radius: 50%;
   margin-right: 10px;
   margin-left: 10px;
@@ -70,6 +72,8 @@ const HolidayCircle = styled(Circle)`
 
 const FlexDiv = styled.div`
   display: flex;
+  font-size: 14px;
+  font-weight: bold;
   color: ${props => props.color};
   > * {
     background-color: ${props => props.color};
