@@ -277,7 +277,9 @@ function MiniCalendar(props) {
       setSelectedDatesLocal([]);
       hideButtons();
     } else {
+      
       setSelectedDatesLocal([...datesWithoutHolidays]);
+      console.log("datesWithoutHolidays", datesWithoutHolidays);
 
       // 2.c if unselected and booked -> unbook and unselect
       if (isSelectionAlreadyBooked(datesWithoutHolidays, bookedDates)) {
@@ -316,10 +318,15 @@ function MiniCalendar(props) {
 
 
   const handleBookNow = async () => {
+    
+    // selectedDates[
+    //   selectedDatesLocal.length - 1
+    // ]
+
     await post("/dashboard/booked-days", { dates: [...selectedDatesLocal] });
     hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
-
+   
 
     selectedDatesLocal.forEach((date) =>
       dispatch({ type: "selectedDates/delete", payload: date })

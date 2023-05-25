@@ -185,10 +185,22 @@ class UpdateHolidayStatus(APIView):
         data['user_id'] = self.request.user.id
         country = User.objects.get(id=data['user_id']).country
         data['country'] = country
+        
+       
+        print("data===>",data)
+        date = datetime.datetime.strptime(data['date'], '%Y/%m/%d').date()
+        
+
+        #if date already exist then delete from BookedDays table
+        booked_holiday = BookedDays.objects.filter(user_id=data['user_id'], date=date)
+        if booked_holiday.exists():
+            booked_holiday.delete()
 
         HolidaySetting.objects.create(**data)
 
         return Response({'detail': "Records Created Successfully"}, status=status.HTTP_201_CREATED)
+    
+        
 
     def patch(self, request):
         data = request.data
@@ -199,7 +211,7 @@ class UpdateHolidayStatus(APIView):
         return Response({'detail': "Records Updated Successfully"}, status=status.HTTP_200_OK)
 
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        # return Response(holiday_settings, status=status.HTTP_200_OK)
     
 
 
@@ -212,14 +224,15 @@ class BookedDaysView(APIView):
 
         data = request.data
         user = self.request.user.id
-       
+
         data['dates'] = [i.split('T')[0] for i in data['dates']]
         dates = data['dates']
-
+        
         for i in dates:
             BookedDays.objects.create(user_id=user, date=i)
 
-        return Response({'detail': "Records Created Successfully"}, status=status.HTTP_201_CREATED)
+        # return Response({'detail': "Records Created Successfully"}, status=status.HTTP_201_CREATED)
+        return Response(data, status=status.HTTP_200_OK)
 
         
     def get(self, request):
