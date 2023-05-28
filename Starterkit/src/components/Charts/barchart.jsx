@@ -79,7 +79,7 @@ const generateDashboardDataUnlimitedPTO = (
   datesToUnbook
 ) => {
   // for unlimited pto, it should only generate selected days, unbook, days booked, public holidays
-  const monthLabels = computeNextTwelveMonths(currentMonth);
+  const monthLabels = computeNextNMonths(currentMonth, 12);
   const PTOPerMonth = {};
   const selectedDatesPerMonth = {};
   const datesToUnbookPerMonth = {};
