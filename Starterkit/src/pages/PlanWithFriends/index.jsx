@@ -23,6 +23,8 @@ const PlanWithFriends = () => {
     });
   };
 
+  // This is done because if you refresh the plan with friends page it fails
+  // to fetch dashboard data from back-end.
   const fetchMyDashboardData = async () => {
     let bookedDays = await get('/dashboard/booked-days');
 

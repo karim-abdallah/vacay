@@ -39,20 +39,34 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
 
   // 2. Compute group data
   const friendsData = {};
-  friendsData[myProfile.name] = myData;
-  groupInfo.friends.forEach(x => (friendsData[x.name] = x.dashboard));
+  friendsData[myProfile.name] = {
+    dashboardData: myData,
+    profilePic: myProfile.profilePic,
+  };
+
+  console.log(friendsData);
+
+  groupInfo.friends.forEach(
+    x =>
+      (friendsData[x.name] = {
+        dashboardData: x.dashboard,
+        profilePic: x.profilePic,
+      })
+  );
+
+  console.log(friendsData);
 
   const generateFriendCards = () => {
     const friendNames = Object.keys(friendsData);
     return friendNames.map(x => {
-      return <FriendCard name={x} />;
+      return <FriendCard name={x} profilePic={friendsData[x].profilePic} />;
     });
   };
   // Determine bookedPTO for the whole group
   const arrayOfBookedDates = [];
 
   Object.keys(friendsData).forEach(friend => {
-    arrayOfBookedDates.push(friendsData[friend].bookedPTO.dates);
+    arrayOfBookedDates.push(friendsData[friend].dashboardData.bookedPTO.dates);
   });
 
   const groupBookedPTO = getUniqueDates(arrayOfBookedDates);

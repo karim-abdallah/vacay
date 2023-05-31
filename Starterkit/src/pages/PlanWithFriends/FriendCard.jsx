@@ -1,16 +1,18 @@
 import { Card, CardBody } from 'reactstrap';
 import styled from 'styled-components';
 import { lightBlue } from '../../styles/constants';
-import pierreProfilePic from '../../assets/images/pierre.png';
+import Picture from '../../assets/images/profile.png';
 
-export const FriendCard = ({ name }) => {
+export const FriendCard = ({ name, profilePic }) => {
   // TODO: integrate with back-end and S3 to pull info
-  const profilePic = pierreProfilePic;
+  /*   const profilePic = pierreProfilePic;
+   */
+  console.log(profilePic);
   return (
     <StyledCard>
       <StyledCardBody>
         {' '}
-        <StyledImage src={profilePic} alt="" />
+        <StyledImage src={profilePic ? profilePic : Picture} alt="" />
         {name}
       </StyledCardBody>
     </StyledCard>
