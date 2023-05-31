@@ -10,6 +10,7 @@ import { selectProfileData } from '../../store/profile/selector';
 const nMonthsAheadDefault = 6;
 
 const PlanWithFriends = () => {
+  const dispatch = useDispatch();
   const [myProfile, setMyProfile] = useState({});
 
   const fetchMyProfile = async () => {
@@ -22,12 +23,25 @@ const PlanWithFriends = () => {
     });
   };
 
-  const myDashboardData = useSelector(selectDashboardData);
-  const groupData = useSelector(selectGroupInfo);
+  const fetchMyDashboardData = async () => {
+    let bookedDays = await get('/dashboard/booked-days');
+
+    let booked_dates = [];
+    bookedDays.forEach(days => {
+      let date = new Date(days.date);
+      booked_dates.push(date);
+    });
+
+    dispatch({ type: 'bookedPTO/add', payload: [...booked_dates] });
+  };
 
   useEffect(() => {
     fetchMyProfile();
+    fetchMyDashboardData();
   }, []);
+
+  const myDashboardData = useSelector(selectDashboardData);
+  const groupData = useSelector(selectGroupInfo);
 
   return (
     <React.Fragment>
