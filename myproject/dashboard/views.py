@@ -8,7 +8,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-import json 
 
 from .serializers import (BookedDaysSerializer, HolidaySettingSerializer,
                           TimeOffSettingSerializer)
@@ -18,6 +17,7 @@ from .utils import generate_presigned_url, holidays
 
 
 class UserView(APIView):
+    
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -186,11 +186,8 @@ class UpdateHolidayStatus(APIView):
         country = User.objects.get(id=data['user_id']).country
         data['country'] = country
         
-       
-        print("data===>",data)
         date = datetime.datetime.strptime(data['date'], '%Y/%m/%d').date()
         
-
         #if date already exist then delete from BookedDays table
         booked_holiday = BookedDays.objects.filter(user_id=data['user_id'], date=date)
         if booked_holiday.exists():
@@ -199,8 +196,6 @@ class UpdateHolidayStatus(APIView):
         HolidaySetting.objects.create(**data)
 
         return Response({'detail': "Records Created Successfully"}, status=status.HTTP_201_CREATED)
-    
-        
 
     def patch(self, request):
         data = request.data
@@ -209,11 +204,6 @@ class UpdateHolidayStatus(APIView):
         holiday_settings.update(**data)
 
         return Response({'detail': "Records Updated Successfully"}, status=status.HTTP_200_OK)
-
-
-        # return Response(holiday_settings, status=status.HTTP_200_OK)
-    
-
 
 
 class BookedDaysView(APIView):
@@ -231,7 +221,6 @@ class BookedDaysView(APIView):
         for i in dates:
             BookedDays.objects.create(user_id=user, date=i)
 
-        # return Response({'detail': "Records Created Successfully"}, status=status.HTTP_201_CREATED)
         return Response(data, status=status.HTTP_200_OK)
 
         

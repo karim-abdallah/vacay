@@ -57,7 +57,7 @@ function AddHolidayButton({ fetchHoliday }) {
           let date = new Date(days.date);
           booked_dates.push(date);
         });
-       
+
         await setName("");
         await fetchHoliday(); // Call the fetchHoliday function after setting the holiday
         dispatch({ type: 'bookedPTO/add', payload: [...booked_dates] });
@@ -211,9 +211,11 @@ const OptionPaneWithForm = ({ onChangeStatus }) => {
     { name: "ptoCap", value: settings.PTOSettings.accrualCapDays },
     { name: "ptoBalance", value: settings.PTOSettings.currentBalanceDays },
   ];
+
   const updateSettingsHandler = (_, allValues) => {
     dispatch({ type: "settings/update", payload: allValues });
   };
+
   return (
     <OptionsPaneContainer>
       <SettingsSubheader>

@@ -74,7 +74,7 @@ const Dashboard = () => {
       fetchFirstName();
       fetchHoliday();
     }, 500);
-  });
+  }, []);
 
   const [firstName, setFirstName] = useState('');
   // Fetch FirstName from back-end
