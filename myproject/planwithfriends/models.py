@@ -4,6 +4,8 @@ from django.db import models
 
 class Group(models.Model):
     group_name = models.CharField(max_length=100)
+    organizer = models.ForeignKey(User, on_delete=models.CASCADE)
+    booking_requested = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -15,6 +17,8 @@ class FriendGroup(models.Model):
 
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    accepted_invitation = models.BooleanField(default=False)
+    accepted_booking = models.BooleanField()
 
 
 class TripDate(models.Model):
