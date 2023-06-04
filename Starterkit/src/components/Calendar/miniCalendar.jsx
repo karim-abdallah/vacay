@@ -27,6 +27,7 @@ import {
   isSelectionAlreadyBooked,
   isDayInThePast,
   generateDayOffset,
+  adjustDateToTimezoneOffset,
 } from '../../helpers/vacay_helpers';
 import {
   StyledBookButton,
@@ -318,10 +319,16 @@ function MiniCalendar(props) {
   };
 
   const handleBookNow = async () => {
+<<<<<<< HEAD
     
 
 
     await post("/dashboard/booked-days", { dates: [...selectedDatesLocal] });
+=======
+    await post('/dashboard/booked-days', {
+      dates: adjustDateToTimezoneOffset(selectedDatesLocal),
+    });
+>>>>>>> f508840522fcef7bd8f6059b0c4368dbfd749662
     hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
    
@@ -334,7 +341,9 @@ function MiniCalendar(props) {
   };
 
   const handleUnbook = async () => {
-    await patch('/dashboard/booked-days', { dates: [...selectedDatesLocal] });
+    await patch('/dashboard/booked-days', {
+      dates: adjustDateToTimezoneOffset(selectedDatesLocal),
+    });
     hideButtons();
     selectedDatesLocal.forEach(date => {
       dispatch({ type: 'datesToUnbook/delete', payload: date });

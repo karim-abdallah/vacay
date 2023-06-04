@@ -11,12 +11,13 @@ Flows:
 [] Sign in
 [] Onboarding
 [] Plan PTO
+[] Book PTO
+[] Unbook PTO
 [] Update Settings
 [] Update Holiday
 [] Add holiday
 [] Edit profile
 [] Send invitation
-[] Subscribe to Vacay
 [] _new flow/feature_
 
 Testing performed:

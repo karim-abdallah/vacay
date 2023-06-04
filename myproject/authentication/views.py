@@ -1,4 +1,5 @@
 import datetime
+from urllib.parse import urlencode
 
 import jwt
 import requests
@@ -59,12 +60,15 @@ class RegisterView(APIView):
 
 class GoogleView(APIView):
     def post(self, request):
-        payload = {'access_token': request.data.get("token")}  # validate the token
-        r = requests.get('https://www.googleapis.com/oauth2/v2/userinfo', params=payload)
+        payload = {'access_token': request.data.get(
+            "token")}  # validate the token
+        r = requests.get(
+            'https://www.googleapis.com/oauth2/v2/userinfo', params=payload)
         data = json.loads(r.text)
 
         if 'error' in data:
-            content = {'message': 'wrong google token / this google token is already expired.'}
+            content = {
+                'message': 'wrong google token / this google token is already expired.'}
             return Response(content)
 
         # create user if not exist
@@ -74,11 +78,13 @@ class GoogleView(APIView):
             user = User()
             user.username = data['email']
             # provider random default password
-            user.password = make_password(BaseUserManager().make_random_password())
+            user.password = make_password(
+                BaseUserManager().make_random_password())
             user.email = data['email']
             user.save()
 
-        token = RefreshToken.for_user(user)  # generate token without username & password
+        # generate token without username & password
+        token = RefreshToken.for_user(user)
         response = {}
         response['username'] = user.username
         response['access_token'] = str(token.access_token)
@@ -87,7 +93,7 @@ class GoogleView(APIView):
 
 
 class LogoutView(APIView):
-    
+
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -159,7 +165,7 @@ class ResetPasswordView(APIView):
 
 
 class ChangePasswordView(APIView):
-    
+
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -195,7 +201,7 @@ class SubscribeView(APIView):
 
 
 class SendInviteView(APIView):
-    
+
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -205,8 +211,18 @@ class SendInviteView(APIView):
 
 
 class HelloView(APIView):
-    permission_classes = (IsAuthenticated,)
-    
+
     def get(self, request):
-        content = {'message': 'Hello, World!'}
-        return Response(content)
+
+        url = 'https://accounts.google.com/o/oauth2/v2/auth?'
+        encoded_params = urlencode({
+            'client_id': '1059695905619-jf8o5bakj2eilj2nhlmuk4mbmvpdqe40.apps.googleusercontent.com',
+            'redirect_uri': 'http://localhost:3000',
+            'response_type': 'token',
+            'scope': 'profile',
+            'access_type':'offline'
+        })
+
+        encoded_url = url + encoded_params
+
+        return Response(encoded_url)

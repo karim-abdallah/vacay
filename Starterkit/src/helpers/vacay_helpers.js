@@ -45,6 +45,18 @@ const StyledMonthyearLabel = styled.div`
   color: ${axisColor};
 `;
 
+export const adjustDateToTimezoneOffset = dateArray => {
+  // standardizes dates by adjusting to UTC with timezone offset
+  // takes in an array of datetimes ahead of submission to back-end
+
+  return dateArray.map(date => {
+    const adjustedDate = new Date(
+      date.getTime() - date.getTimezoneOffset() * 60000
+    );
+    return adjustedDate.toISOString();
+  });
+};
+
 export const monthStartFormatter = date => {
   // Returns start date of the month for a given date
   return null;

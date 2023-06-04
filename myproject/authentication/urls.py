@@ -14,6 +14,6 @@ urlpatterns = [
     path("change-password", ChangePasswordView.as_view()),
     path("subscribe", SubscribeView.as_view()),
     path("send-invites", SendInviteView.as_view(), name='send-invites'),
-    path('hello', HelloView.as_view(), name='hello'),
+    path('hello', HelloView.as_view(), name='hello')
 
 ]

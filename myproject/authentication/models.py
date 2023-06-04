@@ -77,4 +77,4 @@ class BookedDays(models.Model):
     time_off_type = models.CharField(
         max_length=20, choices=TimeOffType.choices, default=TimeOffType.PTO
     )
-    tag = models.CharField(max_length=25, blank=True)
+    tag = models.CharField(max_length=25, blank=True, null=True)
