@@ -6,14 +6,13 @@ const INIT_STATE = {
   bookedPTO: mockApiResponse.bookedPTO,
   holidays: [],
   PTOSettings: mockApiResponse.PTOSettings,
-  HOLIDAYSettings:[],
+  HOLIDAYSettings: [],
   selectedDates: [],
   datesToUnbook: [],
   negativeBalanceMonths: [],
 };
 
 const Dashboard = (state = INIT_STATE, action) => {
-
   switch (action.type) {
     case 'currentMonth/update':
       return {
@@ -104,6 +103,14 @@ const Dashboard = (state = INIT_STATE, action) => {
       return {
         ...state,
         negativeBalanceMonths: [...action.payload],
+      };
+
+    case 'bookedPTO/update':
+      return {
+        ...state,
+        bookedPTO: {
+          dates: [...action.payload],
+        },
       };
 
     default:
