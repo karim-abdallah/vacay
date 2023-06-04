@@ -2,6 +2,9 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
+TIME_OFF_CURRENT_BALANCE_DECIMAL_PRECISION = 10
+
+
 class User(AbstractUser):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -47,7 +50,9 @@ class TimeOffSetting(models.Model):
     )
     annual_allowance_days = models.IntegerField(default=15)
     accrual_cap_days = models.IntegerField(default=24)
-    current_balance_days = models.IntegerField(default=7)
+    current_balance_days = models.DecimalField(
+        max_digits=13, decimal_places=10, default=7
+    )
     balance_recorded_date = models.DateField(
         auto_now_add=True,
     )
