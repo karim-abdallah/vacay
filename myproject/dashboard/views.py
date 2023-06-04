@@ -98,7 +98,6 @@ class TimeOffSettingList(APIView):
         """
         Get time off settings for a specific requesting user
         """
-
         id = request.user.id
 
         time_off_setting = get_object_or_404(TimeOffSetting, user_id=id)

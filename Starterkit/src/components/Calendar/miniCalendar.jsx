@@ -319,16 +319,9 @@ function MiniCalendar(props) {
   };
 
   const handleBookNow = async () => {
-<<<<<<< HEAD
-    
-
-
-    await post("/dashboard/booked-days", { dates: [...selectedDatesLocal] });
-=======
     await post('/dashboard/booked-days', {
       dates: adjustDateToTimezoneOffset(selectedDatesLocal),
     });
->>>>>>> f508840522fcef7bd8f6059b0c4368dbfd749662
     hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
    
