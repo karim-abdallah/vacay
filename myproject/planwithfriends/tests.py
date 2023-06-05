@@ -95,6 +95,7 @@ class GroupListTests(TestCase):
             assert group["group_info"]["organizer"] == user.id
             for guest in group["guests"]:
                 assert guest["dashboard"]
+                assert guest["accepted_invitation"]
 
     def test_get_all_groups_guests_not_accepted_invitation_yet(self):
         """Tests that all relevant groups are fetched for organizer, assuming guests
@@ -126,3 +127,4 @@ class GroupListTests(TestCase):
             assert group["group_info"]["organizer"] == user.id
             for guest in group["guests"]:
                 assert not guest.get("dashboard")
+                assert not guest["accepted_invitation"]
