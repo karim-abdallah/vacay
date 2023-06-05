@@ -18,7 +18,7 @@ class FriendGroup(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     accepted_invitation = models.BooleanField(default=False)
-    accepted_booking = models.BooleanField()
+    accepted_booking = models.BooleanField(null=True)
 
 
 class TripDate(models.Model):
