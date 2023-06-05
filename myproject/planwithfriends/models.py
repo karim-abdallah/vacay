@@ -10,7 +10,7 @@ class Group(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class FriendGroup(models.Model):
+class Guest(models.Model):
     """
     Mapping table that connects user IDs with groups they belong to
     """
