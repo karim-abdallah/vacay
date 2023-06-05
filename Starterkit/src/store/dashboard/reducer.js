@@ -35,6 +35,7 @@ const Dashboard = (state = INIT_STATE, action) => {
           dates: state.bookedPTO.dates.concat(dedupedDates),
         },
       };
+   
     case 'bookedPTO/delete':
       return {
         ...state,

@@ -42,7 +42,6 @@ function HolidayCheckbox(props) {
 function AddHolidayButton({ fetchHoliday }) {
   const [name, setName] = useState("");
   const pattern = /(\d{4}\/\d{2}\/\d{2})\s(.+)/;
-  const dispatch = useDispatch();
   const setHoliday = async () => {
     if (name && pattern.test(name)) {
       const obj = {
@@ -51,16 +50,8 @@ function AddHolidayButton({ fetchHoliday }) {
       };
       try {
         await post("/dashboard/update-holidays-status", obj);
-        let bookedDays = await get("/dashboard/booked-days");
-        let booked_dates = [];
-        bookedDays.forEach((days) => {
-          let date = new Date(days.date);
-          booked_dates.push(date);
-        });
-
-        await setName("");
+        setName("");
         await fetchHoliday(); // Call the fetchHoliday function after setting the holiday
-        dispatch({ type: 'bookedPTO/add', payload: [...booked_dates] });
       } catch (error) {
         console.log("error===>", error);
       }

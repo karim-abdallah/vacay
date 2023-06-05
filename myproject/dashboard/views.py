@@ -186,7 +186,7 @@ class UpdateHolidayStatus(APIView):
         data['country'] = country
         
         date = datetime.datetime.strptime(data['date'], '%Y/%m/%d').date()
-        
+
         #if date already exist then delete from BookedDays table
         booked_holiday = BookedDays.objects.filter(user_id=data['user_id'], date=date)
         if booked_holiday.exists():
