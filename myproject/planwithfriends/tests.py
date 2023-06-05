@@ -42,12 +42,10 @@ class GroupListTests(TestCase):
             self.guest_1 = Guest.objects.create(
                 group=self.group,
                 user=self.group_guest_1,
-                accepted_invitation=True,
             )
             self.guest_2 = Guest.objects.create(
                 group=self.group,
                 user=self.group_guest_2,
-                accepted_invitation=True,
             )
 
     def setUp(self):
@@ -81,6 +79,8 @@ class GroupListTests(TestCase):
         for group in self.groups:
             group.guest_1.accepted_invitation = True
             group.guest_2.accepted_invitation = True
+            group.guest_1.save()
+            group.guest_2.save()
 
         # Act
         request = self.factory.get("/planwithfriends/groups")
@@ -95,3 +95,34 @@ class GroupListTests(TestCase):
             assert group["group_info"]["organizer"] == user.id
             for guest in group["guests"]:
                 assert guest["dashboard"]
+
+    def test_get_all_groups_guests_not_accepted_invitation_yet(self):
+        """Tests that all relevant groups are fetched for organizer, assuming guests
+        have not accepted invitations
+        Verifies that:
+        - All groups are fetched (count = 2)
+        - Groups indicate current user as organizer
+        - Groups fetch user info but hide dashboard data
+        TODO: Confirm holidays and individual booked days are loaded. Confirm group booked days are loaded.
+        """
+        # Arrange
+        user = self.group_organizer
+        for group in self.groups:
+            group.guest_1.accepted_invitation = False
+            group.guest_2.accepted_invitation = False
+            group.guest_1.save()
+            group.guest_2.save()
+
+        # Act
+        request = self.factory.get("/planwithfriends/groups")
+        force_authenticate(request, user=user)
+
+        response = self.view(request)
+
+        # Assert
+        assert response
+        assert len(response.data) == 2
+        for group in response.data:
+            assert group["group_info"]["organizer"] == user.id
+            for guest in group["guests"]:
+                assert not guest.get("dashboard")
