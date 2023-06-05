@@ -36,15 +36,18 @@ class GroupListTests(TestCase):
                 user=self.group_guest_2
             )
             self.group = Group.objects.create(
-                group_name=group_name, organizer=organizer
+                organizer=organizer,
+                group_name=group_name,
             )
             self.guest_1 = Guest.objects.create(
                 group=self.group,
                 user=self.group_guest_1,
+                accepted_invitation=True,
             )
             self.guest_2 = Guest.objects.create(
                 group=self.group,
                 user=self.group_guest_2,
+                accepted_invitation=True,
             )
 
     def setUp(self):
@@ -87,3 +90,8 @@ class GroupListTests(TestCase):
 
         # Assert
         assert response
+        assert len(response.data) == 2
+        for group in response.data:
+            assert group["group_info"]["organizer"] == user.id
+            for guest in group["guests"]:
+                assert guest["dashboard"]

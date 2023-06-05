@@ -58,7 +58,7 @@ class GroupListView(APIView):
                 }
                 # Only load dashboard data if friend has accepted request
                 # or if friend is self
-                if guest.accepted_invitation or guest.id == id:
+                if guest.accepted_invitation or guest.user_id == id:
                     booked_PTO = BookedDays.objects.filter(user_id=guest.id).all()
                     holidays = HolidaySetting.objects.filter(user_id=guest.id).all()
                     time_off_setting = TimeOffSetting.objects.filter(
