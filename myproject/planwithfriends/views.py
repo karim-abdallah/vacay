@@ -17,6 +17,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 # Create your views here.
+
+
 class GroupListView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -87,4 +89,28 @@ class GroupListView(APIView):
         return Response(
             serializer.data,
             status=status.HTTP_200_OK,
+        )
+
+
+class GroupView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        """
+        Create new group
+        """
+
+        id = request.user.id
+        data = request.data
+
+        new_group = {
+            "group_name": data.get("group_name", ""),
+            "organizer_id": id,
+        }
+
+        Group.objects.create(**new_group)
+
+        return Response(
+            {"detail": "Group Created Successfully"}, status=status.HTTP_201_CREATED
         )

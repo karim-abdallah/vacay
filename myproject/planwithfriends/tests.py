@@ -1,7 +1,7 @@
 from django.test import TestCase
 from authentication.models import User, TimeOffSetting
 from planwithfriends.models import Guest, Group
-from planwithfriends.views import GroupListView
+from planwithfriends.views import GroupListView, GroupView
 from rest_framework.test import APIRequestFactory, force_authenticate
 
 from faker import Faker
@@ -128,3 +128,41 @@ class GroupListTests(TestCase):
             for guest in group["guests"]:
                 assert not guest.get("dashboard")
                 assert not guest["accepted_invitation"]
+
+
+class GroupTest(TestCase):
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.view = GroupView.as_view()
+        self.group_organizer = User.objects.create(
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
+            email=fake.email(),
+            password="12345678",
+            username=fake.word(),
+            country="USA",
+        )
+
+    def test_create_new_group(self):
+        """
+        Tests happy path for creating new group
+        """
+        # Arrange
+        group_name = fake.word()
+
+        # Act
+        request = self.factory.post(
+            "/planwithfriends/group", {"group_name": group_name}
+        )
+        force_authenticate(request, user=self.group_organizer)
+
+        response = self.view(request)
+
+        created_group = Group.objects.filter(
+            organizer_id=self.group_organizer.id
+        ).first()
+
+        # Assert
+        assert response.status_code == 201
+        assert created_group
+        assert created_group.group_name == group_name
