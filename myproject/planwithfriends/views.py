@@ -57,6 +57,11 @@ class GroupListView(APIView):
                     "profile_pic": guest_profile.profile_pic,
                     "accepted_invitation": guest.accepted_invitation,
                     "accepted_booking": guest.accepted_booking,
+                    "dashboard": {
+                        "booked_PTO": [],
+                        "holidays": [],
+                        "time_off_setting": {},
+                    },
                 }
                 # Only load dashboard data if friend has accepted request
                 # or if friend is self

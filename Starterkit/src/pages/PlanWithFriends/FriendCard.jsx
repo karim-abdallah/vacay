@@ -7,7 +7,6 @@ export const FriendCard = ({ name, profilePic }) => {
   // TODO: integrate with back-end and S3 to pull info
   /*   const profilePic = pierreProfilePic;
    */
-  console.log(profilePic);
   return (
     <StyledCard>
       <StyledCardBody>

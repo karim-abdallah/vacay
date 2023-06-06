@@ -1,4 +1,4 @@
-import { groupMock } from "../../mocks/planWithFriends.mock";
+import { groupMock } from '../../mocks/planWithFriends.mock';
 
 const INIT_STATE = {
   groups: [groupMock],
@@ -6,7 +6,7 @@ const INIT_STATE = {
 
 const PlanWithFriends = (state = INIT_STATE, action) => {
   switch (action.type) {
-    case "planWithFriends/addFriend":
+    case 'planWithFriends/addFriend':
       // Takes in a group id and a friend object to add to a group
       return {
         ...state,
@@ -21,6 +21,13 @@ const PlanWithFriends = (state = INIT_STATE, action) => {
             return updatedGroup;
           }
         }),
+      };
+    case 'planWithFriends/updateGroups':
+      console.log(`Action`);
+      console.log(action);
+      return {
+        ...state,
+        groups: [...action.payload],
       };
     default:
       return state;

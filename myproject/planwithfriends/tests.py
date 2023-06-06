@@ -126,7 +126,7 @@ class GroupListTests(TestCase):
         for group in response.data:
             assert group["group_info"]["organizer"] == user.id
             for guest in group["guests"]:
-                assert not guest.get("dashboard")
+                assert guest["dashboard"]["booked_PTO"] == []
                 assert not guest["accepted_invitation"]
 
 

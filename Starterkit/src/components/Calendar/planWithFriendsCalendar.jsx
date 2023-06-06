@@ -24,7 +24,12 @@ const computeAvailableDays = PTOPerMonth => {
   return availableDays;
 };
 
-export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
+export const GroupCard = ({
+  myProfile,
+  myData,
+  groupPayload,
+  nMonthsAhead,
+}) => {
   const [isDrilldown, setIsDrilldown] = useState(false);
   const [drilledDownMonth, setDrilledDownMonth] = useState(null);
 
@@ -43,17 +48,19 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
     dashboardData: myData,
     profilePic: myProfile.profilePic,
   };
+  console.log(`groups: `);
+  console.log(groupPayload);
 
-  console.log(friendsData);
+  groupPayload.guests.forEach(x => {
+    console.log(`each friend`);
+    console.log(x);
+    friendsData[x.name] = {
+      dashboardData: x.dashboard,
+      profilePic: x.profilePic,
+    };
+  });
 
-  groupInfo.friends.forEach(
-    x =>
-      (friendsData[x.name] = {
-        dashboardData: x.dashboard,
-        profilePic: x.profilePic,
-      })
-  );
-
+  console.log(`Friends data`);
   console.log(friendsData);
 
   const generateFriendCards = () => {
@@ -66,6 +73,7 @@ export const GroupCard = ({ myProfile, myData, groupInfo, nMonthsAhead }) => {
   const arrayOfBookedDates = [];
 
   Object.keys(friendsData).forEach(friend => {
+    console.log(`Friend: ${friend}`);
     arrayOfBookedDates.push(friendsData[friend].dashboardData.bookedPTO.dates);
   });
 

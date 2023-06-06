@@ -11,7 +11,7 @@ const nMonthsAheadDefault = 6;
 
 const PlanWithFriends = () => {
   const dispatch = useDispatch();
-  const [myProfile, setMyProfile] = useState({});
+  const [myProfile, setMyProfile] = useState();
 
   const fetchMyProfile = async () => {
     let data = await get('/dashboard/user');
@@ -37,29 +37,38 @@ const PlanWithFriends = () => {
     dispatch({ type: 'bookedPTO/add', payload: [...booked_dates] });
   };
 
+  // Fetch groups
+  const fetchGroups = async () => {
+    let groups = await get('/planwithfriends/groups');
+    dispatch({ type: 'planWithFriends/updateGroups', payload: [...groups] });
+  };
+
   useEffect(() => {
     fetchMyProfile();
     fetchMyDashboardData();
+    fetchGroups();
   }, []);
 
   const myDashboardData = useSelector(selectDashboardData);
   const groupData = useSelector(selectGroupInfo);
+  console.log(myProfile ? 'normal' : 'undefined');
 
   return (
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
           <h2>Plan with friends</h2>
-          {groupData.map(x => {
-            return (
-              <GroupCard
-                myProfile={myProfile}
-                myData={myDashboardData}
-                groupInfo={x}
-                nMonthsAhead={nMonthsAheadDefault}
-              />
-            );
-          })}
+          {myProfile !== undefined &&
+            groupData.map(x => {
+              return (
+                <GroupCard
+                  myProfile={myProfile}
+                  myData={myDashboardData}
+                  groupPayload={x}
+                  nMonthsAhead={nMonthsAheadDefault}
+                />
+              );
+            })}
         </Container>
       </div>
     </React.Fragment>
