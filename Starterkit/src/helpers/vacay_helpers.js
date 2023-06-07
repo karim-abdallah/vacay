@@ -77,11 +77,9 @@ export function getUniqueDates(arraysOfDates) {
     return false;
   };
 
-  for (const dates of arraysOfDates) {
-    for (const date of dates) {
-      if (!isDateAlreadyInSet(date)) {
-        uniqueDates.add(date);
-      }
+  for (const date of arraysOfDates) {
+    if (!isDateAlreadyInSet(date)) {
+      uniqueDates.add(date);
     }
   }
 

@@ -49,7 +49,7 @@ class GroupListView(APIView):
             guest_serializers = []
 
             for guest in guests:
-                guest_profile = User.objects.filter(id=guest.id).first()
+                guest_profile = User.objects.filter(id=guest.user_id).first()
                 guest_serializer = {
                     "name": f"{guest_profile.first_name} {guest_profile.last_name}",
                     "email": guest_profile.email,
@@ -66,10 +66,12 @@ class GroupListView(APIView):
                 # Only load dashboard data if friend has accepted request
                 # or if friend is self
                 if guest.accepted_invitation or guest.user_id == id:
-                    booked_PTO = BookedDays.objects.filter(user_id=guest.id).all()
-                    holidays = HolidaySetting.objects.filter(user_id=guest.id).all()
+                    booked_PTO = BookedDays.objects.filter(user_id=guest.user_id).all()
+                    holidays = HolidaySetting.objects.filter(
+                        user_id=guest.user_id
+                    ).all()
                     time_off_setting = TimeOffSetting.objects.filter(
-                        user_id=guest.id
+                        user_id=guest.user_id
                     ).first()
 
                     dashboard_serializer = {

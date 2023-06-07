@@ -31,21 +31,33 @@ const PlanWithFriends = () => {
     let bookedDays = await get('/dashboard/booked-days');
     // TODO: Fetch holidays as well
 
-    let booked_dates = [];
-    bookedDays.forEach(days => {
-      let date = new Date(days.date);
-      booked_dates.push(date);
-    });
-
     setMyDashboardData({
-      bookedPTO: [...booked_dates],
+      bookedPTO: [...bookedDays],
     });
   };
 
   // Fetch groups
   const fetchGroups = async () => {
     let groups = await get('/planwithfriends/groups');
-    setGroups([...groups]);
+    let formatted_groups = groups.map(x => {
+      return {
+        groupInfo: x.group_info,
+        guests: x.guests.map(x => {
+          return {
+            ...x,
+            profilePic: x.profile_pic,
+            acceptedInvitation: x.accepted_invitation,
+            acceptedBooking: x.accepted_booking,
+            dashboard: {
+              ...x.dashboard,
+              bookedPTO: [...x.dashboard.booked_PTO],
+              timeOffSetting: { ...x.dashboard.time_off_setting },
+            },
+          };
+        }),
+      };
+    });
+    setGroups([...formatted_groups]);
   };
 
   useEffect(() => {

@@ -70,7 +70,10 @@ export const GroupCard = ({
 
   Object.keys(friendsData).forEach(friend => {
     if (friendsData[friend].dashboardData.bookedPTO) {
-      arrayOfBookedDates.push(friendsData[friend].dashboardData.bookedPTO);
+      friendsData[friend].dashboardData.bookedPTO.forEach(days => {
+        let date = new Date(days.date);
+        arrayOfBookedDates.push(date);
+      });
     }
   });
 

@@ -59,9 +59,11 @@ class GroupListTests(TestCase):
             username=fake.word(),
             country="USA",
         )
+        self.first_group_name = "Trip to LA"
+        self.second_group_name = "Crans Montana"
         self.groups = [
-            self.MockGroup("Trip to LA", self.group_organizer),
-            self.MockGroup("Crans Montana", self.group_organizer),
+            self.MockGroup(self.first_group_name, self.group_organizer),
+            self.MockGroup(self.second_group_name, self.group_organizer),
         ]
 
     def test_get_all_groups_for_organizer_happy_path(self):
@@ -93,6 +95,32 @@ class GroupListTests(TestCase):
         assert len(response.data) == 2
         for group in response.data:
             assert group["group_info"]["organizer"] == user.id
+            # Assert that right groups are pulled
+            assert group["group_info"]["group_name"] in (
+                self.first_group_name,
+                self.second_group_name,
+            )
+
+            # Assert that correct guests are pulled
+            if group["group_info"]["group_name"] == self.first_group_name:
+                assert group["guests"][0]["email"] in (
+                    self.groups[0].group_guest_1.email,
+                    self.groups[0].group_guest_2.email,
+                )
+                assert group["guests"][1]["email"] in (
+                    self.groups[0].group_guest_1.email,
+                    self.groups[0].group_guest_2.email,
+                )
+            else:
+                assert group["guests"][0]["email"] in (
+                    self.groups[1].group_guest_1.email,
+                    self.groups[1].group_guest_2.email,
+                )
+                assert group["guests"][1]["email"] in (
+                    self.groups[1].group_guest_1.email,
+                    self.groups[1].group_guest_2.email,
+                )
+
             for guest in group["guests"]:
                 assert guest["dashboard"]
                 assert guest["accepted_invitation"]
@@ -125,6 +153,7 @@ class GroupListTests(TestCase):
         assert len(response.data) == 2
         for group in response.data:
             assert group["group_info"]["organizer"] == user.id
+            assert len(group["guests"]) == 2
             for guest in group["guests"]:
                 assert guest["dashboard"]["booked_PTO"] == []
                 assert not guest["accepted_invitation"]
