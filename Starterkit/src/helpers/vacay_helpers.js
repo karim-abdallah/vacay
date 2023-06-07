@@ -54,6 +54,17 @@ export const monthStartFormatter = date => {
 
 /* Date Manipulation Helpers */
 
+export const getCurrentMonth = () => {
+  return monthYearFormatter(firstDayOfCurrentMonth());
+};
+
+const firstDayOfCurrentMonth = () => {
+  const date = new Date();
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+
+  return firstDay;
+};
+
 export function getUniqueDates(arraysOfDates) {
   const uniqueDates = new Set();
 

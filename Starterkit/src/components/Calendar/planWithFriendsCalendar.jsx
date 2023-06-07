@@ -8,6 +8,7 @@ import {
   computeNextNMonths,
   getDaysInMonth,
   getUniqueDates,
+  getCurrentMonth,
 } from '../../helpers/vacay_helpers';
 import calendarIcon from '../../assets/images/calendarIcon.svg';
 import { defaultMonths } from '../../constants';
@@ -40,7 +41,7 @@ export const GroupCard = ({
     }
   };
   // 1. Compute name of N next months
-  const nNextMonthNames = computeNextNMonths(myData.currentMonth, nMonthsAhead);
+  const nNextMonthNames = computeNextNMonths(getCurrentMonth(), nMonthsAhead);
 
   // 2. Compute group data
   const friendsData = {};
@@ -48,33 +49,29 @@ export const GroupCard = ({
     dashboardData: myData,
     profilePic: myProfile.profilePic,
   };
-  console.log(`groups: `);
-  console.log(groupPayload);
 
   groupPayload.guests.forEach(x => {
-    console.log(`each friend`);
-    console.log(x);
     friendsData[x.name] = {
       dashboardData: x.dashboard,
       profilePic: x.profilePic,
     };
   });
 
-  console.log(`Friends data`);
-  console.log(friendsData);
-
   const generateFriendCards = () => {
+    // TODO: pass in status of accepted invite for friend
     const friendNames = Object.keys(friendsData);
     return friendNames.map(x => {
       return <FriendCard name={x} profilePic={friendsData[x].profilePic} />;
     });
   };
+
   // Determine bookedPTO for the whole group
   const arrayOfBookedDates = [];
 
   Object.keys(friendsData).forEach(friend => {
-    console.log(`Friend: ${friend}`);
-    arrayOfBookedDates.push(friendsData[friend].dashboardData.bookedPTO.dates);
+    if (friendsData[friend].dashboardData.bookedPTO) {
+      arrayOfBookedDates.push(friendsData[friend].dashboardData.bookedPTO);
+    }
   });
 
   const groupBookedPTO = getUniqueDates(arrayOfBookedDates);

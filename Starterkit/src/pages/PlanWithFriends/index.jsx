@@ -12,6 +12,8 @@ const nMonthsAheadDefault = 6;
 const PlanWithFriends = () => {
   const dispatch = useDispatch();
   const [myProfile, setMyProfile] = useState();
+  const [groups, setGroups] = useState();
+  const [myDashboardData, setMyDashboardData] = useState();
 
   const fetchMyProfile = async () => {
     let data = await get('/dashboard/user');
@@ -27,6 +29,7 @@ const PlanWithFriends = () => {
   // to fetch dashboard data from back-end.
   const fetchMyDashboardData = async () => {
     let bookedDays = await get('/dashboard/booked-days');
+    // TODO: Fetch holidays as well
 
     let booked_dates = [];
     bookedDays.forEach(days => {
@@ -34,13 +37,15 @@ const PlanWithFriends = () => {
       booked_dates.push(date);
     });
 
-    dispatch({ type: 'bookedPTO/add', payload: [...booked_dates] });
+    setMyDashboardData({
+      bookedPTO: [...booked_dates],
+    });
   };
 
   // Fetch groups
   const fetchGroups = async () => {
     let groups = await get('/planwithfriends/groups');
-    dispatch({ type: 'planWithFriends/updateGroups', payload: [...groups] });
+    setGroups([...groups]);
   };
 
   useEffect(() => {
@@ -49,17 +54,15 @@ const PlanWithFriends = () => {
     fetchGroups();
   }, []);
 
-  const myDashboardData = useSelector(selectDashboardData);
-  const groupData = useSelector(selectGroupInfo);
-  console.log(myProfile ? 'normal' : 'undefined');
-
   return (
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
           <h2>Plan with friends</h2>
           {myProfile !== undefined &&
-            groupData.map(x => {
+            groups !== undefined &&
+            myDashboardData !== undefined && // Set the ternary operator on a spinner
+            groups.map(x => {
               return (
                 <GroupCard
                   myProfile={myProfile}

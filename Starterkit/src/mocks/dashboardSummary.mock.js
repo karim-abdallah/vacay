@@ -2,7 +2,7 @@
 Assumes ordered list of months including all relevant data
 */
 
-import { monthYearFormatter } from '../helpers/vacay_helpers';
+import { getCurrentMonth } from '../helpers/vacay_helpers';
 
 export const mockData = {
   labels: [
@@ -41,15 +41,8 @@ export const mockData = {
   ],
 };
 
-export const firstDayOfCurrentMonth = () => {
-  const date = new Date();
-  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-
-  return firstDay;
-};
-
 export const mockApiResponse = {
-  currentMonth: monthYearFormatter(firstDayOfCurrentMonth()),
+  currentMonth: getCurrentMonth(),
   currentBalanceDays: 3,
   bookedPTO: {
     dates: [],
