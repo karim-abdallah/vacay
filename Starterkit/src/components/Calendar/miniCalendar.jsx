@@ -1,5 +1,5 @@
 import Calendar from "react-calendar";
-import { Card, Tag } from "reactstrap";
+import { Card } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { Tooltip } from "antd";
@@ -48,6 +48,7 @@ function MiniCalendar(props) {
   const [showCalendar, setShowCalendar] = useState(props.initialOpen);
   const [showConfirmationBox, setShowConfirmationBox] = useState(false);
   const [mouseSelection, setMouseSelection] = useState();
+  const [tagName, setTagName] = useState('');
 
   // Redux store
   const bookedDates = useSelector(selectBookedPTO);
@@ -62,6 +63,7 @@ function MiniCalendar(props) {
     setShowUnbookButton(false);
     setShowBookButton(true);
   };
+
   const displayUnbookButton = () => {
     setShowBookButton(false);
     setShowUnbookButton(true);
@@ -71,8 +73,6 @@ function MiniCalendar(props) {
     setShowBookButton(false);
     setShowUnbookButton(false);
   };
-  
- 
 
   const toggleButtons = () => {
     const bookButton = (
@@ -92,9 +92,9 @@ function MiniCalendar(props) {
 
     return <div> </div>;
   };
-  
+
   const ConfirmationBox = () => {
-    
+
     const selectedDatesWithoutWeekends = selectedDatesLocal.filter(
       (x) => !weekendDayIndex.includes(x.getDay())
     );
@@ -122,7 +122,7 @@ function MiniCalendar(props) {
             Days booked: <b>{selectedDatesWithoutWeekends.length}</b>
           </p>
           <p>
-            Name: <input type="text"/>
+            Name: <input type="text" value={tagName} onChange={handleNameChange} />
           </p>
           <CenteredFlexContainer>
             <StyledConfirmBookingButton onClick={handleBookNow}>
@@ -180,7 +180,6 @@ function MiniCalendar(props) {
   };
 
   const datesBullets = (currentMonth) => {
-    // console.log("currentMonth", bookedDates);
     // 1. Create PTO array { date(day) , type }
     // 2. create vacation array
     // 3. combine both arrays
@@ -288,7 +287,6 @@ function MiniCalendar(props) {
       hideButtons();
     } else {
       setSelectedDatesLocal([...datesWithoutHolidays]);
-      console.log("datesWithoutHolidays", datesWithoutHolidays);
 
       // 2.c if unselected and booked -> unbook and unselect
       if (isSelectionAlreadyBooked(datesWithoutHolidays, bookedDates)) {
@@ -327,7 +325,7 @@ function MiniCalendar(props) {
   const handleBookNow = async () => {
     await post("/dashboard/booked-days", {
       dates: adjustDateToTimezoneOffset(selectedDatesLocal),
-      // tags:tags
+      tag: tagName
     });
     hideButtons();
     dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
@@ -335,6 +333,7 @@ function MiniCalendar(props) {
     selectedDatesLocal.forEach((date) =>
       dispatch({ type: "selectedDates/delete", payload: date })
     );
+    
     setSelectedDatesLocal([]);
     handleShowConfirmation();
   };
@@ -372,13 +371,18 @@ function MiniCalendar(props) {
     setSelectedDatesLocal([]);
     handleShowConfirmation();
   };
+
+  const handleNameChange = (e) => {
+    setTagName(e.target.value)
+  };
+
   return (
     <CalendarContainer
       onClick={!showCalendar ? handleShowCalendar : null}
       showpointer={showCalendar ? "true" : "false"}
     >
       {showConfirmationBox ? (
-        <ConfirmationBox/>
+        <ConfirmationBox />
       ) : (
         <>
           <div>
@@ -406,7 +410,7 @@ function MiniCalendar(props) {
                 value={mouseSelection}
                 formatShortWeekday={(locale, value) =>
                   ["Su", "Mo", "Tu", "We", "Th", "Fri", "Sa", "Su"][
-                    value.getDay()
+                  value.getDay()
                   ]
                 }
               />
@@ -530,7 +534,7 @@ const CalendarContainer = styled(Card)`
   cursor: ${(props) => (props.showpointer === "true" ? "auto" : "pointer")};
   &:hover {
     background-color: ${(props) =>
-      props.showpointer !== "true" && cardHoverColor};
+    props.showpointer !== "true" && cardHoverColor};
   }
 `;
 

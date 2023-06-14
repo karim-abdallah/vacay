@@ -363,11 +363,13 @@ const Footer = () => {
     </div>
   );
 };
+
 const goToBlog = () => {
   window.open(
     "https://vacay-live.notion.site/Vacay-Blog-8bb71268be634ef2a029403032371605"
   );
 };
+
 const Landing = () => {
   const [showGetStarted, setShowGetStarted] = useState(false);
   const [showContent, setShowContent] = useState(true);
