@@ -725,3 +725,30 @@ input[type=number]::-webkit-outer-spin-button {
   cursor: pointer;
   background-color: rgb(255, 255, 255, 0.3);
 }
+.btns{
+  max-width: 364px;
+  margin: 0px auto;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  background: #959BBA;
+  padding: 5px;
+  border-radius: 50px;
+  gap: 10px;
+  margin-bottom: 50px;
+  color: #2B3674 !important;
+  
+}
+.btns button{
+  color: #2B3674 !important;
+  border-radius: 50px;
+  width: 100%;
+  border: none ;
+  font-weight: 700;
+  font-size: 20px;
+}
+.overage-text{
+  color: white;
+  font-size: 22px;
+  font-style: italic;
+}
