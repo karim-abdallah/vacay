@@ -64,8 +64,7 @@ const Dashboard = () => {
       let date = new Date(days.date);
       booked_dates.push(date);
     });
-
-    dispatch({ type: 'bookedPTO/add', payload: [...booked_dates] });
+    dispatch({ type: 'bookedPTO/update', payload: [...booked_dates] });
     dispatch({ type: 'settings/update', payload: PTOSettings });
   };
   useEffect(() => {

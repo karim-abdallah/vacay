@@ -3,6 +3,9 @@ from rest_framework import serializers
 
 
 class TimeOffSettingSerializer(serializers.ModelSerializer):
+
+    current_balance_days = serializers.FloatField()
+
     class Meta:
         model = TimeOffSetting
         fields = [
@@ -56,4 +59,3 @@ class BookedDaysSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookedDays
         fields = "__all__"
-
