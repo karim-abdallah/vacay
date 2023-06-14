@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const ActionButton = styled.button`
   padding: 2% 0px;
@@ -31,4 +31,11 @@ export const StyledCancelUnbookButton = styled(ActionButton)`
   background-color: rgba(109, 121, 148, 0.25);
   color: rgba(255, 255, 255, 0.7);
   margin-left: 7%;
+`;
+
+export const CreateGroupButton = styled(ActionButton)`
+  background-color: #36438c;
+  color: white;
+  width: 150px;
+  height: 20px;
 `;

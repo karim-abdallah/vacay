@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Card, CardBody } from 'reactstrap';
-import { useSelector, useDispatch } from 'react-redux';
 import { GroupCard } from '../../components/Calendar/planWithFriendsCalendar';
-import { selectDashboardData } from '../../store/dashboard/selector';
-import { selectGroupInfo } from '../../store/planWithFriends/selectors';
 import { get } from '../../helpers/api_helper';
-import { selectProfileData } from '../../store/profile/selector';
+import { CreateGroup } from './CreateGroup';
 
 const nMonthsAheadDefault = 6;
 
 const PlanWithFriends = () => {
-  const dispatch = useDispatch();
   const [myProfile, setMyProfile] = useState();
   const [groups, setGroups] = useState();
   const [myDashboardData, setMyDashboardData] = useState();
@@ -84,6 +80,7 @@ const PlanWithFriends = () => {
                 />
               );
             })}
+          <CreateGroup />
         </Container>
       </div>
     </React.Fragment>
