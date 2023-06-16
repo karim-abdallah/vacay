@@ -59,11 +59,12 @@ class RegisterView(APIView):
 
 
 class GoogleView(APIView):
-    def post(self, request):
-        payload = {'access_token': request.data.get(
-            "token")}  # validate the token
+    def get(self, request):
+        payload = {'access_token': 'ya29.a0AWY7CkkX2L1ISBPu3G2RyFcrZigLh49cYo06s7Va700P3LnE6oeHKkShHPYvTwUYWYD-a2IBlvRDxUDvYR9KGifvrfw420OCyfmqhAUGpUR-cmZ5GPeeV18qhsZ6-NBPCQqnGpOpfjbcDjpQus5MfNitGD-r2gaCgYKAUsSARMSFQG1tDrpc5CD_Dr4Rb4unsT-raBLuQ0165'}  # validate the token
+        
         r = requests.get(
             'https://www.googleapis.com/oauth2/v2/userinfo', params=payload)
+        
         data = json.loads(r.text)
 
         if 'error' in data:
@@ -72,7 +73,11 @@ class GoogleView(APIView):
             return Response(content)
 
         # create user if not exist
+        # return Response(data)
+    
+
         try:
+            print(data)
             user = User.objects.get(email=data['email'])
         except User.DoesNotExist:
             user = User()
@@ -220,7 +225,7 @@ class HelloView(APIView):
             'redirect_uri': 'http://localhost:3000',
             'response_type': 'token',
             'scope': 'profile',
-            'access_type':'offline'
+            'access_type':'online'
         })
 
         encoded_url = url + encoded_params

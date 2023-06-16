@@ -6,6 +6,11 @@ TIME_OFF_CURRENT_BALANCE_DECIMAL_PRECISION = 10
 
 
 class User(AbstractUser):
+    class ProivderType(models.TextChoices):
+        EMAIL = "email", ""
+        FACEBOOK = "facebook", ""
+        GOOGLE = "google", ""
+
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.CharField(max_length=100, unique=True)
@@ -14,6 +19,7 @@ class User(AbstractUser):
     profile_pic = models.CharField(max_length=100, null=True)
     is_logged_in = models.BooleanField(default=False)
     country = models.CharField(max_length=100, null=True)
+    provider = models.CharField(max_length=25, choices=ProivderType.choices, default=ProivderType.EMAIL)
 
     USERNAME_FIELD = "email"  # this is used to make the email field as the primary key
     REQUIRED_FIELDS = [
