@@ -31,15 +31,15 @@ def holidays(country):
     US = [
         {
             "name": "New Year's Day",
-            "date": "2023/01/02"
+            "date": "2024/01/01"
         },
         {
             "name": "Martin Luther King Jr. Day",
-            "date": "2023/01/16"
+            "date": "2024/01/16"
         },
         {
             "name": "Presidents' Day",
-            "date": "2023/02/20"
+            "date": "2024/02/20"
         },
         {
             "name": "Independence Day",
@@ -73,11 +73,11 @@ def holidays(country):
     France = [
         {
             "name": "New Year's Day",
-            "date": "2023/01/01"
+            "date": "2024/01/01"
         },
         {
             "name": "Easter Monday",
-            "date": "2023/04/10"
+            "date": "2024/04/10"
         },
         {
             "name": "Labor Day",
@@ -123,7 +123,7 @@ def holidays(country):
     Others = [
         {
             "name": "New Year's Day",
-            "date": "2023/01/01"
+            "date": "2024/01/01"
         },
         {
             "name": "Christmas Day",

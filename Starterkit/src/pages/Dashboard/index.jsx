@@ -58,7 +58,6 @@ const Dashboard = () => {
       ptoCap: data.accrual_cap_days,
       ptoBalance: data.current_balance_days,
     };
-
     let booked_dates = [];
     bookedDays.forEach(days => {
       let date = new Date(days.date);
@@ -73,7 +72,7 @@ const Dashboard = () => {
       fetchFirstName();
       fetchHoliday();
     }, 500);
-  });
+  }, []);
 
   const [firstName, setFirstName] = useState('');
   // Fetch FirstName from back-end

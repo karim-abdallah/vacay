@@ -9,7 +9,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-import json
 
 from .serializers import (
     BookedDaysSerializer,
@@ -22,6 +21,7 @@ from .utils import generate_presigned_url, holidays
 
 
 class UserView(APIView):
+
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -102,7 +102,6 @@ class TimeOffSettingList(APIView):
         """
         Get time off settings for a specific requesting user
         """
-
         id = request.user.id
 
         time_off_setting = get_object_or_404(TimeOffSetting, user_id=id)
@@ -138,9 +137,11 @@ class TimeOffSettingList(APIView):
         user.is_logged_in = True
         user.save()
 
-        time_off_setting_to_update = get_object_or_404(TimeOffSetting, user_id=id)
+        time_off_setting_to_update = get_object_or_404(
+            TimeOffSetting, user_id=id)
 
-        serializer = TimeOffSettingSerializer(time_off_setting_to_update, data=data)
+        serializer = TimeOffSettingSerializer(
+            time_off_setting_to_update, data=data)
 
         if serializer.is_valid():
             serializer.save()
@@ -191,6 +192,15 @@ class UpdateHolidayStatus(APIView):
         country = User.objects.get(id=data["user_id"]).country
         data["country"] = country
 
+        date = datetime.datetime.strptime(data['date'], '%Y/%m/%d').date()
+
+        # if date already exist then delete from BookedDays table
+        booked_holiday = BookedDays.objects.filter(
+            user_id=data['user_id'], date=date)
+
+        if booked_holiday.exists():
+            booked_holiday.delete()
+
         HolidaySetting.objects.create(**data)
 
         return Response(
@@ -207,8 +217,6 @@ class UpdateHolidayStatus(APIView):
             {"detail": "Records Updated Successfully"}, status=status.HTTP_200_OK
         )
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 class BookedDaysView(APIView):
 
@@ -219,15 +227,14 @@ class BookedDaysView(APIView):
         data = request.data
         user = self.request.user.id
 
-        data["dates"] = [i.split("T")[0] for i in data["dates"]]
-        dates = data["dates"]
+        data['dates'] = [i.split('T')[0] for i in data['dates']]
+        dates = data['dates']
+        tag = data['tag']
 
         for i in dates:
-            BookedDays.objects.create(user_id=user, date=i)
+            BookedDays.objects.create(user_id=user, date=i, tag=tag)
 
-        return Response(
-            {"detail": "Records Created Successfully"}, status=status.HTTP_201_CREATED
-        )
+        return Response({"detail": "Records Created Successfully"}, status=status.HTTP_201_CREATED)
 
     def get(self, request):
 
@@ -240,12 +247,10 @@ class BookedDaysView(APIView):
 
         data = request.data
         user = self.request.user.id
-        data["dates"] = [i.split("T")[0] for i in data["dates"]]
-        dates = data["dates"]
+        data['dates'] = [i.split('T')[0] for i in data['dates']]
+        dates = data['dates']
 
         for i in dates:
             BookedDays.objects.filter(user_id=user, date=i).delete()
 
-        return Response(
-            {"detail": "Records Deleted Successfully"}, status=status.HTTP_202_ACCEPTED
-        )
+        return Response({'detail': "Records Deleted Successfully"}, status=status.HTTP_202_ACCEPTED)

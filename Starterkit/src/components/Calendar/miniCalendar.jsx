@@ -1,22 +1,22 @@
-import Calendar from 'react-calendar';
-import { Card } from 'reactstrap';
-import { useSelector, useDispatch } from 'react-redux';
-import { useState } from 'react';
-import { Tooltip } from 'antd';
+import Calendar from "react-calendar";
+import { Card } from "reactstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
+import { Tooltip } from "antd";
 import {
   selectBookedPTO,
   selectHolidaysDates,
   getHolidays,
   getSelectedDates,
   getDatesToUnbook,
-} from '../../store/dashboard/selector';
+} from "../../store/dashboard/selector";
 import {
   bookedPtoColor,
   toggleButtonBackgroundColor,
   cardHoverColor,
   tooltipBackground,
-} from '../../styles/constants';
-import { weekendDayIndex } from '../../constants';
+} from "../../styles/constants";
+import { weekendDayIndex } from "../../constants";
 import {
   monthYearFormatter,
   isSameDay,
@@ -28,17 +28,17 @@ import {
   isDayInThePast,
   generateDayOffset,
   adjustDateToTimezoneOffset,
-} from '../../helpers/vacay_helpers';
+} from "../../helpers/vacay_helpers";
 import {
   StyledBookButton,
   StyledUnbookButton,
   StyledCancelBookingButton,
   StyledConfirmBookingButton,
   StyledCancelUnbookButton,
-} from './buttons.jsx';
-import styled from 'styled-components';
-import minimize from '../../assets/images/minimize.png';
-import { post, patch } from '../../helpers/api_helper';
+} from "./buttons.jsx";
+import styled from "styled-components";
+import minimize from "../../assets/images/minimize.png";
+import { post, patch } from "../../helpers/api_helper";
 
 function MiniCalendar(props) {
   // Local variables
@@ -48,6 +48,7 @@ function MiniCalendar(props) {
   const [showCalendar, setShowCalendar] = useState(props.initialOpen);
   const [showConfirmationBox, setShowConfirmationBox] = useState(false);
   const [mouseSelection, setMouseSelection] = useState();
+  const [tagName, setTagName] = useState('');
 
   // Redux store
   const bookedDates = useSelector(selectBookedPTO);
@@ -62,6 +63,7 @@ function MiniCalendar(props) {
     setShowUnbookButton(false);
     setShowBookButton(true);
   };
+
   const displayUnbookButton = () => {
     setShowBookButton(false);
     setShowUnbookButton(true);
@@ -92,21 +94,22 @@ function MiniCalendar(props) {
   };
 
   const ConfirmationBox = () => {
+
     const selectedDatesWithoutWeekends = selectedDatesLocal.filter(
-      x => !weekendDayIndex.includes(x.getDay())
+      (x) => !weekendDayIndex.includes(x.getDay())
     );
 
     const unselectedDatesWithoutWeekends = datesToUnbook.filter(
-      x => !weekendDayIndex.includes(x.getDay())
+      (x) => !weekendDayIndex.includes(x.getDay())
     );
 
     if (showBookButton) {
       return (
         <StyledBookingConfirmationBox>
           <p>
-            Selected dates:{' '}
+            Selected dates:{" "}
             <strong>
-              {selectedDates[0]?.toLocaleDateString()} -{' '}
+              {selectedDates[0]?.toLocaleDateString()} -{" "}
               {selectedDates[
                 selectedDatesLocal.length - 1
               ]?.toLocaleDateString()}
@@ -117,6 +120,9 @@ function MiniCalendar(props) {
           </p>
           <p>
             Days booked: <b>{selectedDatesWithoutWeekends.length}</b>
+          </p>
+          <p>
+            Name: <input type="text" value={tagName} onChange={handleNameChange} />
           </p>
           <CenteredFlexContainer>
             <StyledConfirmBookingButton onClick={handleBookNow}>
@@ -132,9 +138,9 @@ function MiniCalendar(props) {
       return (
         <StyledUnbookConfirmationBox>
           <p>
-            Selected dates:{' '}
+            Selected dates:{" "}
             <strong>
-              {datesToUnbook[0]?.toLocaleDateString()} -{' '}
+              {datesToUnbook[0]?.toLocaleDateString()} -{" "}
               {datesToUnbook[datesToUnbook.length - 1]?.toLocaleDateString()}
             </strong>
           </p>
@@ -161,9 +167,9 @@ function MiniCalendar(props) {
 
   const cancelSelection = () => {
     // remove global selected dates
-    selectedDatesLocal.forEach(date => {
-      dispatch({ type: 'selectedDates/delete', payload: date });
-      dispatch({ type: 'datesToUnbook/delete', payload: date });
+    selectedDatesLocal.forEach((date) => {
+      dispatch({ type: "selectedDates/delete", payload: date });
+      dispatch({ type: "datesToUnbook/delete", payload: date });
     });
     // clear local selection
     setSelectedDatesLocal([]);
@@ -173,7 +179,7 @@ function MiniCalendar(props) {
     // cancel mouse selection
   };
 
-  const datesBullets = currentMonth => {
+  const datesBullets = (currentMonth) => {
     // 1. Create PTO array { date(day) , type }
     // 2. create vacation array
     // 3. combine both arrays
@@ -181,19 +187,19 @@ function MiniCalendar(props) {
     // 5. map: if {type -> return typeBullet(date)} else the other
     const ptoArray = bookedDates
       .filter(
-        x =>
+        (x) =>
           x.getMonth() === currentMonth && !weekendDayIndex.includes(x.getDay())
       )
-      .map(x => {
-        return { date: x.getDate(), kind: 'PTO' };
+      .map((x) => {
+        return { date: x.getDate(), kind: "PTO" };
       });
 
     const holidaysArray = holidaysWithNames.HOLIDAYSettings.filter(
-      x => x.active
+      (x) => x.active
     )
-      .filter(x => x.date.getMonth() === currentMonth)
-      .map(x => {
-        return { date: x.date.getDate(), name: x.name, kind: 'Holiday' };
+      .filter((x) => x.date.getMonth() === currentMonth)
+      .map((x) => {
+        return { date: x.date.getDate(), name: x.name, kind: "Holiday" };
       });
 
     // 3. combine both arrays
@@ -204,9 +210,9 @@ function MiniCalendar(props) {
 
     if (sortedArray.length <= 5) {
       return sortedArray.map((x, index) => {
-        if (x.kind === 'PTO') {
+        if (x.kind === "PTO") {
           return <BookedPTOBullet>{x.date}</BookedPTOBullet>;
-        } else if (x.kind === 'Holiday') {
+        } else if (x.kind === "Holiday") {
           return (
             <Tooltip title={x.name} color={tooltipBackground}>
               <HolidayBullet>{x.date}</HolidayBullet>
@@ -226,9 +232,9 @@ function MiniCalendar(props) {
               <Dots>...</Dots>
             </BookedPTOBullet>
           );
-        } else if (x.kind === 'PTO') {
+        } else if (x.kind === "PTO") {
           return <BookedPTOBullet>{x.date}</BookedPTOBullet>;
-        } else if (x.kind === 'Holiday') {
+        } else if (x.kind === "Holiday") {
           return (
             <Tooltip title={x.name} color={tooltipBackground}>
               <HolidayBullet>{x.date}</HolidayBullet>
@@ -243,21 +249,21 @@ function MiniCalendar(props) {
 
   const tileFormatting = ({ date, view }) => {
     // Format specific tiles based on certain rules
-    if (selectedDates.find(dDate => isSameDay(dDate, date))) {
-      return 'selectedDates';
-    } else if (datesToUnbook.find(dDate => isSameDay(dDate, date))) {
-      return 'datesToUnbook';
-    } else if (holidayDates.find(dDate => isSameDay(dDate, date))) {
-      return 'holidays';
-    } else if (bookedDates.find(dDate => isSameDay(dDate, date))) {
-      return 'bookedDays';
+    if (selectedDates.find((dDate) => isSameDay(dDate, date))) {
+      return "selectedDates";
+    } else if (datesToUnbook.find((dDate) => isSameDay(dDate, date))) {
+      return "datesToUnbook";
+    } else if (holidayDates.find((dDate) => isSameDay(dDate, date))) {
+      return "holidays";
+    } else if (bookedDates.find((dDate) => isSameDay(dDate, date))) {
+      return "bookedDays";
     } else if (isDayInThePast(date)) {
-      return 'pastDates';
+      return "pastDates";
     }
-    return 'inactiveDays';
+    return "inactiveDays";
   };
 
-  const handleDateSelection = valueRange => {
+  const handleDateSelection = (valueRange) => {
     // 1. Filter out values
     const dateValues = convertDateRangeToDiscreteDates(valueRange);
     const datesWithoutHolidays = [
@@ -269,9 +275,9 @@ function MiniCalendar(props) {
 
     // clear out existing selections
     // for both selected and dates to unbook.
-    selectedDatesLocal.forEach(date => {
-      dispatch({ type: 'selectedDates/delete', payload: date });
-      dispatch({ type: 'datesToUnbook/delete', payload: date });
+    selectedDatesLocal.forEach((date) => {
+      dispatch({ type: "selectedDates/delete", payload: date });
+      dispatch({ type: "datesToUnbook/delete", payload: date });
     });
 
     // 2. decision tree
@@ -285,16 +291,16 @@ function MiniCalendar(props) {
       // 2.c if unselected and booked -> unbook and unselect
       if (isSelectionAlreadyBooked(datesWithoutHolidays, bookedDates)) {
         // populate datesToCancel
-        datesWithoutHolidays.map(date =>
-          dispatch({ type: 'datesToUnbook/add', payload: date })
+        datesWithoutHolidays.map((date) =>
+          dispatch({ type: "datesToUnbook/add", payload: date })
         );
         displayUnbookButton();
       }
 
       // 2.d if unselected and unbooked -> book and unselect
       else {
-        datesWithoutAlreadyBooked.map(date =>
-          dispatch({ type: 'selectedDates/add', payload: date })
+        datesWithoutAlreadyBooked.map((date) =>
+          dispatch({ type: "selectedDates/add", payload: date })
         );
         displayBookButton();
       }
@@ -317,45 +323,47 @@ function MiniCalendar(props) {
   };
 
   const handleBookNow = async () => {
-    await post('/dashboard/booked-days', {
+    await post("/dashboard/booked-days", {
       dates: adjustDateToTimezoneOffset(selectedDatesLocal),
+      tag: tagName
     });
     hideButtons();
-    dispatch({ type: 'bookedPTO/add', payload: [...selectedDatesLocal] });
+    dispatch({ type: "bookedPTO/add", payload: [...selectedDatesLocal] });
 
-    selectedDatesLocal.forEach(date =>
-      dispatch({ type: 'selectedDates/delete', payload: date })
+    selectedDatesLocal.forEach((date) =>
+      dispatch({ type: "selectedDates/delete", payload: date })
     );
+    
     setSelectedDatesLocal([]);
     handleShowConfirmation();
   };
 
   const handleUnbook = async () => {
-    await patch('/dashboard/booked-days', {
+    await patch("/dashboard/booked-days", {
       dates: adjustDateToTimezoneOffset(selectedDatesLocal),
     });
     hideButtons();
-    selectedDatesLocal.forEach(date => {
-      dispatch({ type: 'datesToUnbook/delete', payload: date });
-      dispatch({ type: 'bookedPTO/delete', payload: date });
+    selectedDatesLocal.forEach((date) => {
+      dispatch({ type: "datesToUnbook/delete", payload: date });
+      dispatch({ type: "bookedPTO/delete", payload: date });
       // unbook week-ends if either monday or friday selected to unbook
       if (date.getDay() === 5) {
         dispatch({
-          type: 'bookedPTO/delete',
+          type: "bookedPTO/delete",
           payload: generateDayOffset(date, 1),
         });
         dispatch({
-          type: 'bookedPTO/delete',
+          type: "bookedPTO/delete",
           payload: generateDayOffset(date, 2),
         });
       }
       if (date.getDay() === 1) {
         dispatch({
-          type: 'bookedPTO/delete',
+          type: "bookedPTO/delete",
           payload: generateDayOffset(date, -1),
         });
         dispatch({
-          type: 'bookedPTO/delete',
+          type: "bookedPTO/delete",
           payload: generateDayOffset(date, -2),
         });
       }
@@ -364,10 +372,14 @@ function MiniCalendar(props) {
     handleShowConfirmation();
   };
 
+  const handleNameChange = (e) => {
+    setTagName(e.target.value)
+  };
+
   return (
     <CalendarContainer
       onClick={!showCalendar ? handleShowCalendar : null}
-      showpointer={showCalendar ? 'true' : 'false'}
+      showpointer={showCalendar ? "true" : "false"}
     >
       {showConfirmationBox ? (
         <ConfirmationBox />
@@ -376,7 +388,7 @@ function MiniCalendar(props) {
           <div>
             <CalendarHeaderContainer>
               <StyledMonthTitle showCalendar={showCalendar}>
-                {monthYearFormatter(props.startDate)}{' '}
+                {monthYearFormatter(props.startDate)}{" "}
               </StyledMonthTitle>
               {showCalendar ? (
                 <ToggleCalendarButton onClick={handleShowCalendar}>
@@ -397,8 +409,8 @@ function MiniCalendar(props) {
                 selectRange={true}
                 value={mouseSelection}
                 formatShortWeekday={(locale, value) =>
-                  ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fri', 'Sa', 'Su'][
-                    value.getDay()
+                  ["Su", "Mo", "Tu", "We", "Th", "Fri", "Sa", "Su"][
+                  value.getDay()
                   ]
                 }
               />
@@ -423,6 +435,11 @@ const StyledBookingConfirmationBox = styled(Card)`
   background-color: rgba(106, 72, 255, 0.05);
   margin: 20% 7%;
   padding: 7%;
+
+  input[type="text"] {
+    border: none;
+    border-bottom: 1px solid ${bookedPtoColor};
+  }
 `;
 
 const StyledUnbookConfirmationBox = styled(Card)`
@@ -499,11 +516,11 @@ const StyledMonthTitle = styled.b`
   position: relative;
   font-size: 13px;
   font-weight: bold;
-  left: ${props => (props.showCalendar ? '20px' : '0px')};
+  left: ${(props) => (props.showCalendar ? "20px" : "0px")};
 `;
 
 const CalendarContainer = styled(Card)`
-  font-family: 'DM Sans';
+  font-family: "DM Sans";
   font-size: 12px;
   abbr[title] {
     border-bottom: none !important;
@@ -514,10 +531,10 @@ const CalendarContainer = styled(Card)`
   display: flex;
   flex-direction: column;
   min-height: 120px;
-  cursor: ${props => (props.showpointer === 'true' ? 'auto' : 'pointer')};
+  cursor: ${(props) => (props.showpointer === "true" ? "auto" : "pointer")};
   &:hover {
-    background-color: ${props =>
-      props.showpointer !== 'true' && cardHoverColor};
+    background-color: ${(props) =>
+    props.showpointer !== "true" && cardHoverColor};
   }
 `;
 

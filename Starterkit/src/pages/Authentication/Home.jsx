@@ -1,16 +1,20 @@
-import React from "react";
-import { Container, Row, Col } from "reactstrap";
-import Logo from "../../assets/images/logo-vaccay.svg";
-import Calendar1 from "../../assets/images/calendar_vac1.svg";
-import Cal02 from "../../assets/images/cal02.svg";
-import Calender3 from "../../assets/images/calender3.svg";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Container, Row } from "reactstrap";
 import SmallEarnings from "../../assets/images/Small_Earnings.svg";
-import { useState, useEffect } from "react";
+import Cal02 from "../../assets/images/cal02.svg";
+import Calendar1 from "../../assets/images/calendar_vac1.svg";
+import Calender3 from "../../assets/images/calender3.svg";
+import pic1 from "../../assets/images/Data-backup 1.png";
+import pic2 from "../../assets/images/Business-People-Analyzing-Growth-Charts 1.png";
+import pic3 from "../../assets/images/People-of-different-races-together 1.png";
+import Logo from "../../assets/images/logo-vaccay.svg";
+import personalimg from "../../assets/images/personal.svg";
+import businessImg from "../../assets/images/business.svg";
 // Redux
 import { Link } from "react-router-dom";
 import { post } from "../../helpers/api_helper";
 
-const Header = ({ isMobile, onGetStartedClick }) => {
+const Header = ({ isMobile, onGetStartedClick, personal }) => {
   return (
     <section>
       <div className="row justify-content-between mobile-logo">
@@ -34,7 +38,11 @@ const Header = ({ isMobile, onGetStartedClick }) => {
                 <img src={Logo} alt="vacay" />
               </Link>
             </div>
-            <div className="col-2 offset-md-5 text-end ">
+
+            <div
+              className="col-2 offset-md-5 text-end "
+              style={personal === true ? { display: "none" } : {}}
+            >
               <button className="login-btn">
                 <Link to="/login" className="routeme">
                   {" "}
@@ -42,14 +50,25 @@ const Header = ({ isMobile, onGetStartedClick }) => {
                 </Link>
               </button>
             </div>
-            <div className="col-2 text-end">
+            <div
+              className="col-2 text-end"
+              style={personal === true ? { display: "none" } : {}}
+            >
               <Link to="/register">
                 <button className="signup-btn">Sign Up</button>
               </Link>
             </div>
+            {personal === true && (
+              <div className="col-2 text-end">
+                <Link to="https://www.google.com/">
+                  <button className="signup-btn">Book Demo</button>
+                </Link>
+              </div>
+            )}
           </>
         )}
       </div>
+
       <hr className="hr-for-header" />
     </section>
   );
@@ -157,18 +176,44 @@ const GetStarted = () => {
   );
 };
 
-const Banner = ({ isMobile, onGetStartedClick }) => {
+const Banner = ({ isMobile, onGetStartedClick, personal, setPersonal }) => {
   return (
     <div className="container banner-content">
+      <div className="btns">
+        <Button
+          style={{ background: personal === false ? "#F4F7FE" : "transparent" }}
+          onClick={() => setPersonal(false)}
+        >
+          <img
+            src={personalimg}
+            style={{ marginBottom: "4px", marginRight: "4px" }}
+            alt="personal"
+          />
+          Personal
+        </Button>
+        <Button
+          style={{ background: personal === true ? "#F4F7FE" : "transparent" }}
+          onClick={() => setPersonal(true)}
+        >
+          <img
+            src={businessImg}
+            style={{ marginBottom: "4px" }}
+            alt="personal"
+          />{" "}
+          Business
+        </Button>
+      </div>
       <div className="row">
         <div className="col-md-6">
           <h1 className="main-heading">
-            Make booking time off a task to look forward to
+            {personal === true
+              ? " Unlock the full potential of your workforce data"
+              : " Make booking time off a task to look forward to"}
           </h1>
           <p className="sub-heading">
-            Optimize your time off using our user-friendly interface and
-            forward-looking balances. Sync with friends to plan the perfect
-            vacation together.
+            {personal === true
+              ? "Tap into $2,600* potential savings per employee by effectively managing paid time off (PTO) liability. Rely on data analysis to improve retention and well-being."
+              : "Optimize your time off using our user-friendly interface and forward-looking balances. Sync with friends to plan the perfectvacation together."}
           </p>
           <div className="get-start-btn">
             {isMobile ? (
@@ -179,9 +224,15 @@ const Banner = ({ isMobile, onGetStartedClick }) => {
               </div>
             ) : (
               <div>
-                <Link to="/register">
-                  <button className="signup-btn">Get Started &gt;</button>
-                </Link>
+                {personal === true ? (
+                  <Link to="https://www.google.com/">
+                    <button className="signup-btn">Book Demo &gt;</button>
+                  </Link>
+                ) : (
+                  <Link to="/register">
+                    <button className="signup-btn">Get Started &gt;</button>
+                  </Link>
+                )}
               </div>
             )}
           </div>
@@ -201,61 +252,121 @@ const Banner = ({ isMobile, onGetStartedClick }) => {
   );
 };
 
-const Planner = ({ isMobile, onGetStartedClick }) => {
+const Planner = ({ isMobile, onGetStartedClick, personal }) => {
   return (
     <div>
       <div className="planner-heading">
-        <p>
-          Your <span className="planner-heading-color">personal time off</span>{" "}
-          planner
-        </p>
+        {personal === true ? (
+          <p>
+            <span className="planner-heading-color"> Your ideal </span>
+            HR analytics
+            <span className="planner-heading-color"> partner </span>
+          </p>
+        ) : (
+          <p>
+            Your{" "}
+            <span className="planner-heading-color">personal time off</span>{" "}
+            planner
+          </p>
+        )}
       </div>
       <div className="container">
         <div className="row my-5 planner-boxes justify-content-center">
           <div className="col-md-4 ">
             <div className="screens sc-1 ">
               <h4 className="box-heading">
-                Easily book and store your days off
+                {personal === true
+                  ? "Easy and secured setup"
+                  : "Easily book and store your days off "}
               </h4>
               <h5 className="box-sub-heading">
-                Book your PTO with just a few clicks and store all your bookings
-                in one place.
+                {personal === true
+                  ? "Vacay seamlessly integrates with your current HR information systems, guaranteeing the utmost security for your sensitive data"
+                  : " Book your PTO with just a few clicks and store all your booking in one place"}
               </h5>
               <br></br>
-              <img src={Calendar1} className="planner-img" alt="calender1" />
+              {personal === true ? (
+                <img
+                  src={pic1}
+                  className="planner-img"
+                  style={{
+                    left: "0px",
+                    paddingTop: "25px",
+                    paddingBottom: "40px",
+                  }}
+                  alt="pic1"
+                />
+              ) : (
+                <img src={Calendar1} className="planner-img" alt="calender1" />
+              )}
               <br />
               <br />
-              <img src={Cal02} className="planner-img" alt="calender2" />
+              {personal === false && (
+                <img src={Cal02} className="planner-img" alt="calender2" />
+              )}
             </div>
           </div>
           <div className="col-md-4">
-            <div className="screens sc-2 ">
-              <h4 className="box-heading">Visualize and forecast your PTO</h4>
+            <div
+              className="screens sc-2"
+              style={{ height: personal === true ? "auto" : "inherit" }}
+            >
+              <h4 className="box-heading">
+                {personal === true
+                  ? "Powerful people management analytics"
+                  : "  Visualize and forecast your PTO"}
+              </h4>
               <h5 className="box-sub-heading">
-                See how much time off you have left and plan your next vacation
-                with ease.
+                {personal === true
+                  ? "Leverage data analytics to identify direct cost reductions linked to PTO liability and predict resignations within your workforce."
+                  : "  See how much time off you have left and plan your next vacation with ease."}
               </h5>
               <br></br>
               <br></br>
               <br></br>
               <br></br>
-              <img src={Calender3} className="planner-img" alt="calender1" />
+              {personal === true ? (
+                <img
+                  src={pic2}
+                  className="planner-img"
+                  style={{ left: "0px" }}
+                  alt="pic2"
+                />
+              ) : (
+                <img src={Calender3} className="planner-img" alt="calender1" />
+              )}
             </div>
           </div>
           <div className="col-md-4">
             <div className="screens sc-3 ">
               <h4 className="box-heading">
-                Plan with friends & family, seamlessly
+                {personal === true
+                  ? "Actionable and tailored recommendations"
+                  : "  Plan with friends & family, seamlessly"}
               </h4>
               <h5 className="box-sub-heading">
-                Plan trips together based on availability and easily sync
-                calendars.
+                {personal === true
+                  ? "Rely on analytics to implement action plans at employee level to improve retention and promote well-being proactively."
+                  : " Plan trips together based on availability and easily sync calendars."}
               </h5>
-              <img
-                src={SmallEarnings}
-                className="planner-sc3-image"
-                alt="calender1"
-              />
+              {personal === true ? (
+                <img
+                  src={pic3}
+                  className="planner-img"
+                  style={{
+                    left: "0px",
+                    paddingTop: "50px",
+                    paddingBottom: "70px",
+                  }}
+                  alt="pic3"
+                />
+              ) : (
+                <img
+                  src={SmallEarnings}
+                  className="planner-sc3-image"
+                  alt="calender1"
+                />
+              )}
             </div>
           </div>
         </div>
@@ -266,16 +377,24 @@ const Planner = ({ isMobile, onGetStartedClick }) => {
             Sign Up
           </button>
         ) : (
-          <Link to="/register">
-            <button className="signup-btn">Sign Up</button>
-          </Link>
+          <>
+            {personal === true ? (
+              <Link to="https://www.google.com/">
+                <button className="signup-btn">Book Demo</button>
+              </Link>
+            ) : (
+              <Link to="/register">
+                <button className="signup-btn">Sign Up</button>
+              </Link>
+            )}
+          </>
         )}
       </div>
     </div>
   );
 };
 
-const Footer = () => {
+const Footer = ({ personal }) => {
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -318,6 +437,14 @@ const Footer = () => {
   };
   return (
     <div className="footer-container">
+      {personal === true ? (
+        <p className="overage-text">
+          *On average, firms with more than 500 workers owe each employee $2,609
+          in accrued paid time off - Source.
+        </p>
+      ) : (
+        ""
+      )}
       <hr className="hr-for-header" />
 
       <Link to="/homes" className="mx-2">
@@ -363,16 +490,18 @@ const Footer = () => {
     </div>
   );
 };
+
 const goToBlog = () => {
   window.open(
     "https://vacay-live.notion.site/Vacay-Blog-8bb71268be634ef2a029403032371605"
   );
 };
+
 const Landing = () => {
   const [showGetStarted, setShowGetStarted] = useState(false);
   const [showContent, setShowContent] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-
+  const [personal, setPersonal] = useState(false);
   useEffect(() => {
     const handleScreenWidthChange = () => {
       setIsMobile(window.innerWidth <= 767);
@@ -396,18 +525,22 @@ const Landing = () => {
           {showContent && (
             <>
               <Header
+                personal={personal}
                 isMobile={isMobile}
                 onGetStartedClick={handleGetStartedClick}
               />
               <Banner
+                personal={personal}
+                setPersonal={setPersonal}
                 isMobile={isMobile}
                 onGetStartedClick={handleGetStartedClick}
               />
               <Planner
+                personal={personal}
                 isMobile={isMobile}
                 onGetStartedClick={handleGetStartedClick}
               />
-              <Footer />
+              <Footer personal={personal} />
             </>
           )}
           {showGetStarted && <GetStarted />}

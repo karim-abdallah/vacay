@@ -225,7 +225,7 @@ const generateDashboardDataAccrual = (
 
           return value < 0 ? negativeBalanceColor : balanceColor;
         },
-        data: monthLabels.map(x => balance[x].toFixed(1)),
+        data: monthLabels.map(x => balance[x] ? balance[x].toFixed(1) : 0),
         stack: 'PTOStack',
       },
       {
