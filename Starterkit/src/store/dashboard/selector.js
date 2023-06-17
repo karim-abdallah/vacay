@@ -1,7 +1,7 @@
 export const selectDashboardData = state => {
   const adjustedDashboard = {
     currentMonth: state.Dashboard.currentMonth,
-    bookedPTO: state.Dashboard.bookedPTO,
+    bookedPTO: { dates: state.Dashboard.bookedPTO.dates.map(x => x.date) },
     holidays: state.Dashboard.holidays.filter(x => x.active).map(x => x.date),
     accrualType: state.Dashboard.PTOSettings.accrualType,
     accrualRate: state.Dashboard.PTOSettings.annualAllowanceDays / 12,

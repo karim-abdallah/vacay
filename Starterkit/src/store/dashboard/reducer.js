@@ -38,9 +38,10 @@ const Dashboard = (state = INIT_STATE, action) => {
     case 'bookedPTO/delete':
       return {
         ...state,
+        
         bookedPTO: {
           dates: state.bookedPTO.dates.filter(
-            x => !isSameDay(x, action.payload)
+            x => !isSameDay(x.date, action.payload)
           ),
         },
       };
@@ -63,6 +64,7 @@ const Dashboard = (state = INIT_STATE, action) => {
       };
 
     case 'datesToUnbook/delete':
+      
       return {
         ...state,
         datesToUnbook: state.datesToUnbook.filter(
@@ -90,14 +92,7 @@ const Dashboard = (state = INIT_STATE, action) => {
       return {
         ...state,
         HOLIDAYSettings: action.payload.holidayData,
-        // holidays: state.HOLIDAYSettings.map(x => {
-        //   if (action.payload.holidayData.find(day => day === x.name)) {
-        //     x.active = true;
-        //   } else {
-        //     x.active = false;
-        //   }
-        //   return x;
-        // }),
+     
       };
 
     case 'negativeBalanceMonths/update':

@@ -124,7 +124,6 @@ export const filterOutDuplicates = (selectedDates, existingDates) => {
       }
     }
   }
-
   return dedupedDates;
 };
 

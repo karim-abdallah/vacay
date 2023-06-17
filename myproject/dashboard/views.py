@@ -244,7 +244,7 @@ class BookedDaysView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request):
-
+        
         data = request.data
         user = self.request.user.id
         data['dates'] = [i.split('T')[0] for i in data['dates']]

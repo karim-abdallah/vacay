@@ -87,6 +87,7 @@ const generateDashboardDataUnlimitedPTO = (
   });
 
   bookedPTO.dates.forEach((element, index) => {
+    
     const monthLabel = monthYearFormatter(element);
     // if currentDate not a week-end, increment, otherwise skip
     if (!weekendDayIndex.includes(element.getDay())) {

@@ -58,11 +58,14 @@ const Dashboard = () => {
       ptoCap: data.accrual_cap_days,
       ptoBalance: data.current_balance_days,
     };
+    
     let booked_dates = [];
     bookedDays.forEach(days => {
       let date = new Date(days.date);
-      booked_dates.push(date);
+      let obj = {date:date, tag:days.tag}
+      booked_dates.push(obj);
     });
+    
     dispatch({ type: 'bookedPTO/update', payload: [...booked_dates] });
     dispatch({ type: 'settings/update', payload: PTOSettings });
   };
