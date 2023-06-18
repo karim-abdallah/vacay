@@ -10,6 +10,7 @@ import Register from '../pages/Authentication/Register';
 import ForgetPwd from '../pages/Authentication/ForgetPassword';
 import AuthLockScreen from '../pages/Authentication/AuthLockScreen';
 import ResetPwd from '../pages/Authentication/ResetPassword';
+import ProvidersRedirect from '../pages/Authentication/ProvidersRedirect';
 
 //Onboarding
 import OnBoarding from '../pages/OnBoarding';
@@ -44,6 +45,7 @@ const publicRoutes = [
   { path: '/reset-password/:token', component: ResetPwd },
   { path: '/forgot-password', component: ForgetPwd },
   { path: '/register', component: Register },
+  { path: '/redirect/:provider', component: ProvidersRedirect },
   { path: '/lock-screen', component: AuthLockScreen },
 
   // Authentication Inner

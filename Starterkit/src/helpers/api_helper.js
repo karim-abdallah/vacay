@@ -37,14 +37,14 @@ axiosApi.interceptors.response.use(
     if (error.response.data && error.response.data.code === "token_not_valid") {
       history.push("/logout");
     } else {
-      throw error.response;
+      throw error.response.data;
       // Promise.reject(error.response)
     }
   }
 );
 
 export async function get(url, config = {}) {
-  return await axiosApi
+  return axiosApi
     .get(url, { ...config })
     .then((response) => response.data);
 }

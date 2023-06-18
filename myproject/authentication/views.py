@@ -1,15 +1,11 @@
 import datetime
-from urllib.parse import urlencode
 
 import jwt
-import requests
-from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.utils import json
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenViewBase
@@ -17,8 +13,10 @@ from rest_framework_simplejwt.views import TokenViewBase
 from .models import *
 from .serializers import (SubscriptionsSerializer,
                           TokenObtainLifetimeSerializer, UserSerializer)
-from .utils import (check_or_create_username, send_forget_password_email,
-                    send_invite_email, send_register_user_email)
+from .utils import (check_or_create_username, create_google_user_object,
+                    get_google_oauth_link, get_google_oauth_user_info,
+                    send_forget_password_email, send_invite_email,
+                    send_register_user_email)
 
 # COMMON CODE FOR AUTHENTICATION
 """
@@ -55,46 +53,9 @@ class RegisterView(APIView):
 
         send_register_user_email(data["email"], data["first_name"])
 
-        return Response({"data": serializer.data})
+        response = {"data": serializer.data}
 
-
-class GoogleView(APIView):
-    def get(self, request):
-        payload = {'access_token': 'ya29.a0AWY7CkkX2L1ISBPu3G2RyFcrZigLh49cYo06s7Va700P3LnE6oeHKkShHPYvTwUYWYD-a2IBlvRDxUDvYR9KGifvrfw420OCyfmqhAUGpUR-cmZ5GPeeV18qhsZ6-NBPCQqnGpOpfjbcDjpQus5MfNitGD-r2gaCgYKAUsSARMSFQG1tDrpc5CD_Dr4Rb4unsT-raBLuQ0165'}  # validate the token
-        
-        r = requests.get(
-            'https://www.googleapis.com/oauth2/v2/userinfo', params=payload)
-        
-        data = json.loads(r.text)
-
-        if 'error' in data:
-            content = {
-                'message': 'wrong google token / this google token is already expired.'}
-            return Response(content)
-
-        # create user if not exist
-        # return Response(data)
-    
-
-        try:
-            print(data)
-            user = User.objects.get(email=data['email'])
-        except User.DoesNotExist:
-            user = User()
-            user.username = data['email']
-            # provider random default password
-            user.password = make_password(
-                BaseUserManager().make_random_password())
-            user.email = data['email']
-            user.save()
-
-        # generate token without username & password
-        token = RefreshToken.for_user(user)
-        response = {}
-        response['username'] = user.username
-        response['access_token'] = str(token.access_token)
-        response['refresh_token'] = str(token)
-        return Response(response)
+        return Response(response, status=status.HTTP_201_CREATED)
 
 
 class LogoutView(APIView):
@@ -134,9 +95,10 @@ class ForgotPasswordView(APIView):
 
         send_forget_password_email(email, reset_password_link)
 
-        return Response(
-            {"data": "A password reset link has been sent to your email address"}
-        )
+        response = {
+            "detail": "A password reset link has been sent to your email address"}
+
+        return Response(response, status=status.HTTP_200_OK)
 
 
 class ResetPasswordView(APIView):
@@ -202,7 +164,7 @@ class SubscribeView(APIView):
     def get(self, request):
         subscriptions = Subscriptions.objects.all()
         serializer = SubscriptionsSerializer(subscriptions, many=True)
-        return Response(serializer.data)
+        return Response({"data": serializer.data})
 
 
 class SendInviteView(APIView):
@@ -215,19 +177,57 @@ class SendInviteView(APIView):
         return Response({"detail": "Invitations Sent Successfully"})
 
 
-class HelloView(APIView):
+class OAuthLinkView(APIView):
 
     def get(self, request):
+        oauth_provider = request.GET.get('oauth_provider', None)
 
-        url = 'https://accounts.google.com/o/oauth2/v2/auth?'
-        encoded_params = urlencode({
-            'client_id': '1059695905619-jf8o5bakj2eilj2nhlmuk4mbmvpdqe40.apps.googleusercontent.com',
-            'redirect_uri': 'http://localhost:3000',
-            'response_type': 'token',
-            'scope': 'profile',
-            'access_type':'online'
-        })
+        if oauth_provider == 'google':
+            link = get_google_oauth_link()
+        else:
+            return Response({"detail": "Invalid Oauth provider"}, status=status.HTTP_400_BAD_REQUEST)
 
-        encoded_url = url + encoded_params
+        return Response({"data": link})
 
-        return Response(encoded_url)
+
+class OAuthVerifyView(APIView):
+    def post(self, request):
+        data = request.data
+
+        access_token = data['access_token']
+        provider = data['provider']
+        is_existing = False
+
+        result = get_google_oauth_user_info(access_token)
+
+        if 'error' in result:
+            response = {
+                'detail': 'wrong google token / this google token is already expired.'}
+            return Response(response, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        # create user if not exist
+        try:
+            user = User.objects.get(email=result['email'])
+            is_existing = True
+
+        except User.DoesNotExist:
+            if provider == 'google':
+                user = create_google_user_object(result)
+
+                id = user.save()
+
+                TimeOffSetting.objects.create(user_id=user.id)
+
+            else:
+                response = {'detail': 'unsupported provider'}
+                return Response(response, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        # generate token without username & password
+        token = RefreshToken.for_user(user)
+
+        response = {'data': {}}
+        response['data']['access_token'] = str(token.access_token)
+        response['data']['refresh_token'] = str(token)
+        response['data']['is_existing'] = is_existing
+
+        return Response(response, status=status.HTTP_201_CREATED)

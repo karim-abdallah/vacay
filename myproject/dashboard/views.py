@@ -1,8 +1,8 @@
 import datetime
-
 from decimal import Decimal
 
-from authentication.models import BookedDays, HolidaySetting, TimeOffSetting, User
+from authentication.models import (BookedDays, HolidaySetting, TimeOffSetting,
+                                   User)
 from authentication.serializers import UserSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -10,11 +10,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import (
-    BookedDaysSerializer,
-    HolidaySettingSerializer,
-    TimeOffSettingSerializer,
-)
+from .serializers import (BookedDaysSerializer, HolidaySettingSerializer,
+                          TimeOffSettingSerializer)
 from .utils import generate_presigned_url, holidays
 
 # Create your views here.
@@ -188,7 +185,7 @@ class UpdateHolidayStatus(APIView):
     def post(self, request):
 
         data = request.data
-        data["user_id"] = self.request.user.id
+        data["user_id"] = request.user.id
         country = User.objects.get(id=data["user_id"]).country
         data["country"] = country
 
@@ -209,7 +206,7 @@ class UpdateHolidayStatus(APIView):
 
     def patch(self, request):
         data = request.data
-        data["user_id"] = self.request.user.id
+        data["user_id"] = request.user.id
         holiday_settings = HolidaySetting.objects.filter(id=data["id"])
         holiday_settings.update(**data)
 
@@ -225,7 +222,7 @@ class BookedDaysView(APIView):
     def post(self, request):
 
         data = request.data
-        user = self.request.user.id
+        user = request.user.id
 
         data['dates'] = [i.split('T')[0] for i in data['dates']]
         dates = data['dates']
@@ -238,7 +235,7 @@ class BookedDaysView(APIView):
 
     def get(self, request):
 
-        user = self.request.user.id
+        user = request.user.id
         booked_days = BookedDays.objects.filter(user_id=user).all()
         serializer = BookedDaysSerializer(booked_days, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -246,7 +243,7 @@ class BookedDaysView(APIView):
     def patch(self, request):
 
         data = request.data
-        user = self.request.user.id
+        user = request.user.id
         data['dates'] = [i.split('T')[0] for i in data['dates']]
         dates = data['dates']
 

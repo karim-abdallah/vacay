@@ -36,7 +36,7 @@ const Banner = (props) => {
         console.log(error);
       }
     } catch (error) {
-      setError(error.data.detail);
+      setError(error.detail);
     }
   };
 
@@ -105,7 +105,7 @@ const ChangePassword = ({ toggleComponent }) => {
       let data = await post("/auth/change-password", obj);
       setError(data.detail);
     } catch (error) {
-      setError(error.data.detail);
+      setError(error.detail);
     }
   }
   const analyze = () => {
@@ -236,7 +236,7 @@ const GeneralInformation = ({ toggleComponent }) => {
       let data = await post("/dashboard/update-user", obj);
       setError(data.detail);
     } catch (error) {
-      setError(error.data.detail);
+      setError(error.detail);
     }
   };
 

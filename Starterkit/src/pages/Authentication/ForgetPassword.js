@@ -49,18 +49,18 @@ class ForgetPasswordPage extends Component {
                   <div className="div">
                     <div className="content-section mt-5 pt-5">
                       <div className="d-flex gap-2 flex-wrap align-items-center">
-                      <img src={Logo} className="img-fluid" alt="vaccay-logo" />
+                        <img src={Logo} className="img-fluid" alt="vaccay-logo" />
                       </div>
                       <p>Optimize your time off</p>
                     </div>
                     <lottie-player
-            className="side-img"
-            src="https://vacay-assets.s3.amazonaws.com/lottie.json"
-            background="transparent"
-            speed="1"
-            loop
-            autoplay
-          ></lottie-player>
+                      className="side-img"
+                      src="https://vacay-assets.s3.amazonaws.com/lottie.json"
+                      background="transparent"
+                      speed="1"
+                      loop
+                      autoplay
+                    ></lottie-player>
                   </div>
                 </div>
                 <div className="col-lg-8  col-md-7 p-0">
@@ -87,7 +87,7 @@ class ForgetPasswordPage extends Component {
                                   autoComplete="current-email"
                                   variant="standard"
                                   className="py-2 px-2 w-100"
-                                  style={{ borderRadius: "4px", border:"1px solid #2b3674ab"  }}
+                                  style={{ borderRadius: "4px", border: "1px solid #2b3674ab" }}
                                 />
                               </Col>
                             </div>
