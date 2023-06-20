@@ -60,9 +60,9 @@ const Header = ({ isMobile, onGetStartedClick, personal }) => {
             </div>
             {personal === true && (
               <div className="col-2 text-end">
-                <Link to="https://www.google.com/">
+                <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSewOeenbHvlcb2GK1uOXSvZ05iW8EATairwJbXPNHIk4lzDow/viewform" rel="noreferrer">
                   <button className="signup-btn">Book Demo</button>
-                </Link>
+                </a>
               </div>
             )}
           </>
@@ -189,7 +189,7 @@ const Banner = ({ isMobile, onGetStartedClick, personal, setPersonal }) => {
             style={{ marginBottom: "4px", marginRight: "4px" }}
             alt="personal"
           />
-          Personal
+          personal
         </Button>
         <Button
           style={{ background: personal === true ? "#F4F7FE" : "transparent" }}
@@ -200,7 +200,7 @@ const Banner = ({ isMobile, onGetStartedClick, personal, setPersonal }) => {
             style={{ marginBottom: "4px" }}
             alt="personal"
           />{" "}
-          Business
+          business
         </Button>
       </div>
       <div className="row">
@@ -225,9 +225,9 @@ const Banner = ({ isMobile, onGetStartedClick, personal, setPersonal }) => {
             ) : (
               <div>
                 {personal === true ? (
-                  <Link to="https://www.google.com/">
+                  <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSewOeenbHvlcb2GK1uOXSvZ05iW8EATairwJbXPNHIk4lzDow/viewform" rel="noreferrer">
                     <button className="signup-btn">Book Demo &gt;</button>
-                  </Link>
+                  </a>
                 ) : (
                   <Link to="/register">
                     <button className="signup-btn">Get Started &gt;</button>
@@ -325,6 +325,11 @@ const Planner = ({ isMobile, onGetStartedClick, personal }) => {
               <br></br>
               <br></br>
               <br></br>
+             {!personal===true && <div>
+              <br></br>
+              <br></br>
+              </div>}
+              
               {personal === true ? (
                 <img
                   src={pic2}
@@ -344,10 +349,12 @@ const Planner = ({ isMobile, onGetStartedClick, personal }) => {
                   ? "Actionable and tailored recommendations"
                   : "  Plan with friends & family, seamlessly"}
               </h4>
-              <h5 className="box-sub-heading">
+              <h5 className={`box-sub-heading  ${personal === true && 'pb-3'}`}>
                 {personal === true
                   ? "Rely on analytics to implement action plans at employee level to improve retention and promote well-being proactively."
                   : " Plan trips together based on availability and easily sync calendars."}
+                 
+                  
               </h5>
               {personal === true ? (
                 <img
@@ -379,9 +386,9 @@ const Planner = ({ isMobile, onGetStartedClick, personal }) => {
         ) : (
           <>
             {personal === true ? (
-              <Link to="https://www.google.com/">
+              <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSewOeenbHvlcb2GK1uOXSvZ05iW8EATairwJbXPNHIk4lzDow/viewform" rel="noreferrer">
                 <button className="signup-btn">Book Demo</button>
-              </Link>
+              </a>
             ) : (
               <Link to="/register">
                 <button className="signup-btn">Sign Up</button>

@@ -13,8 +13,9 @@ from rest_framework_simplejwt.views import TokenViewBase
 from .models import *
 from .serializers import (SubscriptionsSerializer,
                           TokenObtainLifetimeSerializer, UserSerializer)
-from .utils import (check_or_create_username, create_google_user_object,
+from .utils import (check_or_create_username,
                     get_google_oauth_link, get_google_oauth_user_info,
+                    get_facebook_oauth_link, get_facebook_oauth_user_info, serialize_provider_object,
                     send_forget_password_email, send_invite_email,
                     send_register_user_email)
 
@@ -184,6 +185,8 @@ class OAuthLinkView(APIView):
 
         if oauth_provider == 'google':
             link = get_google_oauth_link()
+        elif oauth_provider == 'facebook':
+            link = get_facebook_oauth_link()
         else:
             return Response({"detail": "Invalid Oauth provider"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -194,16 +197,22 @@ class OAuthVerifyView(APIView):
     def post(self, request):
         data = request.data
 
-        access_token = data['access_token']
         provider = data['provider']
         is_existing = False
 
-        result = get_google_oauth_user_info(access_token)
+        if provider == 'google':
+            result = get_google_oauth_user_info(data['access_token'])
 
-        if 'error' in result:
-            response = {
-                'detail': 'wrong google token / this google token is already expired.'}
-            return Response(response, status=status.HTTP_406_NOT_ACCEPTABLE)
+            if 'error' in result:
+                response = {'detail': 'invalid/expired token'}
+                return Response(response, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        elif provider == 'facebook':
+            result = get_facebook_oauth_user_info(data['code'])
+
+            if 'error' in result:
+                response = {'detail': 'invalid/expired token'}
+                return Response(response, status=status.HTTP_406_NOT_ACCEPTABLE)
 
         # create user if not exist
         try:
@@ -211,16 +220,15 @@ class OAuthVerifyView(APIView):
             is_existing = True
 
         except User.DoesNotExist:
-            if provider == 'google':
-                user = create_google_user_object(result)
+            user = serialize_provider_object(result, provider)
 
-                id = user.save()
-
-                TimeOffSetting.objects.create(user_id=user.id)
-
-            else:
+            if not user:
                 response = {'detail': 'unsupported provider'}
                 return Response(response, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+            user.save()
+
+            TimeOffSetting.objects.create(user_id=user.id)
 
         # generate token without username & password
         token = RefreshToken.for_user(user)

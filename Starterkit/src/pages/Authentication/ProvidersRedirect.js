@@ -16,22 +16,22 @@ const ProvidersRedirect = () => {
         return matches ? matches[1] : null;
     }
 
-
     function fetchAccessToken() {
         let provider = params['provider']
         if (provider) {
             if (provider == 'google') {
                 let access_token = getHashValue('access_token')
-                sendAccessToken(provider, access_token)
+                let obj = { provider, access_token }
+                verifyOauthUser(obj)
+            } else {
+                let code = new URLSearchParams(history.location.search).get('code');
+                let obj = { provider, code }
+                verifyOauthUser(obj)
             }
         }
     }
 
-    async function sendAccessToken(provider, access_token) {
-        let obj = {
-            access_token,
-            provider
-        }
+    async function verifyOauthUser(obj) {
 
         try {
             let response = await post('/auth/oauth-verify-token', obj)

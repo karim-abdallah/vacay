@@ -8,6 +8,7 @@ import { withRouter, Link } from "react-router-dom";
 
 // actions
 import { checkLogin, apiError } from "../../store/actions";
+
 import Logo from "../../assets/images/logo-vaccay.svg";
 import google from '../../assets/images/google-btn.svg';
 import facebook from '../../assets/images/fb-btn.svg';

@@ -15,6 +15,11 @@ import {
 import { connect } from 'react-redux';
 
 import Logo from '../../assets/images/logo-vaccay.svg';
+import google from '../../assets/images/google-btn.svg';
+import facebook from '../../assets/images/fb-btn.svg';
+
+// REST API
+import { get } from "../../helpers/api_helper";
 
 class Register extends Component {
   constructor(props) {
@@ -46,6 +51,16 @@ class Register extends Component {
     this.setState({
       showPassword: !this.state.showPassword,
     });
+  };
+
+  fetchOauthRedirect = async (provider) => {
+    try {
+      let response = await get(`/auth/oauth-link?oauth_provider=${provider}`)
+      window.location.assign(response.data);
+    }
+    catch (err) {
+      console.log(err)
+    }
   };
 
   componentDidMount() {
@@ -124,6 +139,36 @@ class Register extends Component {
                   <div>
                     <div className="container md:px-3 px-md-5">
                       <h3 className="mb-4">Create Account</h3>
+                      <div className="row">
+                        <div className="col-lg-6 col-12">
+                          <button
+                            onClick={() => this.fetchOauthRedirect('google')}
+                            className="text-decoration-none social-btn px-2 mt-2 px-md-3 py-2 d-flex gap-3 flex-wrap align-items-center"
+                          >
+                            <img
+                              src={google}
+                              width={30}
+                              className="img-fluid"
+                              alt=""
+                            />
+                            <p>Sign up with Google</p>
+                          </button>
+                        </div>
+                        <div className="col-lg-6 col-12 lg:my-0 my-2">
+                          <button
+                            onClick={() => this.fetchOauthRedirect('facebook')}
+                            className="text-decoration-none social-btn px-2 px-md-3 -mt-4 py-2 d-flex gap-3 flex-wrap align-items-center"
+                          >
+                            <img
+                              src={facebook}
+                              width={30}
+                              className="img-fluid"
+                              alt=""
+                            />
+                            <p>Sign up with Facebook </p>
+                          </button>
+                        </div>
+                      </div>
                       <form onSubmit={this.handleSubmit}>
                         {this.props.registrationError
                           ? this.props.registrationError
