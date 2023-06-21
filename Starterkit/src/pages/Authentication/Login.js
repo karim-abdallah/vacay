@@ -8,9 +8,13 @@ import { withRouter, Link } from "react-router-dom";
 
 // actions
 import { checkLogin, apiError } from "../../store/actions";
+
 import Logo from "../../assets/images/logo-vaccay.svg";
 import google from '../../assets/images/google-btn.svg';
 import facebook from '../../assets/images/fb-btn.svg';
+
+// REST API
+import { get } from "../../helpers/api_helper";
 
 class Login extends Component {
   constructor(props) {
@@ -44,6 +48,16 @@ class Login extends Component {
     this.setState({
       password: e.target.value,
     });
+  };
+
+  fetchOauthRedirect = async (provider) => {
+    try {
+      let response = await get(`/auth/oauth-link?oauth_provider=${provider}`)
+      window.location.assign(response.data);
+    }
+    catch (err) {
+      console.log(err)
+    }
   };
 
   componentDidMount() {
@@ -93,8 +107,9 @@ class Login extends Component {
                         <h3 className="mb-4">Welcome back!</h3>
                         <div className="row">
                           <div className="col-lg-6 col-12">
-                            <a
-                              href="http://localhost:8000/accounts/google/login/"
+                            <button
+                              onClick={() => this.fetchOauthRedirect('google')}
+
                               className="text-decoration-none social-btn px-2 mt-2 px-md-3 py-2 d-flex gap-3 flex-wrap align-items-center"
                             >
                               <img
@@ -103,12 +118,12 @@ class Login extends Component {
                                 className="img-fluid"
                                 alt=""
                               />
-                              <p>Sign up with Google</p>
-                            </a>
+                              <p>Sign in with Google</p>
+                            </button>
                           </div>
                           <div className="col-lg-6 col-12 lg:my-0 my-2">
-                            <a
-                              href="http://localhost:8000/accounts/facebook/login/"
+                            <button
+                              onClick={() => this.fetchOauthRedirect('facebook')}
                               className="text-decoration-none social-btn px-2 px-md-3 -mt-4 py-2 d-flex gap-3 flex-wrap align-items-center"
                             >
                               <img
@@ -117,8 +132,8 @@ class Login extends Component {
                                 className="img-fluid"
                                 alt=""
                               />
-                              <p>Sign up with Facebook </p>
-                            </a>
+                              <p>Sign in with Facebook </p>
+                            </button>
                           </div>
                         </div>
                         <form onSubmit={this.handleSubmit}>

@@ -122,7 +122,7 @@ function MiniCalendar(props) {
             Days booked: <b>{selectedDatesWithoutWeekends.length}</b>
           </p>
           <p>
-            Name: <input type="text" value={tagName} onChange={handleNameChange} />
+            Name: <input type="text" value={tagName} onChange={handleNameChange} autoFocus />
           </p>
           <CenteredFlexContainer>
             <StyledConfirmBookingButton onClick={handleBookNow}>

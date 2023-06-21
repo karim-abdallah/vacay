@@ -6,7 +6,6 @@ urlpatterns = [
     path('login', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/verify', TokenVerifyView.as_view(), name='token_verify'),
-    path('google', GoogleView.as_view(), name='google'),
     path("register", RegisterView.as_view()),
     path("logout", LogoutView.as_view()),
     path("forgot-password", ForgotPasswordView.as_view()),
@@ -14,6 +13,7 @@ urlpatterns = [
     path("change-password", ChangePasswordView.as_view()),
     path("subscribe", SubscribeView.as_view()),
     path("send-invites", SendInviteView.as_view(), name='send-invites'),
-    path('hello', HelloView.as_view(), name='hello')
+    path('oauth-link', OAuthLinkView.as_view(), name='oauth-link'),
+    path('oauth-verify-token', OAuthVerifyView.as_view(), name='oauth-verify-token')
 
 ]
