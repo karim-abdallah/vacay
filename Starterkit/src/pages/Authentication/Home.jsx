@@ -60,7 +60,7 @@ const Header = ({ isMobile, onGetStartedClick, personal }) => {
             </div>
             {personal === true && (
               <div className="col-2 text-end">
-                <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSewOeenbHvlcb2GK1uOXSvZ05iW8EATairwJbXPNHIk4lzDow/viewform" rel="noreferrer">
+                <a target="_blank" href="https://rb.gy/le029" rel="noreferrer">
                   <button className="signup-btn">Book Demo</button>
                 </a>
               </div>
@@ -186,10 +186,10 @@ const Banner = ({ isMobile, onGetStartedClick, personal, setPersonal }) => {
         >
           <img
             src={personalimg}
-            style={{ marginBottom: "4px", marginRight: "4px" }}
+            style={{ marginBottom: "4px", marginRight: "15px" }}
             alt="personal"
           />
-          personal
+          <strong style={{ fontFamily: 'Poppins', fontWeight: 700 }}>Personal</strong>
         </Button>
         <Button
           style={{ background: personal === true ? "#F4F7FE" : "transparent" }}
@@ -197,10 +197,10 @@ const Banner = ({ isMobile, onGetStartedClick, personal, setPersonal }) => {
         >
           <img
             src={businessImg}
-            style={{ marginBottom: "4px" }}
-            alt="personal"
+            style={{ marginBottom: "4px", marginRight: "15px" }}
+            alt="business"
           />{" "}
-          business
+          <strong style={{ fontFamily: 'Poppins', fontWeight: 700 }}>Business</strong>
         </Button>
       </div>
       <div className="row">
@@ -225,7 +225,7 @@ const Banner = ({ isMobile, onGetStartedClick, personal, setPersonal }) => {
             ) : (
               <div>
                 {personal === true ? (
-                  <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSewOeenbHvlcb2GK1uOXSvZ05iW8EATairwJbXPNHIk4lzDow/viewform" rel="noreferrer">
+                  <a target="_blank" href="https://rb.gy/le029" rel="noreferrer">
                     <button className="signup-btn">Book Demo &gt;</button>
                   </a>
                 ) : (
@@ -273,7 +273,7 @@ const Planner = ({ isMobile, onGetStartedClick, personal }) => {
       <div className="container">
         <div className="row my-5 planner-boxes justify-content-center">
           <div className="col-md-4 ">
-            <div className="screens sc-1 ">
+            <div className={personal == true ? 'screens sc-1-business' : 'screens sc-1-personal'}>
               <h4 className="box-heading">
                 {personal === true
                   ? "Easy and secured setup"
@@ -291,8 +291,8 @@ const Planner = ({ isMobile, onGetStartedClick, personal }) => {
                   className="planner-img"
                   style={{
                     left: "0px",
-                    paddingTop: "25px",
-                    paddingBottom: "40px",
+                    paddingTop: "60px",
+                    paddingBottom: "10px"
                   }}
                   alt="pic1"
                 />
@@ -308,7 +308,7 @@ const Planner = ({ isMobile, onGetStartedClick, personal }) => {
           </div>
           <div className="col-md-4">
             <div
-              className="screens sc-2"
+              className={personal == true ? 'screens sc-2-business' : 'screens sc-2-personal'}
               style={{ height: personal === true ? "auto" : "inherit" }}
             >
               <h4 className="box-heading">
@@ -325,11 +325,11 @@ const Planner = ({ isMobile, onGetStartedClick, personal }) => {
               <br></br>
               <br></br>
               <br></br>
-             {!personal===true && <div>
-              <br></br>
-              <br></br>
+              {!personal === true && <div>
+                <br></br>
+                <br></br>
               </div>}
-              
+
               {personal === true ? (
                 <img
                   src={pic2}
@@ -343,7 +343,7 @@ const Planner = ({ isMobile, onGetStartedClick, personal }) => {
             </div>
           </div>
           <div className="col-md-4">
-            <div className="screens sc-3 ">
+            <div className={personal == true ? 'screens sc-3-business' : 'screens sc-3-personal'}>
               <h4 className="box-heading">
                 {personal === true
                   ? "Actionable and tailored recommendations"
@@ -353,8 +353,8 @@ const Planner = ({ isMobile, onGetStartedClick, personal }) => {
                 {personal === true
                   ? "Rely on analytics to implement action plans at employee level to improve retention and promote well-being proactively."
                   : " Plan trips together based on availability and easily sync calendars."}
-                 
-                  
+
+
               </h5>
               {personal === true ? (
                 <img
@@ -386,7 +386,7 @@ const Planner = ({ isMobile, onGetStartedClick, personal }) => {
         ) : (
           <>
             {personal === true ? (
-              <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSewOeenbHvlcb2GK1uOXSvZ05iW8EATairwJbXPNHIk4lzDow/viewform" rel="noreferrer">
+              <a target="_blank" href="https://rb.gy/le029" rel="noreferrer">
                 <button className="signup-btn">Book Demo</button>
               </a>
             ) : (
@@ -447,11 +447,12 @@ const Footer = ({ personal }) => {
       {personal === true ? (
         <p className="overage-text">
           *On average, firms with more than 500 workers owe each employee $2,609
-          in accrued paid time off - Source.
+          in accrued paid time off - <a style={{ color: "white"}} target="_blank" href="https://www.wsj.com/articles/BL-ATWORKB-2313">Source</a> .
         </p>
       ) : (
         ""
-      )}
+      )
+      }
       <hr className="hr-for-header" />
 
       <Link to="/homes" className="mx-2">
@@ -494,7 +495,7 @@ const Footer = ({ personal }) => {
           </Row>
         </Container>
       </div>
-    </div>
+    </div >
   );
 };
 
@@ -508,7 +509,7 @@ const Landing = () => {
   const [showGetStarted, setShowGetStarted] = useState(false);
   const [showContent, setShowContent] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-  const [personal, setPersonal] = useState(false);
+  const [personal, setPersonal] = useState(true);
   useEffect(() => {
     const handleScreenWidthChange = () => {
       setIsMobile(window.innerWidth <= 767);

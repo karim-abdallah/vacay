@@ -15,7 +15,7 @@ from .serializers import (SubscriptionsSerializer,
                           TokenObtainLifetimeSerializer, UserSerializer)
 from .utils import (check_or_create_username,
                     get_google_oauth_link, get_google_oauth_user_info,
-                    get_facebook_oauth_link, get_facebook_oauth_user_info, serialize_provider_object,
+                    get_facebook_oauth_link, get_facebook_oauth_user_info,get_or_generate_facebook_email, serialize_provider_object,
                     send_forget_password_email, send_invite_email,
                     send_register_user_email)
 
@@ -216,12 +216,16 @@ class OAuthVerifyView(APIView):
 
         # create user if not exist
         try:
+
+            if 'email' not in result and provider == 'facebook':
+                result['email'] = get_or_generate_facebook_email(result['id'], result['first_name'])
+            
             user = User.objects.get(email=result['email'])
             is_existing = True
 
         except User.DoesNotExist:
             user = serialize_provider_object(result, provider)
-
+ 
             if not user:
                 response = {'detail': 'unsupported provider'}
                 return Response(response, status=status.HTTP_406_NOT_ACCEPTABLE)

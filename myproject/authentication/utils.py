@@ -15,6 +15,7 @@ from .constants import (AWS_REGION, ENVIRONMENT, FACEBOOK_CLIENT_ID,
 from .models import User
 from .templates import (FORGET_PASSWORD_TEMPLATE, REGISTER_USER_TEMPLATE,
                         SEND_INVITE_TEMPLATE)
+import time    
 
 ses_client = boto3.client(
     "ses",
@@ -161,8 +162,8 @@ def get_facebook_oauth_user_info(code):
 
             if 'error' in data:
                 return data
-
-    return data
+            
+            return data
 
 
 def get_facebook_access_token(code):
@@ -202,7 +203,7 @@ def get_facebook_oauth_verified_user(access_token, id):
         FACEBOOK_OAUTH_GRAPH_URL, id, FACEBOOK_OAUTH_URL_FIELDS, access_token)
 
     result = requests.get(url)
-
+    
     data = json.loads(result.text)
 
     return data
@@ -210,7 +211,7 @@ def get_facebook_oauth_verified_user(access_token, id):
 
 def create_facebook_user_object(data):
     user = User()
-    user.username = check_or_create_username(data["email"])
+    user.username = '{}_{}'.format(data['first_name'].lower(),data['id']) #this same logic is used to cross check user when user reauthenticates 
     user.email = data['email']
     user.profile_pic = parse_facebook_picture(data['picture'])
     user.first_name = data['first_name']
@@ -239,3 +240,26 @@ def serialize_provider_object(data,provider):
     
     return None
         
+
+def generate_random_facebook_email():
+    epoch_time = int(time.time())
+    email  = 'facebook_placeholder_{}@vacay.com'.format(epoch_time)
+    return email
+
+
+def get_or_generate_facebook_email(id, first_name):
+    '''
+        we generate username for facebook by combining first_name + id, as facebook always returns this fields and id is unique
+        we check if username exists and hence return the email, otherwise we generate a placeholder email for account
+        and generate the username for facebook authenticated users via same method in next steps to recheck if user logins again
+        and return the same data by username
+    '''
+
+    username = '{}_{}'.format(first_name.lower(),id)
+
+    try:
+        user = User.objects.get(username =username)
+        return user.email
+    
+    except:
+        return generate_random_facebook_email()
