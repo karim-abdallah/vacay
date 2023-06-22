@@ -16,8 +16,9 @@
   background: none;
   color: var(--vacay-font-color-light);
   border: 0;
-/*   border: 1px solid #cfc6f5;
- */}
+  /*   border: 1px solid #cfc6f5;
+ */
+}
 
 .bookedDays {
   background: var(--bookedDaysColor);
@@ -383,7 +384,7 @@
 .screens {
   margin: 12px;
   border-radius: 30px;
-  padding: 50px 30px !important;
+  padding: 50px 25px !important;
 }
 
 .sc-1-personal {
@@ -401,7 +402,7 @@
 }
 
 .sc-1-business {
-  background-color:#F8DEDE;
+  background-color: #F8DEDE;
 }
 
 .sc-2-business {
@@ -423,12 +424,13 @@
 .box-sub-heading {
   line-height: 30px;
   font-size: 20px;
+  font-family: 'Poppins';
 }
 
 .planner-img {
   width: 100%;
   position: relative;
-  left: 35px;
+  left: 32px;
 }
 
 .signup-btn-container {
@@ -545,7 +547,7 @@
     margin-right: 10px;
     display: flex;
     justify-content: center;
-    width: 350px !important;
+    width: 295px !important;
   }
 
   .planner-heading {
@@ -558,7 +560,7 @@
   }
 
   .planner-sc3-image {
-    top: 37px !important;
+    top: 45px !important;
   }
 
   .signup-btn {
@@ -584,6 +586,11 @@
 
   .landing-container {
     min-height: 56rem;
+  }
+
+  .coverage-text {
+    font-size: 15px !important;
+    padding-top: 13px;
   }
 }
 
@@ -739,8 +746,9 @@ input[type=number]::-webkit-outer-spin-button {
   cursor: pointer;
   background-color: rgb(255, 255, 255, 0.3);
 }
-.btns{
-  max-width: 364px;
+
+.btns {
+  max-width: 335px;
   margin: 0px auto;
   justify-content: center;
   display: flex;
@@ -748,20 +756,22 @@ input[type=number]::-webkit-outer-spin-button {
   background: #959BBA;
   padding: 5px;
   border-radius: 50px;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 50px;
   color: #2B3674 !important;
-  
+
 }
-.btns button{
+
+.btns button {
   color: #2B3674 !important;
   border-radius: 50px;
   width: 100%;
-  border: none ;
+  border: none;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 17px;
 }
-.overage-text{
+
+.coverage-text {
   color: white;
   font-size: 22px;
   font-style: italic;
