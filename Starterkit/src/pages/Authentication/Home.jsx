@@ -4,9 +4,9 @@ import SmallEarnings from "../../assets/images/Small_Earnings.svg";
 import Cal02 from "../../assets/images/cal02.svg";
 import Calendar1 from "../../assets/images/calendar_vac1.svg";
 import Calender3 from "../../assets/images/calender3.svg";
-import pic1 from "../../assets/images/Data-backup 1.png";
-import pic2 from "../../assets/images/Business-People-Analyzing-Growth-Charts 1.png";
-import pic3 from "../../assets/images/People-of-different-races-together 1.png";
+import pic1 from "../../assets/images/ht-tool.svg";
+import pic2 from "../../assets/images/people.svg";
+import pic3 from "../../assets/images/analytics.svg";
 import Logo from "../../assets/images/logo-vaccay.svg";
 import personalimg from "../../assets/images/personal.svg";
 import businessImg from "../../assets/images/business.svg";
@@ -445,7 +445,7 @@ const Footer = ({ personal }) => {
   return (
     <div className="footer-container">
       {personal === true ? (
-        <p className="overage-text">
+        <p className="coverage-text">
           *On average, firms with more than 500 workers owe each employee $2,609
           in accrued paid time off - <a style={{ color: "white"}} target="_blank" href="https://www.wsj.com/articles/BL-ATWORKB-2313">Source</a> .
         </p>
@@ -462,7 +462,7 @@ const Footer = ({ personal }) => {
       <div className="footer-section">
         <Container>
           <Row>
-            <Col sm={10}>
+            <Col >
               <form onSubmit={handleFormSubmit}>
                 <div className="form-group footer-input">
                   <input
@@ -487,7 +487,7 @@ const Footer = ({ personal }) => {
                 )}
               </form>
             </Col>
-            <Col sm={2} className="text-end">
+            <Col  className="text-end">
               <p style={blogStyle} onClick={goToBlog}>
                 Blog
               </p>
