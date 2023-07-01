@@ -11,6 +11,13 @@ const ProvidersRedirect = () => {
     const history = useHistory();
 
 
+    useEffect(() => {
+        console.log("HI I am startrgin now")
+        fetchAccessToken()
+    }, );
+
+
+
     function getHashValue(key) {
         var matches = window.location.hash.match(new RegExp(key + '=([^&]*)'));
         return matches ? matches[1] : null;
@@ -18,7 +25,9 @@ const ProvidersRedirect = () => {
 
     function fetchAccessToken() {
         let provider = params['provider']
+    
         if (provider) {
+
             if (provider == 'google') {
                 let access_token = getHashValue('access_token')
                 let obj = { provider, access_token }
@@ -55,10 +64,6 @@ const ProvidersRedirect = () => {
             }, 3000);
         }
     }
-
-    useEffect(() => {
-        fetchAccessToken()
-    }, []);
 
 
     return (

@@ -16,7 +16,7 @@ class User(AbstractUser):
     email = models.CharField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
     username = models.CharField(max_length=100, unique=True)
-    profile_pic = models.CharField(max_length=100, null=True)
+    profile_pic = models.CharField(max_length=500, null=True)
     is_logged_in = models.BooleanField(default=False)
     country = models.CharField(max_length=100, null=True)
     provider = models.CharField(max_length=25, choices=ProivderType.choices, default=ProivderType.EMAIL)

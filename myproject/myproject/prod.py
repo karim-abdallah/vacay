@@ -1,7 +1,7 @@
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['backend.vacay.live']
+ALLOWED_HOSTS = ['backend.vacay.live','*']
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
