@@ -179,16 +179,18 @@ function MiniCalendar(props) {
     // cancel mouse selection
   };
 
-  const datesBullets = (currentMonth) => {
+  const datesBullets = (currentDate) => {
     // 1. Create PTO array { date(day) , type }
     // 2. create vacation array
     // 3. combine both arrays
     // 4. sort using date value
     // 5. map: if {type -> return typeBullet(date)} else the other
+    const currentMonth=currentDate.getMonth();
+    const currentYear=currentDate.getFullYear();
     const ptoArray = bookedDates
       .filter(
         (x) =>
-          x.getMonth() === currentMonth && !weekendDayIndex.includes(x.getDay())
+          x.getMonth() === currentMonth && x.getFullYear() === currentYear && !weekendDayIndex.includes(x.getDay())
       )
       .map((x) => {
         return { date: x.getDate(), kind: "PTO" };
@@ -197,7 +199,7 @@ function MiniCalendar(props) {
     const holidaysArray = holidaysWithNames.HOLIDAYSettings.filter(
       (x) => x.active
     )
-      .filter((x) => x.date.getMonth() === currentMonth)
+      .filter((x) => x.date.getMonth() === currentMonth && x.date.getFullYear() === currentYear)
       .map((x) => {
         return { date: x.date.getDate(), name: x.name, kind: "Holiday" };
       });
@@ -418,7 +420,7 @@ function MiniCalendar(props) {
             </>
           ) : (
             <CenteredFlexContainer>
-              {datesBullets(props.startDate.getMonth())}
+              {datesBullets(props.startDate)}
             </CenteredFlexContainer>
           )}
         </>
