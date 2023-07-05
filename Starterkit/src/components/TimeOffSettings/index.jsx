@@ -32,7 +32,7 @@ function HolidayCheckbox(props) {
         onChange={handleCheckboxChange}
         checked={holiday.active}
       />
-      <Tooltip color={tooltipBackground} title={holiday.date}>
+      <Tooltip color={tooltipBackground} title={holiday.date.toLocaleDateString()}>
         {holiday.name}
       </Tooltip>
     </CheckboxWrapper>
@@ -107,6 +107,8 @@ const HolidaysPane = () => {
     };
 
     dispatch({ type: "holidays/update", payload: HOLIDAYSettings });
+    dispatch({type:"holidays/add",payload:HOLIDAYSettings})
+    
   };
 
   useEffect(() => {
@@ -118,7 +120,8 @@ const HolidaysPane = () => {
   const getholiday = useSelector(getHolidays);
   const settings = useSelector(getPTOSettings);
   const sortedHolidays = holidaydata.sort((a, b) => a.date - b.date);
-
+  const sortedHoliday=getholiday.HOLIDAYSettings.sort((a,b)=>a.date - b.date);
+console.log(sortedHoliday);
   const checkboxHandler = async (checkboxId, isChecked) => {
     await patch("/dashboard/update-holidays-status", {
       id: checkboxId,
@@ -127,7 +130,7 @@ const HolidaysPane = () => {
     fetchHoliday();
   };
 
-  const holidayCheckboxes = sortedHolidays.map((item, index) => {
+  const holidayCheckboxes = sortedHoliday.map((item, index) => {
     return (
       <HolidayCheckbox
         key={item.id}
@@ -160,7 +163,7 @@ const HolidaysPane = () => {
       </SettingsSubheader>
       <HolidaysContainer>
         {holidayCheckboxes}
-        {sortedHolidays.length < 30 ? (
+        {sortedHoliday.length < 30 ? (
           <div style={{ gridColumn: "span 1" }}>
             <AddHolidayButton fetchHoliday={fetchHoliday} />
           </div>

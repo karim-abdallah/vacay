@@ -99,6 +99,12 @@ const Dashboard = (state = INIT_STATE, action) => {
         //   return x;
         // }),
       };
+        case 'holidays/add':
+        // action.payload.holidayData.map((i)=>{console.log(i);})
+        return{
+          ...state,
+          HOLIDAYSettings: action.payload.holidayData,
+        }
 
     case 'negativeBalanceMonths/update':
       return {
