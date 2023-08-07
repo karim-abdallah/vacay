@@ -1,0 +1,23 @@
+.nav {
+    margin: 0;
+    padding: 0;
+}
+
+.hrlogo {
+    width: 200px;
+    height: 60px;
+    margin-left: 70px;
+    margin-top: 10px;
+
+}
+#tooltip{
+    background-color: #313791;
+}
+
+.tooltipBtn {
+    background-color: transparent !important;
+}
+
+.tooltipBtn:hover {
+    background-color: transparent;
+}

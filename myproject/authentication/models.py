@@ -20,7 +20,7 @@ class User(AbstractUser):
     is_logged_in = models.BooleanField(default=False)
     country = models.CharField(max_length=100, null=True)
     provider = models.CharField(max_length=25, choices=ProivderType.choices, default=ProivderType.EMAIL)
-
+    type=models.CharField(max_length=25)
     USERNAME_FIELD = "email"  # this is used to make the email field as the primary key
     REQUIRED_FIELDS = [
         "first_name",
@@ -47,9 +47,16 @@ class TimeOffSetting(models.Model):
         LUMP_SUM = "lump_sump", ""
         UNLIMITED = "unlimited", ""
 
+    class RoleType(models.TextChoices):
+        PERSONAL="personal", ""
+        BUSINESS="business", ""
+
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     time_off_type = models.CharField(
         max_length=100, choices=TimeOffType.choices, default=TimeOffType.PTO
+    )
+    role_type=models.CharField(
+         max_length=25, choices=RoleType.choices, default=RoleType.PERSONAL
     )
     accrual_type = models.CharField(
         max_length=100, choices=AccrualType.choices, default=AccrualType.ACCRUAL

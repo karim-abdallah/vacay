@@ -34,8 +34,9 @@ class TokenObtainPairView(TokenViewBase):
     """
         Return JWT tokens (access and refresh) for specific user based on username and password.
     """
+    
     serializer_class = TokenObtainLifetimeSerializer
-
+    
 
 class RegisterView(APIView):
     def post(self, request):
