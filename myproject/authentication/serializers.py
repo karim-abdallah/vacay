@@ -6,8 +6,9 @@ from .models import User, Subscriptions
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class TokenObtainLifetimeSerializer(TokenObtainPairSerializer):
-
+    
     def validate(self, attrs):
+    
         data = super().validate(attrs)
         refresh = self.get_token(self.user)
         data['lifetime'] = int(refresh.access_token.lifetime.total_seconds())
@@ -16,6 +17,7 @@ class TokenObtainLifetimeSerializer(TokenObtainPairSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
+        
         model = User
         fields = [
             "id",
@@ -26,7 +28,8 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "profile_pic",
             "country",
-            "last_login"
+            "last_login",
+            
         ]
 
         # this is used to hide the password when we get the data from the database

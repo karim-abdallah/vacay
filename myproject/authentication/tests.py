@@ -37,6 +37,7 @@ class TimeOffSettingsTests(TestCase):
             password="12345678",
             username="jeanluclapoutre",
             country="USA",
+            type="personal"
         )
         self.time_off_settings = TimeOffSetting.objects.create(
             user=self.user,

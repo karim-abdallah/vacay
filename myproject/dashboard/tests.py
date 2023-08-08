@@ -13,6 +13,7 @@ class TestTimeOffSettingsDetail(TestCase):
             email="jeanclaude@laserrure.com",
             password="jeanclaude69",
             username="jeanclaude",
+            type="personal"
         )
         self.time_off_setting = TimeOffSetting.objects.create(
             user_id=self.user,

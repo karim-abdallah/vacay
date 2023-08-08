@@ -179,7 +179,7 @@ const GetStarted = () => {
 const Banner = ({ isMobile, onGetStartedClick, personal, setPersonal }) => {
   return (
     <div className="container banner-content">
-      <div className="btns">
+      {/* <div className="btns">
         <Button
           style={{ background: personal === false ? "#F4F7FE" : "transparent" }}
           onClick={() => setPersonal(false)}
@@ -202,7 +202,7 @@ const Banner = ({ isMobile, onGetStartedClick, personal, setPersonal }) => {
           />{" "}
           <strong style={{ fontFamily: 'Poppins', fontWeight: 700 }}>Business</strong>
         </Button>
-      </div>
+      </div> */}
       <div className="row">
         <div className="col-md-6">
           <h1 className="main-heading">
@@ -492,6 +492,11 @@ const Footer = ({ personal }) => {
                 Blog
               </p>
             </Col>
+            <Col  className="text-end">
+              <p style={blogStyle} onClick={goToHr}>
+                Business
+              </p>
+            </Col>
           </Row>
         </Container>
       </div>
@@ -505,11 +510,17 @@ const goToBlog = () => {
   );
 };
 
+const goToHr = () => {
+  window.open(
+    "https://jarvis-hr.com"
+  );
+};
+
 const Landing = () => {
   const [showGetStarted, setShowGetStarted] = useState(false);
   const [showContent, setShowContent] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-  const [personal, setPersonal] = useState(true);
+  const [personal, setPersonal] = useState(false);
   useEffect(() => {
     const handleScreenWidthChange = () => {
       setIsMobile(window.innerWidth <= 767);
