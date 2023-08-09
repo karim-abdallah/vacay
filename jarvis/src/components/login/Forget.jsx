@@ -41,7 +41,7 @@ export default function Forget() {
                 </div>
                 <div className="back">
                     <div className="link mt-4">
-                        <Link to="/" className='li text-decoration-none'>Back to JarvisHR</Link>
+                        <Link to="/login" className='li text-decoration-none'>Back to JarvisHR</Link>
                     </div>
                 </div>
             </div>

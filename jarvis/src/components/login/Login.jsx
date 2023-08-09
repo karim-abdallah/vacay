@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import Form from 'react-bootstrap/Form'
@@ -7,38 +7,55 @@ import { Link, useNavigate } from 'react-router-dom'
 import { BsEye } from 'react-icons/bs'
 import Button from 'react-bootstrap/Button'
 import hrlogo from '../../assets/images/hrlogo.svg'
-import Image  from 'react-bootstrap/Image'
+import Image from 'react-bootstrap/Image'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function Login() {
-    const navigate=useNavigate()
+
+
+    const navigate = useNavigate()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
-    const session=sessionStorage.getItem('email')
-    console.log(session)
+    const local = localStorage.getItem('isLoggedIn')
+    useEffect(() => {
+        (local ? (navigate('/home')) : (navigate('/login')))
+    }, [local])
+    const notify = (val) => {
+        toast(val, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });
+    }
 
     const handleContinue = (event) => {
         event.preventDefault();
-        if(session)
-        {
-            navigate('/home');
+        if (email === "" || password === "") {
+            notify('Seems some field is empty');
         }
-        else if(email==="" || password===""){
-            alert("Enter email or password")
-        }
-        else{
-            sessionStorage.setItem('email',email)
+        else if(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/.test(email) && password.length>2) {
+            localStorage.setItem('isLoggedIn', true)
             setEmail('');
             setPassword('');
             navigate('/home');
-            
         }
-        console.log(email, password)
+        else{
+            notify('Invalid email or Pasword must be 8 digit')
+        }
+
     }
-    
-    const handleNavigate=()=>{
-        navigate('/')
-      }
-  
+
+    const handleNavigate = () => {
+        local ? navigate('/home') : navigate('/login')
+    }
+
     return (
         <div className="mainContainer">
 
@@ -75,6 +92,7 @@ export default function Login() {
                                 </InputGroup.Text>
                             </InputGroup>
                         </div>
+
                     </Form>
 
                 </div>
@@ -83,6 +101,18 @@ export default function Login() {
                 </div>
                 <div className="btns m-4">
                     <Button variant="none" size="lg" className='btn' onClick={handleContinue}>Continue  </Button>
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="dark"
+                    />
                 </div>
             </div>
         </div>

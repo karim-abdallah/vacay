@@ -11,10 +11,10 @@ const router=createBrowserRouter([
     element:<Login/>
   },
   {
-    path:'/login',
-    element:"https://www.google.com"
+    path:"/login",
+    element:<Login/>
   },
-  {
+   {
     path:'/home',
     element:<Home />
   },

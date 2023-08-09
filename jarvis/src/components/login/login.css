@@ -103,22 +103,15 @@
     text-align: center;
     color: #FFF;
     background: #313791;
-}
-
-.btns>.li {
-    color: #FFF;
     font-family: DM Sans;
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
-}
-
-.btns {
     border-radius: 10px;
-    background: #313791;
+   
 }
 
-.btns>.li:hover {
+.btn:hover {
     color: #FFF;
     background: #313791;
 }
