@@ -11,6 +11,10 @@ class User(AbstractUser):
         FACEBOOK = "facebook", ""
         GOOGLE = "google", ""
 
+    class UserType(models.TextChoices):
+        PERSONAL = "personal", ""
+        BUSINESS = "business", ""
+
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.CharField(max_length=100, unique=True)
@@ -19,13 +23,20 @@ class User(AbstractUser):
     profile_pic = models.CharField(max_length=500, null=True)
     is_logged_in = models.BooleanField(default=False)
     country = models.CharField(max_length=100, null=True)
-    provider = models.CharField(max_length=25, choices=ProivderType.choices, default=ProivderType.EMAIL)
-    type=models.CharField(max_length=25)
+    provider = models.CharField(
+        max_length=25, choices=ProivderType.choices, default=ProivderType.EMAIL)
+    type = models.CharField(
+        max_length=25, choices=UserType.choices, default=UserType.PERSONAL)
+    url = models.URLField(null=True)
+
     USERNAME_FIELD = "email"  # this is used to make the email field as the primary key
+
     REQUIRED_FIELDS = [
         "first_name",
         "last_name",
         "username",
+        "type",
+        "url"
     ]  # this is used to make the username field as the required field
 
 
@@ -46,18 +57,13 @@ class TimeOffSetting(models.Model):
         ACCRUAL = "accrual", ""
         LUMP_SUM = "lump_sump", ""
         UNLIMITED = "unlimited", ""
-
-    class RoleType(models.TextChoices):
-        PERSONAL="personal", ""
-        BUSINESS="business", ""
+        
 
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     time_off_type = models.CharField(
         max_length=100, choices=TimeOffType.choices, default=TimeOffType.PTO
     )
-    role_type=models.CharField(
-         max_length=25, choices=RoleType.choices, default=RoleType.PERSONAL
-    )
+
     accrual_type = models.CharField(
         max_length=100, choices=AccrualType.choices, default=AccrualType.ACCRUAL
     )
