@@ -19,8 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-   
-    path('admin/', admin.site.urls),
-    path('api/auth/',include('authentication.urls')),
-    path('api/dashboard/',include('dashboard.urls')),
+    path("admin/", admin.site.urls),
+    path("api/auth/", include("authentication.urls")),
+    path("api/dashboard/", include("dashboard.urls")),
+    path("api/jarvis/", include("jarvishr.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
