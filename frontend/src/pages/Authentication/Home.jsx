@@ -462,7 +462,8 @@ const Footer = ({ personal }) => {
       <div className="footer-section">
         <Container>
           <Row>
-            <Col >
+            <Col  className="d-flex">
+          
               <form onSubmit={handleFormSubmit}>
                 <div className="form-group footer-input">
                   <input
@@ -487,16 +488,16 @@ const Footer = ({ personal }) => {
                 )}
               </form>
             </Col>
-            <Col  className="text-end">
-              <p style={blogStyle} onClick={goToBlog}>
+            <Col  className="d-flex justify-content-end">
+          <p style={blogStyle} onClick={goToBlog}>
                 Blog
               </p>
-            </Col>
-            <Col  className="text-end">
-              <p style={blogStyle} onClick={goToHr}>
+              <p style={blogStyle} onClick={goToHr} className="ms-3">
                 Business
               </p>
+             
             </Col>
+          
           </Row>
         </Container>
       </div>
