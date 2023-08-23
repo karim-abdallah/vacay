@@ -27,16 +27,14 @@ class User(AbstractUser):
         max_length=25, choices=ProivderType.choices, default=ProivderType.EMAIL)
     type = models.CharField(
         max_length=25, choices=UserType.choices, default=UserType.PERSONAL)
-    url = models.URLField(null=True)
+    url = models.URLField(null=True, blank=True)
 
     USERNAME_FIELD = "email"  # this is used to make the email field as the primary key
 
     REQUIRED_FIELDS = [
         "first_name",
         "last_name",
-        "username",
-        "type",
-        "url"
+        "username"
     ]  # this is used to make the username field as the required field
 
 
@@ -102,3 +100,9 @@ class BookedDays(models.Model):
         max_length=20, choices=TimeOffType.choices, default=TimeOffType.PTO
     )
     tag = models.CharField(max_length=25, blank=True, null=True)
+
+
+class Metric(models.Model):
+    metric = models.CharField(max_length=100)
+    definition = models.CharField(max_length=250)
+    formula = models.CharField(max_length=250)

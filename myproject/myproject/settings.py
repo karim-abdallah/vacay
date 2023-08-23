@@ -39,9 +39,7 @@ INSTALLED_APPS = [
     'dashboard',
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_framework_simplejwt',
-    # oauth apps loaded here google/facebook authentication
-    'django.contrib.sites'
+    'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
@@ -103,9 +101,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=600),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    # "AUTH_HEADER_TYPES": ("Token",),
-    # "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION"
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1)
 }
 
 
@@ -142,7 +138,7 @@ CORS_ALLOW_CREDENTIALS = True
 print(f"Running server with parameter {config('VACAY_BACKEND_ENV')}")
 
 if config("VACAY_BACKEND_ENV") == "local":
-    from .prod import *
+    from .dev import *
 else:
     from .prod import *
     
