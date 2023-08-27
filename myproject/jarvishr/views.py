@@ -20,6 +20,7 @@ class ChatBotView(APIView):
     def post(self, request):
 
         prompt = request.data['prompt']
+        initial_conversation = request.data['initial_conversation']
  
         with open(FILE_PATH, 'r') as file: #open file
             file_content = file.read() #read file
@@ -30,7 +31,7 @@ class ChatBotView(APIView):
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": prompt}
-            ]
+            ] + initial_conversation
         )
             
         message = response.choices[0].message
