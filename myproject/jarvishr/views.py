@@ -15,12 +15,13 @@ FILE_PATH = 'sample_data.csv' #file path
 # Create your views here.
 class ChatBotView(APIView):
 
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def post(self, request):
 
         prompt = request.data['prompt']
-
+        initial_conversation = request.data['initial_conversation']
+ 
         with open(FILE_PATH, 'r') as file: #open file
             file_content = file.read() #read file
             #user content from file
@@ -29,15 +30,12 @@ class ChatBotView(APIView):
             model="gpt-3.5-turbo",  # Choose an appropriate model
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt},
-            ]
+                {"role": "user", "content": prompt}
+            ] + initial_conversation
         )
-
-        return Response(
-            {
-                "detail": response.choices[0].message['content']},
-                  status=status.HTTP_201_CREATED
-        )
+            
+        message = response.choices[0].message
+        return Response( { "data": message}, status=status.HTTP_201_CREATED )
 
 class MetricsView(APIView):
     
