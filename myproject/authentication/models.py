@@ -106,3 +106,6 @@ class Metric(models.Model):
     metric = models.CharField(max_length=100)
     definition = models.CharField(max_length=250)
     formula = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.metric
