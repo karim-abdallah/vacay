@@ -29,9 +29,6 @@ class TokenObtainLifetimeSerializer(TokenObtainPairSerializer):
         data['lifetime'] = int(refresh.access_token.lifetime.total_seconds())
         data['is_logged_in'] = self.user.is_logged_in
 
-        if user_type == 'business':
-            data['url'] = self.user.url
-
         return data
 
 class UserSerializer(serializers.ModelSerializer):
@@ -48,7 +45,8 @@ class UserSerializer(serializers.ModelSerializer):
             "profile_pic",
             "country",
             "last_login",
-            
+            "looker_studio_url",
+            "data_source_url"
         ]
 
         # this is used to hide the password when we get the data from the database
