@@ -28,7 +28,7 @@ class User(AbstractUser):
     type = models.CharField(
         max_length=25, choices=UserType.choices, default=UserType.PERSONAL)
     looker_studio_url = models.URLField(null=True, blank=True)
-    data_source_url =  models.UUIDField(null=True, blank=True)
+    data_source_url =  models.URLField(null=True, blank=True)
 
     USERNAME_FIELD = "email"  # this is used to make the email field as the primary key
 
