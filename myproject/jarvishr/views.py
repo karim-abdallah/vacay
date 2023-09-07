@@ -29,7 +29,7 @@ class ChatBotView(APIView):
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",  # Choose an appropriate model
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": "You are a helpful assistant that will only answer questions relative to the previously given file or HR related questions."},
                 {"role": "user", "content": prompt}
             ] + initial_conversation
         )
