@@ -12,20 +12,19 @@ from .utils import getData
 
 openai.api_key = OPENAI_KEY
 
-FILE_PATH = "sample_data.csv"  # file path
-
-
 # Create your views here.
 class ChatBotView(APIView):
     permission_classes = [IsAuthenticated]
+    
 
     def post(self, request):
+        
         prompt = request.data["prompt"]
         initial_conversation = request.data["initial_conversation"]
-
-        id = request.user.data_source_url
-
-        result = getData(id)
+       
+        sheet_id = request.user.data_source_url.split('/')
+        
+        result = getData(sheet_id[5])
 
         prompt = f"Here are the statistics for the file:\n\n{result}\n\${prompt}"
         response = openai.ChatCompletion.create(
