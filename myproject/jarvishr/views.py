@@ -1,21 +1,21 @@
 import openai
-from authentication.models import Metric
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from authentication.models import Metric
 
 from .constants import OPENAI_KEY
 from .serializers import MetricsSerializer
-from .utils import getData
+from .utils import fetchGoogleSheet
 
 openai.api_key = OPENAI_KEY
 
 # Create your views here.
 class ChatBotView(APIView):
-    permission_classes = [IsAuthenticated]
     
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         
@@ -24,9 +24,10 @@ class ChatBotView(APIView):
        
         sheet_id = request.user.data_source_url.split('/')
         
-        result = getData(sheet_id[5])
+        result = fetchGoogleSheet(sheet_id[5])
 
         prompt = f"Here are the statistics for the file:\n\n{result}\n\${prompt}"
+
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",  # Choose an appropriate model
             messages=[
@@ -44,9 +45,11 @@ class ChatBotView(APIView):
 
 
 class MetricsView(APIView):
+
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+
         metrics = Metric.objects.all()
         serializer = MetricsSerializer(metrics, many=True)
         return Response(serializer.data)

@@ -1,31 +1,27 @@
-from googleapiclient.discovery import build
+import json
 
 from google.oauth2 import service_account
-from authentication.models import User
+from googleapiclient.discovery import build
+
+from .constants import SERVICE_ACCOUNT_JSON
 
 
-def getData(id):
+def fetchGoogleSheet(spreadsheet_id):
+
     SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
-    SERVICE_ACCOUNT_FILE = "key.json"
-    creds = None
-    creds = service_account.Credentials.from_service_account_file(
+
+    SERVICE_ACCOUNT_FILE = json.loads(SERVICE_ACCOUNT_JSON)
+    
+    credentials = service_account.Credentials.from_service_account_info(
         SERVICE_ACCOUNT_FILE, scopes=SCOPES
     )
 
-    # The ID of a sample spreadsheet.
-    SAMPLE_SPREADSHEET_ID = id
-
-    service = build("sheets", "v4", credentials=creds)
+    service = build("sheets", "v4", credentials=credentials)
 
     # Call the Sheets API
     sheet = service.spreadsheets()
-    result = (
-        sheet.values()
-        .get(spreadsheetId=SAMPLE_SPREADSHEET_ID, range="sheetdata")
-        .execute()
-    )
 
-    values = result.get("values", [])
+    result = sheet.values().get(spreadsheetId=spreadsheet_id, range="sheetdata").execute()
 
     return result
 
