@@ -23,7 +23,7 @@ class UserView(APIView):
 
     def get(self, request):
         id = request.user.id
-
+        
         user = User.objects.filter(id=id).first()
 
         serializer = UserSerializer(user)
