@@ -7,21 +7,24 @@ from .constants import SERVICE_ACCOUNT_JSON
 
 
 def fetchGoogleSheet(spreadsheet_id):
+    try:
 
-    SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+        SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
-    SERVICE_ACCOUNT_FILE = json.loads(SERVICE_ACCOUNT_JSON)
-    
-    credentials = service_account.Credentials.from_service_account_info(
-        SERVICE_ACCOUNT_FILE, scopes=SCOPES
-    )
+        SERVICE_ACCOUNT_FILE = json.loads(SERVICE_ACCOUNT_JSON)
+        
+        credentials = service_account.Credentials.from_service_account_info(
+            SERVICE_ACCOUNT_FILE, scopes=SCOPES
+        )
 
-    service = build("sheets", "v4", credentials=credentials)
+        service = build("sheets", "v4", credentials=credentials)
 
-    # Call the Sheets API
-    sheet = service.spreadsheets()
+        # Call the Sheets API
+        sheet = service.spreadsheets()
 
-    result = sheet.values().get(spreadsheetId=spreadsheet_id, range="sheetdata").execute()
+        result = sheet.values().get(spreadsheetId=spreadsheet_id, range="sheetdata").execute()
 
-    return result
+        return result
 
+    except Exception as e:
+        return None
