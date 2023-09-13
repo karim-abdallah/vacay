@@ -11,7 +11,7 @@ def fetchGoogleSheet(spreadsheet_id):
 
         SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
-        SERVICE_ACCOUNT_FILE = json.loads(SERVICE_ACCOUNT_JSON)
+        SERVICE_ACCOUNT_FILE = json.loads(SERVICE_ACCOUNT_JSON, strict=False)
         
         credentials = service_account.Credentials.from_service_account_info(
             SERVICE_ACCOUNT_FILE, scopes=SCOPES
@@ -22,9 +22,10 @@ def fetchGoogleSheet(spreadsheet_id):
         # Call the Sheets API
         sheet = service.spreadsheets()
 
-        result = sheet.values().get(spreadsheetId=spreadsheet_id, range="sheetdata").execute()
+        result = sheet.values().get(spreadsheetId=spreadsheet_id, range="Sheet1").execute()
 
         return result
 
     except Exception as e:
+        breakpoint()
         return None
