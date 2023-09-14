@@ -22,10 +22,15 @@ def fetchGoogleSheet(spreadsheet_id):
         # Call the Sheets API
         sheet = service.spreadsheets()
 
-        result = sheet.values().get(spreadsheetId=spreadsheet_id, range="Sheet1").execute()
+        meta = sheet.get(spreadsheetId=spreadsheet_id).execute()
+
+        # we try to fetch the name of first sheet
+        sheet_name = meta.get('sheets')[0]['properties']['title']
+
+        result = sheet.values().get(spreadsheetId=spreadsheet_id, range=sheet_name).execute()
 
         return result
 
     except Exception as e:
-        breakpoint()
+        print(str(e))
         return None
