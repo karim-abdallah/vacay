@@ -20,17 +20,25 @@ def fetchGoogleSheet(spreadsheet_id):
         service = build("sheets", "v4", credentials=credentials)
 
         # Call the Sheets API
-        sheet = service.spreadsheets()
+        sheets = service.spreadsheets()
 
-        meta = sheet.get(spreadsheetId=spreadsheet_id).execute()
+        meta = sheets.get(spreadsheetId=spreadsheet_id).execute()
 
         # we try to fetch the name of first sheet
-        sheet_name = meta.get('sheets')[0]['properties']['title']
+        google_sheets_meta = meta.get('sheets')
 
-        result = sheet.values().get(spreadsheetId=spreadsheet_id, range=sheet_name).execute()
+        # consolidated data from different sheets of google sheet
+        spreadsheet_data = []
 
-        return result
+        # iterate through all the sheets in a single google sheet and get data from it
+        for sheet in google_sheets_meta:
+            sheet_name = sheet['properties']['title']
+
+            result = sheets.values().get(spreadsheetId=spreadsheet_id, range=sheet_name).execute()
+        
+            spreadsheet_data = spreadsheet_data +  result['values']
+
+        return spreadsheet_data
 
     except Exception as e:
-        print(str(e))
         return None
