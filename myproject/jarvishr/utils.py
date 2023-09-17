@@ -28,7 +28,7 @@ def fetchGoogleSheet(spreadsheet_id):
         google_sheets_meta = meta.get('sheets')
 
         # consolidated data from different sheets of google sheet
-        consumer_data = []
+        spreadsheet_data = []
 
         # iterate through all the sheets in a single google sheet and get data from it
         for sheet in google_sheets_meta:
@@ -36,10 +36,9 @@ def fetchGoogleSheet(spreadsheet_id):
 
             result = sheets.values().get(spreadsheetId=spreadsheet_id, range=sheet_name).execute()
         
-            consumer_data = consumer_data +  result['values']
+            spreadsheet_data = spreadsheet_data +  result['values']
 
-        return consumer_data
+        return spreadsheet_data
 
     except Exception as e:
-        print(str(e))
         return None
