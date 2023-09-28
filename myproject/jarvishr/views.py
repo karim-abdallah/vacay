@@ -12,6 +12,11 @@ from .utils import fetchGoogleSheet
 
 openai.api_key = OPENAI_KEY
 
+tuning_prompt = """You are a helpful assistant that will only answer questions 
+relative to the previously given file or HR related questions. 
+Please limit your answers to 50 words, and don't share any code if you use any to
+make computations."""
+
 # Create your views here.
 class ChatBotView(APIView):
     
@@ -33,7 +38,7 @@ class ChatBotView(APIView):
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a helpful assistant that will only answer questions relative to the previously given file or HR related questions.",
+                    "content": tuning_prompt,
                 },
                 {"role": "user", "content": prompt},
             ]
