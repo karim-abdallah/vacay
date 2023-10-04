@@ -1,6 +1,7 @@
 import openai
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -8,7 +9,7 @@ from authentication.models import Metric
 
 from .constants import OPENAI_KEY
 from .serializers import MetricsSerializer
-from .utils import fetchGoogleSheet
+from .utils import create_workforce_database_entry, fetchGoogleSheet
 
 openai.api_key = OPENAI_KEY
 
@@ -58,3 +59,24 @@ class MetricsView(APIView):
         metrics = Metric.objects.all()
         serializer = MetricsSerializer(metrics, many=True)
         return Response(serializer.data)
+    
+
+class WorkforceView(APIView):
+
+    permission_classes = [IsAuthenticated]
+    file_parser = (MultiPartParser)
+
+    def post(self, request):
+        """
+        Create workforce database entry for a given business user
+        """
+        # 1. Fetch CSV
+        csv_file = request.data['file']
+        user_id = request.user.id
+        # 2. Call helper
+        response = create_workforce_database_entry(csv_file, user_id)
+        # 3. Return success
+        return Response({"data": "Success"}, status=status.HTTP)
+
+        
+

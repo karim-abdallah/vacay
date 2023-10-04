@@ -42,3 +42,25 @@ def fetchGoogleSheet(spreadsheet_id):
 
     except Exception as e:
         return None
+
+
+def create_workforce_database_entry(csv_file, user_id):
+    """
+    Creates a google sheets entry for the given file.
+    Links the entry to the user's profile.
+
+    Raises error if headers for CSV don't match expected headers.
+
+    TODO: Create looker report with link.
+    """
+
+    # 1. Validate CSV headers otherwise raise error
+    
+
+    # 2. Create google sheet for the given file
+
+    # 3. Save link to created google sheet on user profile
+
+    # 4. Return success
+
+
