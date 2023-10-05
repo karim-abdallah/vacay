@@ -37,7 +37,7 @@ class WorkforceViewTest(TestCase):
     
     def test_post(self) -> None:
         """
-        Tests the view for accurate validation
+        Tests the view happy path
         """
         # Arrange
         self.client.login(email=self.user.email,
@@ -61,3 +61,31 @@ class WorkforceViewTest(TestCase):
 
         # Assert
         self.assertEqual(response.status_code, 201)
+
+    def test_bad_header_formatting(self) -> None:
+        """
+        Tests that wrong headers on the CSV raise a validation error
+        """
+        # Arrange
+        # Arrange
+        self.client.login(email=self.user.email,
+                          password=self.user.password)
+        
+        url = reverse("workforce")
+
+        mock_data = [
+            ["Job Title", "Seniority Level", "Department", "Country", "City", "Gender", "Marital Status", "Date of Birth", "Nationality", "Start Date", "Termination Date", "Reason for Termination", "Yearly Base Salary"],
+            ["John Doe", "Engineer", "Senior", "Engineering", "USA", "New York", "Male", "Married", "1980-01-01", "American", "2023-01-01", "", "", "75000"]
+        ]
+
+        # Create a mock CSV file
+        # TODO: figure out authentication. It's still being a pain...
+        mock_csv = self.create_mock_csv(mock_data)
+
+        # Act
+        response = self.client.post(url, {'file': mock_csv})
+
+        mock_csv.close()
+
+        # Assert
+        self.assertEqual(response.status_code, 400)
