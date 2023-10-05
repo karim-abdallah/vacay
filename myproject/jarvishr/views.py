@@ -65,15 +65,17 @@ class MetricsView(APIView):
 
 class WorkforceView(APIView):
 
+    permission_classes = [IsAuthenticated]
     file_parser = (MultiPartParser)
 
-    def post(self, request, user_id):
+    def post(self, request):
         """
         Create workforce database entry for a given business user
         """
         # 1. Fetch CSV
         csv_file = request.data['file']
-        opened_file = TextIOWrapper(csv_file.file, encoding=csv_file.charset)        
+        opened_file = TextIOWrapper(csv_file.file, encoding='utf-8')
+        user_id = request.user.id  
         user_email = get_object_or_404(User, id=user_id).email
         company_gsheet_source = get_object_or_404(CompanyGsheetSource, company_name=parse_company_name_from_email(user_email))
 
