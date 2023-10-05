@@ -1,5 +1,5 @@
 import openai
-from rest_framework import status
+from rest_framework import status, serializers
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
@@ -7,9 +7,9 @@ from rest_framework.views import APIView
 
 from authentication.models import Metric
 
-from .constants import OPENAI_KEY
+from .constants import OPENAI_KEY, WORKFORCE_HEADERS
 from .serializers import MetricsSerializer
-from .utils import create_workforce_database_entry, fetchGoogleSheet
+from .utils import create_workforce_database_entry, fetchGoogleSheet, validate_csv_headers
 
 openai.api_key = OPENAI_KEY
 
@@ -63,7 +63,6 @@ class MetricsView(APIView):
 
 class WorkforceView(APIView):
 
-    permission_classes = [IsAuthenticated]
     file_parser = (MultiPartParser)
 
     def post(self, request):
@@ -73,10 +72,15 @@ class WorkforceView(APIView):
         # 1. Fetch CSV
         csv_file = request.data['file']
         user_id = request.user.id
+
+        # Validate
+        if not validate_csv_headers(csv_file, WORKFORCE_HEADERS):
+            raise serializers.ValidationError("Invalid headers on CSV file.")
+
         # 2. Call helper
         response = create_workforce_database_entry(csv_file, user_id)
         # 3. Return success
-        return Response({"data": "Success"}, status=status.HTTP)
+        return Response({"data": "Success"}, status=status.HTTP_201_CREATED)
 
         
 
