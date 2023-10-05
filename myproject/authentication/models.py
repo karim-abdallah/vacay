@@ -39,6 +39,17 @@ class User(AbstractUser):
     ]  # this is used to make the username field as the required field
 
 
+class CompanyGsheetSource(models.Model):
+
+    """
+    We use the convention that the first worksheet in a group is the workforce
+    data, and the second is the applicants data.
+    """
+    company_name = models.CharField(max_length=100, unique=True)
+    gsheet_name = models.CharField(max_length=100, null=True)
+    gsheet_id = models.URLField(null=True)
+
+
 class Subscriptions(models.Model):
     email = models.CharField(max_length=100, unique=True)
 

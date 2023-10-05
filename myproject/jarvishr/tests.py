@@ -1,5 +1,5 @@
 import csv
-from authentication.models import User
+from authentication.models import User, CompanyGsheetSource
 from io import StringIO
 from django.test import TestCase
 from django.urls import reverse
@@ -15,6 +15,10 @@ class WorkforceViewTest(TestCase):
             password="jeanluc",
             username="jeanluc",
             type="business"
+        )
+
+        self.company_data = CompanyGsheetSource.objects.create(
+            company_name=self.user.email.strip(".com").split("@")[1],
         )
 
         self.client = APIClient()        
@@ -37,13 +41,13 @@ class WorkforceViewTest(TestCase):
     
     def test_post(self) -> None:
         """
-        Tests the view happy path
+        Tests the view happy path.
         """
         # Arrange
         self.client.login(email=self.user.email,
                           password=self.user.password)
         
-        url = reverse("workforce")
+        url = reverse("workforce", kwargs={"user_id": self.user.id})
 
         mock_data = [
             ["Employee Name", "Job Title", "Seniority Level", "Department", "Country", "City", "Gender", "Marital Status", "Date of Birth", "Nationality", "Start Date", "Termination Date", "Reason for Termination", "Yearly Base Salary"],
@@ -54,7 +58,7 @@ class WorkforceViewTest(TestCase):
         # TODO: figure out authentication. It's still being a pain...
         mock_csv = self.create_mock_csv(mock_data)
 
-        # Act
+        # Actgi
         response = self.client.post(url, {'file': mock_csv})
 
         mock_csv.close()
@@ -71,7 +75,7 @@ class WorkforceViewTest(TestCase):
         self.client.login(email=self.user.email,
                           password=self.user.password)
         
-        url = reverse("workforce")
+        url = reverse("workforce", kwargs={"user_id": self.user.id})
 
         mock_data = [
             ["Job Title", "Seniority Level", "Department", "Country", "City", "Gender", "Marital Status", "Date of Birth", "Nationality", "Start Date", "Termination Date", "Reason for Termination", "Yearly Base Salary"],

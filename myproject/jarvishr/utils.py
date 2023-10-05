@@ -8,7 +8,12 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
 from .constants import SERVICE_ACCOUNT_JSON, WORKFORCE_HEADERS
-from io import TextIOWrapper
+
+def parse_company_name_from_email(email: str) -> str:
+    """
+    Takes in an email and returns a company name.
+    """
+    return email.split("@")[1].split(".")[0]
 
 def authenticate_with_google():
     """
@@ -54,7 +59,7 @@ def fetchGoogleSheet(spreadsheet_id):
         return None
 
 
-def create_workforce_database_entry(csv_file, user_id):
+def create_workforce_database_entry(csv_file, company_gsheet_source):
     """
     Creates a google sheets entry for the given file.
     Links the entry to the user's profile.
@@ -67,12 +72,23 @@ def create_workforce_database_entry(csv_file, user_id):
     # 1. Create google sheet for the given file
     SERVICE_ACCOUNT_FILE = json.loads(SERVICE_ACCOUNT_JSON, strict=False)
     gc = gspread.service_account_from_dict(SERVICE_ACCOUNT_FILE)
-    sh = gc.create('workforce_user')
+
+    sheet_name = 'workforce_user'
+    sh = gc.create('sheet_name')
     sh.share('karim@jarvis-hr.com', perm_type='user', role='writer')
+
+    # Add content of CSV to file
+    csv_reader = csv.reader(csv_file)
+    csv_data = list(csv_reader)
+    sheet = sh.get_worksheet(0)
+    sheet.insert_rows(csv_data)
+
     # 2. Save link to created google sheet on user profile
+    company_gsheet_source.gsheet_name = sheet_name
+    company_gsheet_source.gsheet_link = sh.id
 
-    # 3. Return success
-
+    company_gsheet_source.save()
+    
 
 def validate_csv_headers(csv_file, expected_headers):
     """
@@ -85,9 +101,8 @@ def validate_csv_headers(csv_file, expected_headers):
     Returns:
         True if the headers match the expected headers, False otherwise.
     """
-    opened_file = TextIOWrapper(csv_file.file, encoding=csv_file.charset)    
     # Read the first row of the CSV file (the header row)
-    csv_reader = csv.reader(opened_file)
+    csv_reader = csv.reader(csv_file)
     header_row = next(csv_reader, None)
 
     # Check if the header row is None (empty CSV file)
