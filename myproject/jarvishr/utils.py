@@ -73,8 +73,8 @@ def create_workforce_database_entry(csv_file, company_gsheet_source):
     SERVICE_ACCOUNT_FILE = json.loads(SERVICE_ACCOUNT_JSON, strict=False)
     gc = gspread.service_account_from_dict(SERVICE_ACCOUNT_FILE)
 
-    sheet_name = 'workforce_user'
-    sh = gc.create('sheet_name')
+    sheet_name = company_gsheet_source.company_name
+    sh = gc.create(sheet_name)
     sh.share('karim@jarvis-hr.com', perm_type='user', role='writer')
 
     # Add content of CSV to file
@@ -82,6 +82,7 @@ def create_workforce_database_entry(csv_file, company_gsheet_source):
     csv_data = list(csv_reader)
     sheet = sh.get_worksheet(0)
     sheet.insert_rows(csv_data)
+    sheet.insert_row(WORKFORCE_HEADERS)
 
     # 2. Save link to created google sheet on user profile
     company_gsheet_source.gsheet_name = sheet_name
