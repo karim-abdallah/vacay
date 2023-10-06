@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 
-from authentication.models import Metric, CompanyGsheetSource, User
+from authentication.models import Metric, Company, User
 from io import TextIOWrapper
 
 from .constants import OPENAI_KEY, WORKFORCE_HEADERS
@@ -76,15 +76,15 @@ class WorkforceView(APIView):
         csv_file = request.data['file']
         opened_file = TextIOWrapper(csv_file.file, encoding='utf-8')
         user_id = request.user.id  
-        user_email = get_object_or_404(User, id=user_id).email
-        company_gsheet_source = get_object_or_404(CompanyGsheetSource, company_name=parse_company_name_from_email(user_email))
+        company_id = get_object_or_404(User, id=user_id).id
+        company = get_object_or_404(Company, id=company_id)
 
         # Validate
         if not validate_csv_headers(opened_file, WORKFORCE_HEADERS):
             raise serializers.ValidationError("Invalid headers on CSV file.")
 
         # 2. Call helper
-        response = create_workforce_database_entry(opened_file, company_gsheet_source)
+        response = create_workforce_database_entry(opened_file, company)
 
         # 3. Return success
         return Response({"data": "Success"}, status=status.HTTP_201_CREATED)

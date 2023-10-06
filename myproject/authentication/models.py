@@ -27,6 +27,7 @@ class User(AbstractUser):
         max_length=25, choices=ProivderType.choices, default=ProivderType.EMAIL)
     type = models.CharField(
         max_length=25, choices=UserType.choices, default=UserType.PERSONAL)
+    company = models.ForeignKey("Company", on_delete=models.RESTRICT, null=True)
     looker_studio_url = models.URLField(max_length=5000, null=True, blank=True)
     data_source_url =  models.URLField(null=True, blank=True)
 
@@ -39,7 +40,7 @@ class User(AbstractUser):
     ]  # this is used to make the username field as the required field
 
 
-class CompanyGsheetSource(models.Model):
+class Company(models.Model):
 
     """
     We use the convention that the first worksheet in a group is the workforce
