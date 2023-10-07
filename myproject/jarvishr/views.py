@@ -1,14 +1,17 @@
 import openai
-from rest_framework import status
+from rest_framework import status, serializers
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 
-from authentication.models import Metric
+from authentication.models import Metric, Company, User
+from io import TextIOWrapper
 
-from .constants import OPENAI_KEY
+from .constants import OPENAI_KEY, WORKFORCE_HEADERS
 from .serializers import MetricsSerializer
-from .utils import fetchGoogleSheet
+from .utils import create_workforce_database_entry, fetchGoogleSheet, parse_company_name_from_email, validate_csv_headers
 
 openai.api_key = OPENAI_KEY
 
@@ -58,3 +61,33 @@ class MetricsView(APIView):
         metrics = Metric.objects.all()
         serializer = MetricsSerializer(metrics, many=True)
         return Response(serializer.data)
+    
+
+class WorkforceView(APIView):
+
+    permission_classes = [IsAuthenticated]
+    file_parser = (MultiPartParser)
+
+    def post(self, request):
+        """
+        Create workforce database entry for a given business user
+        """
+        # 1. Fetch CSV
+        csv_file = request.data['file']
+        opened_file = TextIOWrapper(csv_file.file, encoding='utf-8')
+        user_id = request.user.id  
+        company_id = get_object_or_404(User, id=user_id).id
+        company = get_object_or_404(Company, id=company_id)
+
+        # Validate
+        if not validate_csv_headers(opened_file, WORKFORCE_HEADERS):
+            raise serializers.ValidationError("Invalid headers on CSV file.")
+
+        # 2. Call helper
+        response = create_workforce_database_entry(opened_file, company)
+
+        # 3. Return success
+        return Response({"data": "Success"}, status=status.HTTP_201_CREATED)
+
+        
+

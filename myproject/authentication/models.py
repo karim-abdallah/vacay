@@ -27,7 +27,8 @@ class User(AbstractUser):
         max_length=25, choices=ProivderType.choices, default=ProivderType.EMAIL)
     type = models.CharField(
         max_length=25, choices=UserType.choices, default=UserType.PERSONAL)
-    looker_studio_url = models.URLField(null=True, blank=True)
+    company = models.ForeignKey("Company", on_delete=models.RESTRICT, null=True)
+    looker_studio_url = models.URLField(max_length=5000, null=True, blank=True)
     data_source_url =  models.URLField(null=True, blank=True)
 
     USERNAME_FIELD = "email"  # this is used to make the email field as the primary key
@@ -37,6 +38,17 @@ class User(AbstractUser):
         "last_name",
         "username"
     ]  # this is used to make the username field as the required field
+
+
+class Company(models.Model):
+
+    """
+    We use the convention that the first worksheet in a group is the workforce
+    data, and the second is the applicants data.
+    """
+    company_name = models.CharField(max_length=100, unique=True)
+    gsheet_name = models.CharField(max_length=100, null=True, blank=True)
+    gsheet_id = models.URLField(null=True, blank=True)
 
 
 class Subscriptions(models.Model):
