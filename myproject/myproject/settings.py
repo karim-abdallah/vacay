@@ -138,7 +138,7 @@ CORS_ALLOW_CREDENTIALS = True
 print(f"Running server with parameter {config('VACAY_BACKEND_ENV')}")
 
 if config("VACAY_BACKEND_ENV") == "local":
-    from .prod import *
+    from .dev import *
 else:
     from .prod import *
     

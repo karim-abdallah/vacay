@@ -16,7 +16,7 @@ class TestTimeOffSettingsDetail(TestCase):
             type="personal"
         )
         self.time_off_setting = TimeOffSetting.objects.create(
-            user_id=self.user,
+            user_id=self.user.id,
             time_off_type="pto",
             accrual_type="accrual",
             annual_allowance_days=20,
@@ -28,6 +28,7 @@ class TestTimeOffSettingsDetail(TestCase):
         # Arrange
         self.client.login(username=self.user.username,
                           password=self.user.password)
+        
         url = reverse("time-off-setting-detail", kwargs={"id": self.user.id})
 
         # Act

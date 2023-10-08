@@ -1,19 +1,27 @@
 import openai
-from rest_framework import status
+from rest_framework import status, serializers
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 
-from authentication.models import Metric
+from authentication.models import Metric, Company, User
+from io import TextIOWrapper
 
-from .constants import OPENAI_KEY
+from .constants import OPENAI_KEY, WORKFORCE_HEADERS
 from .serializers import MetricsSerializer
-from .utils import fetchGoogleSheet
 from .spreadsheet import SpreadSheet
+from .utils import create_workforce_database_entry, fetchGoogleSheet, validate_csv_headers, fetchGoogleSheet
 
 openai.api_key = OPENAI_KEY
 
-# Create your views here.
+tuning_prompt = """You are a helpful assistant that will only answer questions 
+relative to the previously given file or HR related questions. 
+Please limit your answers to 50 words, and don't share any code if you use any to
+make computations."""
+
+
 class ChatBotView(APIView):
     
     permission_classes = [IsAuthenticated]
@@ -34,7 +42,7 @@ class ChatBotView(APIView):
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a helpful assistant that will only answer questions relative to the previously given file or HR related questions.",
+                    "content": tuning_prompt,
                 },
                 {"role": "user", "content": prompt},
             ]
@@ -107,3 +115,32 @@ class SheetView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
+
+class WorkforceView(APIView):
+
+    permission_classes = [IsAuthenticated]
+    file_parser = (MultiPartParser)
+
+    def post(self, request):
+        """
+        Create workforce database entry for a given business user
+        """
+        # 1. Fetch CSV
+        csv_file = request.data['file']
+        opened_file = TextIOWrapper(csv_file.file, encoding='utf-8')
+        user_id = request.user.id  
+        company_id = get_object_or_404(User, id=user_id).id
+        company = get_object_or_404(Company, id=company_id)
+
+        # Validate
+        if not validate_csv_headers(opened_file, WORKFORCE_HEADERS):
+            raise serializers.ValidationError("Invalid headers on CSV file.")
+
+        # 2. Call helper
+        response = create_workforce_database_entry(opened_file, company)
+
+        # 3. Return success
+        return Response({"data": "Success"}, status=status.HTTP_201_CREATED)
+
+        
+
