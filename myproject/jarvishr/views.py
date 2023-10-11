@@ -76,7 +76,6 @@ class SheetView(APIView):
         try:
             spreadsheet_id = request.user.company.gsheet_id
             sheet_title = request.user.company.gsheet_name
-
             sheet = SpreadSheet(spreadsheet_id, sheet_title)
             spreadsheet_data = sheet.get_data()
 

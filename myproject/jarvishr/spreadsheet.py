@@ -20,9 +20,7 @@ class SpreadSheet:
 
             # Call the Sheets API
             sheets = service.spreadsheets()
-
             meta = sheets.get(spreadsheetId=self.spreadsheet_id).execute()
-
             # we try to fetch the name of first sheet
             google_sheets_meta = meta.get('sheets')
 
