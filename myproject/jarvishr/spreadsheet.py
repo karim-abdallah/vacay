@@ -11,9 +11,7 @@ class SpreadSheet:
     def connect_sheet(self):
         try:
             SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
-
             SERVICE_ACCOUNT_FILE = json.loads(SERVICE_ACCOUNT_JSON, strict=False)
-
             credentials = service_account.Credentials.from_service_account_info(
                 SERVICE_ACCOUNT_FILE, scopes=SCOPES
             )
@@ -61,7 +59,6 @@ class SpreadSheet:
             if values:
                 # Assuming the first row contains headers
                 headers = values[0]
-
                 if rows_data:
                     # Prepare the row data to be appended
                     rows_to_append = [[row_data.get(col, '') for col in headers] for row_data in rows_data]
@@ -91,7 +88,7 @@ class SpreadSheet:
             result = sheets.values().get(spreadsheetId=self.spreadsheet_id, range=sheet_range).execute()
             values = result.get('values', [])
 
-            row_ids = [row["Employee ID"] for row in rows_data]
+            row_ids = [row["Email Address"] for row in rows_data]
             
             if values:
                 headers = values[0]
