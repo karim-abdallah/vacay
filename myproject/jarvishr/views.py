@@ -11,7 +11,9 @@ from io import TextIOWrapper
 
 from .constants import OPENAI_KEY, WORKFORCE_HEADERS
 from .serializers import MetricsSerializer
-from .utils import create_workforce_database_entry, fetchGoogleSheet, parse_company_name_from_email, validate_csv_headers
+from .utils import create_workforce_database_entry, fetchGoogleSheet, validate_csv_headers
+from .spreadsheet import SpreadSheet
+
 
 openai.api_key = OPENAI_KEY
 
@@ -20,7 +22,7 @@ relative to the previously given file or HR related questions.
 Please limit your answers to 50 words, and don't share any code if you use any to
 make computations."""
 
-# Create your views here.
+
 class ChatBotView(APIView):
     
     permission_classes = [IsAuthenticated]
@@ -63,6 +65,61 @@ class MetricsView(APIView):
         return Response(serializer.data)
     
 
+class SheetView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    # spreadsheet_id = "1TxRItA8SPvJ_VkKDxTK6WL5vTmfPMzitGASw6Vrh-b0"
+    # sheet_title = "Employee_Database"
+
+    def get(self, request):
+        try:
+            spreadsheet_id = request.user.company.gsheet_id
+            sheet_title = request.user.company.gsheet_name
+            sheet = SpreadSheet(spreadsheet_id, sheet_title)
+            spreadsheet_data = sheet.get_data()
+
+            return Response(spreadsheet_data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def post(self, request):
+        try:
+            rows_data = request.data
+            if rows_data and isinstance(rows_data, list):
+                sheet = SpreadSheet(
+                    request.user.company.gsheet_id, request.user.company.gsheet_name)
+                resp = sheet.append_row(rows_data)
+                return Response({"message": resp}, status=status.HTTP_200_OK)
+            return Response({"error": "invalid data"}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def patch(self, request):
+        try:
+            rows_data = request.data
+            if rows_data and isinstance(rows_data, list):
+                sheet = SpreadSheet(
+                    request.user.company.gsheet_id, request.user.company.gsheet_name)
+                resp = sheet.edit_row(rows_data)
+                return Response({"message": resp}, status=status.HTTP_200_OK)
+            return Response({"error": "invalid data"}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def delete(self, request):
+        try:
+            rows_data = request.data
+            if rows_data and isinstance(rows_data, list):
+                sheet = SpreadSheet(
+                    request.user.company.gsheet_id, request.user.company.gsheet_name)
+                resp = sheet.delete_rows_by_ids(rows_data)
+                return Response({"message": resp}, status=status.HTTP_200_OK)
+            return Response({"error": "invalid data"}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 class WorkforceView(APIView):
 
     permission_classes = [IsAuthenticated]
@@ -75,7 +132,7 @@ class WorkforceView(APIView):
         # 1. Fetch CSV
         csv_file = request.data['file']
         opened_file = TextIOWrapper(csv_file.file, encoding='utf-8')
-        user_id = request.user.id  
+        user_id = request.user.id
         company_id = get_object_or_404(User, id=user_id).id
         company = get_object_or_404(Company, id=company_id)
 
@@ -88,6 +145,3 @@ class WorkforceView(APIView):
 
         # 3. Return success
         return Response({"data": "Success"}, status=status.HTTP_201_CREATED)
-
-        
-

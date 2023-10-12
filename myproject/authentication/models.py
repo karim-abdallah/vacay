@@ -48,7 +48,7 @@ class Company(models.Model):
     """
     company_name = models.CharField(max_length=100, unique=True)
     gsheet_name = models.CharField(max_length=100, null=True, blank=True)
-    gsheet_id = models.URLField(null=True, blank=True)
+    gsheet_id = models.CharField(max_length=100, null=True, blank=True)
 
 
 class Subscriptions(models.Model):

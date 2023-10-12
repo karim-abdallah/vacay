@@ -1,6 +1,5 @@
 import gspread
 
-from http.client import BAD_REQUEST
 import json
 import csv
 
@@ -14,6 +13,7 @@ def parse_company_name_from_email(email: str) -> str:
     Takes in an email and returns a company name.
     """
     return email.split("@")[1].split(".")[0]
+
 
 def authenticate_with_google():
     """
