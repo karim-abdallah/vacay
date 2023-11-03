@@ -28,13 +28,18 @@ class ChatBotView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        data = request.data
+        field = data['field']
+
+        if field == 'recruitment':
+            spreadsheet_id = request.user.company.gsheet_recruitment_id
+        else:
+            spreadsheet_id = request.user.company.gsheet_workforce_id
         
-        prompt = request.data["prompt"]
-        initial_conversation = request.data["initial_conversation"]
-       
-        sheet_id = request.user.data_source_url.split('/')
-        
-        result = fetchGoogleSheet(sheet_id[5])
+        prompt = data["prompt"]
+        initial_conversation = data["initial_conversation"]
+
+        result = fetchGoogleSheet(spreadsheet_id)
 
         prompt = f"Here are the statistics for the file:\n\n{result}\n\${prompt}"
 
@@ -74,8 +79,15 @@ class SheetView(APIView):
 
     def get(self, request):
         try:
-            spreadsheet_id = request.user.company.gsheet_id
-            sheet_title = request.user.company.gsheet_name
+            field = request.get('field')
+
+            if field == 'recruitment':
+                spreadsheet_id = request.user.company.gsheet_recruitment_id
+                sheet_title = request.user.company.gsheet_recruitment_name
+            else:
+                spreadsheet_id = request.user.company.gsheet_workforce_id
+                sheet_title = request.user.company.gsheet_workforce_id
+
             sheet = SpreadSheet(spreadsheet_id, sheet_title)
             spreadsheet_data = sheet.get_data()
 
@@ -85,10 +97,20 @@ class SheetView(APIView):
 
     def post(self, request):
         try:
-            rows_data = request.data
+            data = request.data
+            field = data['field']
+
+            if field == 'recruitment':
+                spreadsheet_id = request.user.company.gsheet_recruitment_id
+                sheet_title = request.user.company.gsheet_recruitment_name
+            else:
+                spreadsheet_id = request.user.company.gsheet_workforce_id
+                sheet_title = request.user.company.gsheet_workforce_id
+
+            rows_data = data['rows_data']
+
             if rows_data and isinstance(rows_data, list):
-                sheet = SpreadSheet(
-                    request.user.company.gsheet_id, request.user.company.gsheet_name)
+                sheet = SpreadSheet(spreadsheet_id, sheet_title)
                 resp = sheet.append_row(rows_data)
                 return Response({"message": resp}, status=status.HTTP_200_OK)
             return Response({"error": "invalid data"}, status=status.HTTP_400_BAD_REQUEST)
@@ -97,10 +119,20 @@ class SheetView(APIView):
 
     def patch(self, request):
         try:
-            rows_data = request.data
+            data = request.data
+            field = data['field']
+
+            if field == 'recruitment':
+                spreadsheet_id = request.user.company.gsheet_recruitment_id
+                sheet_title = request.user.company.gsheet_recruitment_name
+            else:
+                spreadsheet_id = request.user.company.gsheet_workforce_id
+                sheet_title = request.user.company.gsheet_workforce_id
+
+            rows_data = data['rows_data']
+
             if rows_data and isinstance(rows_data, list):
-                sheet = SpreadSheet(
-                    request.user.company.gsheet_id, request.user.company.gsheet_name)
+                sheet = SpreadSheet( spreadsheet_id, sheet_title)
                 resp = sheet.edit_row(rows_data)
                 return Response({"message": resp}, status=status.HTTP_200_OK)
             return Response({"error": "invalid data"}, status=status.HTTP_400_BAD_REQUEST)
@@ -109,10 +141,20 @@ class SheetView(APIView):
 
     def delete(self, request):
         try:
-            rows_data = request.data
+            data = request.data
+            field = data['field']
+
+            if field == 'recruitment':
+                spreadsheet_id = request.user.company.gsheet_recruitment_id
+                sheet_title = request.user.company.gsheet_recruitment_name
+            else:
+                spreadsheet_id = request.user.company.gsheet_workforce_id
+                sheet_title = request.user.company.gsheet_workforce_id
+
+            rows_data = data['rows_data']
+
             if rows_data and isinstance(rows_data, list):
-                sheet = SpreadSheet(
-                    request.user.company.gsheet_id, request.user.company.gsheet_name)
+                sheet = SpreadSheet( spreadsheet_id, sheet_title)
                 resp = sheet.delete_rows_by_ids(rows_data)
                 return Response({"message": resp}, status=status.HTTP_200_OK)
             return Response({"error": "invalid data"}, status=status.HTTP_400_BAD_REQUEST)

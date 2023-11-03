@@ -41,11 +41,13 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
             "email",
             "password",
+            "type",
             "username",
             "profile_pic",
             "country",
             "last_login",
-            "looker_studio_url",
+            "looker_studio_recruitment_url",
+            "looker_studio_workforce_url",
             "data_source_url"
         ]
 
