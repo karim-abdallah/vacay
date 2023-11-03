@@ -28,7 +28,8 @@ class User(AbstractUser):
     type = models.CharField(
         max_length=25, choices=UserType.choices, default=UserType.PERSONAL)
     company = models.ForeignKey("Company", on_delete=models.RESTRICT, null=True)
-    looker_studio_url = models.URLField(max_length=5000, null=True, blank=True)
+    looker_studio_recruitment_url = models.URLField(max_length=5000, null=True, blank=True)
+    looker_studio_workforce_url = models.URLField(max_length=5000, null=True, blank=True)
     data_source_url =  models.URLField(null=True, blank=True)
 
     USERNAME_FIELD = "email"  # this is used to make the email field as the primary key
@@ -47,8 +48,10 @@ class Company(models.Model):
     data, and the second is the applicants data.
     """
     company_name = models.CharField(max_length=100, unique=True)
-    gsheet_name = models.CharField(max_length=100, null=True, blank=True)
-    gsheet_id = models.URLField(null=True, blank=True)
+    gsheet_recruitment_name = models.CharField(max_length=100, null=True, blank=True)
+    gsheet_recruitment_id = models.URLField(null=True, blank=True)
+    gsheet_workforce_name = models.CharField(max_length=100, null=True, blank=True)
+    gsheet_workforce_id = models.URLField(null=True, blank=True)
 
 
 class Subscriptions(models.Model):
