@@ -49,9 +49,9 @@ class Company(models.Model):
     """
     company_name = models.CharField(max_length=100, unique=True)
     gsheet_recruitment_name = models.CharField(max_length=100, null=True, blank=True)
-    gsheet_recruitment_id = models.URLField(null=True, blank=True)
+    gsheet_recruitment_id = models.CharField(max_length=200, null=True, blank=True)
     gsheet_workforce_name = models.CharField(max_length=100, null=True, blank=True)
-    gsheet_workforce_id = models.URLField(null=True, blank=True)
+    gsheet_workforce_id = models.CharField(max_length=200, null=True, blank=True)
 
 
 class Subscriptions(models.Model):
