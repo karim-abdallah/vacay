@@ -55,7 +55,8 @@ class UserSerializer(serializers.ModelSerializer):
             "last_login",
             "looker_studio_recruitment_url",
             "looker_studio_workforce_url",
-            "data_source_url"
+            "data_source_url",
+            "company"
         ]
 
         # this is used to hide the password when we get the data from the database
