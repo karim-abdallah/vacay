@@ -69,16 +69,6 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
-    
-    
-    def to_representation(self, instance):
-        # Check if this is a GET request
-        if self.context['request'].method == 'GET':
-            self.Meta.depth = 1
-        else:
-            self.Meta.depth = 0
-
-        return super().to_representation(instance)
 
 
 class SubscriptionsSerializer(serializers.ModelSerializer):
