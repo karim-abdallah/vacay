@@ -86,7 +86,7 @@ class SheetView(APIView):
                 sheet_title = request.user.company.gsheet_recruitment_name
             else:
                 spreadsheet_id = request.user.company.gsheet_workforce_id
-                sheet_title = request.user.company.gsheet_workforce_id
+                sheet_title = request.user.company.gsheet_workforce_name
 
             sheet = SpreadSheet(spreadsheet_id, sheet_title)
             spreadsheet_data = sheet.get_data()
