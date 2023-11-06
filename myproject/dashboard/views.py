@@ -1,7 +1,7 @@
 import datetime
 from decimal import Decimal
 
-from authentication.models import (BookedDays, HolidaySetting, TimeOffSetting,
+from authentication.models import (BookedDays, HolidaySetting, TimeOffSetting,Company,
                                    User)
 from authentication.serializers import UserSerializer
 from django.shortcuts import get_object_or_404
@@ -24,7 +24,7 @@ class UserView(APIView):
     def get(self, request):
         id = request.user.id
         
-        user = User.objects.filter(id=id).first()
+        user = User.objects.select_related('company').get(id=id)
 
         serializer = UserSerializer(user)
         return Response(serializer.data)
@@ -45,6 +45,11 @@ class UpdateProfileView(APIView):
         user.first_name = data["first_name"]
         user.last_name = data["last_name"]
         user.save()
+
+        if 'company_id' in data:
+            company = get_object_or_404(Company, id=data['company_id'])
+            company.company_name = data['company_name']
+            company.save()
 
         return Response({"detail": "Profile updated successfully"})
 

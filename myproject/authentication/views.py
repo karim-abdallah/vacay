@@ -46,6 +46,9 @@ class RegisterView(APIView):
 
         data["username"] = username
 
+        if 'type' not in data:
+            data['type'] = 'personal'
+
         serializer = UserSerializer(data=data)
         serializer.is_valid(raise_exception=True)
 
