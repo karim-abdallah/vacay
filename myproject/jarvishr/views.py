@@ -79,7 +79,7 @@ class SheetView(APIView):
 
     def get(self, request):
         try:
-            field = request.get('field')
+            field = request.GET.get('field')
 
             if field == 'recruitment':
                 spreadsheet_id = request.user.company.gsheet_recruitment_id
