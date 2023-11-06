@@ -58,6 +58,7 @@ class UserSerializer(serializers.ModelSerializer):
             "data_source_url",
             "company"
         ]
+        depth = 1
 
         # this is used to hide the password when we get the data from the database
         extra_kwargs = {"password": {"write_only": True}}
