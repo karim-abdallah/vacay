@@ -1,7 +1,7 @@
 from rest_framework import exceptions, serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import Subscriptions, User
+from .models import Subscriptions, User, Company
 
 
 class TokenObtainLifetimeSerializer(TokenObtainPairSerializer):
@@ -31,8 +31,15 @@ class TokenObtainLifetimeSerializer(TokenObtainPairSerializer):
 
         return data
 
+
+class CompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = '__all__'
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
+        company = CompanySerializer()
         
         model = User
         fields = [
@@ -62,9 +69,21 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+    
+    
+    def to_representation(self, instance):
+        # Check if this is a GET request
+        if self.context['request'].method == 'GET':
+            self.Meta.depth = 1
+        else:
+            self.Meta.depth = 0
+
+        return super().to_representation(instance)
 
 
 class SubscriptionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscriptions
         fields = "__all__"
+
+
