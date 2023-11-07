@@ -49,6 +49,8 @@ def send_invite_email(receipents):
 
 
 def send_email(to_address, cc_addresses, content, subject):
+    # TODO: MZ we are disabling emails for now
+    return
 
     if ENVIRONMENT == "local":
         return True
