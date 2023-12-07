@@ -11,9 +11,8 @@ from io import TextIOWrapper
 
 from .constants import OPENAI_KEY, WORKFORCE_HEADERS
 from .serializers import MetricsSerializer
-from .utils import create_workforce_database_entry, fetchGoogleSheet, validate_csv_headers
+from .utils import create_workforce_database_entry, fetchGoogleSheet, validate_csv_headers, get_retool_embed_link
 from .spreadsheet import SpreadSheet
-
 
 openai.api_key = OPENAI_KEY
 
@@ -73,9 +72,6 @@ class MetricsView(APIView):
 class SheetView(APIView):
 
     permission_classes = [IsAuthenticated]
-
-    # spreadsheet_id = "1TxRItA8SPvJ_VkKDxTK6WL5vTmfPMzitGASw6Vrh-b0"
-    # sheet_title = "Employee_Database"
 
     def get(self, request):
         try:
@@ -183,7 +179,26 @@ class WorkforceView(APIView):
             raise serializers.ValidationError("Invalid headers on CSV file.")
 
         # 2. Call helper
-        response = create_workforce_database_entry(opened_file, company)
+        create_workforce_database_entry(opened_file, company)
 
         # 3. Return success
         return Response({"data": "Success"}, status=status.HTTP_201_CREATED)
+
+
+class RetoolEmbedAuth(APIView):
+    
+    permission_classes = [IsAuthenticated]
+
+    def get(self,request):
+        
+        retool_app_id = request.user.company.gsheet_recruitment_id
+
+        embed_link = get_retool_embed_link(retool_app_id)
+
+        if embed_link['status'] == True:
+
+            return Response({"data": embed_link['data']}, status=status.HTTP_200_OK)
+
+        else:
+
+            return Response({"data": embed_link['error']}, status=status.HTTP_400_BAD_REQUEST)

@@ -6,7 +6,9 @@ import csv
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
-from .constants import SERVICE_ACCOUNT_JSON, WORKFORCE_HEADERS
+from .constants import SERVICE_ACCOUNT_JSON, WORKFORCE_HEADERS, RETOOL_API_TOKEN, RETOOL_CUSTOM_DOMAIN, RETOOL_EXTERNAL_IDENTIFIER, RETOOL_GROUP_ID
+
+import requests
 
 def parse_company_name_from_email(email: str) -> str:
     """
@@ -114,3 +116,35 @@ def validate_csv_headers(csv_file, expected_headers):
     return header_row == expected_headers
 
 
+def get_retool_embed_link(app_id):
+
+    # Sends a POST request to an external API endpoint for embedding Retool, using specified headers and payload.
+    # Returns the JSON response if the request is successful, otherwise returns empty string.
+    try:
+
+        headers = {
+            'Authorization': f"Bearer {RETOOL_API_TOKEN}",
+            'Content-type': 'application/json',
+            }
+        body = {
+            'landingPageUuid': app_id,
+            'groupIds': [RETOOL_GROUP_ID],
+            'externalIdentifier': RETOOL_EXTERNAL_IDENTIFIER
+        }
+
+        options = {
+            'method': 'POST',
+            'headers': headers,
+            'body': json.dumps(body),
+        }
+
+        resp = requests.post(f"https://{RETOOL_CUSTOM_DOMAIN}/api/embed-url/external-user", **options)
+
+        if resp.ok:
+            return {'status':True, 'data':resp.json()}
+        else:
+            return {'status':False, 'error':str(resp.reason)}
+    
+    except Exception as e:
+
+        return {'status':False, 'error':str(e)}
