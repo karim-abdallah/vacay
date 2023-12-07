@@ -40,6 +40,8 @@ class User(AbstractUser):
         "username"
     ]  # this is used to make the username field as the required field
 
+    
+
 
 class Company(models.Model):
 
@@ -52,6 +54,9 @@ class Company(models.Model):
     gsheet_recruitment_id = models.CharField(max_length=200, null=True, blank=True)
     gsheet_workforce_name = models.CharField(max_length=100, null=True, blank=True)
     gsheet_workforce_id = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return self.company_name
 
 
 class Subscriptions(models.Model):
