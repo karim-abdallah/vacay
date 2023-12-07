@@ -122,28 +122,27 @@ def get_retool_embed_link(app_id):
     # Returns the JSON response if the request is successful, otherwise returns empty string.
     try:
 
+        url = f"https://{RETOOL_CUSTOM_DOMAIN}/api/embed-url/external-user"
+
+        payload = json.dumps({
+            "landingPageUuid": app_id,
+            "groupIds": [
+                RETOOL_GROUP_ID
+            ],
+            "externalIdentifier": RETOOL_EXTERNAL_IDENTIFIER
+        })
+        
         headers = {
-            'Authorization': f"Bearer {RETOOL_API_TOKEN}",
-            'Content-type': 'application/json',
-            }
-        body = {
-            'landingPageUuid': app_id,
-            'groupIds': [RETOOL_GROUP_ID],
-            'externalIdentifier': RETOOL_EXTERNAL_IDENTIFIER
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {RETOOL_API_TOKEN}'
         }
 
-        options = {
-            'method': 'POST',
-            'headers': headers,
-            'body': json.dumps(body),
-        }
+        response = requests.request("POST", url, headers=headers, data=payload)
 
-        resp = requests.post(f"https://{RETOOL_CUSTOM_DOMAIN}/api/embed-url/external-user", **options)
-
-        if resp.ok:
-            return {'status':True, 'data':resp.json()}
+        if response.ok:
+            return {'status':True, 'data':response.json()}
         else:
-            return {'status':False, 'error':str(resp.reason)}
+            return {'status':False, 'error':str(response.reason)}
     
     except Exception as e:
 
