@@ -7,13 +7,13 @@ TIME_OFF_CURRENT_BALANCE_DECIMAL_PRECISION = 10
 
 class User(AbstractUser):
     class ProivderType(models.TextChoices):
-        EMAIL = "email", ""
-        FACEBOOK = "facebook", ""
-        GOOGLE = "google", ""
+        EMAIL = "email", "Email"
+        FACEBOOK = "facebook", "Facebook"
+        GOOGLE = "google", "Google"
 
     class UserType(models.TextChoices):
-        PERSONAL = "personal", ""
-        BUSINESS = "business", ""
+        PERSONAL = "personal", "Personal"
+        BUSINESS = "business", "Business"
 
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -63,14 +63,14 @@ class Subscriptions(models.Model):
 
 class TimeOffSetting(models.Model):
     class TimeOffType(models.TextChoices):
-        PTO = "pto", ""
-        HOLIDAYS = "holidays", ""
-        SICK_DAYS = "sick_days", ""
+        PTO = "pto", "PTO"
+        HOLIDAYS = "holidays", "Holidays"
+        SICK_DAYS = "sick_days", "Sick Days"
 
     class AccrualType(models.TextChoices):
-        ACCRUAL = "accrual", ""
-        LUMP_SUM = "lump_sump", ""
-        UNLIMITED = "unlimited", ""
+        ACCRUAL = "accrual", "Actual"
+        LUMP_SUM = "lump_sump", "Lump Sum"
+        UNLIMITED = "unlimited", "Unlimited"
         
 
     user = models.ForeignKey(User, on_delete=models.PROTECT)
@@ -106,9 +106,9 @@ class HolidaySetting(models.Model):
 
 class BookedDays(models.Model):
     class TimeOffType(models.TextChoices):
-        PTO = "pto", ""
-        HOLIDAYS = "holidays", ""
-        SICK_DAYS = "sick_days", ""
+        PTO = "pto", "PTO"
+        HOLIDAYS = "holidays", "Holidays"
+        SICK_DAYS = "sick_days", "Sick Days"
 
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     date = models.DateField()
