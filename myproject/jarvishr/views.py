@@ -190,8 +190,13 @@ class RetoolEmbedAuth(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self,request):
-        
-        retool_app_id = request.user.company.gsheet_recruitment_id
+
+        retool_table = request.GET.get('type')
+
+        if retool_table == 'recruitment':
+            retool_app_id = request.user.company.gsheet_recruitment_id
+        else:
+            retool_app_id = request.user.company.gsheet_workforce_id
 
         embed_link = get_retool_embed_link(retool_app_id)
 
