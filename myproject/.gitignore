@@ -92,3 +92,7 @@ sqlite3.db
 **/migrations/*
 
 .vscode/
+
+# collectstatic output (STATIC_ROOT). Regenerate with `manage.py collectstatic`.
+# Source assets live in staticfiles/ (STATICFILES_DIRS).
+/static/
